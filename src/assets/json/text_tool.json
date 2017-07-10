@@ -19,7 +19,7 @@
       },
       {
         "name": "格式化",
-        "icon": "eraser",
+        "icon": "icon-eraser",
         "role": "RemoveFormat"
       },
       {
@@ -34,13 +34,13 @@
       },
       {
         "name": "前景色",
-        "icon": "icon-facebook",
+        "icon": "icon-pencil",
         "role": "fontColor",
         "type": "custom"
       },
       {
         "name": "背景色",
-        "icon": "icon-facebook2",
+        "icon": "icon-pencil-square",
         "role": "bgkColor",
         "type": "custom"
       },
@@ -57,17 +57,17 @@
     "list": [
       {
         "name": "左对齐",
-        "icon": "align-left",
+        "icon": "icon-align-left",
         "role": "JustifyLeft"
       },
       {
         "name": "居中",
-        "icon": "align-center",
+        "icon": "icon-align-center",
         "role": "JustifyCenter"
       },
       {
         "name": "右对齐",
-        "icon": "align-right",
+        "icon": "icon-align-right",
         "role": "JustifyRight"
       }
     ]
@@ -76,8 +76,8 @@
     "type": "paragraph",
     "list": [
       {
-        "name": "插入横线",
-        "icon": "th-large",
+        "name": "插入表格",
+        "icon": "icon-table",
         "role": "InsertHorizontalRule"
       }
     ]
@@ -86,16 +86,13 @@
     "type": "others",
     "list": [
       {
-        "name": "|"
-      },
-      {
         "name": "增加缩进",
-        "icon": "indent",
+        "icon": "icon-indent",
         "role": "Indent"
       },
       {
         "name": "减少缩进",
-        "icon": "outdent",
+        "icon": "icon-dedent",
         "role": "Outdent"
       }
     ]

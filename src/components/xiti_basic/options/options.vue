@@ -5,7 +5,7 @@
         <div class="option" v-for="option in data">
           <span class="code">{{option.icon}}</span>
           <div class="text div_input" contenteditable="true" v-html="option.text"></div>
-          <span class="del_btn"></span>
+          <span class="icon-trash"></span>
         </div>
         <button type="button" class="add_option">
           <span class="icon-plus"></span>
@@ -57,12 +57,18 @@
           border: 1px solid #ccc
           line-height: 40px
           padding:0 10px;
-        .del_btn
+        .icon-trash
           flex:0 0 40px
           width: 40px
           height: 40px
+          margin-left: 10px
+          text-align: center
+          color: #aaa
+          font-size: 36px
           display: none
-        &:hover .del_btn
+          &:hover
+            color: #666
+        &:hover .icon-trash
           display: inline-block
     .add_option
       display: block

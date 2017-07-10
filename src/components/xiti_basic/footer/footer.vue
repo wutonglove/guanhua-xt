@@ -33,7 +33,6 @@
         text-align: center
         border-radius: 26px
         font-size: 20px
-        outline:none;
         opacity:.8
         &:hover
           opacity:1

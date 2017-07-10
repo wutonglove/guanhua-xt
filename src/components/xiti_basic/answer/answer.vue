@@ -32,6 +32,7 @@
 <style scoped lang="stylus">
   .answer_wrapper
     font-size: 0
+    line-height: 20px
     label
       display: inline-block
       vertical-align: top
