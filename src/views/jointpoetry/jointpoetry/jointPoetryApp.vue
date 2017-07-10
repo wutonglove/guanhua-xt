@@ -9,7 +9,6 @@
 </template>
 
 <script>
-  import Lib from 'assets/js/Lib';
   import Footer from 'components/footer/footer';
   import footBtns from 'assets/json/foot_btns.json';
 

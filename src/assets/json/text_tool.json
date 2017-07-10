@@ -1,0 +1,103 @@
+[
+  {
+    "type": "font-style",
+    "list": [
+      {
+        "name": "加粗",
+        "icon": "icon-bold",
+        "role": "bold"
+      },
+      {
+        "name": "斜体",
+        "icon": "icon-italic",
+        "role": "italic"
+      },
+      {
+        "name": "下划线",
+        "icon": "icon-underline",
+        "role": "underline"
+      },
+      {
+        "name": "格式化",
+        "icon": "eraser",
+        "role": "RemoveFormat"
+      },
+      {
+        "name": "上标",
+        "icon": "icon-superscript",
+        "role": "superscript"
+      },
+      {
+        "name": "下标",
+        "icon": "icon-subscript",
+        "role": "subscript"
+      },
+      {
+        "name": "前景色",
+        "icon": "icon-facebook",
+        "role": "fontColor",
+        "type": "custom"
+      },
+      {
+        "name": "背景色",
+        "icon": "icon-facebook2",
+        "role": "bgkColor",
+        "type": "custom"
+      },
+      {
+        "name": "字号",
+        "icon": "font",
+        "role": "FontSize",
+        "type": "custom"
+      }
+    ]
+  },
+  {
+    "type": "align",
+    "list": [
+      {
+        "name": "左对齐",
+        "icon": "align-left",
+        "role": "JustifyLeft"
+      },
+      {
+        "name": "居中",
+        "icon": "align-center",
+        "role": "JustifyCenter"
+      },
+      {
+        "name": "右对齐",
+        "icon": "align-right",
+        "role": "JustifyRight"
+      }
+    ]
+  },
+  {
+    "type": "paragraph",
+    "list": [
+      {
+        "name": "插入横线",
+        "icon": "th-large",
+        "role": "InsertHorizontalRule"
+      }
+    ]
+  },
+  {
+    "type": "others",
+    "list": [
+      {
+        "name": "|"
+      },
+      {
+        "name": "增加缩进",
+        "icon": "indent",
+        "role": "Indent"
+      },
+      {
+        "name": "减少缩进",
+        "icon": "outdent",
+        "role": "Outdent"
+      }
+    ]
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "icon":"icon-image",
+    "name":"插入图片",
+    "role":"img",
+    "type":""
+  },
+  {
+    "icon":"icon-film",
+    "name":"插入视频",
+    "role":"video",
+    "type":""
+  },
+  {
+    "icon":"icon-music",
+    "name":"插入音频",
+    "role":"audio",
+    "type":""
+  },
+  {
+    "icon":"icon-sigma",
+    "name":"插入公式",
+    "role":"img",
+    "type":"custom"
+  }
+]
