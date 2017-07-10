@@ -20,22 +20,22 @@
   import Answer from 'components/xiti_basic/answer/answer';
   import Hint from 'components/xiti_basic/hint/hint';
   import Explanation from 'components/xiti_basic/explanation/explanation';
-  import PFooter from 'components/xiti_basic/footer/footer'
+  import PFooter from 'components/xiti_basic/footer/footer';
 
   export default {
     data() {
       return {
-        options:[
+        options: [
           {
-            icon:'A',
-            text:'this is A'
+            icon: 'A',
+            text: 'this is A'
           },
           {
-            icon:'B',
-            text:'this is B'
+            icon: 'B',
+            text: 'this is B'
           }
         ]
-      }
+      };
     },
     components: {
       PHeader,

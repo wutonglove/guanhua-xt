@@ -28,7 +28,7 @@
       return {
         txtBtns: TextBtns,
         fileBtns: FileBtns
-      }
+      };
     },
     components: {
       'text-tool': TextTool
@@ -43,20 +43,20 @@
   .header
     width: 100%
     position: fixed
-    top:0
+    top: 0
     left: 0
-    background-color:$background-blue
-    border-bottom:1px solid $bdcolor-blue
+    background-color: $background-blue
+    border-bottom: 1px solid $bdcolor-blue
     .header_wrapper
       $fixedWidth()
       height: 90px
       display: flex
-      padding:15px 0 10px
-      box-sizing:border-box
+      padding: 15px 0 10px
+      box-sizing: border-box
       .text_wrapper
-        flex:0 0 375px
+        flex: 0 0 375px
         width: 375px
-        color:#666;
+        color: #666;
         .tool_wrapper
           float: left
           height: 100%
@@ -65,14 +65,14 @@
           border-right: 1px solid #ccc
           .tool_btn
             display: inline-block
-            vertical-align:top
-            width:25px
+            vertical-align: top
+            width: 25px
             height: 25px
             font-size: 16px
             text-align: center
-            padding:5px
+            padding: 5px
           &:first-child
-            width:190px
+            width: 190px
           &:nth-child(2)
             width: 110px
           &:nth-child(3)
@@ -80,12 +80,12 @@
           &:nth-child(4)
             width: 35px
       .file_wrapper
-        flex:1
+        flex: 1
         font-size: 0
         display: flex
         .file_btn
           display: inline-block
-          flex:1
+          flex: 1
           height: 100%
           font-size: 16px
           border-right: 1px solid #ccc
@@ -96,5 +96,4 @@
             font-size: 35px
             color: $background-blue-d
             margin-bottom: 10px
-
 </style>

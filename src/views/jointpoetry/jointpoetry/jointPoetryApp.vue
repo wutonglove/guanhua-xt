@@ -17,21 +17,21 @@
       return {
         footBtns: footBtns.jointPoetry,
         poetry: {
-          title: "登鹳雀楼",
-          author: "王之涣",
+          title: '登鹳雀楼',
+          author: '王之涣',
           content: [
-            "白日依山尽",
-            "黄河入海流",
-            "欲穷千里目",
-            "更上一层楼"
+            '白日依山尽',
+            '黄河入海流',
+            '欲穷千里目',
+            '更上一层楼'
           ]
         }
-      }
+      };
     },
     components: {
-      "sub-footer": Footer
+      'sub-footer': Footer
     }
-  }
+  };
 </script>
 
 <style scoped lang="less">

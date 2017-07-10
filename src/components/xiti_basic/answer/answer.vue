@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import CntModule from 'components/xiti_basic/cnt_module/cnt_module'
+  import CntModule from 'components/xiti_basic/cnt_module/cnt_module';
   export default {
     props: {
       inputType: {

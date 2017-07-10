@@ -1,5 +1,5 @@
 <template>
-    <span class="sign">*</span>
+  <span class="sign">*</span>
 </template>
 
 <script>
@@ -10,5 +10,5 @@
   .sign
     display: inline-block
     vertical-align: top
-    color:red
+    color: red
 </style>

@@ -17,10 +17,10 @@
 </template>
 
 <script>
-  import CntModule from 'components/xiti_basic/cnt_module/cnt_module'
+  import CntModule from 'components/xiti_basic/cnt_module/cnt_module';
   export default {
-    props:{
-      data:{
+    props: {
+      data: {
         type: Array
       }
     },
@@ -38,7 +38,7 @@
         display: flex
         margin-bottom: 15px
         .code
-          flex:0 0 40px
+          flex: 0 0 40px
           width: 40px
           height: 40px
           line-height: 40px
@@ -46,19 +46,19 @@
           border-radius: 50%
           background-color: #EAEAEA;
           margin-right: 16px
-          padding:2px
-          box-sizing:border-box
+          padding: 2px
+          box-sizing: border-box
           font-size: 18px
         &:hover .code
-            border:2px solid $bdcolor-blue-d
-            padding:0
+          border: 2px solid $bdcolor-blue-d
+          padding: 0
         .text
-          flex:1
+          flex: 1
           border: 1px solid #ccc
           line-height: 40px
-          padding:0 10px;
+          padding: 0 10px;
         .icon-trash
-          flex:0 0 40px
+          flex: 0 0 40px
           width: 40px
           height: 40px
           margin-left: 10px

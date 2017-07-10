@@ -13,7 +13,7 @@
 <script>
   import Sign from 'components/xiti_basic/mandatory_sign/mandatory_sign';
   export default {
-    props:{
+    props: {
       name: {
         type: String
       },
@@ -38,6 +38,6 @@
       font-size: 18px
     .input_wrapper
       width: 100%
-      padding:10px
+      padding: 10px
       border: 1px solid #ccc
 </style>

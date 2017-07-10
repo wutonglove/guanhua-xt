@@ -16,10 +16,10 @@
   export default {
     props: {
       footBtns: {
-          type: Array
+        type: Array
       }
     }
-  }
+  };
 </script>
 
 <style scoped lang="less">
