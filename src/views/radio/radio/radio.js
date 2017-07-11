@@ -3,8 +3,13 @@
  */
 import Vue from 'vue';
 import App from './radio.vue';
+import vuex from '../vuex/vuex';
 import 'assets/stylus/base.styl';
 
+/* eslint-disable no-new */
 new Vue({
-  render: h => h(App)
-}).$mount('#app');
+  el: '#app',
+  store: vuex,
+  template: '<App/>',
+  components: {App}
+});

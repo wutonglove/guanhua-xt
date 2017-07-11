@@ -2,13 +2,19 @@
   <div class="footer">
     <div class="footer_wrapper">
       <button type="button" class="preview">预览</button>
-      <button type="button" class="save">保存</button>
+      <button type="button" class="save" @click="test">保存</button>
     </div>
   </div>
 </template>
 
 <script>
-  export default {};
+  export default {
+    methods: {
+      test() {
+        console.log(this.$store.state);
+      }
+    }
+  };
 </script>
 
 <style scoped lang="stylus">

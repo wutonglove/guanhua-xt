@@ -3,7 +3,7 @@
     <div class="header_wrapper">
       <div class="text_wrapper clear">
         <ul class="tool_wrapper clear" v-for="btns in txtBtns">
-          <li class="tool_btn" v-for="btn in btns.list">
+          <li class="tool_btn" v-for="btn in btns.list" @click.stop.prevent="execute(btn.role)">
             <span :class="btn.icon"></span>
           </li>
         </ul>
@@ -29,6 +29,14 @@
         txtBtns: TextBtns,
         fileBtns: FileBtns
       };
+    },
+    methods: {
+      execute: function(role) {
+        this.$store.dispatch('restoreSelection').then(() => {
+          console.log(role);
+          document.execCommand(role, false, null);
+        });
+      }
     },
     components: {
       'text-tool': TextTool

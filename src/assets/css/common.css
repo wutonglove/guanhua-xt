@@ -1,5 +1,6 @@
 body{
-  font-family:"微软雅黑"
+  font-family:"微软雅黑";
+  user-select: none;
 }
 .clear:after{
   content:"";
@@ -16,4 +17,18 @@ body{
 }
 .content{
   padding: 110px 0 100px
+}
+.div_input i{
+  font-style: italic;
+}
+.div_input b{
+  font-weight: 700;
+}
+.div_input sup{
+  vertical-align: super;
+  font-size: smaller;
+}
+.div_input sub{
+  vertical-align: sub;
+  font-size: smaller;
 }
