@@ -1,7 +1,7 @@
 <template>
   <div class="topic">
     <cnt-module name="题干" :isMandatory="true">
-      <div class="div_input" contenteditable="true" ref="topicDom"
+      <div class="div_input" contenteditable="true" spellcheck="true" ref="topicDom"
            @input.stop.prevent="setTopic($event)"
            @blur="$store.dispatch('saveSelection')"></div>
     </cnt-module>

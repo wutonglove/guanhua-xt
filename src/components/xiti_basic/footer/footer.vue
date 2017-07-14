@@ -18,8 +18,8 @@
 </script>
 
 <style scoped lang="stylus">
-  @import '../../../assets/stylus/variable.styl'
-  @import '../../../assets/stylus/mixin.styl'
+  @import '../../../common/stylus/variable.styl'
+  @import '../../../common/stylus/mixin.styl'
   .footer
     width: 100%
     height: 76px

@@ -62,7 +62,7 @@
 </script>
 
 <style scoped lang="stylus">
-  @import '../../../assets/stylus/variable.styl'
+  @import '../../../common/stylus/variable.styl'
   .options_wrapper
     .options
       .option
@@ -80,9 +80,12 @@
           padding: 2px
           box-sizing: border-box
           font-size: 18px
-        &:hover .code
-          border: 2px solid $bdcolor-blue-d
-          padding: 0
+        &:hover
+          .code
+            border: 2px solid $bdcolor-blue-d
+            padding: 0
+          .text
+            border-color:$bdcolor-blue-d
         .text
           flex: 1
           border: 1px solid #ccc
