@@ -13,21 +13,16 @@
 
 <script>
   export default {
-    props: {
-      isShow: {
-        type: Boolean,
-        default: false
-      }
-    },
     computed: {
       status() {
-        return this.isShow
+        return this.$store.state.fileDialog;
       }
     }
   };
 </script>
 
 <style scoped lang="stylus">
+  @import "../../common/stylus/variable.styl"
   .dialog_wrapper
     width: 100%
     height: 100%
@@ -38,7 +33,7 @@
     .mask
       width: 100%
       height: 100%
-      background-color: rgba(0, 0, 0, .5)
+      background-color: $background-opacity
     .dialog_content
       width: 700px
       height: 450px
@@ -46,7 +41,10 @@
       position: fixed
       top: 50px;
       left: 50%;
-      transform: translate(-50%,0);
+      transform: translate(-50%,0)
+      border-radius: 4px
+      overflow: hidden
+      box-shadow:0 0 10px 2px rgba(255,255,255,.3)
     .fade-enter-active, .fade-leave-active
       transition: all .25s
     .fade-enter, .fade-leave-to
