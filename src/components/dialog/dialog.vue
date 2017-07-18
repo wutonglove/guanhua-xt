@@ -1,7 +1,7 @@
 <template>
   <div class="dialog_wrapper">
     <transition name="fade">
-      <div class="mask" key="mask" v-show="status"></div>
+      <div class="mask" key="mask" v-show="status" @click="$store.state.fileDialog=false"></div>
     </transition>
     <transition name="fall">
         <div class="dialog_content" key="content" v-show="status">
@@ -35,8 +35,7 @@
       height: 100%
       background-color: $background-opacity
     .dialog_content
-      width: 700px
-      height: 450px
+      width: $width-file-dialog
       background-color: #fff
       position: fixed
       top: 50px;

@@ -15,7 +15,7 @@ body{
   outline:none;
   line-height:20px
 }
-.content{
+.app>.content{
   padding: 110px 0 100px
 }
 .div_input i{
