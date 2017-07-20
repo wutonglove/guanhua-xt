@@ -11,6 +11,7 @@
     </div>
     <p-footer></p-footer>
     <insert-file-dialog></insert-file-dialog>
+    <insert-formula-dialog></insert-formula-dialog>
   </div>
 </template>
 
@@ -23,6 +24,8 @@
   import Explanation from 'components/xiti_basic/explanation/explanation';
   import PFooter from 'components/xiti_basic/footer/footer';
   import InsertFileDialog from 'components/insertFile/insertFile';
+  import InsertFormulaDialog from 'components/xiti_basic/insertFormula/insertFormula';
+//  import Checkbox from 'iview/src/components/checkbox';
 
   export default {
     data() {
@@ -42,7 +45,7 @@
     mounted() {
     },
     methods: {
-      cancelRange: function() {
+      cancelRange: function () {
         window.getSelection().removeAllRanges();
       }
     },
@@ -54,7 +57,8 @@
       Hint,
       Explanation,
       PFooter,
-      InsertFileDialog
+      InsertFileDialog,
+      InsertFormulaDialog
     }
   };
 </script>

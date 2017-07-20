@@ -13,6 +13,8 @@
 </template>
 
 <script>
+  import Checkbox from 'iview/src/components/checkbox';
+
   export default {
     props: {
       footBtns: {

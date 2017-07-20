@@ -17,7 +17,7 @@
         <span class="btn_name">本地浏览</span>
         <input type="file" @change="showFile($event)">
       </div>
-      <button type="button" class="btn_insert">插入</button>
+      <button type="button" class="btn_insert" @click="ok">插入</button>
     </div>
   </div>
 </template>
@@ -26,28 +26,21 @@
   export default {
     data() {
       return {
-        filelist: [],
-        config: {
-          imgSize: {
-            w: 0,
-            h: 0
-          }
-        }
+        filelist: []
       };
     },
     methods: {
       showFile(e) {
         var file = e.srcElement.files[0];
 
-        this.imgOriginalSize(file);
-        
-        console.log(this.config);
-        this.filelist.push({
-          name: file.name,
-          src: window.URL.createObjectURL(file),
-          size: `${this.config.imgSize.w} * ${this.config.imgSize.h}`,
-          file: file,
-          selected: false
+        this.imgOriginalSize(file,(w,h)=>{
+          this.filelist.push({
+            name: file.name,
+            src: window.URL.createObjectURL(file),
+            size: `${w} * ${h}`,
+            file: file,
+            selected: false
+          });
         });
       },
       selectFile(file) {
@@ -55,8 +48,9 @@
           item.selected = false;
         });
         file.selected = true;
+        this.$store.state.selectedFile = file;
       },
-      imgOriginalSize(file) {
+      imgOriginalSize(file,cbk) {
         var reader = new FileReader();
         reader.readAsDataURL(file);
 
@@ -66,12 +60,14 @@
           var img = new Image();
           img.src = data;
           img.onload = () => {
-            this.config.imgSize.w = img.width;
-            this.config.imgSize.h = img.height;
+            cbk(img.width, img.height);
           }
         }
+      },
+      ok() {
+        this.$parent.ok();
       }
-    }
+    },
   };
 </script>
 
@@ -114,7 +110,7 @@
             border-color: $bdcolor-blue-d
           .icon-check-circle-o
             font-size: 25px
-            color: $font-color-blue
+            color: $font-color-green
             position: absolute
             right: 3px
             top: 2px

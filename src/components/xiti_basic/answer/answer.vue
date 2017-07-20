@@ -2,10 +2,12 @@
   <div class="answer">
     <cnt-module name="答案" :isMandatory="true">
       <div class="answer_wrapper" ref="AnWrap">
-        <label v-for="(answer,index) in data">
-          <input :type="inputType" name="awser" @change="editAnswer(index,$event)"/>
-          <strong>{{answer.icon}}</strong>
-        </label>
+        <Radio-group v-model="$store.state.answer" v-if="inputType==='radio'">
+          <Radio :label="answer.icon" v-for="(answer,index) in data" :key="index"></Radio>
+        </Radio-group>
+        <Checkbox-group v-model="$store.state.answer" v-else>
+          <Checkbox :label="answer.icon" v-for="(answer,index) in data" :key="index"></Checkbox>
+        </Checkbox-group>
       </div>
     </cnt-module>
   </div>
@@ -13,6 +15,7 @@
 
 <script>
   import CntModule from 'components/xiti_basic/cnt_module/cnt_module';
+  import Checkbox from 'iview/src/components/checkbox';
   export default {
     props: {
       inputType: {
@@ -34,6 +37,9 @@
             this.$store.state.answer.push(i);
           }
         }
+      },
+      test(){
+        console.log(this.$store.state.answer);
       }
     },
     components: {
@@ -47,7 +53,6 @@
     font-size: 0
     line-height: 20px
     label
-      display: inline-block
-      vertical-align: top
+      margin-left:10px;
       font-size: 16px
 </style>

@@ -20,11 +20,16 @@ export default new Vuex.Store({
         text: 'this is B'
       }
     ],
-    answer: [],
+    answer: '',
     hint: '',
     explanation: '',
     currentRange: null,
-    fileDialog: false
+    fileDialog: {
+      isShow: false,
+      type: 'img'
+    },
+    selectedFile: {},
+    formulaDialog: false
   },
   mutations: {
     updateOptionIcon(state) {
@@ -67,14 +72,15 @@ export default new Vuex.Store({
       selection.addRange(context.state.currentRange);
       // console.log('restore end');
     },
-    removeSelection(context) {}
+    removeSelection(context) {
+    }
   }
 });
 
 
 /*
-*  点击空白
-*    如果不是tool btn
-*      清空选中对象
-*
-* */
+ *  点击空白
+ *    如果不是tool btn
+ *      清空选中对象
+ *
+ * */

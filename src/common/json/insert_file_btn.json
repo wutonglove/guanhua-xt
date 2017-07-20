@@ -20,7 +20,7 @@
   {
     "icon":"icon-sigma",
     "name":"插入公式",
-    "role":"img",
+    "role":"formula",
     "type":"custom"
   }
 ]

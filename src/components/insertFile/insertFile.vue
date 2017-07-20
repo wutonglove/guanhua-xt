@@ -1,98 +1,107 @@
 <template>
-  <div class="file_dialog_wrapper">
-    <p-dialog v-show="dialogStatus">
-      <div class="header">
-        <h2 class="title">插入{{title}}</h2>
-        <span class="icon-close" @click="$store.state.fileDialog=false"></span>
-      </div>
+  <div class="dialog-">
+    <Modal v-model="$store.state.fileDialog.isShow"
+           class="dialog_wrapper"
+           class-name="vertical-center-modal"
+           width="880"
+           @on-ok="ok"
+    >
+
+      <div class="header" solt="header">插入{{title}}</div>
       <div class="content">
-        <div class="nav_tabs">
+        <div class="nav_tabs" ref="navTab">
           <router-link class="presentation" to="/resource/local" tag="li">本地{{title}}库</router-link>
           <router-link class="presentation" to="/resource/outer" tag="li">百度{{title}}库</router-link>
         </div>
-         <router-view class="dia_view"></router-view>
+        <keep-alive>
+          <router-view class="dia_view"></router-view>
+        </keep-alive>
       </div>
-    </p-dialog>
+      <div slot="footer"></div>
+    </Modal>
   </div>
 </template>
 
 <script>
-  import PDialog from 'components/dialog/dialog';
+  import Checkbox from 'iview/src/components/checkbox';
+  import Local from './local';
+  import {hasClass} from 'utils/dom.js';
 
   export default {
-    props: {
-      fileType: {
-        type: String,
-        default: 'img'
-      }
-    },
     computed: {
-      dialogStatus() {
-        return this.$store.state.fileDialog
-      },
       title() {
-        switch (this.fileType) {
+        let title = '';
+        switch (this.$store.state.fileDialog.type) {
           case 'img':
-            return '图片';
+            title = '图片'
+            break;
           case 'audio':
-            return '音频';
+            title = '音频'
+            break;
           case 'video':
-            return '视频';
+            title = '视频'
+            break;
         }
+        return title
       }
     },
-    components: {
-      PDialog
+    methods: {
+      ok() {
+        this.$store.dispatch('restoreSelection');
+        let html = this.createImgHtml();
+        console.log(html);
+        document.execCommand('insertHTML', false, html);
+        console.log(1);
+      },
+      createImgHtml() {
+        let file = this.$store.state.selectedFile
+        let src = file.src;
+        // 判断大小
+        let html = `<img src="${src}" class="insertImg insertFile_hook"/>`;
+        return html;
+      }
+    },
+    comonents: {
+      Local
     }
   };
 </script>
 
 <style scoped lang="stylus">
-  @import "../../common/stylus/variable.styl"
+  @import '../../common/stylus/variable.styl'
+  .header
+    background-color: $background-blue-d
+    border-top-left-radius: $file-bdrs
+    border-top-right-radius: $file-bdrs
+    line-height: 48px
+    padding-left: 20px
+    font-size: 18px
+    font-weight: 700
+    color: #efefef
 
-  .file_dialog_wrapper
-    .header
-      height: 56px
+  .content
+    .nav_tabs
+      height: 60px
+      line-height: 40px
       width: 100%
-      background: linear-gradient(to bottom,$bgc-gradient-blue1,$bgc-gradient-blue2)
-      color:#fff
-      position: relative
-      .title
-        padding-left: 20px
-        line-height: 56px
-      .icon-close
-        position: absolute
-        top:6px
-        right: 0
-        font-size: 40px
-        border-left: 1px solid #fff
-        padding:2px 10px;
+      background-color: #fff
+      font-size: 0
+      vertical-align: top
+      .presentation
+        display: inline-block
+        font-size: 18px
+        padding: 0 5px
+        margin: 10px 5px
         cursor: pointer
-    .content
-      position: relative
-      .nav_tabs
-        height: 60px
-        line-height: 40px
-        width: 100%
-        background-color: #fff
-        font-size: 0
-        vertical-align: top
-        .presentation
-          display: inline-block
-          font-size: 18px
-          padding:0 5px
-          margin:10px 5px
-          cursor:pointer
-          &:first-child
-            margin-left: 15px
-          &:hover
-            padding-bottom:3
-            border-bottom: 2px solid $bdcolor-file
-            color: $bdcolor-file
-          &.active
-            font-weight: 700
-            padding-bottom:3
-            border-bottom: 2px solid $bdcolor-file
-            color: $bdcolor-file
-
+        &:first-child
+          margin-left: 15px
+        &:hover
+          padding-bottom: 3
+          border-bottom: 2px solid $bdcolor-file
+          color: $bdcolor-file
+        &.active
+          font-weight: 700
+          padding-bottom: 3
+          border-bottom: 2px solid $bdcolor-file
+          color: $bdcolor-file
 </style>

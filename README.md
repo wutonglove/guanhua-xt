@@ -13,6 +13,11 @@
   + 单击空白 后渲染的能隐藏
   + 原因：document.onclick 覆盖
 
-#### 12-7-12 插入文件对话框
+#### 12-7-18 插入文件对话框
 - 获取图片原始大小
   + 异步
+
+#### 12-7-19 UI框架 iView
+#### 12-7-20 iframe 跨域 && formula插件
+- Uncaught DOMException: Blocked a frame with origin "http://gongshi.baidu.com" from accessing a cross-origin frame.
+- [formula插件](http://gongshi.baidu.com/ed.html)

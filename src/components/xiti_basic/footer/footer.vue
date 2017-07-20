@@ -1,13 +1,15 @@
 <template>
   <div class="footer">
     <div class="footer_wrapper">
-      <button type="button" class="preview">预览</button>
-      <button type="button" class="save" @click="test">保存</button>
+      <Button type="ghost" shape="circle" class="preview">预览</Button>
+      <Button type="primary" shape="circle" class="save">保存</Button>
     </div>
   </div>
 </template>
 
 <script>
+  import Checkbox from 'iview/src/components/checkbox';
+
   export default {
     methods: {
       test() {
@@ -35,20 +37,6 @@
       .save, .preview
         width: 176px
         height: 52px
-        line-height: 52px
-        text-align: center
-        border-radius: 26px
         font-size: 20px
-        opacity: .8
-        &:hover
-          opacity: 1
-      .save
-        border: 1px solid $bdcolor-blue-d
-        color: #fff
-        background: linear-gradient(to bottom, $bgc-gradient-blue1, $bgc-gradient-blue2)
-      .preview
-        border: 1px solid $bdcolor-g
-        color: #333
-        background: linear-gradient(to bottom, $bgc-gradient-white1, $bgc-gradient-white2)
-        margin-right: 15px
+
 </style>

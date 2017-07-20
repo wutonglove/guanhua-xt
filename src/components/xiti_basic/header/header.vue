@@ -19,20 +19,20 @@
               <span :class="btn.icon" ></span>
             </color-picker> <!-- end -->
             <!-- 字号 -->
-            <select v-else-if="btn.role === 'FontSize'" @change="ecFsz($event)">
-              <option :value="index+1" v-for="(size,index) in btn.content">{{size}}</option>
-            </select>
+            <Select v-model="curFontSize" v-else-if="btn.role === 'FontSize'" size="small" @on-change="ecFsz">
+              <Option :value="index+1" v-for="(size, index) in btn.content" :key="index">{{ size }}</Option>
+            </Select>
             <span :class="btn.icon" v-else></span>
           </li>
         </ul>
       </div>
       <div class="file_wrapper">
         <div class="file_btn"  v-for="btn in fileBtns">
-          <div class="file_btn_content" v-if="btn.role==='img'" @click="test">
+          <div class="file_btn_content" v-if="btn.role!=='formula'" @click="showFileDialog(btn)">
             <span class="icon" :class="btn.icon"></span>
             <span class="name">{{btn.name}}</span>
           </div>
-          <div class="file_btn_content" v-else>
+          <div class="file_btn_content" v-else @click="$store.state.formulaDialog = true;">
             <span class="icon" :class="btn.icon"></span>
             <span class="name">{{btn.name}}</span>
           </div>
@@ -47,6 +47,8 @@
   import ColorPicker from 'components/xiti_basic/colorPicker/colorPicker';
   import TextBtns from 'common/json/text_tool.json';
   import FileBtns from 'common/json/insert_file_btn.json';
+  import Checkbox from 'iview/src/components/checkbox';
+
 
   export default {
     data() {
@@ -54,7 +56,8 @@
         txtBtns: TextBtns,
         fileBtns: FileBtns,
         fontColor: 'red',
-        bgColor: 'blue'
+        bgColor: 'blue',
+        curFontSize: 1
       };
     },
     methods: {
@@ -72,14 +75,13 @@
       ecBgColor: function(color) {
         document.execCommand('BackColor', false, color);
       },
-      ecFsz: function(event) {
-        let size = event.srcElement.value;
-        console.log(size);
-        document.execCommand('FontSize', false, size);
+      ecFsz: function() {
+        console.log(this.curFontSize);
+        document.execCommand('FontSize', false,this.curFontSize);
       },
-      test(){
-        this.$store.state.fileDialog = true;
-        console.log(1);
+      showFileDialog(btn){
+        this.$store.state.fileDialog.isShow = true;
+        this.$store.state.fileDialog.type = btn.role;
       }
     },
     components: {
@@ -118,7 +120,7 @@
           border-right: 1px solid #ccc
           &:first-child
             .tool_btn:last-child
-              width:46px
+              width:60px
           .tool_btn
             display: inline-block
             vertical-align: top
