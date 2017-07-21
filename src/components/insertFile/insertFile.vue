@@ -32,7 +32,7 @@
       title() {
         let title = '';
         switch (this.$store.state.fileDialog.type) {
-          case 'img':
+          case 'image':
             title = '图片'
             break;
           case 'audio':
@@ -48,17 +48,52 @@
     methods: {
       ok() {
         this.$store.dispatch('restoreSelection');
-        let html = this.createImgHtml();
+        let html;
+
+        switch (this.$store.state.fileDialog.type) {
+          case 'image':
+            html = this.createImgHtml();
+            break;
+          case 'video':
+            html = this.createVideoHtml();
+            break;
+          case 'audio':
+            html = this.createAudioHtml();
+            break;
+        }
+
         console.log(html);
         document.execCommand('insertHTML', false, html);
-        console.log(1);
       },
       createImgHtml() {
-        let file = this.$store.state.selectedFile
+        let file = this.$store.state.selectedFile;
         let src = file.src;
-        // 判断大小
-        let html = `<img src="${src}" class="insertImg insertFile_hook"/>`;
-        return html;
+        if (src) {
+          let html = `<img src="${src}" class="insertImg insertFile_hook"/>`;
+          return html;
+        }
+      },
+      createVideoHtml() {
+        let file = this.$store.state.selectedFile;
+        let src = file.src;
+        if (src) {
+          let html =
+            `<video src="${src}" class="insertVideo insertFile_hook" controls="controls">
+                您的浏览器不支持video
+              </video>`;
+          return html;
+        }
+      },
+      createAudioHtml() {
+        let file = this.$store.state.selectedFile;
+        let src = file.src;
+        if (src) {
+          let html =
+            `<audio src="${src}" class="insertAudio insertFile_hook" controls="controls">
+                您的浏览器不支持audio
+              </audio>`;
+          return html;
+        }
       }
     },
     comonents: {

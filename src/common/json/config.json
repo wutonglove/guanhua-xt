@@ -1,0 +1,21 @@
+{
+  "file": {
+    "fileType": {
+      "image": [
+        "png",
+        "jpeg",
+        "jpg",
+        "gif",
+        "bmp"
+      ],
+      "video": [
+        "mp4",
+        "x-flv"
+      ],
+      "audio": [
+        "mp3"
+      ]
+    },
+    "fileSize": 15728640
+  }
+}

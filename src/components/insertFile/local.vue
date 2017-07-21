@@ -1,21 +1,27 @@
 <template>
   <div class="local_wrapper">
     <div class="content">
-      <div class="files_wrapper" v-show="filelist.length>0">
-        <div class="file_box" v-for="file in filelist" :class="{'selected':file.selected}" @click="selectFile(file)">
+      <div class="files_wrapper" v-show="showFilelist.length>0">
+        <div class="file_box"
+             v-for="file in showFilelist"
+             :class="{'selected':file.selected}"
+             @click="selectFile(file)"
+        >
           <div class="thumbnail">
-            <img :src="file.src" alt="">
+            <img  :src="file.icon" alt="">
           </div>
-          <div class="size">{{file.size}}</div>
+          <div class="size" v-if="file.size">{{file.size}}</div>
           <div class="name" :title="file.name">{{file.name}}</div>
           <span class="icon-check-circle-o"></span>
+          <Icon class="unfold" type="arrow-expand" @click.native="unfold(file)" v-if="dialogType==='image'"></Icon>
+          <Icon class="pre_play" type="ios-play" @click.native="unfold(file)" v-else></Icon>
         </div>
       </div>
     </div>
     <div class="footer">
       <div class="btn_seek">
         <span class="btn_name">本地浏览</span>
-        <input type="file" @change="showFile($event)">
+        <input type="file" @change="browseFile($event)">
       </div>
       <button type="button" class="btn_insert" @click="ok">插入</button>
     </div>
@@ -23,25 +29,77 @@
 </template>
 
 <script>
+  import FileConfig from 'common/json/config.json';
+  import Checkbox from 'iview/src/components/checkbox';
+
+  const FileType = FileConfig.file.fileType;
+  const FileSize = FileConfig.file.fileSize;
+
   export default {
     data() {
       return {
         filelist: []
       };
     },
+    computed: {
+      dialogType() {
+        return this.$store.state.fileDialog.type
+      },
+      showFilelist() {
+        return this.filterFilelist(this.dialogType);
+      }
+    },
     methods: {
-      showFile(e) {
-        var file = e.srcElement.files[0];
-
-        this.imgOriginalSize(file,(w,h)=>{
-          this.filelist.push({
-            name: file.name,
-            src: window.URL.createObjectURL(file),
-            size: `${w} * ${h}`,
-            file: file,
-            selected: false
-          });
+      filterFilelist(type){
+        let list = [];
+        this.filelist.forEach((item, index) => {
+          if(item.file.type.split('/')[0] === this.dialogType){
+            list.push(item);
+          }
         });
+        return list;
+      },
+      browseFile(e) {
+        let file = e.srcElement.files[0];
+
+        if(this.discernFile(file)) return;
+
+        switch(this.dialogType){
+          case 'image':
+            this.imgOriginalSize(file, (w, h) => {
+              this.filelist.push({
+                name: file.name,
+                icon: window.URL.createObjectURL(file),
+                src: window.URL.createObjectURL(file),
+                size: `${w} * ${h}`,
+                file: file,
+                type: file.type,
+                selected: false
+              });
+            });
+            break;
+          case 'video':
+            this.filelist.push({
+              name: file.name,
+              icon: '/images/video.jpg',
+              src: window.URL.createObjectURL(file),
+              file: file,
+              type: file.type,
+              selected: false
+            });
+            break;
+          case 'audio':
+            this.filelist.push({
+              name: file.name,
+              icon: '/images/video.jpg',
+              src: window.URL.createObjectURL(file),
+              file: file,
+              type: file.type,
+              selected: false
+            });
+            break;
+        }
+
       },
       selectFile(file) {
         this.filelist.forEach((item, index) => {
@@ -50,22 +108,58 @@
         file.selected = true;
         this.$store.state.selectedFile = file;
       },
-      imgOriginalSize(file,cbk) {
-        var reader = new FileReader();
+      imgOriginalSize(file, cbk) {
+        let reader = new FileReader();
         reader.readAsDataURL(file);
 
         reader.onload = (e) => {
-          var data = e.target.result;
+          let data = e.target.result;
 
-          var img = new Image();
+          let img = new Image();
           img.src = data;
           img.onload = () => {
             cbk(img.width, img.height);
           }
         }
       },
+      discernFile(file) {
+        if(!file) return true;
+        let size = file.size || -1;
+        let typeKey = this.dialogType;
+        let typeVal = file.type.split('/')[1];
+        console.log(typeKey);
+        if(FileType[typeKey].indexOf(typeVal) === -1){
+          this.$Message.error({
+            content: `不支持该文件类型,请选择 ${FileType[typeKey].join('，')}`,
+            duration: 3
+          });
+          return true;// 不通过
+        }
+        if(file.size > FileSize){
+          this.$Message.error({
+            content: '插入文件不能大于15M！',
+            duration: 3
+          });
+          return true;// 不通过
+        }
+        return  false;
+      },
       ok() {
         this.$parent.ok();
+      },
+      unfold(file) {
+        this.$store.state.unfold.isShow = true;
+        switch(file.type.split('/')[0]){
+          case 'image':
+            this.$store.state.unfold.content = `<img src="${file.src}" class="unfold_file"/>`;
+            break;
+          case 'video':
+            this.$store.state.unfold.content = `<video src="${file.src}" class="unfold_file" controls>您的浏览器不支持video</video>`;
+            break;
+          case 'audio':
+            this.$store.state.unfold.content = `<audio src="${file.src}" class="unfold_file" controls>您的浏览器不支持audio</audio>`;
+            break;
+        }
       }
     },
   };
@@ -129,6 +223,29 @@
           overflow: hidden
           white-space: nowrap
           text-overflow: ellipsis
+        .unfold
+          font-size: 24px
+          position: absolute
+          right: 5px
+          bottom: 32px
+          color: $font-color-file
+          opacity:0
+          padding:0 5px
+        .pre_play
+          font-size: 60px
+          width: 100%
+          height: 100%
+          position: absolute
+          left: 0
+          top: 0
+          line-height: 135px
+          text-align: center
+          opacity: 0
+        &:hover
+          .unfold
+            opacity:1
+          .pre_play
+            opacity:1
     .footer
       height: 80px
       text-align: center

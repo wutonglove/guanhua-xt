@@ -36,4 +36,18 @@ body{
   vertical-align: sub;
   font-size: smaller;
 }
+.div_input .insertImg{
+  max-width:300px;
+  max-height:190px;
+}
+.unfold_file{
+  max-width:800px;
+  max-height:800px;
+  vertical-align: middle;
+}
+.formula{
+  display: inline-block;
+  zoom:.5;
+  vertical-align: middle;
+}
 

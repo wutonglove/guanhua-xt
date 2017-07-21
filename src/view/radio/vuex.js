@@ -23,13 +23,19 @@ export default new Vuex.Store({
     answer: '',
     hint: '',
     explanation: '',
+    filelist:[],
     currentRange: null,
     fileDialog: {
       isShow: false,
-      type: 'img'
+      type: 'image'
     },
     selectedFile: {},
-    formulaDialog: false
+    formulaDialog: false,
+    unfold:{
+      content:'',
+      isShow:false,
+      width:0
+    }
   },
   mutations: {
     updateOptionIcon(state) {
@@ -73,6 +79,9 @@ export default new Vuex.Store({
       // console.log('restore end');
     },
     removeSelection(context) {
+    },
+    save() {
+
     }
   }
 });

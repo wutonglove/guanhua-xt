@@ -12,6 +12,7 @@
     <p-footer></p-footer>
     <insert-file-dialog></insert-file-dialog>
     <insert-formula-dialog></insert-formula-dialog>
+    <unfold></unfold>
   </div>
 </template>
 
@@ -25,7 +26,8 @@
   import PFooter from 'components/xiti_basic/footer/footer';
   import InsertFileDialog from 'components/insertFile/insertFile';
   import InsertFormulaDialog from 'components/xiti_basic/insertFormula/insertFormula';
-//  import Checkbox from 'iview/src/components/checkbox';
+  import Unfold from 'components/unfoldDialog/unfoldDialog';
+  //  import Checkbox from 'iview/src/components/checkbox';
 
   export default {
     data() {
@@ -58,7 +60,8 @@
       Explanation,
       PFooter,
       InsertFileDialog,
-      InsertFormulaDialog
+      InsertFormulaDialog,
+      Unfold
     }
   };
 </script>

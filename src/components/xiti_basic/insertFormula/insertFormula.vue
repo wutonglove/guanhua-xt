@@ -47,10 +47,12 @@
     methods: {
       ok() {
         let body = this.$refs.formulaDialog.contentWindow;
-        console.log(body);
+//        console.log(body);
         let editor = body.KFEditor;
-        editor.execCommand("get.image.data", function (data) {
+        editor.execCommand('get.image.data', function (data) {
           console.log(data);
+          let html = `<img class="formula" src="${data.img}"/>`
+          document.execCommand('insertHTML', false, html);
         });
       }
     }
