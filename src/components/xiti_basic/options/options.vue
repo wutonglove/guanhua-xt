@@ -4,7 +4,11 @@
       <div class="options" ref="optionsDOM">
         <div class="option" v-for="(option,index) in data">
           <span class="code">{{option.icon}}</span>
-          <div class="text div_input" contenteditable="true" @keyup.stop.prevent="setOption(index,$event)" @blur="$store.dispatch('saveSelection')"></div>
+          <div class="text div_input"
+               contenteditable="true"
+               @input.stop.prevent="setOption(index,$event)"
+               @blur="$store.dispatch('saveSelection')"
+          ></div>
           <button type="button" class="icon-trash" @click="removeOption(index)" :disabled="data.length<3"></button>
         </div>
         <Button type="primary" shape="circle" class="add_option" @click="addOption">
@@ -58,6 +62,14 @@
         this.$store.state.options.splice(index, 1);
         this.$store.commit('updateOptionIcon');
         this.refreshOption();
+      }
+    },
+    watch:{
+      data:{
+        deep: true,
+        handler(){
+          this.$store.dispatch('test');
+        }
       }
     },
     components: {

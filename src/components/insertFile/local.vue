@@ -13,8 +13,8 @@
           <div class="size" v-if="file.size">{{file.size}}</div>
           <div class="name" :title="file.name">{{file.name}}</div>
           <span class="icon-check-circle-o"></span>
-          <Icon class="unfold" type="arrow-expand" @click.native="unfold(file)" v-if="dialogType==='image'"></Icon>
-          <Icon class="pre_play" type="ios-play" @click.native="unfold(file)" v-else></Icon>
+          <Icon class="unfold" type="arrow-expand" @click.native="$store.dispatch('unfold',file)" v-if="dialogType==='image'"></Icon>
+          <Icon class="pre_play" type="ios-play" @click.native="$store.dispatch('unfold',file)" v-else></Icon>
         </div>
       </div>
     </div>
@@ -36,11 +36,6 @@
   const FileSize = FileConfig.file.fileSize;
 
   export default {
-    data() {
-      return {
-        filelist: []
-      };
-    },
     computed: {
       dialogType() {
         return this.$store.state.fileDialog.type
@@ -52,7 +47,7 @@
     methods: {
       filterFilelist(type){
         let list = [];
-        this.filelist.forEach((item, index) => {
+        this.$store.state.filelist.forEach((item, index) => {
           if(item.file.type.split('/')[0] === this.dialogType){
             list.push(item);
           }
@@ -61,16 +56,18 @@
       },
       browseFile(e) {
         let file = e.srcElement.files[0];
+        let filelist = this.$store.state.filelist;
 
         if(this.discernFile(file)) return;
 
         switch(this.dialogType){
           case 'image':
             this.imgOriginalSize(file, (w, h) => {
-              this.filelist.push({
+              this.$store.state.filelist.push({
                 name: file.name,
                 icon: window.URL.createObjectURL(file),
                 src: window.URL.createObjectURL(file),
+                resource:window.URL.createObjectURL(file),
                 size: `${w} * ${h}`,
                 file: file,
                 type: file.type,
@@ -79,30 +76,35 @@
             });
             break;
           case 'video':
-            this.filelist.push({
+            this.$store.state.filelist.push({
               name: file.name,
-              icon: '/images/video.jpg',
-              src: window.URL.createObjectURL(file),
+              icon: '/images/media.jpg',
+              src: '/images/video.jpg',
+              resource:window.URL.createObjectURL(file),
               file: file,
               type: file.type,
               selected: false
             });
             break;
           case 'audio':
-            this.filelist.push({
+            this.$store.state.filelist.push({
               name: file.name,
-              icon: '/images/video.jpg',
-              src: window.URL.createObjectURL(file),
+              icon: '/images/media.jpg',
+              src: '/images/audio.jpg',
+              resource:window.URL.createObjectURL(file),
               file: file,
               type: file.type,
               selected: false
             });
             break;
         }
-
+        // 默认选中filelist最后一个file
+        setTimeout(()=>{
+          this.selectFile(filelist[filelist.length-1]);
+        },20)
       },
       selectFile(file) {
-        this.filelist.forEach((item, index) => {
+        this.$store.state.filelist.forEach((item, index) => {
           item.selected = false;
         });
         file.selected = true;
@@ -122,6 +124,7 @@
           }
         }
       },
+      // 识别文件类型
       discernFile(file) {
         if(!file) return true;
         let size = file.size || -1;
@@ -233,13 +236,10 @@
           padding:0 5px
         .pre_play
           font-size: 60px
-          width: 100%
-          height: 100%
           position: absolute
-          left: 0
-          top: 0
-          line-height: 135px
-          text-align: center
+          left: 50%
+          top: 35px
+          transform:translateX(-50%)
           opacity: 0
         &:hover
           .unfold

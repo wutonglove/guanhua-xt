@@ -1,8 +1,17 @@
 <template>
   <div class="footer">
     <div class="footer_wrapper">
-      <Button type="ghost" shape="circle" class="preview">预览</Button>
-      <Button type="primary" shape="circle" class="save">保存</Button>
+      <Button type="ghost"
+              shape="circle"
+              class="preview"
+              :disabled="$store.state.isPass"
+      >预览</Button>
+      <Button type="primary"
+              shape="circle"
+              class="save"
+              :disabled="$store.state.isPass"
+              @click="$store.dispatch('save','/static/')"
+      >保存</Button>
     </div>
   </div>
 </template>
@@ -12,9 +21,6 @@
 
   export default {
     methods: {
-      test() {
-        console.log(this.$store.state);
-      }
     }
   };
 </script>

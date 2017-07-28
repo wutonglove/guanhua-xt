@@ -49,27 +49,32 @@
       ok() {
         this.$store.dispatch('restoreSelection');
         let html;
-
-        switch (this.$store.state.fileDialog.type) {
-          case 'image':
-            html = this.createImgHtml();
-            break;
-          case 'video':
-            html = this.createVideoHtml();
-            break;
-          case 'audio':
-            html = this.createAudioHtml();
-            break;
-        }
-
-        console.log(html);
+//        switch (this.$store.state.fileDialog.type) {
+//          case 'image':
+//            html = this.createImgHtml();
+//            break;
+//          case 'video':
+//            html = this.createVideoHtml();
+//            break;
+//          case 'audio':
+//            html = this.createAudioHtml();
+//            break;
+//        }
+        html = this.createImgHtml();
         document.execCommand('insertHTML', false, html);
+        this.$store.dispatch('attachEventToFile');
       },
       createImgHtml() {
         let file = this.$store.state.selectedFile;
         let src = file.src;
+        let type = file.type.split('/')[0];
+        console.log(type);
         if (src) {
-          let html = `<img src="${src}" class="insertImg insertFile_hook"/>`;
+          let html = `<img src="${src}" data-name="${file.name}" data-type="${type}" class="insertFile insertFile_hook"/>`;
+//          let img = document.createElement('img');
+//          img.src = src;
+//          addClass(img,'insertImg insertFile_hook');
+//          console.log(img.outerHTML)
           return html;
         }
       },

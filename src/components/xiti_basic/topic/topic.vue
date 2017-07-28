@@ -1,9 +1,12 @@
 <template>
   <div class="topic">
     <cnt-module name="题干" :isMandatory="true">
-      <div class="div_input" contenteditable="true" spellcheck="true" ref="topicDom"
+      <div class="div_input"
+           contenteditable="true"
+           spellcheck="false" ref="topicDom"
            @input.stop.prevent="setTopic($event)"
-           @blur="$store.dispatch('saveSelection')"></div>
+           @blur="$store.dispatch('saveSelection')"
+      ></div>
     </cnt-module>
   </div>
 </template>
@@ -25,6 +28,7 @@
         if (oldStr.length !== newStr) {
           this.$store.state.topic = newStr;
         }
+        this.$store.dispatch('test');
       }
     },
     components: {
