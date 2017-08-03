@@ -9,47 +9,78 @@
     <div class="content_wrapper">
       <div class="title">{{questionData.title}}</div>
       <div class="content" ref="content">
+
         <div class="topic" v-html="questionData.topic"></div>
-        <Radio-group v-model="answer" vertical class="options">
-          <Radio :label="option.icon"
-                 v-for="(option,index) in questionData.options"
-                 :key="index"
-          >
-            <span class="icon"><span>{{option.icon}}.</span></span>
-            <span class="text" v-html="option.text"></span>
-          </Radio>
-        </Radio-group>
+
+        <!--选择题-->
+        <choice v-if="questionData.questionType==='radio'||questionData.questionType==='checkbox'"
+                :questionData="questionData"
+                ref="contentModule"
+        ></choice>
+        <!-- 填空题 -->
+        <fill-blank v-else-if="questionData.questionType==='fillBlank'"
+                    :questionData="questionData"
+                    ref="contentModule"
+        ></fill-blank>
+        <!-- 判断题 -->
+        <judge :questionData="questionData" ref="contentModule"></judge>
+
       </div>
     </div>
-    <Button class="submit" type="primary" shape="circle">提 交</Button>
+    <Button v-if="isSubmited"  class="refresh" type="primary" shape="circle" @click="refresh">重新作答</Button>
+    <Button v-else class="submit" type="primary" shape="circle" @click="submit">提交</Button>
     <unfold-model></unfold-model>
-
   </div>
 </template>
 
 <script>
   import Checkbox from 'iview/src/components/checkbox';
   import UnfoldModel from 'components/unfoldDialog/unfoldDialog';
+
+  import Choice from './choice/choice';
+  import FillBlank from './fillBlank/fillBlank';
+  import Judge from './judge/judge';
+
+  import Lib from 'lib/Lib';
+
   export default {
     data(){
       return {
-        answer: '0',
         times: {
           minute: 0,
           second: 0
-        }
+        },
+        isSubmited: false,
+        indexes:[]
       }
     },
     created(){
-      this.$store.dispatch('getdata')
+      this.$store.dispatch('getdata');
+      this.$store.commit('INITRESULT');
+      this.$store.commit('ATTCHEVENTTOFILE');
     },
     mounted(){
-      this.attachEventToInsertFile();
-      this.timer();
+      setTimeout(() => {
+        this.clock();
+        this.$refs.content.style = `height:${ window.innerHeight - 210}px`;
+      }, 20);
     },
     computed: {
       questionData(){
         return this.$store.state.questionData;
+      },
+      options() {
+        if(this.indexes.length<1) return
+        let newOptions = [];
+        let oldOptions = this.$store.state.questionData.options;
+        for(let i=0;i<oldOptions.length;i++){
+          newOptions[i] = {
+            icon:oldOptions[i].icon,
+            text:oldOptions[this.indexes[i]].text,
+            id:oldOptions[this.indexes[i]].id
+          };
+        }
+        return newOptions;
       },
       showTimes(){
         let times = {
@@ -71,20 +102,8 @@
         this.$store.state.unfold.isShow = true;
         this.$store.state.unfold.content = `<img src="${src}" class="unfold_file"/>`;
       },
-      attachEventToInsertFile(){
-        setTimeout(() => {
-          if (!this.$refs.content) return;
-          let _self = this;
-          let insertFiles = this.$refs.content.getElementsByClassName("insertFile_hook");
-          for (let i = 0; i < insertFiles.length; i++) {
-            insertFiles[i].onclick = function () {
-              _self.unfold(this.src);
-            }
-          }
-        }, 20)
-      },
-      timer(){
-        setInterval(() => {
+      clock(){
+        this.timer = setInterval(() => {
           this.times.second++;
           if (this.times.second > 59) {
             this.times.minute++;
@@ -92,20 +111,32 @@
           }
         }, 1000)
       },
-      submit(){
-
-      }
-    },
-    watch: {
-      questionData: {
-        deep: true,
-        handler(){
-          this.attachEventToInsertFile();
-        }
+      submit () {
+        this.$Modal.confirm({
+          title: '',
+          content: '<p class="text">确认提交答案么？</p>',
+          onOk: () => {
+            this.$store.dispatch('submit');
+            let objName = this.questionData.questionType;
+            let res = Lib[objName].getResult(this);
+            setTimeout(() => {
+              Lib[objName].submit(this,res);
+              clearInterval(this.timer);
+              this.$refs.contentModule.isDisabled = true;
+              this.isSubmited = true;
+            }, 400);
+          }
+        });
+      },
+      refresh() {
+        window.location.reload();
       }
     },
     components: {
-      UnfoldModel
+      UnfoldModel,
+      Choice,
+      FillBlank,
+      Judge
     }
   };
 </script>
@@ -139,7 +170,6 @@
         border-bottom: 1px solid #ABABAB
       .content
         margin-top: 3px
-        height: 500px
         overflow: auto
         border-top: 1px solid #ababab
         padding: 20px 43px;
@@ -160,42 +190,20 @@
           margin-bottom: 30px
           font-size: 22px
           line-height: 30px
-        .options
-          line-height: 30px
-          width: 100%
-          .ivu-radio-wrapper
-            display: flex
-            white-space: normal
-            height: auto
-            font-size: 22px;
-            margin: 15px 0;
-            width: 100%;
-            .ivu-radio
-              .ivu-radio-inner
-                width: 20px
-                height: 20px
-                top: 50%
-                transform: translateY(-50%)
-                &:after
-                  width: 14px
-                  height: 14px
-            .icon
-              flex: 0 0 35px
-              span
-                display: inline-block
-                position: relative
-                top: 50%
-                transform: translateY(-50%)
-            .text
-              flex: 1
-              word-break: break-all
       @media screen and (max-device-width: 425px)
         .content
           padding: 20px 0
-    .submit
+    .submit,.refresh
       position: relative
       left: 50%
-      top: 20px
+      top: 10px
       transform: translateX(-50%)
       font-size: 16px
+      line-height: 1
+
+  .v-transfer-dom
+    .ivu-modal-body
+      padding: 16px
+      .text
+        font-size: 18px
 </style>

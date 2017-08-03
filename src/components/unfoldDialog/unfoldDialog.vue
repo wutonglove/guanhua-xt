@@ -1,10 +1,11 @@
 <template>
   <Modal class="unfold_wrapper"
          v-model="$store.state.unfold.isShow"
+         @on-cancel="close"
   >
     <div class="unfold_dialog" v-show="isShow">
       <div class="content" v-html="$store.state.unfold.content" ref="content"></div>
-      <Icon class="close" size="24" color="#fff" type="close" @click.native="close" @keyup.esc="colse"></Icon>
+      <Icon class="close" size="24" color="#fff" type="close" @click.native="close" @keyup.esc="close"></Icon>
     </div>
     <p slot="header"></p>
     <p slot="close"></p>
@@ -18,6 +19,7 @@
     methods: {
       close() {
         this.$store.state.unfold.isShow = false;
+        this.$store.dispatch('closeUnfold');
       }
     },
     computed: {

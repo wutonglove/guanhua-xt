@@ -2,7 +2,7 @@
   <div>
     <topic></topic>
     <options></options>
-    <answer></answer>
+    <answer inputType="checkbox"></answer>
     <hint></hint>
     <explanation></explanation>
   </div>
@@ -16,9 +16,6 @@
   import Explanation from 'components/xiti_basic/explanation/explanation';
 
   export default {
-    created(){
-      this.$store.state.questionType = 'radio';
-    },
     components: {
       Topic,
       Options,

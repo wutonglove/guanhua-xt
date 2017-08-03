@@ -3,6 +3,7 @@ var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 var projectRoot = path.resolve(__dirname, '../')
+var webpack = require('webpack');
 const os = require('os');
 const HappyPack = require('happypack');
 const happThreadPool = HappyPack.ThreadPool({size: os.cpus().length}); // 采用多进程，进程数由CPU核数决定
@@ -25,7 +26,8 @@ module.exports = {
       'assets': path.resolve(__dirname, '../src/assets'),
       'components': path.resolve(__dirname, '../src/components'),
       'common': path.resolve(__dirname, '../src/common'),
-      'utils': path.resolve(__dirname, '../src/utils')
+      'utils': path.resolve(__dirname, '../src/utils'),
+      'lib':path.resolve(__dirname,'../src/lib')
     }
   },
   plugins: [
@@ -34,6 +36,9 @@ module.exports = {
       id: 'js',
       loaders: ['babel-loader?cacheDirectory=true'],
       threadPool: happThreadPool
+    }),
+    new webpack.ProvidePlugin({
+      $: 'jQuery'
     })
   ],
   module: {

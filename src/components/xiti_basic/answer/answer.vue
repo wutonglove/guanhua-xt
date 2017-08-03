@@ -2,14 +2,14 @@
   <div class="answer">
     <cnt-module name="答案" :isMandatory="true">
       <div class="answer_wrapper" ref="AnWrap" >
-        <Radio-group v-model="$store.state.answer" v-if="inputType==='radio'" @on-change="$store.dispatch('test')">
+        <Radio-group v-model="$store.state[questionType].questionContent[questionCode].answer" v-if="inputType==='radio'" @on-change="$store.dispatch('test')">
           <Radio
             :label="answer.icon"
             v-for="(answer,index) in data"
             :key="index"
           ></Radio>
         </Radio-group>
-        <Checkbox-group v-model="$store.state.answer" v-else>
+        <Checkbox-group v-model="$store.state[questionType].questionContent[questionCode].answer" v-else>
           <Checkbox :label="answer.icon" v-for="(answer,index) in data" :key="index"></Checkbox>
         </Checkbox-group>
       </div>
@@ -27,9 +27,15 @@
         default: 'radio'
       }
     },
+    data(){
+      return {
+        questionType:this.$store.state.questionType,
+        questionCode:this.$store.state.questionCode
+      };
+    },
     computed: {
       data() {
-        return this.$store.state.options;
+        return this.$store.state[this.questionType].questionContent[this.questionCode].options;
       }
     },
     components: {

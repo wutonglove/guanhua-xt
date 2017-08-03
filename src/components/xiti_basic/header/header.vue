@@ -100,6 +100,7 @@
     position: fixed
     top: 0
     left: 0
+    z-index:10
     background-color: $background-blue
     border-bottom: 1px solid $bdcolor-blue
     .header_wrapper

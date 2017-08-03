@@ -28,3 +28,7 @@ export function hasClass(obj, cls) {
   }
   return false;
 }
+
+export function parents(){
+
+}

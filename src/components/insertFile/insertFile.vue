@@ -62,7 +62,6 @@
 //        }
         html = this.createImgHtml();
         document.execCommand('insertHTML', false, html);
-        this.$store.dispatch('attachEventToFile');
       },
       createImgHtml() {
         let file = this.$store.state.selectedFile;
@@ -70,7 +69,7 @@
         let type = file.type.split('/')[0];
         console.log(type);
         if (src) {
-          let html = `<img src="${src}" data-name="${file.name}" data-type="${type}" class="insertFile insertFile_hook"/>`;
+          let html = `&nbsp;<img src="${src}" data-name="${file.name}" data-type="${type}" class="insertFile insertFile_hook"/>&nbsp;`;
 //          let img = document.createElement('img');
 //          img.src = src;
 //          addClass(img,'insertImg insertFile_hook');

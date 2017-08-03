@@ -22,8 +22,8 @@ var webpackConfig = merge(baseWebpackConfig, {
     devtool: config.build.productionSourceMap ? '#source-map' : false,
     output: {
         path: config.build.assetsRoot,
-        filename: utils.assetsPath('js/[name]_[chunkhash]/[name].js'), //让生成的js按文件名分开，方便查找
-        chunkFilename: utils.assetsPath('js/[id].[chunkhash].js'),
+        filename: utils.assetsPath('../js/[name]_[chunkhash]/[name].js'), //让生成的js按文件名分开，方便查找
+        chunkFilename: utils.assetsPath('../js/[id].[chunkhash].js'),
         //publicPath : config.project_config.static_root + "/",// 静态资源地址
     },
     plugins: [
@@ -43,7 +43,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         new webpack.optimize.OccurrenceOrderPlugin(),
         // 用于将css单独打包到一个文件内，但因为现在不单独生成css，所以可以注掉
         new ExtractTextPlugin({
-            filename: utils.assetsPath('css/[name].[contenthash].css')
+            filename: utils.assetsPath('../css/[name].[contenthash].css')
         }),
         // Compress extracted CSS. We are using this plugin so that possible
         // duplicated CSS from different components can be deduped.

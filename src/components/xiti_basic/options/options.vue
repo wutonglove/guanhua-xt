@@ -1,23 +1,29 @@
 <template>
   <div class="options_wrapper">
-    <cnt-module name="选项" :isMandatory="true">
+    <cnt-module name="答案" :isMandatory="true">
       <div class="options" ref="optionsDOM">
-        <div class="option" v-for="(option,index) in data">
+        <div class="option" v-for="(option,index) in $store.state[questionType].questionContent[questionCode].options">
           <span class="code">{{option.icon}}</span>
+          <!-- 如果是选择题  用div -->
           <div class="text div_input"
                contenteditable="true"
-               @input.stop.prevent="setOption(index,$event)"
+               @input.lazy="setOption(index,$event)"
                @blur="$store.dispatch('saveSelection')"
           ></div>
-          <button type="button" class="icon-trash" @click="removeOption(index)" :disabled="data.length<3"></button>
+          <!-- 如果是填空题用input -->
+          <!--<input v-else-->
+                 <!--type="text" class="text div_input"-->
+                 <!--@change="setOption(index,$event)"-->
+                 <!--@blur="$store.dispatch('saveSelection')"-->
+                 <!--v-html="option.text"-->
+          <!--/>-->
+          <!-- hasAdd 可以判断是否是 天空题 -->
+          <button type="button" class="icon-trash" @click="removeOption(index)" :disabled="hasAdd && options.length<3"></button>
         </div>
-        <Button type="primary" shape="circle" class="add_option" @click="addOption">
+        <Button v-if="hasAdd" type="primary" shape="circle" class="add_option" @click="addOption">
           <span class="icon-plus"></span>
           <span class="text">选项</span>
         </Button>
-        <!--<button type="button" class="add_option" >-->
-
-        <!--</button>-->
       </div>
     </cnt-module>
   </div>
@@ -28,44 +34,57 @@
   import Checkbox from 'iview/src/components/checkbox';
 
   export default {
+    props:{
+      hasAdd:{
+        type: Boolean,
+        default: true
+      }
+    },
+    data(){
+      return {
+        questionType:this.$store.state.questionType,
+        questionCode:this.$store.state.questionCode
+      };
+    },
     mounted() {
       setTimeout(() => {
         this.refreshOption();
       }, 20);
     },
     computed: {
-      data() {
-        return this.$store.state.options;
+      options() {
+        return this.$store.state[this.questionType].questionContent[this.questionCode].options;
       }
     },
     methods: {
       refreshOption() {
-        let options = this.$store.state.options;
+        let options = this.$store.state[this.questionType].questionContent[this.questionCode].options;
         let optionsDOM = this.$refs.optionsDOM.getElementsByClassName('div_input');
         options.forEach((item, index) => {
           optionsDOM[index].innerHTML = item.text;
         });
       },
       setOption(index, event) {
-        this.$store.state.options[index].text = event.srcElement.innerHTML;
+        this.$store.state[this.questionType].questionContent[this.questionCode].options[index].text = event.srcElement.innerHTML;
       },
       addOption() {
-        let options = this.$store.state.options;
+        let options = this.$store.state[this.questionType].questionContent[this.questionCode].options;
         options.push({
           icon: options[0].icon,
-          text: options[0].text
+          text: options[0].text,
+          id:0
         });
         options[options.length - 1].text = '';
         this.$store.commit('updateOptionIcon');
       },
       removeOption(index) {
-        this.$store.state.options.splice(index, 1);
+        this.$store.state[this.questionType].questionContent[this.questionCode].options.splice(index, 1);
         this.$store.commit('updateOptionIcon');
         this.refreshOption();
       }
     },
     watch:{
-      data:{
+      options:{
         deep: true,
         handler(){
           this.$store.dispatch('test');

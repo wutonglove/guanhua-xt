@@ -15,7 +15,7 @@ export function replaceSrc(htmlstr, url, bool) {
     console.log(src);
     switch (filetype) {
       case 'image':
-        str = `<span class="img_wrap"><img src="${src}" title="${filename}" class="insertFile insertFile_hook"/><span class="shade">点击查看原图</span></span>`;
+        str = `<span class="img_wrap"><img src="${src}" title="${filename}" class="insertFile insertFile_hook"/><span class="shade">点击图片查看原图</span></span>`;
         break;
       case 'video':
         str = `<video src="${src}" title="${filename}" controls="controls"  class="insertFile">您的浏览器不支持video</video>`;
@@ -24,7 +24,7 @@ export function replaceSrc(htmlstr, url, bool) {
         str = `<audio src="${src}" title="${filename}" controls="controls"  class="insertFile">您的浏览器不支持audio</audio>`;
         break;
     }
-    return str;
+    return str.trim();
   });
 }
 // 解析地址
@@ -47,4 +47,15 @@ export function urlSearch() {
     }
   }
   return parameters
+}
+// 生成 n-m 的 length=l 的随机数组
+export function createRandomArr(l, n, m) {
+  let arr = [];
+  while (arr.length < l) {
+    let num = Math.round(Math.random() * (m - n) + n);
+    if (arr.indexOf(num) === -1) {
+      arr.push(num);
+    }
+  }
+  return arr;
 }

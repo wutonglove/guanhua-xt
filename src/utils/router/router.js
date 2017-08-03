@@ -13,14 +13,14 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/resource/local'
+      redirect: '/1/local'
     },
     {
-      path: '/resource/local',
+      path: '/*/local',
       component: Local
     },
     {
-      path: '/resource/outer',
+      path: '/*/outer',
       component: Outer
     },
   ],

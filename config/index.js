@@ -9,7 +9,7 @@ module.exports = {
         index: path.resolve(__dirname, '../dist/index.html'),
         assetsRoot: path.resolve(__dirname, '../dist'),// 公共资源地址
         assetsSubDirectory: './' + project_config.static_root + '/',// 子文件夹前缀 // 在webpack2中编译需要加上后缀/ ，否则会报操作错误Error
-        assetsPublicPath: 'http://staticdemo.yaozeyuan.online', // 静态地址前缀，使用网址以便对外发布
+        assetsPublicPath: '/', // 静态地址前缀，使用网址以便对外发布
         productionSourceMap: false,// 是否生成map文件(设成ture会额外生成一份map文件方便前端调试，但是由于vue.js编译后的代码就算加了map也看不懂，所以直接使用false即可)
         // Gzip off by default as many popular static hosts such as
         // Surge or Netlify already gzip all static assets for you.
