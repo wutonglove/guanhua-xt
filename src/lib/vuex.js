@@ -24,6 +24,7 @@ export default new Vuex.Store({
   state: {
     questionType: type,
     questionCode: 0,
+    questionDataAll: [],
     filelist: [],
     uploadfilelist: [],
     currentRange: null,
@@ -39,7 +40,8 @@ export default new Vuex.Store({
       isShow: false,
       width: 0
     },
-    isPass: true
+    isPass: true,
+    urlSnippet:''
   },
   mutations: {
     updateOptionIcon(state) {
@@ -172,12 +174,12 @@ export default new Vuex.Store({
     },
     save(context, url){
       console.log(context);
-      // context.commit('radio/SAVEDATA');
-      let type = context.state.questionType;
-      let data = obj.saveData(context.state[type].questionContent[state.questionCode], url, type);
-      console.log(JSON.parse(data.webData));
-      console.log(JSON.parse(data.localData));
-      window.localStorage.setItem('101PPT-question-data', data.localData);
+      context.commit('radio/SAVEDATA');
+      // let type = context.state.questionType;
+      // let data = obj.saveData(context.state[type].questionContent[state.questionCode], url, type);
+      // console.log(JSON.parse(data.webData));
+      // console.log(JSON.parse(data.localData));
+      // window.localStorage.setItem('101PPT-question-data', data.localData);
 
     }
   },

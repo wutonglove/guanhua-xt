@@ -8,8 +8,15 @@
     >
       插入填空横线
     </Button>
-    <topic @key-delete="backspace"></topic>
-    <options :hasAdd="false" v-if="$store.state.questionContent.options.length>0" ref="options"></options>
+    <topic ref="topicDOM" @key-delete="backspace"></topic>
+    <options
+      :options="blanks"
+      :hasAdd="false"
+      name="答案"
+      v-if="blanks.length>0"
+      ref="optionsDOM"
+      @delete="removeOption"
+    ></options>
     <div class="init_answer" v-else>
       <div class="name">
         <span class="text">答案</span>
@@ -17,8 +24,8 @@
       </div>
       <div class="desc">请在题干中插入填空横线</div>
     </div>
-    <hint></hint>
-    <explanation></explanation>
+    <hint ref="hintDOM"></hint>
+    <explanation ref="explanationDOM"></explanation>
   </div>
 </template>
 
@@ -27,6 +34,9 @@
   import Options from 'components/xiti_basic/options/options';
   import Hint from 'components/xiti_basic/hint/hint';
   import Explanation from 'components/xiti_basic/explanation/explanation';
+
+  import {replaceSrc} from 'utils/utilities';
+
   // ui 组件
   import Checkbox from 'iview/src/components/checkbox';
   // 三方 功能 组件
@@ -35,10 +45,12 @@
   export default {
     data(){
       return {
-        blanks: []
+        blanks: [],
+        blankImgs: [],
+        isPass: false,
+        questionData: {},
+        localData: {}
       };
-    },
-    mounted() {
     },
     methods: {
       addBlank: function () {
@@ -46,43 +58,44 @@
         let duty = parent.data('duty');
         if (duty === 'topic') {
           let index = this.getInsertIndex();
-          this.$store.state.questionContent.options.splice(index, 0, {
+          this.blanks.splice(index, 0, {
             icon: 1,
             text: ''
           });
-          this.$store.commit('updateOptionIcon');
-          // 创建空格图片 并插入div_input中
-          this.createBlank();
-        }
 
-        this.$store.dispatch('restoreSelection');
+          setTimeout(() => {
+            this.$refs.optionsDOM.updateOptionIcon();
+            // 创建空格图片 并插入div_input中
+            this.createBlank();
+          }, 20)
+        }
       },
       backspace(){
         let blankDOM = $('img.blankDOM_hook');
-        if (this.$store.state.questionContent.options.length > blankDOM.length) {
+        if (this.blanks.length > blankDOM.length) {
           let index = this.getInsertIndex();
-          this.$refs.options.removeOption(index);
+          this.$refs.optionsDOM.removeOption(index);
         }
         this.upBlankCode();
       },
       // 更新div_input中的空格的排序
       upBlankCode: function () {
         $('.div_input .blankDOM_hook').each((index, item) => {
-          item.src = this.blanks[index];
-          $(item).attr('data-code', index);
+          item.src = this.blankImgs[index];
+          $(item).attr('data-code', index + 1);
         })
       },
       getInsertIndex: function () {
         this.$store.dispatch('saveSelection');
         let current = this.$store.state.currentRangeParent;
-        return $(current).prev('img.blankDOM_hook').attr('data-code') * 1 + 1 || 0;
+        return $(current).prev('img.blankDOM_hook').attr('data-code') * 1 || 0;
       },
       createBlank: function () {
-        let code = this.$store.state.questionContent.options[this.$store.state.questionContent.options.length - 1].icon;
+        let code = this.blanks[this.blanks.length - 1].icon;
 
         // 判断该编号的空格图片 有没有创建过
-        if (this.blanks[code - 1]) {
-          this.insertBlank()
+        if (this.blankImgs[code - 1]) {
+          this.insertBlank();
           return;
         }
 
@@ -91,7 +104,7 @@
 
         domtoimage.toPng($('span.blankDOM_hook')[0], {quality: 0.95})
           .then((dataUrl) => {
-            this.blanks[code - 1] = dataUrl;
+            this.blankImgs[code - 1] = dataUrl;
             $('span.blankDOM_hook').remove();
             this.insertBlank();
           });
@@ -102,12 +115,58 @@
         return $(parent).hasClass('div_input') ? $(parent) : $(parent).parents('.div_input');
       },
       insertBlank() {
-        let html = `&nbsp;&nbsp;<img class="blankDOM_hook" data-code="0" style="margin:0 -1px;vertical-align:bottom;"/>&nbsp;&nbsp;`
+        let html = `&nbsp;<img class="blankDOM_hook" data-code="0" style="margin:0 -1px;vertical-align:bottom;"/>&nbsp;`;
         document.execCommand('insertHTML', false, html);
         this.upBlankCode();
-        setTimeout(()=>{
-          this.$refs.options.refreshOption();
-        },20);
+        setTimeout(() => {
+          this.$refs.optionsDOM.refreshOption();
+        }, 20);
+      },
+      removeOption(index){
+        $('img.blankDOM_hook').eq(index).remove();
+        this.upBlankCode();
+      },
+      save(){
+        let _topic = this.$refs.topicDOM.topic;
+        let _options = this.$refs.optionsDOM.options;
+        let _hint = this.$refs.hintDOM.hint;
+        let _explanation = this.$refs.explanationDOM.explanation;
+        let _url = this.$store.state.urlSnippet;
+
+        this.questionData = {
+          title: document.title,
+          topic: replaceSrc(_topic, _url, true),
+          answer: (function () {
+            let options = [];
+            _options.forEach((item, index) => {
+              let option = replaceSrc(item.text, _url, true)
+              options.push(option);
+            });
+            return options;
+          })(),
+          hint: replaceSrc(_hint, _url, true),
+          explanation: replaceSrc(_explanation, _url, true),
+          questionType: 'fillBlank'
+        };
+        console.log('questionData:');
+        console.log(this.questionData);
+        this.localData = {
+          title: document.title,
+          topic: _topic,
+          answer: (function () {
+            let options = [];
+            _options.forEach((item, index) => {
+              let option = item.text;
+              options.push(option);
+            });
+            return options;
+          })(),
+          hint: _hint,
+          explanation: _explanation,
+          questionType: 'fillBlank'
+        }
+        console.log('localData:');
+        console.log(this.localData)
       }
     },
     components: {

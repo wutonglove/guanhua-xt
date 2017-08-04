@@ -1,7 +1,7 @@
 <template>
   <div>
-    <basic-frame>
-      <judge></judge>
+    <basic-frame @on-save="save">
+      <judge ref="judgeDOM"></judge>
     </basic-frame>
   </div>
 </template>
@@ -11,6 +11,11 @@
   import Judge from './judge';
 
   export default {
+    methods:{
+      save(){
+        this.$refs.judgeDOM.save();
+      }
+    },
     components: {
       Judge,
       BasicFrame

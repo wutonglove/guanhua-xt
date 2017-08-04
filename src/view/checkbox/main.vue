@@ -1,7 +1,7 @@
 <template>
   <div>
-    <basic-frame>
-      <check-box></check-box>
+    <basic-frame @on-save="save">
+      <check-box  ref="checkboxDOM"></check-box>
     </basic-frame>
   </div>
 </template>
@@ -11,24 +11,9 @@
   import CheckBox from './checkbox';
 
   export default {
-    created(){
-      this.$store.state.questionContent = {
-        topic: '',
-          options: [
-          {
-            icon: 'A',
-            text: '',
-            id: 0
-          },
-          {
-            icon: 'B',
-            text: '',
-            id: 1
-          }
-        ],
-          answer: [],
-          hint: '',
-          explanation: '',
+    methods:{
+      save(){
+        this.$refs.checkboxDOM.save();
       }
     },
     components: {

@@ -39,5 +39,10 @@
 - zoom
 - [HTML5的 input:file上传类型控制](http://www.haorooms.com/post/input_file_leixing)
 
-#### 17-7-22
+#### 17-8-3
 - 为了测试综合体，很多组件没有改，主要用radio测试，所以radio模块改了很多
+- 修改options 使其依赖的数据私有化
+
+#### 17-8-4
+- 修改基本完成
+- 验证未完成

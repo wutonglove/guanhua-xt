@@ -6,7 +6,7 @@
       <slot></slot>
     </div>
 
-    <p-footer></p-footer>
+    <p-footer @on-save="save"></p-footer>
     <insert-file-dialog></insert-file-dialog>
     <insert-formula-dialog></insert-formula-dialog>
     <unfold></unfold>
@@ -24,6 +24,12 @@
   export default {
     mounted() {
       this.$store.dispatch('attachEventToFile');
+    },
+    methods:{
+      save(){
+        console.log('basic');
+        this.$emit('on-save');
+      }
     },
     components: {
       PHeader,

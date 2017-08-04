@@ -4,8 +4,8 @@
       <div class="div_input"
            contenteditable="true"
            ref="explanationDOM"
-           @input.stop.prevent="setExplanation()"
            @blur="$store.dispatch('saveSelection')"
+           @input="setExplanation"
       ></div>
     </cnt-module>
   </div>
@@ -17,12 +17,13 @@
     data(){
       return {
         questionType: this.$store.state.questionType,
-        questionCode:this.$store.state.questionCode
+        questionCode:this.$store.state.questionCode,
+        explanation:''
       };
     },
     methods: {
       setExplanation(){
-        this.$store.state[this.questionType].questionContent[this.questionCode].explanation = this.$refs.explanationDOM.innerHTML;
+        this.explanation = this.$refs.explanationDOM.innerHTML.trim();
       }
     },
     components: {

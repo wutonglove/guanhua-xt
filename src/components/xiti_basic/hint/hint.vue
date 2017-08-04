@@ -4,8 +4,8 @@
       <div class="div_input"
            contenteditable="true"
            ref="hintDOM"
-           @input.stop.prevent="setHint()"
            @blur="$store.dispatch('saveSelection')"
+           @input="setHint"
       ></div>
     </cnt-module>
   </div>
@@ -17,12 +17,13 @@
     data(){
       return {
         questionType: this.$store.state.questionType,
-        questionCode:this.$store.state.questionCode
+        questionCode:this.$store.state.questionCode,
+        hint:''
       };
     },
     methods: {
       setHint() {
-        this.$store.state[this.questionType].questionContent[this.questionCode].hint = this.$refs.hintDOM.innerHTML;
+        this.hint = this.$refs.hintDOM.innerHTML.trim();
       }
     },
     components: {

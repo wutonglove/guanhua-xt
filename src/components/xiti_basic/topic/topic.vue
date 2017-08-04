@@ -5,8 +5,8 @@
            data-duty="topic"
            contenteditable="true"
            spellcheck="false" ref="topicDom"
-           @input.stop.prevent="setTopic($event)"
            @blur="$store.dispatch('saveSelection')"
+           @input="setTopic"
            @keyup.delete="keydelete"
       ></div>
     </cnt-module>
@@ -19,28 +19,24 @@
   export default {
     data(){
       return {
-        questionType:this.$store.state.questionType,
-        questionCode:this.$store.state.questionCode
+        topic:''
       };
     },
-    mounted() {
-      setTimeout(() => {
-        if (this.$refs.topicDom) {
-          this.$refs.topicDom.innerHTML = this.$store.state[this.questionType].questionContent[this.questionCode].topic;
+    computed: {
+      isPass(){
+        if (this.$refs.topicDOM.innerHTML.trim() === '') {
+          return false;
+        } else {
+          return true;
         }
-      }, 20);
+      }
     },
     methods: {
-      setTopic(event) {
-        let oldStr = this.$store.state[this.questionType].questionContent[this.questionCode].topic;
-        let newStr = this.$refs.topicDom.innerHTML;
-        if (oldStr.length !== newStr) {
-          this.$store.state[this.questionType].questionContent[this.questionCode].topic = newStr;
-        }
-        this.$store.dispatch('test');
-      },
       keydelete() {
         this.$emit('key-delete');
+      },
+      setTopic(){
+        this.topic = this.$refs.topicDom.innerHTML.trim();
       }
     },
     components: {

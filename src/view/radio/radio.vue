@@ -1,10 +1,10 @@
 <template>
   <div>
-    <topic></topic>
-    <options></options>
-    <answer></answer>
-    <hint></hint>
-    <explanation></explanation>
+    <topic ref="topicDOM"></topic>
+    <options :options="options" ref="optionsDOM"></options>
+    <answer :options="options" ref="answerDOM"></answer>
+    <hint ref="hintDOM"></hint>
+    <explanation ref="explanationDOM"></explanation>
   </div>
 </template>
 
@@ -15,9 +15,83 @@
   import Hint from 'components/xiti_basic/hint/hint';
   import Explanation from 'components/xiti_basic/explanation/explanation';
 
+  import {replaceSrc} from 'utils/utilities';
+
   export default {
-    created(){
-      this.$store.state.questionType = 'radio';
+    data(){
+      return {
+        options: [
+          {
+            icon: 'A',
+            text: '',
+            id: 0
+          },
+          {
+            icon: 'B',
+            text: '',
+            id: 1
+          }
+        ],
+        answer: '-1',
+        isPass: false,
+        questionData: {},
+        localData: {}
+      };
+    },
+    methods: {
+      save(){
+        let _topic = this.$refs.topicDOM.topic;
+        let _options = this.$refs.optionsDOM.options;
+        let _answer = this.$refs.answerDOM.answer;
+        let _hint = this.$refs.hintDOM.hint;
+        let _explanation = this.$refs.explanationDOM.explanation;
+        let _url = this.$store.state.urlSnippet;
+
+        this.questionData = {
+          title: document.title,
+          topic: replaceSrc(_topic, _url, true),
+          options: (function () {
+            let options = [];
+            _options.forEach((item, index) => {
+              let option = {
+                icon: item.icon,
+                text: replaceSrc(item.text, _url, true),
+                id: item.id
+              };
+              options.push(option);
+            });
+            return options;
+          })(),
+          answer: _answer,
+          hint: replaceSrc(_hint, _url, true),
+          explanation: replaceSrc(_explanation, _url, true),
+          questionType: 'radio'
+        };
+        console.log('questionData:');
+        console.log(this.questionData);
+        this.localData = {
+          title: document.title,
+          topic: _topic,
+          options: (function () {
+            let options = [];
+            _options.forEach((item, index) => {
+              let option = {
+                icon: item.icon,
+                text: item.text,
+                id: item.id
+              };
+              options.push(option);
+            });
+            return options;
+          })(),
+          answer: _answer,
+          hint: _hint,
+          explanation: _explanation,
+          questionType: 'radio'
+        }
+        console.log('localData:');
+        console.log(this.localData)
+      }
     },
     components: {
       Topic,

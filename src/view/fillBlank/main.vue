@@ -1,8 +1,8 @@
 
 <template>
   <div>
-    <basic-frame>
-      <fill-blank></fill-blank>
+    <basic-frame @on-save="save">
+      <fill-blank ref="fillBlankDOM"></fill-blank>
     </basic-frame>
   </div>
 </template>
@@ -12,13 +12,9 @@
   import FillBlank from './fillBlank';
 
   export default {
-    created(){
-      this.$store.state['questionContent'] = {
-        topic: '',
-        options: [],
-        answer: [],
-        hint: '',
-        explanation: '',
+    methods:{
+      save(){
+        this.$refs.fillBlankDOM.save();
       }
     },
     components: {

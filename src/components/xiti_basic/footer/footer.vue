@@ -4,13 +4,13 @@
       <Button type="ghost"
               shape="circle"
               class="preview"
-              :disabled="$store.state.isPass"
+              :disabled="!$store.state.isPass"
       >预览</Button>
       <Button type="primary"
               shape="circle"
               class="save"
-              :disabled="$store.state.isPass"
-              @click="$store.dispatch('save','/static/')"
+              :disabled="!$store.state.isPass"
+              @click="save"
       >保存</Button>
     </div>
   </div>
@@ -21,6 +21,10 @@
 
   export default {
     methods: {
+      save(){
+        console.log('footer');
+        this.$emit('on-save');
+      }
     }
   };
 </script>
