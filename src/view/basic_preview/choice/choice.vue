@@ -2,7 +2,7 @@
   <div>
 
     <div class="choice">
-      <Radio-group v-if="questionData.questionType === 'radio'" v-model="$store.state.result" vertical class="options">
+      <Radio-group v-if="questionData.questionType === 'radio'" v-model="answer" vertical class="options">
         <Radio
           :label="option.id"
           v-for="(option,index) in options"
@@ -14,7 +14,7 @@
         </Radio>
       </Radio-group>
 
-      <Checkbox-group v-model="$store.state.result" class="options" v-else>
+      <Checkbox-group v-model="answer" class="options" v-else>
         <Checkbox
           :label="option.id"
           v-for="(option,index) in options"
@@ -42,11 +42,13 @@
     data(){
       return {
         indexes: [],
-        isDisabled: false
+        isDisabled: false,
+        answer:this.$store.state[this.questionData.questionType].IAnswer,
       }
     },
     mounted(){
       setTimeout(() => {
+        console.log(this.questionData)
         let l = this.questionData.options.length;
         this.indexes = createRandomArr(l, 0, l - 1);
       }, 20)

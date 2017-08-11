@@ -148,7 +148,8 @@
         return  false;
       },
       ok() {
-        this.$parent.ok();
+//        this.$parent.ok();
+        this.$emit('insert');
       },
       unfold(file) {
         this.$store.state.unfold.isShow = true;

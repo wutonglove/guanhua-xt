@@ -1,8 +1,8 @@
 <template>
   <div>
-    <topic ref="topicDOM"></topic>
-    <options :options="options" ref="optionsDOM"></options>
-    <answer :options="options" ref="answerDOM"></answer>
+    <topic ref="topicDOM" @on-test="test"></topic>
+    <options :options="options" ref="optionsDOM" @on-test="test"></options>
+    <answer :options="options" inputType="checkbox" ref="answerDOM" @on-test="test"></answer>
     <hint ref="hintDOM"></hint>
     <explanation ref="explanationDOM"></explanation>
   </div>
@@ -32,17 +32,17 @@
             id: 1
           }
         ],
-        answer: '-1',
+        answer: [],
         isPass: false,
         questionData: {},
         localData: {}
       };
     },
     methods: {
-      save(){
+      getQuestionData(){
         let _topic = this.$refs.topicDOM.topic;
         let _options = this.$refs.optionsDOM.options;
-        let _answer = this.$refs.answerDOM.answer;
+        let _answer = this.$refs.answerDOM.answers;
         let _hint = this.$refs.hintDOM.hint;
         let _explanation = this.$refs.explanationDOM.explanation;
         let _url = this.$store.state.urlSnippet;
@@ -65,10 +65,8 @@
           answer: _answer,
           hint: replaceSrc(_hint, _url, true),
           explanation: replaceSrc(_explanation, _url, true),
-          questionType: 'radio'
+          questionType: 'checkbox'
         };
-        console.log('questionData:');
-        console.log(this.questionData);
         this.localData = {
           title: document.title,
           topic: _topic,
@@ -87,10 +85,17 @@
           answer: _answer,
           hint: _hint,
           explanation: _explanation,
-          questionType: 'radio'
-        }
-        console.log('localData:');
-        console.log(this.localData)
+          questionType: 'checkbox'
+        };
+        return {
+          questionData: this.questionData,
+          localData: this.localData
+        };
+      },
+      test: function () {
+        let domarr = [this.$refs.topicDOM, this.$refs.optionsDOM, this.$refs.answerDOM];
+
+        this.$store.dispatch('test', domarr);
       }
     },
     components: {

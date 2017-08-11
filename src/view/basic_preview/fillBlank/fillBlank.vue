@@ -1,5 +1,5 @@
 <template>
-  <div class="fillblank">
+  <div class="fillblank" ref="fillblankDOM">
     <span class="fidden_span" ref="fidden">{{blankVal}}</span>
   </div>
 </template>
@@ -14,7 +14,8 @@
     data() {
       return {
         blankVal: '',
-        isDisabled: false
+        isDisabled: false,
+        answer:[]
       };
     },
     mounted(){
@@ -22,14 +23,20 @@
         let _self = this;
         $(document).on('input', 'input.blank', function () {
           _self.blankVal = $(this).val().trim();
-          let index = $(this).index();
-          _self.$store.state.result[index] = $(this).val().trim();
           setTimeout(() => {
             let width = $(_self.$refs.fidden).width();
             if (width < 100) width = 100;
             $(this).width(width);
           }, 20);
-        });
+        })
+          .on('change', 'input.blank', function () {
+            let arr = [];
+
+            $(_self.$refs.fillblankDOM).parent().find('input.blank').each((index, item) => {
+              arr.push(item.value.trim());
+            });
+            _self.answer = arr;
+          });
         $('.topic').find('img.blankDOM_hook').each((index, item) => {
           $(item).replaceWith('<input class="blank" type="text" />');
         });
@@ -37,8 +44,8 @@
     },
     watch: {
       isDisabled(curVal, oldVal){
-        $('input.blank').attr('disabled',curVal);
-        console.log(this.$store.state.result);
+        $('input.blank').attr('disabled', curVal);
+//        console.log(this.$store.state.result);
       }
     }
   };

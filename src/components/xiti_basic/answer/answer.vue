@@ -2,14 +2,14 @@
   <div class="answer">
     <cnt-module name="答案" :isMandatory="true">
       <div class="answer_wrapper">
-        <Radio-group v-model="answer" v-if="inputType === 'radio'">
+        <Radio-group v-model="ianswer" v-if="inputType === 'radio'" @on-change="test">
           <Radio
             :label="answer.icon"
             v-for="(answer,index) in options"
             :key="index"
           ></Radio>
         </Radio-group>
-        <Checkbox-group v-model="answers" v-else>
+        <Checkbox-group v-model="ianswers" v-else @on-change="test">
           <Checkbox :label="answer.icon" v-for="(answer,index) in options" :key="index"></Checkbox>
         </Checkbox-group>
       </div>
@@ -33,21 +33,38 @@
     },
     data(){
       return {
-        answer: '',
-        answers:[]
+        ianswer: '',
+        ianswers: [],
+        isPass: false
       };
     },
-    computed:{
-      isPass(){
-        if(this.answer !== '') {
-          if(typeof '' !== 'string'){
-            if(this.answer.length !==0){
-              return true;
-            }
-          }
-          return true
+    computed: {
+      answer(){
+        let _answer = this.ianswer.charCodeAt(0);
+        if (_answer > 64 && _answer < 91) {
+          return _answer - 65;
+        } else {
+          return this.ianswer;
         }
-        return false
+      },
+      answers(){
+        let arr = [];
+        this.ianswers.forEach((item, index) => {
+          arr.push(item.charCodeAt(0) - 65);
+        });
+        return arr;
+      }
+    },
+    methods: {
+      test: function () {
+        if (this.inputType === 'radio' && this.answer === '') {
+          this.isPass = false
+        } else if (this.inputType === 'checkbox' && this.answers.length === 0) {
+          this.isPass = false
+        } else {
+          this.isPass = true;
+        }
+        this.$emit('on-test');
       }
     },
     components: {

@@ -3,24 +3,28 @@
     "icon":"icon-image",
     "name":"插入图片",
     "role":"image",
+    "status":1,
     "type":""
   },
   {
     "icon":"icon-video-camera",
     "name":"插入视频",
     "role":"video",
+    "status":1,
     "type":""
   },
   {
     "icon":"icon-music",
     "name":"插入音频",
     "role":"audio",
+    "status":1,
     "type":""
   },
   {
     "icon":"icon-sigma",
     "name":"插入公式",
     "role":"formula",
+    "status":1,
     "type":"custom"
   }
 ]

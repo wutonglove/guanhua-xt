@@ -6,16 +6,11 @@
  */
 import Vue from 'vue';
 import Vuex from 'vuex';
-import Lib from 'lib/Lib';
-import RadioModule from './modules/radio';
-
-let obj = Object;
 
 // 判断习题类型
 let _href = window.location.href;
 _href.match(/\/html\/([^/]*)\/index.html/);
 let type = RegExp.$1;
-obj = Lib[type];
 
 Vue.use(Vuex);
 
@@ -23,8 +18,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     questionType: type,
-    questionCode: 0,
-    questionDataAll: [],
     filelist: [],
     uploadfilelist: [],
     currentRange: null,
@@ -34,33 +27,18 @@ export default new Vuex.Store({
       type: 'image'
     },
     selectedFile: {},
+    fileTarget:null,
+    isAloneFile:false,
     formulaDialog: false,
     unfold: {
       content: '',
       isShow: false,
       width: 0
     },
-    isPass: true,
-    urlSnippet:''
+    isPass: false,
+    urlSnippet: ''
   },
   mutations: {
-    updateOptionIcon(state) {
-      let iconType = state[state.questionType].questionContent[state.questionCode].options[0].icon;
-      if (!isNaN(iconType * 1)) {
-        state[state.questionType].questionContent[state.questionCode].options.forEach((item, index) => {
-          item.icon = index + 1;
-          item.id = index;
-        });
-      } else {
-        state[state.questionType].questionContent[state.questionCode].options.forEach((item, index) => {
-          let code = 'A';
-          code = index + code.charCodeAt(0);
-          item.icon = String.fromCharCode(code);
-          item.id = index;
-        });
-        console.log(state[state.questionType].questionContent[state.questionCode].options);
-      }
-    },
     // 获取选中区域
     GETCURRRANGE(state) {
       let selection;
@@ -112,24 +90,31 @@ export default new Vuex.Store({
       }
     },
     // 验证必填项是否填写
-    TEST(state) {
-      if (state[state.questionType].questionContent[state.questionCode].topic === '') {
-        state.isPass = true;
-        return;
-      }
-      else if (state[state.questionType].questionContent[state.questionCode].answer === '') {
-        state.isPass = true;
-        return;
-      }
-      else {
-        for (let i = 0; i < state[state.questionType].questionContent[state.questionCode].options.length; i++) {
-          if (state[state.questionType].questionContent[state.questionCode].options[i].text === '') {
-            state.isPass = true;
-            return;
-          }
+    TEST(state, domarr) {
+      let bol = 1;
+      domarr.forEach((item, index) => {
+        bol = bol && item.isPass;
+      });
+
+      let insertBox = $(".insert_hook");
+      for(let i=0;i<insertBox.length;i++){
+        if(insertBox.eq(i).find('.insertFile').length === 0) {
+          state.isPass = false;
+          return;
         }
       }
-      state.isPass = false;
+
+      if (bol) {
+        state.isPass = true;
+      } else {
+        state.isPass = false;
+      }
+    },
+    // 保存
+    SAVE(sate, data){
+      console.log(data.localData);
+      let localData = JSON.stringify(data.localData);
+      window.localStorage.setItem('guanhuaPPT-data', localData);
     }
   },
   actions: {
@@ -169,21 +154,11 @@ export default new Vuex.Store({
       })
     },
     // 验证
-    test(context) {
-      context.commit('TEST');
+    test(context, domarr) {
+      context.commit('TEST', domarr);
     },
-    save(context, url){
-      console.log(context);
-      context.commit('radio/SAVEDATA');
-      // let type = context.state.questionType;
-      // let data = obj.saveData(context.state[type].questionContent[state.questionCode], url, type);
-      // console.log(JSON.parse(data.webData));
-      // console.log(JSON.parse(data.localData));
-      // window.localStorage.setItem('101PPT-question-data', data.localData);
-
+    save(context, data){
+      context.commit('SAVE', data);
     }
-  },
-  modules: {
-    radio: RadioModule
   }
 });

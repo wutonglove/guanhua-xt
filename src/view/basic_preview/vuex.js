@@ -6,9 +6,17 @@
  */
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {hasClass, addClass, removeClass} from 'utils/dom';
 import {urlSearch} from 'utils/utilities';
-import Lib from 'lib/Lib';
+// import types from 'lib/mutaion-types';
+
+import radio from 'lib/modules/radio';
+import checkbox from 'lib/modules/checkbox';
+import judge from 'lib/modules/judge';
+import fillblank from 'lib/modules/fillblank';
+import vote from 'lib/modules/vote';
+import sort from 'lib/modules/sort';
+import jigsaw from 'lib/modules/jigsaw';
+import comprehensive from 'lib/modules/comprehensive';
 
 Vue.use(Vuex);
 
@@ -22,7 +30,7 @@ export default new Vuex.Store({
       content: '',
       isShow: false,
       width: 0
-    }
+    },
   },
   mutations: {
     GETQUESTIONID(state){
@@ -30,11 +38,12 @@ export default new Vuex.Store({
       console.log(state.questionId)
     },
     INITRESULT(state){
-      state.result = Lib[state.questionData.questionType].result;
+      // state.result = Lib[state.questionData.questionType].result;
+      state.result = state[state.questionData.questionType].IAnswer;
     },
     GETQUESTIONDATA(state){
       if (!state.questionId) {
-        state.questionData = JSON.parse(window.localStorage.getItem('101PPT-question-data'));
+        state.questionData = JSON.parse(window.localStorage.getItem('guanhuaPPT-data'));
       }else{
         // 发送请求
       }
@@ -69,9 +78,45 @@ export default new Vuex.Store({
     closeUnfold(context){
       context.commit('PAUSEAll');
     },
-    submit(context) {
+    submit(context,vueObj) {
+      context.dispatch(context.state.questionData.questionType+'Submit',vueObj);
+      // 手机端提交
       context.commit('SUBMITANDROID');
+    },
+    showSubmitResult(context,_self){
+      setTimeout(()=>{
+        switch (context.state.result) {
+          case -1:
+            _self.$Modal.warning({
+              title: '',
+              content: `<p>这道题没有作答！</p>`
+            });
+            break;
+          case 0:
+            _self.$Modal.error({
+              title: '',
+              content: `<p>这道题没有答对，下次加油哦！</p>`
+            });
+            break;
+          case 1:
+            _self.$Modal.success({
+              title: '',
+              content: `<p>太棒了，您答对了！</p>`
+            });
+            break;
+        }
+      },400);
     }
+  },
+  modules:{
+    radio,
+    checkbox,
+    judge,
+    fillblank,
+    vote,
+    sort,
+    jigsaw,
+    comprehensive
   }
 });
 

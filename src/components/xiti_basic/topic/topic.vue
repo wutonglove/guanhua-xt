@@ -5,7 +5,7 @@
            data-duty="topic"
            contenteditable="true"
            spellcheck="false" ref="topicDom"
-           @blur="$store.dispatch('saveSelection')"
+           @blur="test"
            @input="setTopic"
            @keyup.delete="keydelete"
       ></div>
@@ -19,24 +19,25 @@
   export default {
     data(){
       return {
-        topic:''
+        topic: '',
+        isPass: false
       };
     },
-    computed: {
-      isPass(){
-        if (this.$refs.topicDOM.innerHTML.trim() === '') {
-          return false;
-        } else {
-          return true;
-        }
-      }
-    },
     methods: {
-      keydelete() {
+      keydelete: function () {
         this.$emit('key-delete');
       },
-      setTopic(){
+      setTopic: function () {
         this.topic = this.$refs.topicDom.innerHTML.trim();
+        this.test();
+      },
+      test: function () {
+        if (this.$refs.topicDom.innerHTML.trim() === '') {
+          this.isPass = false;
+        } else {
+          this.isPass = true;
+        }
+        this.$emit('on-test');
       }
     },
     components: {

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <topic ref="topicDOM"></topic>
-    <answer :options="options" ref="answerDOM"></answer>
+    <topic ref="topicDOM" @on-test="test"></topic>
+    <answer :options="options" ref="answerDOM" @on-test="test"></answer>
     <hint ref="hintDOM"></hint>
     <explanation ref="explanationDOM"></explanation>
   </div>
@@ -37,8 +37,7 @@
       };
     },
     methods:{
-      save(){
-        console.log('radio');
+      getQuestionData(){
         let _topic = this.$refs.topicDOM.topic;
         let _answer = this.$refs.answerDOM.answer;
         let _hint = this.$refs.hintDOM.hint;
@@ -53,8 +52,6 @@
           explanation: replaceSrc(_explanation, _url, true),
           questionType: 'judge'
         };
-        console.log('questionData:');
-        console.log(this.questionData);
         this.localData = {
           title: document.title,
           topic: _topic,
@@ -62,9 +59,16 @@
           hint: _hint,
           explanation: _explanation,
           questionType: 'judge'
+        };
+        return {
+          questionData:this.questionData,
+          localData:this.localData
         }
-        console.log('localData:');
-        console.log(this.localData)
+      },
+      test: function () {
+        let domarr = [this.$refs.topicDOM, this.$refs.answerDOM];
+
+        this.$store.dispatch('test', domarr);
       }
     },
     components: {

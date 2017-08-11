@@ -1,8 +1,7 @@
 <template>
   <div>
-    <topic ref="topicDOM"></topic>
-    <options :options="options" ref="optionsDOM"></options>
-    <answer :options="options" inputType="checkbox" ref="answerDOM"></answer>
+    <topic ref="topicDOM" @on-test="test"></topic>
+    <options :options="options" name="排序项" desc="请按照正确的顺序依次输入排序项" ref="optionsDOM" @on-test="test"></options>
     <hint ref="hintDOM"></hint>
     <explanation ref="explanationDOM"></explanation>
   </div>
@@ -11,7 +10,6 @@
 <script>
   import Topic from 'components/xiti_basic/topic/topic';
   import Options from 'components/xiti_basic/options/options';
-  import Answer from 'components/xiti_basic/answer/answer';
   import Hint from 'components/xiti_basic/hint/hint';
   import Explanation from 'components/xiti_basic/explanation/explanation';
 
@@ -32,17 +30,14 @@
             id: 1
           }
         ],
-        answer: [],
-        isPass: false,
         questionData: {},
         localData: {}
       };
     },
     methods: {
-      save(){
+      getQuestionData: function () {
         let _topic = this.$refs.topicDOM.topic;
         let _options = this.$refs.optionsDOM.options;
-        let _answer = this.$refs.answerDOM.answers;
         let _hint = this.$refs.hintDOM.hint;
         let _explanation = this.$refs.explanationDOM.explanation;
         let _url = this.$store.state.urlSnippet;
@@ -62,13 +57,10 @@
             });
             return options;
           })(),
-          answer: _answer,
           hint: replaceSrc(_hint, _url, true),
           explanation: replaceSrc(_explanation, _url, true),
-          questionType: 'radio'
+          questionType: 'sort'
         };
-        console.log('questionData:');
-        console.log(this.questionData);
         this.localData = {
           title: document.title,
           topic: _topic,
@@ -84,19 +76,24 @@
             });
             return options;
           })(),
-          answer: _answer,
           hint: _hint,
           explanation: _explanation,
-          questionType: 'radio'
-        }
-        console.log('localData:');
-        console.log(this.localData)
+          questionType: 'sort'
+        };
+        return {
+          questionData: this.questionData,
+          localData: this.localData
+        };
+      },
+      test: function () {
+        let domarr = [this.$refs.topicDOM, this.$refs.optionsDOM];
+
+        this.$store.dispatch('test', domarr);
       }
     },
     components: {
       Topic,
       Options,
-      Answer,
       Hint,
       Explanation
     }

@@ -5,6 +5,7 @@ html,body{
 body{
   font-family:"微软雅黑";
   user-select: none;
+  word-wrap:break-word
 }
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background-color:#bee1eb;}
@@ -22,9 +23,6 @@ body{
   display: block;
   width: 100%;
   outline:none;
-}
-.app>.content{
-  padding: 110px 0 100px
 }
 .insertFile{
   max-width:300px;

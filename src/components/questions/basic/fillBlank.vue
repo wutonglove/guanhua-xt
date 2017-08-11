@@ -1,14 +1,14 @@
 <template>
-  <div>
-    <Button
+  <div style="position: relative;top:15px" ref="fillblankDOM">
+    <i-button
       class="btn_insertBlank"
       type="primary"
       shape="circle"
       @click="addBlank"
     >
       插入填空横线
-    </Button>
-    <topic ref="topicDOM" @key-delete="backspace"></topic>
+    </i-button>
+    <topic ref="topicDOM" @key-delete="backspace" @on-test="test"></topic>
     <options
       :options="blanks"
       :hasAdd="false"
@@ -16,6 +16,7 @@
       v-if="blanks.length>0"
       ref="optionsDOM"
       @delete="removeOption"
+      @on-test="test"
     ></options>
     <div class="init_answer" v-else>
       <div class="name">
@@ -38,7 +39,7 @@
   import {replaceSrc} from 'utils/utilities';
 
   // ui 组件
-  import Checkbox from 'iview/src/components/checkbox';
+  import IButton from 'iview/src/components/button';
   // 三方 功能 组件
   import domtoimage from 'dom-to-image';
 
@@ -57,7 +58,7 @@
         let parent = this.getRangeParent();
         let duty = parent.data('duty');
         if (duty === 'topic') {
-          let index = this.getInsertIndex();
+          let index = this.getInsertIndexStart();
           this.blanks.splice(index, 0, {
             icon: 1,
             text: ''
@@ -70,25 +71,43 @@
           }, 20)
         }
       },
-      backspace(){
+      backspace: function () {
         let blankDOM = $('img.blankDOM_hook');
         if (this.blanks.length > blankDOM.length) {
-          let index = this.getInsertIndex();
-          this.$refs.optionsDOM.removeOption(index);
+          let start = this.getInsertIndexStart();
+          let end = this.getInsertIndexEnd();
+          console.log(start);
+          console.log(end);
+          console.log(end - start - 1);
+          this.$refs.optionsDOM.removeOption(start, true);
+//          一次删除多个
+//          for (let i = start; i < end - 1; i++) {
+//            setTimeout(()=>{
+//              console.log(i);
+//              this.$refs.optionsDOM.removeOption(i, true);
+//            },20);
+//          }
+
         }
         this.upBlankCode();
       },
       // 更新div_input中的空格的排序
       upBlankCode: function () {
-        $('.div_input .blankDOM_hook').each((index, item) => {
+        $(this.$refs.fillblankDOM).find('.div_input .blankDOM_hook').each((index, item) => {
           item.src = this.blankImgs[index];
           $(item).attr('data-code', index + 1);
         })
       },
-      getInsertIndex: function () {
+      getInsertIndexStart: function () {
         this.$store.dispatch('saveSelection');
         let current = this.$store.state.currentRangeParent;
         return $(current).prev('img.blankDOM_hook').attr('data-code') * 1 || 0;
+      },
+      getInsertIndexEnd: function () {
+        this.$store.dispatch('saveSelection');
+        let current = this.$store.state.currentRangeParent;
+        let l = $('img.blankDOM_hook').length;
+        return $(current).next('img.blankDOM_hook').attr('data-code') * 1 || l;
       },
       createBlank: function () {
         let code = this.blanks[this.blanks.length - 1].icon;
@@ -109,12 +128,12 @@
             this.insertBlank();
           });
       },
-      getRangeParent(){
+      getRangeParent: function () {
         this.$store.dispatch('saveSelection');
         let parent = this.$store.state.currentRangeParent;
         return $(parent).hasClass('div_input') ? $(parent) : $(parent).parents('.div_input');
       },
-      insertBlank() {
+      insertBlank: function () {
         let html = `&nbsp;<img class="blankDOM_hook" data-code="0" style="margin:0 -1px;vertical-align:bottom;"/>&nbsp;`;
         document.execCommand('insertHTML', false, html);
         this.upBlankCode();
@@ -122,11 +141,11 @@
           this.$refs.optionsDOM.refreshOption();
         }, 20);
       },
-      removeOption(index){
+      removeOption: function (index) {
         $('img.blankDOM_hook').eq(index).remove();
         this.upBlankCode();
       },
-      save(){
+      getQuestionData: function () {
         let _topic = this.$refs.topicDOM.topic;
         let _options = this.$refs.optionsDOM.options;
         let _hint = this.$refs.hintDOM.hint;
@@ -146,10 +165,9 @@
           })(),
           hint: replaceSrc(_hint, _url, true),
           explanation: replaceSrc(_explanation, _url, true),
-          questionType: 'fillBlank'
+          questionType: 'fillblank'
         };
-        console.log('questionData:');
-        console.log(this.questionData);
+
         this.localData = {
           title: document.title,
           topic: _topic,
@@ -163,30 +181,43 @@
           })(),
           hint: _hint,
           explanation: _explanation,
-          questionType: 'fillBlank'
+          questionType: 'fillblank'
+        };
+        return {
+          questionData: this.questionData,
+          localData: this.localData
+        };
+      },
+      test: function () {
+        let domarr = [this.$refs.topicDOM, this.$refs.optionsDOM];
+
+        if (this.blanks.length < 1) {
+          this.$store.state.isPass = false;
+          return;
         }
-        console.log('localData:');
-        console.log(this.localData)
+
+        this.$store.dispatch('test', domarr);
       }
     },
     components: {
       Topic,
       Options,
       Hint,
-      Explanation
+      Explanation,
+      IButton
     }
   };
 </script>
 
 <style scoped lang="stylus">
-  @import '../../common/stylus/mixin.styl'
-  @import '../../common/stylus/variable.styl'
+  @import '../../../common/stylus/mixin.styl'
+  @import '../../../common/stylus/variable.styl'
 
   .btn_insertBlank
     font-size: 16px
     position: absolute
     right: 0
-    top: 110px
+    top: -10px
 
   .init_answer
     width: 100%

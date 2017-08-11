@@ -2,9 +2,8 @@
  * Created by ww on 2017/7/7.
  */
 import Vue from 'vue';
-import App from './main.vue';
+import App from 'components/xiti_basic/main/main.vue';
 import vuex from 'lib/vuex';
-import router from 'utils/router/router';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import 'common/stylus/base.styl';
@@ -15,5 +14,4 @@ Vue.use(iView);
 new Vue({
   render: h => h(App),
   store: vuex,
-  router
 }).$mount('#app');

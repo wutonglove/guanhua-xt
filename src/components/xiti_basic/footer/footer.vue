@@ -1,23 +1,23 @@
 <template>
   <div class="footer">
     <div class="footer_wrapper">
-      <Button type="ghost"
+      <i-button type="ghost"
               shape="circle"
               class="preview"
               :disabled="!$store.state.isPass"
-      >预览</Button>
-      <Button type="primary"
+      >预览</i-button>
+      <i-button type="primary"
               shape="circle"
               class="save"
               :disabled="!$store.state.isPass"
               @click="save"
-      >保存</Button>
+      >保存</i-button>
     </div>
   </div>
 </template>
 
 <script>
-  import Checkbox from 'iview/src/components/checkbox';
+  import IButton from 'iview/src/components/button';
 
   export default {
     methods: {
@@ -25,6 +25,9 @@
         console.log('footer');
         this.$emit('on-save');
       }
+    },
+    components:{
+      IButton
     }
   };
 </script>

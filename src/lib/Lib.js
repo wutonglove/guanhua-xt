@@ -260,31 +260,6 @@ export default {
   },
   judge: {
     result:'-1',
-    saveData(state, url, type){
-      let data = {
-        title: document.title,
-        topic: replaceSrc(state.topic, url, true),
-        answer:state.answer,
-        hint: replaceSrc(state.hint, url, true),
-        explanation: replaceSrc(state.explanation, url, true),
-        questionType: type,
-      };
-      data = JSON.stringify(data); // 保存服务器
-
-      let localData = {
-        title: document.title,
-        topic: state.topic.trim(),
-        answer:state.answer,
-        hint: state.hint.trim(),
-        explanation: state.explanation.trim(),
-        questionType: type,
-      };
-      localData = JSON.stringify(localData);
-      return {
-        webData: data,
-        localData: localData
-      };
-    },
     getResult(_self){
       let res = _self.$store.state.result;
       let answer = _self.questionData.answer;

@@ -27,7 +27,8 @@ module.exports = {
       'components': path.resolve(__dirname, '../src/components'),
       'common': path.resolve(__dirname, '../src/common'),
       'utils': path.resolve(__dirname, '../src/utils'),
-      'lib':path.resolve(__dirname,'../src/lib')
+      'lib':path.resolve(__dirname,'../src/lib'),
+      'map':path.resolve(__dirname,'../src/map')
     }
   },
   plugins: [

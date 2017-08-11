@@ -9,37 +9,20 @@
     <div class="content_wrapper">
       <div class="title">{{questionData.title}}</div>
       <div class="content" ref="content">
-
-        <div class="topic" v-html="questionData.topic"></div>
-
-        <!--选择题-->
-        <choice v-if="questionData.questionType==='radio'||questionData.questionType==='checkbox'"
-                :questionData="questionData"
-                ref="contentModule"
-        ></choice>
-        <!-- 填空题 -->
-        <fill-blank v-else-if="questionData.questionType==='fillBlank'"
-                    :questionData="questionData"
-                    ref="contentModule"
-        ></fill-blank>
-        <!-- 判断题 -->
-        <judge :questionData="questionData" ref="contentModule"></judge>
-
+        <i-content :questionData="questionData" :isDisabled="isDisabled" ref="contextDOM"></i-content>
       </div>
     </div>
     <Button v-if="isSubmited"  class="refresh" type="primary" shape="circle" @click="refresh">重新作答</Button>
     <Button v-else class="submit" type="primary" shape="circle" @click="submit">提交</Button>
     <unfold-model></unfold-model>
+
   </div>
 </template>
 
 <script>
   import Checkbox from 'iview/src/components/checkbox';
   import UnfoldModel from 'components/unfoldDialog/unfoldDialog';
-
-  import Choice from './choice/choice';
-  import FillBlank from './fillBlank/fillBlank';
-  import Judge from './judge/judge';
+  import IContent from './content/content';
 
   import Lib from 'lib/Lib';
 
@@ -51,7 +34,8 @@
           second: 0
         },
         isSubmited: false,
-        indexes:[]
+        indexes:[],
+        isDisabled:false
       }
     },
     created(){
@@ -116,15 +100,12 @@
           title: '',
           content: '<p class="text">确认提交答案么？</p>',
           onOk: () => {
-            this.$store.dispatch('submit');
-            let objName = this.questionData.questionType;
-            let res = Lib[objName].getResult(this);
-            setTimeout(() => {
-              Lib[objName].submit(this,res);
-              clearInterval(this.timer);
-              this.$refs.contentModule.isDisabled = true;
-              this.isSubmited = true;
-            }, 400);
+            this.$store.state[this.questionData.questionType].IAnswer = this.$refs.contextDOM.answer;
+            this.$store.dispatch('submit',this);
+
+            clearInterval(this.timer);
+            this.isDisabled = true;
+            this.isSubmited = true;
           }
         });
       },
@@ -134,15 +115,14 @@
     },
     components: {
       UnfoldModel,
-      Choice,
-      FillBlank,
-      Judge
+      IContent
     }
   };
 </script>
 
 <style lang="stylus">
   @import '../../common/stylus/mixin.styl'
+  @import '../../common/stylus/variable.styl'
 
   .view_wrapper
     width: 100%
@@ -161,7 +141,7 @@
       border: 1px solid #D1AF80
       box-shadow: 0 0 0 1px #E2CCAA
       border-radius: 10px
-      background-color: #fff
+      background-color: $background-pre
       .title
         height: 56px
         line-height: 56px
@@ -173,6 +153,8 @@
         overflow: auto
         border-top: 1px solid #ababab
         padding: 20px 43px;
+        position: relative
+        box-sizing:border-box
         .img_wrap
           position: relative
           .shade

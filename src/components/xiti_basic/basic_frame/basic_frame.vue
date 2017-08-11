@@ -2,8 +2,10 @@
   <div class="app">
     <p-header></p-header>
 
-    <div class="content">
-      <slot></slot>
+    <div class="content_wrapper">
+      <div class="content">
+        <slot></slot>
+      </div>
     </div>
 
     <p-footer @on-save="save"></p-footer>
@@ -43,10 +45,16 @@
 
 <style scoped lang="stylus">
   @import '../../../common/stylus/mixin.styl'
-
   .app
     width: 100%
-    .content
-      $fixedWidth()
-      position: relative
+    .content_wrapper
+      position: absolute
+      top: 91px
+      bottom: 76px
+      width: 100%
+      overflow-x: auto
+      padding-bottom:50px
+      .content
+        $fixedWidth()
+        position: relative
 </style>

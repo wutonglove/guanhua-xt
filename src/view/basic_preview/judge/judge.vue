@@ -1,6 +1,6 @@
 <template>
   <div class="judge">
-    <Radio-group v-model="$store.state.result" vertical class="options">
+    <Radio-group v-model="answer" vertical class="options">
       <Radio label="是" :disabled="isDisabled"></Radio>
       <Radio label="否" :disabled="isDisabled"></Radio>
     </Radio-group>
@@ -16,7 +16,8 @@
     },
     data(){
       return{
-        isDisabled:false
+        isDisabled:false,
+        answer:this.$store.state[this.questionData.questionType].IAnswer
       };
     }
   };

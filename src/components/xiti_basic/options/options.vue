@@ -1,14 +1,15 @@
 <template>
   <div class="options_wrapper">
-    <cnt-module :name="name" :isMandatory="true">
+    <cnt-module :name="name" :desc="desc" :isMandatory="true">
       <div class="options" ref="optionsDOM">
         <div class="option" v-for="(option,index) in options">
           <span class="code">{{option.icon}}</span>
           <!-- 如果是选择题  用div -->
           <div class="text div_input"
                contenteditable="true"
+               ref="selectDOM"
                @input.lazy="setOption(index,$event)"
-               @blur="$store.dispatch('saveSelection')"
+               @blur="test"
           ></div>
           <!-- 如果是填空题用input -->
           <!-- hasAdd 可以判断是否是 天空题 -->
@@ -34,13 +35,22 @@
         type: Boolean,
         default: true
       },
-      name:{
+      name: {
+        type: String,
+        default: '选项'
+      },
+      desc:{
         type:String,
-        default:'选项'
+        default:''
       },
       options: {
         type: Array
       }
+    },
+    data(){
+      return {
+        isPass: false
+      };
     },
     mounted() {
       setTimeout(() => {
@@ -48,8 +58,8 @@
       }, 20);
     },
     methods: {
-      updateOptionIcon() {
-        if(this.options.length<1) return;
+      updateOptionIcon: function () {
+        if (this.options.length < 1) return;
         let iconType = this.options[0].icon;
         if (!isNaN(iconType * 1)) {
           this.options.forEach((item, index) => {
@@ -67,7 +77,7 @@
         }
         this.refreshOption();
       },
-      addOption(){
+      addOption: function () {
         this.options.push({
           icon: 'A',
           text: '',
@@ -75,29 +85,37 @@
         })
         this.updateOptionIcon();
       },
-      removeOption(index) {
+//      按index 下标删除
+      removeOption: function (index, isPropagate) {
         this.options.splice(index, 1);
         this.updateOptionIcon();
-        this.$emit('delete',index);
+        if (!isPropagate) {
+          this.$emit('delete', index);
+        }
       },
-      setOption(index, event) {
+      setOption: function (index, event) {
         let optionHtml = event.srcElement.innerHTML;
         this.options[index].text = optionHtml;
+        this.test();
       },
-      refreshOption(){
-        setTimeout(()=>{
-          $(this.$refs.optionsDOM).children(".option").each((index,item)=>{
+      refreshOption: function () {
+        setTimeout(() => {
+          $(this.$refs.optionsDOM).children(".option").each((index, item) => {
             $(item).children(".text").html(this.options[index].text);
           })
-        },20);
-      }
-    },
-    computed:{
-      isPass(){
-        for(let i=0;i<this.options.length;i++){
-          if(this.options[i].text ==='') return false
+        }, 20);
+      },
+      setIsPass: function () {
+        for(let i=0;i<this.$refs.selectDOM.length;i++){
+          if(this.$refs.selectDOM[i].innerHTML.trim() === '') {
+            return false;
+          }
         }
         return true;
+      },
+      test: function () {
+        this.isPass = this.setIsPass();
+        this.$emit('on-test');
       }
     },
     watch: {
