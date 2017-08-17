@@ -18,9 +18,9 @@
       name: {
         type: String
       },
-      desc:{
-        type:String,
-        default:''
+      desc: {
+        type: String,
+        default: ''
       },
       isMandatory: {
         type: Boolean,

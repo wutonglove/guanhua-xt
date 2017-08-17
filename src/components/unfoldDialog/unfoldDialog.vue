@@ -14,7 +14,6 @@
 </template>
 
 <script>
-  import Checkbox from 'iview/src/components/checkbox';
   export default {
     methods: {
       close() {
@@ -27,19 +26,19 @@
         return this.$store.state.unfold.width;
       },
       isShow() {
-        return this.$store.state.unfold.isShow
+        return this.$store.state.unfold.isShow;
       }
     },
     watch: {
-      isShow(){
-        setTimeout(()=>{
-          if(window.screen.width <= 768){
+      isShow() {
+        setTimeout(() => {
+          if (window.screen.width <= 768) {
             let unfold = this.$refs.content.getElementsByClassName('unfold_file')[0];
-            unfold.setAttribute('style',`max-height:${window.screen.height-20}px;max-width:${window.screen.width-20}px`)
-            console.log(window.screen.width );
+            unfold.setAttribute('style', `max-height:${window.screen.height - 20}px;max-width:${window.screen.width - 20}px`);
+            console.log(window.screen.width);
             console.log(window.screen.height);
           }
-        },20)
+        }, 20);
       }
     }
   };
@@ -59,6 +58,6 @@
         position: absolute
         right: 0
         top: 0
-        padding:10px;
-        background-color: rgba(0,0,0,.5)
+        padding: 10px;
+        background-color: rgba(0, 0, 0, .5)
 </style>

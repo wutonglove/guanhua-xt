@@ -107,96 +107,96 @@ export default {
       // 标准颜色
       bColor: ['#c21401', '#ff1e02', '#ffc12a', '#ffff3a', '#90cf5b', '#00af57', '#00afee', '#0071be', '#00215f', '#72349d'],
       html5Color: this.value
-    }
+    };
   },
   computed: {
     // 显示面板颜色
     showPanelColor () {
       if (this.hoveColor) {
-        return this.hoveColor
+        return this.hoveColor;
       } else {
-        return this.showColor
+        return this.showColor;
       }
     },
     // 显示颜色
     showColor () {
       if (this.value) {
-        return this.value
+        return this.value;
       } else {
-        return this.defaultColor
+        return this.defaultColor;
       }
     },
     // 颜色面板
     colorPanel () {
-      let colorArr = []
+      let colorArr = [];
       for (let color of this.colorConfig) {
-        colorArr.push(this.gradient(color[1], color[0], 5))
+        colorArr.push(this.gradient(color[1], color[0], 5));
       }
-      return colorArr
+      return colorArr;
     }
   },
   methods: {
     triggerHtml5Color () {
-      this.$refs.html5Color.click()
+      this.$refs.html5Color.click();
     },
     // 更新组件的值 value
     updataValue (value) {
-      this.$emit('input', value)
-      this.$emit('change', value)
-      this.openStatus = false
+      this.$emit('input', value);
+      this.$emit('change', value);
+      this.openStatus = false;
     },
     // 设置默认颜色
     handleDefaultColor () {
-      this.updataValue(this.defaultColor)
+      this.updataValue(this.defaultColor);
     },
     // 格式化 hex 颜色值
     parseColor (hexStr) {
       if (hexStr.length === 4) {
-        hexStr = '#' + hexStr[1] + hexStr[1] + hexStr[2] + hexStr[2] + hexStr[3] + hexStr[3]
+        hexStr = '#' + hexStr[1] + hexStr[1] + hexStr[2] + hexStr[2] + hexStr[3] + hexStr[3];
       } else {
-        return hexStr
+        return hexStr;
       }
     },
     // RGB 颜色 转 HEX 颜色
     rgbToHex (r, g, b) {
-      let hex = ((r << 16) | (g << 8) | b).toString(16)
-      return '#' + new Array(Math.abs(hex.length - 7)).join('0') + hex
+      let hex = ((r << 16) | (g << 8) | b).toString(16);
+      return '#' + new Array(Math.abs(hex.length - 7)).join('0') + hex;
     },
     // HEX 转 RGB 颜色
     hexToRgb (hex) {
-      hex = this.parseColor(hex)
-      let rgb = []
+      hex = this.parseColor(hex);
+      let rgb = [];
       for (let i = 1; i < 7; i += 2) {
-        rgb.push(parseInt('0x' + hex.slice(i, i + 2)))
+        rgb.push(parseInt('0x' + hex.slice(i, i + 2)));
       }
-      return rgb
+      return rgb;
     },
     // 计算渐变过渡颜色
     gradient (startColor, endColor, step) {
       // 讲 hex 转换为 rgb
-      let sColor = this.hexToRgb(startColor)
-      let eColor = this.hexToRgb(endColor)
+      let sColor = this.hexToRgb(startColor);
+      let eColor = this.hexToRgb(endColor);
 
       // 计算R\G\B每一步的差值
-      let rStep = (eColor[0] - sColor[0]) / step
-      let gStep = (eColor[1] - sColor[1]) / step
-      let bStep = (eColor[2] - sColor[2]) / step
+      let rStep = (eColor[0] - sColor[0]) / step;
+      let gStep = (eColor[1] - sColor[1]) / step;
+      let bStep = (eColor[2] - sColor[2]) / step;
 
-      let gradientColorArr = []
+      let gradientColorArr = [];
       // 计算每一步的hex值
       for (let i = 0; i < step; i++) {
-        gradientColorArr.push(this.rgbToHex(parseInt(rStep * i + sColor[0]), parseInt(gStep * i + sColor[1]), parseInt(bStep * i + sColor[2])))
+        gradientColorArr.push(this.rgbToHex(parseInt(rStep * i + sColor[0]), parseInt(gStep * i + sColor[1]), parseInt(bStep * i + sColor[2])));
       }
-      return gradientColorArr
+      return gradientColorArr;
     }
   },
   mounted () {
     // 点击页面上其他地方，关闭弹窗
     document.onclick = (e) => {
-      this.openStatus = false
-    }
+      this.openStatus = false;
+    };
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

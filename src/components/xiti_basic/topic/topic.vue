@@ -17,7 +17,7 @@
   import CntModule from 'components/xiti_basic/cnt_module/cnt_module';
 
   export default {
-    data(){
+    data() {
       return {
         topic: '',
         isPass: false

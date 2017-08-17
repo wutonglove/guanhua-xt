@@ -39,34 +39,36 @@
 
   import questionMap from 'map/questiontype.json';
   import {replaceSrc} from 'utils/utilities';
+  import $ from 'expose-loader?$!jquery';
 
   import Topic from 'components/xiti_basic/topic/topic';
   import Radio from 'components/questions/basic/radio';
   import Checkbox from 'components/questions/basic/checkbox';
   import Judge from 'components/questions/basic/judge';
-  import FillBlank from 'components/questions/basic/fillBlank';
+  import Fillblank from 'components/questions/basic/fillblank';
   import Vote from 'components/questions/basic/vote';
   import Jigsaw from 'components/questions/basic/jigsaw';
+  import Sort from 'components/questions/basic/sort';
 
   export default {
-    data(){
+    data() {
       return {
         questions: [],
         subContentH: 0,
         questionMap: questionMap,
-        questionData:'',
-        localData:''
+        questionData: '',
+        localData: ''
       };
     },
-    mounted(){
+    mounted() {
       setTimeout(() => {
         $('.content_wrapper').css('padding-bottom', '20px');
-        this.subContentH = $('body').height() - (91 + 76 + $('.comprehensive_wrap>.topic').height() + 20 + 16 + 37 + 16 + 20 + 51 + 24)
+        this.subContentH = $('body').height() - (91 + 76 + $('.comprehensive_wrap>.topic').height() + 20 + 16 + 37 + 16 + 20 + 51 + 24);
       }, 20);
     },
     methods: {
-      addQuestion:function(name){
-        if(this.questions.length>14){
+      addQuestion: function (name) {
+        if (this.questions.length > 14) {
           this.$Message.warning('最多添加15道题');
           return;
         }
@@ -76,10 +78,10 @@
           desc: {}
         });
       },
-      removeQuestion:function(index){
+      removeQuestion: function (index) {
         this.questions.splice(index, 1);
       },
-      getQuestionData:function(){
+      getQuestionData: function () {
         let _topic = this.$refs.topicDOM.topic;
         let _url = this.$store.state.urlSnippet;
 
@@ -107,14 +109,14 @@
           localData: this.localData
         };
       },
-      test:function(){
-        if(!this.$refs.topicDOM.isPass){
+      test: function () {
+        if (!this.$refs.topicDOM.isPass) {
           this.$store.state.isPass = false;
         }
       }
     },
     computed: {
-      typeKeyVal(){
+      typeKeyVal() {
         let obj = {};
         this.questionMap.forEach((item, index) => {
           obj[item.type] = item.name;
@@ -130,9 +132,10 @@
       Radio,
       Checkbox,
       Judge,
-      FillBlank,
+      Fillblank,
       Vote,
-      Jigsaw
+      Jigsaw,
+      Sort
     }
   };
 </script>

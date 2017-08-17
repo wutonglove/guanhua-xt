@@ -24,7 +24,7 @@
   import {replaceSrc} from 'utils/utilities';
 
   export default {
-    data(){
+    data() {
       return {
         options: [
           {
@@ -36,7 +36,7 @@
             text: ''
           }
         ],
-        voteType:'multiple',
+        voteType: 'multiple',
         questionData: {},
         localData: {}
       };
@@ -61,7 +61,7 @@
             });
             return options;
           })(),
-          voteType:this.voteType,
+          voteType: this.voteType,
           questionType: 'vote'
         };
         this.localData = {
@@ -78,7 +78,7 @@
             });
             return options;
           })(),
-          voteType:this.voteType,
+          voteType: this.voteType,
           questionType: 'vote'
         };
         return {

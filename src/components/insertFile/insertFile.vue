@@ -33,9 +33,9 @@
 </template>
 
 <script>
-  import Checkbox from 'iview/src/components/checkbox';
   import Local from 'components/insertFile/local';
-  import Outer from 'components/insertFile/outerNet'
+  import Outer from 'components/insertFile/outerNet';
+  import $ from 'expose-loader?$!jquery';
 
   export default {
     computed: {
@@ -43,29 +43,28 @@
         let title = '';
         switch (this.$store.state.fileDialog.type) {
           case 'image':
-            title = '图片'
+            title = '图片';
             break;
           case 'audio':
-            title = '音频'
+            title = '音频';
             break;
           case 'video':
-            title = '视频'
+            title = '视频';
             break;
         }
-        return title
+        return title;
       }
     },
     methods: {
-      insert(){
+      insert: function () {
         this.$refs.dialogDOM.ok();
       },
-      ok() {
-
+      ok: function () {
         let html;
         html = this.createImgHtml();
 
-        if(this.$store.state.fileTarget){
-          $(this.$store.state.fileTarget).html(html).css('height','auto');
+        if (this.$store.state.fileTarget) {
+          $(this.$store.state.fileTarget).html(html).css('height', 'auto');
 
           this.$store.state.fileTarget = null;
           return;
@@ -73,10 +72,8 @@
         console.log();
         this.$store.dispatch('restoreSelection');
         document.execCommand('insertHTML', false, `&nbsp;${html}&nbsp;`);
-
-
       },
-      createImgHtml() {
+      createImgHtml: function () {
         let file = this.$store.state.selectedFile;
         let src = file.src;
         let type = file.type.split('/')[0];
@@ -86,7 +83,7 @@
           return html;
         }
       },
-      createVideoHtml() {
+      createVideoHtml: function () {
         let file = this.$store.state.selectedFile;
         let src = file.src;
         if (src) {
@@ -97,7 +94,7 @@
           return html;
         }
       },
-      createAudioHtml() {
+      createAudioHtml: function () {
         let file = this.$store.state.selectedFile;
         let src = file.src;
         if (src) {

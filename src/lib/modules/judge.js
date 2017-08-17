@@ -7,7 +7,7 @@ export default {
     IAnswer: '-1'
   },
   mutations: {
-    GETJUDGEESULT(state, rootState){
+    GETJUDGEESULT(state, rootState) {
       console.log(state.IAnswer);
       if (state.IAnswer === '-1') {
         rootState.result = -1;
@@ -19,9 +19,9 @@ export default {
     }
   },
   actions: {
-    judgeSubmit(context, _self){
+    judgeSubmit(context, _self) {
       context.commit('GETJUDGEESULT', context.rootState);
       context.dispatch('showSubmitResult', _self);
     }
   }
-}
+};

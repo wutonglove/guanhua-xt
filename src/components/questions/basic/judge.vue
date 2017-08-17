@@ -16,7 +16,7 @@
   import {replaceSrc} from 'utils/utilities';
 
   export default {
-    data(){
+    data() {
       return {
         options: [
           {
@@ -36,8 +36,8 @@
         localData: {}
       };
     },
-    methods:{
-      getQuestionData(){
+    methods: {
+      getQuestionData() {
         let _topic = this.$refs.topicDOM.topic;
         let _answer = this.$refs.answerDOM.answer;
         let _hint = this.$refs.hintDOM.hint;
@@ -61,9 +61,9 @@
           questionType: 'judge'
         };
         return {
-          questionData:this.questionData,
-          localData:this.localData
-        }
+          questionData: this.questionData,
+          localData: this.localData
+        };
       },
       test: function () {
         let domarr = [this.$refs.topicDOM, this.$refs.answerDOM];

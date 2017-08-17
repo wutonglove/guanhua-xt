@@ -8,12 +8,13 @@
              @click="selectFile(file)"
         >
           <div class="thumbnail">
-            <img  :src="file.icon" alt="">
+            <img :src="file.icon" alt="">
           </div>
           <div class="size" v-if="file.size">{{file.size}}</div>
           <div class="name" :title="file.name">{{file.name}}</div>
           <span class="icon-check-circle-o"></span>
-          <Icon class="unfold" type="arrow-expand" @click.native="$store.dispatch('unfold',file)" v-if="dialogType==='image'"></Icon>
+          <Icon class="unfold" type="arrow-expand" @click.native="$store.dispatch('unfold',file)"
+                v-if="dialogType==='image'"></Icon>
           <Icon class="pre_play" type="ios-play" @click.native="$store.dispatch('unfold',file)" v-else></Icon>
         </div>
       </div>
@@ -30,7 +31,6 @@
 
 <script>
   import FileConfig from 'common/json/config.json';
-  import Checkbox from 'iview/src/components/checkbox';
 
   const FileType = FileConfig.file.fileType;
   const FileSize = FileConfig.file.fileSize;
@@ -38,36 +38,36 @@
   export default {
     computed: {
       dialogType() {
-        return this.$store.state.fileDialog.type
+        return this.$store.state.fileDialog.type;
       },
       showFilelist() {
         return this.filterFilelist(this.dialogType);
       }
     },
     methods: {
-      filterFilelist(type){
+      filterFilelist: function (type) {
         let list = [];
         this.$store.state.filelist.forEach((item, index) => {
-          if(item.file.type.split('/')[0] === this.dialogType){
+          if (item.file.type.split('/')[0] === this.dialogType) {
             list.push(item);
           }
         });
         return list;
       },
-      browseFile(e) {
+      browseFile: function (e) {
         let file = e.srcElement.files[0];
         let filelist = this.$store.state.filelist;
 
-        if(this.discernFile(file)) return;
+        if (this.discernFile(file)) return;
 
-        switch(this.dialogType){
+        switch (this.dialogType) {
           case 'image':
             this.imgOriginalSize(file, (w, h) => {
               this.$store.state.filelist.push({
                 name: file.name,
                 icon: window.URL.createObjectURL(file),
                 src: window.URL.createObjectURL(file),
-                resource:window.URL.createObjectURL(file),
+                resource: window.URL.createObjectURL(file),
                 size: `${w} * ${h}`,
                 file: file,
                 type: file.type,
@@ -80,7 +80,7 @@
               name: file.name,
               icon: '/images/media.jpg',
               src: '/images/video.jpg',
-              resource:window.URL.createObjectURL(file),
+              resource: window.URL.createObjectURL(file),
               file: file,
               type: file.type,
               selected: false
@@ -91,7 +91,7 @@
               name: file.name,
               icon: '/images/media.jpg',
               src: '/images/audio.jpg',
-              resource:window.URL.createObjectURL(file),
+              resource: window.URL.createObjectURL(file),
               file: file,
               type: file.type,
               selected: false
@@ -99,18 +99,18 @@
             break;
         }
         // 默认选中filelist最后一个file
-        setTimeout(()=>{
-          this.selectFile(filelist[filelist.length-1]);
-        },20)
+        setTimeout(() => {
+          this.selectFile(filelist[filelist.length - 1]);
+        }, 20);
       },
-      selectFile(file) {
+      selectFile: function (file) {
         this.$store.state.filelist.forEach((item, index) => {
           item.selected = false;
         });
         file.selected = true;
         this.$store.state.selectedFile = file;
       },
-      imgOriginalSize(file, cbk) {
+      imgOriginalSize: function (file, cbk) {
         let reader = new FileReader();
         reader.readAsDataURL(file);
 
@@ -121,39 +121,38 @@
           img.src = data;
           img.onload = () => {
             cbk(img.width, img.height);
-          }
-        }
+          };
+        };
       },
       // 识别文件类型
-      discernFile(file) {
-        if(!file) return true;
-        let size = file.size || -1;
+      discernFile: function (file) {
+        if (!file) return true;
         let typeKey = this.dialogType;
         let typeVal = file.type.split('/')[1];
         console.log(typeKey);
-        if(FileType[typeKey].indexOf(typeVal) === -1){
+        if (FileType[typeKey].indexOf(typeVal) === -1) {
           this.$Message.error({
             content: `不支持该文件类型,请选择 ${FileType[typeKey].join('，')}`,
             duration: 3
           });
           return true;// 不通过
         }
-        if(file.size > FileSize){
+        if (file.size > FileSize) {
           this.$Message.error({
             content: '插入文件不能大于15M！',
             duration: 3
           });
           return true;// 不通过
         }
-        return  false;
+        return false;
       },
       ok() {
 //        this.$parent.ok();
         this.$emit('insert');
       },
-      unfold(file) {
+      unfold: function (file) {
         this.$store.state.unfold.isShow = true;
-        switch(file.type.split('/')[0]){
+        switch (file.type.split('/')[0]) {
           case 'image':
             this.$store.state.unfold.content = `<img src="${file.src}" class="unfold_file"/>`;
             break;
@@ -165,7 +164,7 @@
             break;
         }
       }
-    },
+    }
   };
 </script>
 
@@ -233,20 +232,20 @@
           right: 5px
           bottom: 32px
           color: $font-color-file
-          opacity:0
-          padding:0 5px
+          opacity: 0
+          padding: 0 5px
         .pre_play
           font-size: 60px
           position: absolute
           left: 50%
           top: 35px
-          transform:translateX(-50%)
+          transform: translateX(-50%)
           opacity: 0
         &:hover
           .unfold
-            opacity:1
+            opacity: 1
           .pre_play
-            opacity:1
+            opacity: 1
     .footer
       height: 80px
       text-align: center

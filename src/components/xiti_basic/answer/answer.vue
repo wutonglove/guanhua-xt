@@ -19,7 +19,6 @@
 
 <script>
   import CntModule from 'components/xiti_basic/cnt_module/cnt_module';
-  import Checkbox from 'iview/src/components/checkbox';
 
   export default {
     props: {
@@ -31,7 +30,7 @@
         type: Array
       }
     },
-    data(){
+    data() {
       return {
         ianswer: '',
         ianswers: [],
@@ -39,7 +38,7 @@
       };
     },
     computed: {
-      answer(){
+      answer() {
         let _answer = this.ianswer.charCodeAt(0);
         if (_answer > 64 && _answer < 91) {
           return _answer - 65;
@@ -47,7 +46,7 @@
           return this.ianswer;
         }
       },
-      answers(){
+      answers() {
         let arr = [];
         this.ianswers.forEach((item, index) => {
           arr.push(item.charCodeAt(0) - 65);
@@ -58,9 +57,9 @@
     methods: {
       test: function () {
         if (this.inputType === 'radio' && this.answer === '') {
-          this.isPass = false
+          this.isPass = false;
         } else if (this.inputType === 'checkbox' && this.answers.length === 0) {
-          this.isPass = false
+          this.isPass = false;
         } else {
           this.isPass = true;
         }

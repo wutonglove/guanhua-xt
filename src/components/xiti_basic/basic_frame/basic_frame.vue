@@ -12,6 +12,7 @@
     <insert-file-dialog></insert-file-dialog>
     <insert-formula-dialog></insert-formula-dialog>
     <unfold></unfold>
+    <pre-dia ></pre-dia>
   </div>
 </template>
 
@@ -22,13 +23,14 @@
   import InsertFileDialog from 'components/insertFile/insertFile';
   import InsertFormulaDialog from 'components/xiti_basic/insertFormula/insertFormula';
   import Unfold from 'components/unfoldDialog/unfoldDialog';
+  import PreDia from 'components/pre_dia/pre_dia';
 
   export default {
     mounted() {
       this.$store.dispatch('attachEventToFile');
     },
-    methods:{
-      save(){
+    methods: {
+      save: function () {
         console.log('basic');
         this.$emit('on-save');
       }
@@ -38,7 +40,8 @@
       PFooter,
       InsertFileDialog,
       InsertFormulaDialog,
-      Unfold
+      Unfold,
+      PreDia
     }
   };
 </script>
@@ -53,7 +56,7 @@
       bottom: 76px
       width: 100%
       overflow-x: auto
-      padding-bottom:50px
+      padding-bottom: 50px
       .content
         $fixedWidth()
         position: relative

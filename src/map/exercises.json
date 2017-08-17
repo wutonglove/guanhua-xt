@@ -1,0 +1,97 @@
+{
+  "基础题型": [
+    {
+      "type": "radio",
+      "name": "单选题",
+      "href": "radio.html",
+      "thumbUrl": "24991c8c-40a5-4412-9184-0f29963dae6f.png"
+    },
+    {
+      "type": "checkbox",
+      "name": "多选题",
+      "href": "checkbox.html",
+      "thumbUrl": "8df70f13-38f1-466f-8b2e-2be137e8939b.png"
+    },
+    {
+      "type": "fillblank",
+      "name": "填空题",
+      "href": "fillblank.html",
+      "thumbUrl": "f2068d73-9a6f-46be-bb18-6db98121c8e3.png"
+    },
+    {
+      "type": "judge",
+      "name": "判断题",
+      "href": "judge.html",
+      "thumbUrl": "7e3e6c1e-02fe-43c3-a689-c1bc2bbe22e1.png"
+    },
+    {
+      "type": "vote",
+      "name": "投票题",
+      "href": "vote.html",
+      "thumbUrl": "55966b6e-a1cd-43ea-bd90-c51393fc968c.png"
+    },
+    {
+      "type": "sort",
+      "name": "排序题",
+      "href": "sort.html",
+      "thumbUrl": "15a3588a-7749-471e-a330-5a0afe74136d.png"
+    },
+    {
+      "type": "jigsaw",
+      "name": "拼图题",
+      "href": "jigsaw.html",
+      "thumbUrl": "610d083b-ed5d-4043-92c5-43fd3805902e.png"
+    },
+    {
+      "type": "line",
+      "name": "连线题",
+      "href": "line.html",
+      "thumbUrl": "b58e8861-4bd6-4708-bd3d-f37c733431e7.png"
+    },
+    {
+      "type": "subjectivity",
+      "name": "主观题",
+      "href": "subjectivity.html",
+      "thumbUrl": "f467dfb9-7e8c-459d-88b9-9ec0d185d66b.png"
+    },
+    {
+      "type": "comprehensive",
+      "name": "复合题",
+      "href": "comprehensive.html",
+      "thumbUrl": "a752f733-12b3-4a42-a3e1-3ee834ab3398.png"
+    }
+  ],
+  "趣味题型":[
+    {
+      "type": "write",
+      "name": "手写题",
+      "href": "",
+      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png"
+    },{
+      "type": "linkgame",
+      "name": "连连看",
+      "href": "",
+      "thumbUrl": "8cf30423-fda8-4314-b06a-827e768740a1.png"
+    },{
+      "type": "classifytab",
+      "name": "分类表格",
+      "href": "",
+      "thumbUrl": "0c27e814-9753-4636-9e4e-ad30fe741807.png"
+    },{
+      "type": "linkgame",
+      "name": "记忆卡片",
+      "href": "",
+      "thumbUrl": "3b4e8493-e75c-4cd3-bd22-ec1e7031c78b.png"
+    },{
+      "type": "classify",
+      "name": "分类题",
+      "href": "",
+      "thumbUrl": "16f1ef6b-e206-4191-af96-84858b345981.png"
+    },{
+      "type": "mind",
+      "name": "思维导图",
+      "href": "comprehensive.html",
+      "thumbUrl": ""
+    }
+  ]
+}

@@ -35,7 +35,6 @@
 
 <script>
   import Topic from 'components/xiti_basic/topic/topic';
-  import Answer from 'components/xiti_basic/answer/answer';
   import Hint from 'components/xiti_basic/hint/hint';
   import Explanation from 'components/xiti_basic/explanation/explanation';
   import CntModule from 'components/xiti_basic/cnt_module/cnt_module';
@@ -46,7 +45,7 @@
   import {replaceSrc} from 'utils/utilities';
 
   export default {
-    data(){
+    data() {
       return {
         answer: '-1',
         isPass: false,
@@ -57,18 +56,18 @@
         itable: []
       };
     },
-    mounted(){
+    mounted() {
       this.$nextTick(() => {
         this.initTab();
         $(document).on('mousedown', () => {
           setTimeout(() => {
             this.$store.dispatch('test', []);
           }, 200);
-        })
+        });
       });
     },
     methods: {
-      initTab(){
+      initTab: function () {
         this.itable = [];
         for (let r = 0; r < this.tr; r++) {
           this.itable.push([]);
@@ -77,13 +76,13 @@
           }
         }
       },
-      showFileDialog(e){
+      showFileDialog: function (e) {
         this.$store.state.fileDialog.isShow = true;
         this.$store.state.fileDialog.type = 'image';
 
         this.$store.state.fileTarget = this.$refs.insertImgBOX;
       },
-      getQuestionData(){
+      getQuestionData: function () {
         let _topic = this.$refs.topicDOM.topic;
         let _hint = this.$refs.hintDOM.hint;
         let _explanation = this.$refs.explanationDOM.explanation;
@@ -111,12 +110,10 @@
         return {
           questionData: this.questionData,
           localData: this.localData
-        }
+        };
       },
       test: function () {
-
         let domarr = [this.$refs.topicDOM];
-
         this.$store.dispatch('test', domarr);
       }
     },

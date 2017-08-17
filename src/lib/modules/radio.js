@@ -8,7 +8,7 @@ export default {
     result: -1
   },
   mutations: {
-    GETRADIORESULT(state, rootState){
+    GETRADIORESULT(state, rootState) {
       console.log(state.IAnswer);
       if (state.IAnswer === '-1') {
         state.result = -1;
@@ -20,12 +20,10 @@ export default {
     }
   },
   actions: {
-    radioSubmit(context, _self){
-      console.log(context.state);
-      console.log(context.rootState);
-      context.commit('GETRADIORESULT',context.rootState);
+    radioSubmit(context, _self) {
+      context.commit('GETRADIORESULT', context.rootState);
       context.rootState.result = context.state.result;
       context.dispatch('showSubmitResult', _self);
     }
   }
-}
+};

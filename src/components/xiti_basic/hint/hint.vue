@@ -14,11 +14,11 @@
 <script>
   import CntModule from 'components/xiti_basic/cnt_module/cnt_module';
   export default {
-    data(){
+    data() {
       return {
         questionType: this.$store.state.questionType,
-        questionCode:this.$store.state.questionCode,
-        hint:''
+        questionCode: this.$store.state.questionCode,
+        hint: ''
       };
     },
     methods: {

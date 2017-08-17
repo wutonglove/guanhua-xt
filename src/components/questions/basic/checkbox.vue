@@ -18,7 +18,7 @@
   import {replaceSrc} from 'utils/utilities';
 
   export default {
-    data(){
+    data() {
       return {
         options: [
           {
@@ -39,7 +39,7 @@
       };
     },
     methods: {
-      getQuestionData(){
+      getQuestionData: function () {
         let _topic = this.$refs.topicDOM.topic;
         let _options = this.$refs.optionsDOM.options;
         let _answer = this.$refs.answerDOM.answers;

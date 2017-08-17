@@ -1,0 +1,30 @@
+[
+  {
+    "type":"radio",
+    "name":"单选题"
+  },
+  {
+    "type":"checkbox",
+    "name":"多选题"
+  },
+  {
+    "type":"fillblank",
+    "name":"填空题"
+  },
+  {
+    "type":"judge",
+    "name":"判断题"
+  },
+  {
+    "type":"vote",
+    "name":"投票题"
+  },
+  {
+    "type":"sort",
+    "name":"排序题"
+  },
+  {
+    "type":"jigsaw",
+    "name":"拼图题"
+  }
+]

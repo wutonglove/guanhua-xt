@@ -29,24 +29,24 @@ export function replaceSrc(htmlstr, url, bool) {
 }
 // 解析地址
 export function urlSearch() {
-  let parameters = {},
-    name,
-    value,
-    str = location.href, //取得整个地址栏
-    num = str.indexOf("?");
+  let parameters = {};
+  let name;
+  let value;
+  let str = location.href; // 取得整个地址栏
+  let num = str.indexOf('?');
 
-  str = str.substr(num + 1); //取得所有参数
+  str = str.substr(num + 1); // 取得所有参数
 
-  let arr = str.split("&"); //各个参数放到数组里
+  let arr = str.split('&'); // 各个参数放到数组里
   for (let i = 0; i < arr.length; i++) {
-    num = arr[i].indexOf("=");
+    num = arr[i].indexOf('=');
     if (num > 0) {
       name = arr[i].substring(0, num);
       value = arr[i].substr(num + 1);
-      parameters[name] = value.replace("/", "");
+      parameters[name] = value.replace('/', '');
     }
   }
-  return parameters
+  return parameters;
 }
 // 生成 n-m 的 length=l 的随机数组
 export function createRandomArr(l, n, m) {
@@ -59,3 +59,4 @@ export function createRandomArr(l, n, m) {
   }
   return arr;
 }
+

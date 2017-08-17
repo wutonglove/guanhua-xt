@@ -1,18 +1,18 @@
 /**
  * Created by ww on 2017/7/31.
  */
-/**
- * Created by ww on 2017/7/11.
- */
 import Vue from 'vue';
 import Vuex from 'vuex';
+import axios from 'axios';
 
 // 判断习题类型
 let _href = window.location.href;
-_href.match(/\/html\/([^/]*)\/index.html/);
-let type = RegExp.$1;
+_href.match(/\/([^/]*)\.html/);
+let type = RegExp.$1 || '';
 
 Vue.use(Vuex);
+console.log(axios);
+Vue.prototype.$ajax = axios;
 
 /* eslint-disable*/
 export default new Vuex.Store({
@@ -27,8 +27,8 @@ export default new Vuex.Store({
       type: 'image'
     },
     selectedFile: {},
-    fileTarget:null,
-    isAloneFile:false,
+    fileTarget: null,
+    isAloneFile: false,
     formulaDialog: false,
     unfold: {
       content: '',
@@ -36,7 +36,11 @@ export default new Vuex.Store({
       width: 0
     },
     isPass: false,
-    urlSnippet: ''
+    urlSnippet: '',
+    preDialog:{
+      isShow:false,
+      title:''
+    }
   },
   mutations: {
     // 获取选中区域
@@ -97,8 +101,8 @@ export default new Vuex.Store({
       });
 
       let insertBox = $(".insert_hook");
-      for(let i=0;i<insertBox.length;i++){
-        if(insertBox.eq(i).find('.insertFile').length === 0) {
+      for (let i = 0; i < insertBox.length; i++) {
+        if (insertBox.eq(i).find('.insertFile').length === 0) {
           state.isPass = false;
           return;
         }

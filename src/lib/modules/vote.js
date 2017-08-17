@@ -6,19 +6,19 @@ import getResult from 'utils/getResult';
 export default {
   state: {
     IAnswer: [],
-    result:-1
+    result: -1
   },
   mutations: {
-    GETVOTERESULT(state,rootState){
+    GETVOTERESULT(state, rootState) {
       console.log(state.IAnswer);
       state.result = getResult[rootState.questionData.questionType]();
     }
   },
   actions: {
-    voteSubmit(context, _self){
-      context.commit('GETVOTERESULT',context.rootState);
+    voteSubmit(context, _self) {
+      context.commit('GETVOTERESULT', context.rootState);
       context.rootState.result = context.state.result;
       context.dispatch('showSubmitResult', _self);
     }
   }
-}
+};

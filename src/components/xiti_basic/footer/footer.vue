@@ -2,16 +2,19 @@
   <div class="footer">
     <div class="footer_wrapper">
       <i-button type="ghost"
-              shape="circle"
-              class="preview"
-              :disabled="!$store.state.isPass"
-      >预览</i-button>
+                shape="circle"
+                class="preview"
+                :disabled="!$store.state.isPass"
+                @click="preview"
+      >预览
+      </i-button>
       <i-button type="primary"
-              shape="circle"
-              class="save"
-              :disabled="!$store.state.isPass"
-              @click="save"
-      >保存</i-button>
+                shape="circle"
+                class="save"
+                :disabled="!$store.state.isPass"
+                @click="save"
+      >保存
+      </i-button>
     </div>
   </div>
 </template>
@@ -21,12 +24,19 @@
 
   export default {
     methods: {
-      save(){
+      save: function () {
         console.log('footer');
         this.$emit('on-save');
+      },
+      preview: function () {
+        this.save();
+        this.$store.state.preDialog = {
+          isShow: true,
+          title: document.title
+        };
       }
     },
-    components:{
+    components: {
       IButton
     }
   };

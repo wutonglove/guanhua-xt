@@ -1,9 +1,9 @@
 <template>
   <div>
     <basic-frame @on-save="save">
-
-      <div :is="questionType" ref="mainDOM"></div>
-
+      <keep-alive>
+        <div :is="questionType" ref="mainDOM"></div>
+      </keep-alive>
     </basic-frame>
   </div>
 </template>
@@ -14,23 +14,23 @@
   import Radio from 'components/questions/basic/radio';
   import Judge from 'components/questions/basic/judge';
   import Checkbox from 'components/questions/basic/checkbox';
-  import FillBlank from 'components/questions/basic/fillBlank';
+  import Fillblank from 'components/questions/basic/fillblank';
   import Vote from 'components/questions/basic/vote';
   import Sort from 'components/questions/basic/sort';
   import Jigsaw from 'components/questions/basic/jigsaw';
   import Comprehensive from 'components/questions/basic/comprehensive';
 
   export default {
-    data(){
-      return{
-        questionType:this.$store.state.questionType
+    data() {
+      return {
+        questionType: this.$store.state.questionType
       };
     },
-    methods:{
-      save(){
+    methods: {
+      save() {
         let data = this.$refs.mainDOM.getQuestionData();
         console.log(data);
-        this.$store.dispatch('save',data);
+        this.$store.dispatch('save', data);
       }
     },
     components: {
@@ -38,7 +38,7 @@
       Radio,
       Judge,
       Checkbox,
-      FillBlank,
+      Fillblank,
       Vote,
       Sort,
       Jigsaw,

@@ -16,7 +16,7 @@
   import {replaceSrc} from 'utils/utilities';
 
   export default {
-    data(){
+    data() {
       return {
         options: [
           {

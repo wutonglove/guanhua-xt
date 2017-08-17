@@ -9,14 +9,14 @@
               v-model="fontColor"
               v-if="btn.role === 'fontColor'"
               @change="ecFontColor">
-              <span :class="btn.icon" ></span>
+              <span :class="btn.icon"></span>
             </color-picker> <!-- end -->
             <!-- 背景色 颜色选择  start-->
             <color-picker
               v-model="bgColor"
               v-else-if="btn.role === 'bgkColor'"
               @change="ecBgColor">
-              <span :class="btn.icon" ></span>
+              <span :class="btn.icon"></span>
             </color-picker> <!-- end -->
             <!-- 字号 -->
             <Select v-model="curFontSize" v-else-if="btn.role === 'FontSize'" size="small" @on-change="ecFsz">
@@ -27,7 +27,7 @@
         </ul>
       </div>
       <div class="file_wrapper">
-        <div class="file_btn"  v-for="btn in fileBtns">
+        <div class="file_btn" v-for="btn in fileBtns">
           <div class="file_btn_content" v-if="btn.role!=='formula'" @click="showFileDialog(btn)">
             <span class="icon" :class="btn.icon"></span>
             <span class="name">{{btn.name}}</span>
@@ -47,8 +47,6 @@
   import ColorPicker from 'components/xiti_basic/colorPicker/colorPicker';
   import TextBtns from 'common/json/text_tool.json';
   import FileBtns from 'common/json/insert_file_btn.json';
-  import Checkbox from 'iview/src/components/checkbox';
-
 
   export default {
     data() {
@@ -61,7 +59,7 @@
       };
     },
     methods: {
-      execute: function(role, type) {
+      execute: function (role, type) {
         if (type) return;
 
         this.$store.dispatch('restoreSelection').then(() => {
@@ -69,17 +67,17 @@
           document.execCommand(role, false, null);
         });
       },
-      ecFontColor: function(color) {
+      ecFontColor: function (color) {
         document.execCommand('ForeColor', false, color);
       },
-      ecBgColor: function(color) {
+      ecBgColor: function (color) {
         document.execCommand('BackColor', false, color);
       },
-      ecFsz: function() {
+      ecFsz: function () {
         console.log(this.curFontSize);
-        document.execCommand('FontSize', false,this.curFontSize);
+        document.execCommand('FontSize', false, this.curFontSize);
       },
-      showFileDialog(btn){
+      showFileDialog: function (btn) {
         this.$store.state.fileDialog.isShow = true;
         this.$store.state.fileDialog.type = btn.role;
       }
@@ -100,7 +98,7 @@
     position: fixed
     top: 0
     left: 0
-    z-index:10
+    z-index: 10
     background-color: $background-blue
     border-bottom: 1px solid $bdcolor-blue
     .header_wrapper
@@ -121,7 +119,7 @@
           border-right: 1px solid #ccc
           &:first-child
             .tool_btn:last-child
-              width:60px
+              width: 60px
           .tool_btn
             display: inline-block
             vertical-align: top

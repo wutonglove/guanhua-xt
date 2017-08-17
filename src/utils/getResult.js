@@ -52,18 +52,18 @@ export default {
   sort: function (IAnswer) {
     if (IAnswer.length === 0) {
       return -1;
-    }else{
-      for(let i=0;i<IAnswer.length;i++){
-        if(IAnswer[i] !== i) return 0;
+    } else {
+      for (let i = 0; i < IAnswer.length; i++) {
+        if (IAnswer[i] !== i) return 0;
       }
       return 1;
     }
   },
-  jigsaw: function(IAnswer, answer){
+  jigsaw: function (IAnswer, answer) {
     if (IAnswer === '-1') {
       return -1;
-    }else {
-      for(let i=0;i<IAnswer.length;i++){
+    } else {
+      for (let i = 0; i < IAnswer.length; i++) {
         if (IAnswer[i] !== i) {
           return 0;
         }
@@ -71,4 +71,4 @@ export default {
       return 1;
     }
   }
-}
+};

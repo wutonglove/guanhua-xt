@@ -27,7 +27,7 @@
 
 <script>
   import CntModule from 'components/xiti_basic/cnt_module/cnt_module';
-  import Checkbox from 'iview/src/components/checkbox';
+  import $ from 'expose-loader?$!jquery';
 
   export default {
     props: {
@@ -39,15 +39,15 @@
         type: String,
         default: '选项'
       },
-      desc:{
-        type:String,
-        default:''
+      desc: {
+        type: String,
+        default: ''
       },
       options: {
         type: Array
       }
     },
-    data(){
+    data() {
       return {
         isPass: false
       };
@@ -82,7 +82,7 @@
           icon: 'A',
           text: '',
           id: 0
-        })
+        });
         this.updateOptionIcon();
       },
 //      按index 下标删除
@@ -100,14 +100,14 @@
       },
       refreshOption: function () {
         setTimeout(() => {
-          $(this.$refs.optionsDOM).children(".option").each((index, item) => {
-            $(item).children(".text").html(this.options[index].text);
-          })
+          $(this.$refs.optionsDOM).children('.option').each((index, item) => {
+            $(item).children('.text').html(this.options[index].text);
+          });
         }, 20);
       },
       setIsPass: function () {
-        for(let i=0;i<this.$refs.selectDOM.length;i++){
-          if(this.$refs.selectDOM[i].innerHTML.trim() === '') {
+        for (let i = 0; i < this.$refs.selectDOM.length; i++) {
+          if (this.$refs.selectDOM[i].innerHTML.trim() === '') {
             return false;
           }
         }
@@ -121,7 +121,7 @@
     watch: {
       options: {
         deep: true,
-        handler(){
+        handler() {
 //          this.$store.dispatch('test');
         }
       }

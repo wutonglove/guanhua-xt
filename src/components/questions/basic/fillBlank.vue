@@ -37,6 +37,7 @@
   import Explanation from 'components/xiti_basic/explanation/explanation';
 
   import {replaceSrc} from 'utils/utilities';
+  import $ from 'expose-loader?$!jquery';
 
   // ui 组件
   import IButton from 'iview/src/components/button';
@@ -44,7 +45,7 @@
   import domtoimage from 'dom-to-image';
 
   export default {
-    data(){
+    data() {
       return {
         blanks: [],
         blankImgs: [],
@@ -68,7 +69,7 @@
             this.$refs.optionsDOM.updateOptionIcon();
             // 创建空格图片 并插入div_input中
             this.createBlank();
-          }, 20)
+          }, 20);
         }
       },
       backspace: function () {
@@ -87,7 +88,6 @@
 //              this.$refs.optionsDOM.removeOption(i, true);
 //            },20);
 //          }
-
         }
         this.upBlankCode();
       },
@@ -96,7 +96,7 @@
         $(this.$refs.fillblankDOM).find('.div_input .blankDOM_hook').each((index, item) => {
           item.src = this.blankImgs[index];
           $(item).attr('data-code', index + 1);
-        })
+        });
       },
       getInsertIndexStart: function () {
         this.$store.dispatch('saveSelection');
@@ -118,7 +118,7 @@
           return;
         }
 
-        let html = `<span class="blankDOM_hook" style="display:inline-block;width: 60px;border-bottom:1px solid #222;text-align: center;"><span style="display:inline-block;width:25px;height:25px;line-height: 25px;border-radius:50%;text-align:center;background-color: #888;color:#fff;font-size: 16px;">${code}</span></span>`
+        let html = `<span class="blankDOM_hook" style="display:inline-block;width: 60px;border-bottom:1px solid #222;text-align: center;"><span style="display:inline-block;width:25px;height:25px;line-height: 25px;border-radius:50%;text-align:center;background-color: #888;color:#fff;font-size: 16px;">${code}</span></span>`;
         $('body').append(html);
 
         domtoimage.toPng($('span.blankDOM_hook')[0], {quality: 0.95})
@@ -158,7 +158,7 @@
           answer: (function () {
             let options = [];
             _options.forEach((item, index) => {
-              let option = replaceSrc(item.text, _url, true)
+              let option = replaceSrc(item.text, _url, true);
               options.push(option);
             });
             return options;
