@@ -2,29 +2,27 @@
   <div class="jigsaw">
     <div class="jigsaw_wrapper">
       <div class="show" ref="showRegion">
-        <draggable v-model="showList"
-                   class="show_wrapper"
-                   :options="{group:'list',handle:'.debris',draggable:'.debris'}"
-                   @start="dragStart"
-        >
-          <transition-group style="display: block;width: 100%;height: 100%;">
-            <div class="debris"
-                 v-for="(li,index) in showList"
-                 :key="index"
-                 :style="{'width':jigsawImg._width/questionData.itable.d-8+'px',height:jigsawImg._height/questionData.itable.r-8+'px'}">
-            </div>
-          </transition-group>
-        </draggable>
+        <div class="debris_tr" v-for="(tr,tr_index) in showList" :key="tr_index">
+          <div class="debris_td drag_wrap_hook" v-for="(td,td_index) in tr" :key="td_index" v-if="refresh">
+            <div class="debris" v-show="td.code!==-1"
+                 :style="`background-image:url(${jigsawImg._src});background-size:${td.img.w}px ${td.img.h}px;background-position:${td.x}px ${td.y}px`"></div>
+          </div>
+        </div>
       </div>
 
-      <div class="resource" ref="resourceRegion">
-        <draggable v-model="resourceList" class="resource_wrapper" :options="{group:'list',handle:'.debris',draggable:'.debris'}">
-          <transition-group>
-            <div class="debris" v-for="(li,index) in resourceList" :key="index" :style="{'width':250/questionData.itable.d-15+'px',height:jigsawImg._height*.8/questionData.itable.r-12+'px'}">
-              {{li.text}}
-            </div>
-          </transition-group>
-        </draggable>
+      <div class="resource drag_wrap_hook" ref="resourceRegion">
+        <div class="debris_wrapper"
+             v-for="(li,index) in resourceList"
+             :key="index"
+             :style="`width:${li.w}px;height:${li.h}px`"
+             v-if="li"
+        >
+          <!--<div class="debris"-->
+          <!--:style="`width:${jigsawImg._width/questionData.itable.d-16}px;height:${jigsawImg._height/questionData.itable.r}px;background-image:url(${jigsawImg._src});background-size:${jigsawImg._width}px ${jigsawImg._height}px;background-position:${(index%questionData.itable.d)*((jigsawImg._width-4)/questionData.itable.d)*-1}px ${parseInt(index/questionData.itable.d)*((jigsawImg._height-4)/questionData.itable.r)*-1}px`"-->
+          <!--&gt;</div>-->
+          <div class="debris"
+               :style="`width:100%;height:100%;background-image:url(${jigsawImg._src});background-size:${li.img.w}px ${li.img.h}px;background-position:${li.x}px ${li.y}px`"></div>
+        </div>
       </div>
     </div>
     <div class="buffer" ref="bufferRegion">
@@ -34,9 +32,12 @@
 </template>
 
 <script>
-  import draggable from 'vuedraggable';
+  import $ from 'expose-loader?$!jquery';
+  import 'jquery-ui';// 引入无效  原因未知
+  import {createRandomArr} from 'utils/utilities';
 
   export default {
+
     props: {
       questionData: {
         type: Object
@@ -54,11 +55,17 @@
         _self.initList();
         _self.initShowRegion();
         _self.initResourceRegion();
+        _self.initDrag();
 
         setTimeout(() => {
           $buffer.html('');
         }, 20)
       };
+      this.$nextTick(() => {
+        let l = this.questionData.itable.r * this.questionData.itable.d;
+        this.indexes = createRandomArr(l, 0, l - 1);
+        console.log(this.indexes);
+      });
     },
     data(){
       return {
@@ -70,8 +77,10 @@
         imgMaxWidth: window.innerWidth > 425 ? 490 : window.innerWidth,
         resourceList: [],
         showList: [],
+        indexes: [],
+        refresh: true,
         isDisabled: false,
-        answer: this.$store.state[this.questionData.questionType].IAnswer
+        answer: []
       };
     },
     methods: {
@@ -86,19 +95,110 @@
       },
       initList: function () {
         for (let i = 0; i < this.questionData.itable.r * this.questionData.itable.d; i++) {
-          this.resourceList.push({
-            code:i,
-            text:Math.random()
-          });
-          this.showList.push({});
+          let smallImgW = 255 - 4 - 12 * this.questionData.itable.d;
+          let smallImgH = this.jigsawImg._height / this.jigsawImg._width * smallImgW;
+          let oneWidth = smallImgW / this.questionData.itable.d - 1;
+          let oneHeight = smallImgH / this.questionData.itable.r;
+          this.resourceList[this.indexes[i]] = {
+            code: i,
+            img: {
+              w: smallImgW,
+              h: smallImgH
+            },
+            w: oneWidth,
+            h: oneHeight,
+            x: (i % this.questionData.itable.d) * oneWidth * -1,
+            y: parseInt(i / this.questionData.itable.d) * oneHeight * -1
+          };
+        }
+        for (let r = 0; r < this.questionData.itable.r; r++) {
+          this.showList.push([]);
+          for (let d = 0; d < this.questionData.itable.d; d++) {
+            this.showList[r].push({
+              code: -1,
+              img: {
+                w: 0,
+                h: 0
+              },
+              x: 0,
+              y: 0
+            });
+          }
         }
       },
-      dragStart:function(evt){
-        console.log(evt.oldIndex);
+      initDrag: function () {
+        this.$nextTick(() => {
+          let _self = this;
+
+          $.getScript("/script/jquery-ui.min.js", () => {
+            $('.debris_wrapper').draggable({zIndex: 100, revert: true});
+            $('.debris_td>.debris').draggable({zIndex: 1000, revert: true});
+
+            $(".drag_wrap_hook")
+              .droppable({
+                drop: function (event, ui) {
+//                  console.log(event);
+
+                  let td = $(event.target).index();
+                  let tr = $(event.target).parents('.debris_tr').index();
+                  let curtd = $(event.toElement).parent('.debris_td').index();
+                  let curtr = $(event.toElement).parents('.debris_tr').index();
+
+
+                  // 1 在resource 中拖动 排序   $(event.target).hasClass('debris_td')
+                  // 2 在 show 中拖动  交换 $(event.target).hasClass('debris_td') && _self.showList[tr][td].code===-1
+                  // 3 从resource中向 show中拖 判断 目标dom有有没有debris  【没有：放入】【有：】 $(event.toElement).parent('.debris_td').length < 1
+                  // 4 从show中向外托 push进resource中 $(event.target).hasClass('debris_td')
+
+                  if ($(event.toElement).parent('.debris_td').length > 0) {
+
+                    let tem = _self.showList[tr][td];
+                    _self.showList[tr][td] = _self.showList[curtr][curtd];
+                    _self.showList[curtr][curtd] = tem;
+                    _self.refreshShow();
+                  } else{
+                    if(_self.showList[tr][td].code !== -1) return;
+                    let index = $(event.toElement).parents('.debris_wrapper').index();
+
+                    let code = _self.resourceList[index].code;
+
+                    _self.showList[tr][td] = {
+                      code: code,
+                      img: {
+                        w: _self.jigsawImg._width,
+                        h: _self.jigsawImg._height
+                      },
+                      x: (code % _self.questionData.itable.d) * (_self.jigsawImg._width / _self.questionData.itable.d) * -1,
+                      y: parseInt(code / _self.questionData.itable.d) * (_self.jigsawImg._height / _self.questionData.itable.r) * -1
+                    };
+                    _self.resourceList.splice(index, 1);
+                    _self.refreshShow();
+                  }
+
+                }
+              })
+          }, () => {
+            console.log("dragsort load fail");
+          })
+        });
+      },
+      refreshShow: function () {
+        this.refresh = false;
+        this.$nextTick(() => {
+          this.refresh = true;
+          this.setAnswer();
+          this.initDrag();
+        });
+      },
+      setAnswer: function(){
+        this.answer = [];
+        this.showList.forEach((item,index)=>{
+          item.forEach((td,index)=>{
+            this.answer.push(td.code);
+          })
+        });
+//        console.log(this.answer);
       }
-    },
-    components: {
-      draggable
     }
   };
 </script>
@@ -116,42 +216,57 @@
         height: 0
         clear: both
       .show
-        float: left;
-        .show_wrapper
-          width: 100%
-          height: 100%
+        float: left
+        display: flex
+        flex-direction: column
+        border: 1px solid $bdcolor-g
+        padding: 2px
+        .debris_tr
+          flex: 1
+          display: flex
+        .debris_td
+          flex: 1
           border: 1px solid $bdcolor-g
-          padding:1px
-          &:after
-            content: ''
-            display: block
-            width: 0
-            height: 0
-            clear: both
+          margin: 1px
+          /*display: flex*/
           .debris
-            border:1px solid $bdcolor-g
-            margin: 3px
-            float:left
+            width: 100%
+            height: 100%
+            background-repeat: no-repeat
       .resource
         float: left
         width: 255px
-        .resource_wrapper
-          width: 100%
-          height: 100%
-          border: 1px solid $bdcolor-g
-          overflow: auto
-          &:after
-            content: ''
-            display: block
-            width: 0
-            height: 0
-            clear: both
+        border: 1px solid $bdcolor-g
+        padding: 2px
+        &:after
+          content: ''
+          display: block
+          width: 0
+          height: 0
+          clear: both
+        .debris_wrapper
+          float: left
+          background-color: $background-grey-sh
+          position: relative
+          width: 110px
+          margin: 6px
+          overflow: hidden
           .debris
-            border:1px solid $bdcolor-g
-            margin: 6px
-            float:left
+            background-repeat: no-repeat
+            width: 100%
+            height: 100%
     .buffer
       .insertFile
         max-width: 430px
         max-height: none
 </style>
+
+
+01212
+34512
+67812
+
+02  2*w  0
+12  2*w  1*h
+04  4*w  0
+

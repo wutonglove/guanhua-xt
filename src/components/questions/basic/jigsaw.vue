@@ -42,7 +42,7 @@
 
   import IInput from 'iview/src/components/input';
 
-
+  import $ from 'expose-loader?$!jquery';
   import {replaceSrc} from 'utils/utilities';
 
   export default {

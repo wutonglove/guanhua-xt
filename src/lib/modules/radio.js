@@ -5,14 +5,14 @@
 export default {
   state: {
     IAnswer: '-1',
-    result:-1
+    result: -1
   },
   mutations: {
-    GETRADIORESULT(state){
+    GETRADIORESULT(state, rootState){
       console.log(state.IAnswer);
       if (state.IAnswer === '-1') {
         state.result = -1;
-      } else if (state.IAnswer === state.questionData.answer) {
+      } else if (state.IAnswer === rootState.questionData.answer) {
         state.result = 1;
       } else {
         state.result = 0;
@@ -21,8 +21,10 @@ export default {
   },
   actions: {
     radioSubmit(context, _self){
-      context.commit('GETRADIORESULT');
-      context.rootState.result = state.result;
+      console.log(context.state);
+      console.log(context.rootState);
+      context.commit('GETRADIORESULT',context.rootState);
+      context.rootState.result = context.state.result;
       context.dispatch('showSubmitResult', _self);
     }
   }

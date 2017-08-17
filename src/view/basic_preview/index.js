@@ -11,7 +11,6 @@ import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import 'common/stylus/base.styl';
 
-
 Vue.use(iView);
 
 /* eslint-disable no-new */

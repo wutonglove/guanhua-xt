@@ -37,13 +37,22 @@ module.exports = {
       id: 'js',
       loaders: ['babel-loader?cacheDirectory=true'],
       threadPool: happThreadPool
-    }),
-    new webpack.ProvidePlugin({
-      $: 'jQuery'
     })
   ],
   module: {
     rules: [
+      {
+        // test: require.resolve('jquery'),
+        // loader: 'expose-loader?jQuery!expose-loader?$'
+        test: require.resolve('jquery'),
+        use: [{
+          loader: 'expose-loader',
+          options: 'jQuery'
+        },{
+          loader: 'expose-loader',
+          options: '$'
+        }]
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',

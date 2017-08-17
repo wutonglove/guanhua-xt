@@ -46,6 +46,7 @@
   import Judge from 'components/questions/basic/judge';
   import FillBlank from 'components/questions/basic/fillBlank';
   import Vote from 'components/questions/basic/vote';
+  import Jigsaw from 'components/questions/basic/jigsaw';
 
   export default {
     data(){
@@ -130,7 +131,8 @@
       Checkbox,
       Judge,
       FillBlank,
-      Vote
+      Vote,
+      Jigsaw
     }
   };
 </script>
