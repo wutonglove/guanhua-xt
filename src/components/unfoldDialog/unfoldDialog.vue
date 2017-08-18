@@ -1,19 +1,22 @@
 <template>
-  <Modal class="unfold_wrapper"
+  <i-modal class="unfold_wrapper"
          v-model="$store.state.unfold.isShow"
          @on-cancel="close"
   >
     <div class="unfold_dialog" v-show="isShow">
       <div class="content" v-html="$store.state.unfold.content" ref="content"></div>
-      <Icon class="close" size="24" color="#fff" type="close" @click.native="close" @keyup.esc="close"></Icon>
+      <i-icon class="close" size="24" color="#fff" type="close" @click.native="close" @keyup.esc="close"></i-icon>
     </div>
     <p slot="header"></p>
     <p slot="close"></p>
     <p slot="footer"></p>
-  </Modal>
+  </i-modal>
 </template>
 
 <script>
+  import IModal from 'iview/src/components/modal';
+  import IIcon from 'iview/src/components/icon';
+
   export default {
     methods: {
       close() {
@@ -40,6 +43,10 @@
           }
         }, 20);
       }
+    },
+    components: {
+      IModal,
+      IIcon
     }
   };
 </script>
@@ -52,8 +59,9 @@
       left: 50%
       top: 50%
       transform: translate(-50%, -50%)
-      border: 10px solid #fff;
+      border: 10px solid #fff
       z-index: 1200
+      background-color: #fff
       .close
         position: absolute
         right: 0

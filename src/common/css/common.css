@@ -38,6 +38,9 @@ body{
   max-height:800px;
   vertical-align: middle;
 }
+audio.unfold_file{
+  margin:6px 38px 6px 6px;
+}
 .formula{
   display: inline-block;
   zoom:.5;

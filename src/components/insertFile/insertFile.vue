@@ -1,40 +1,38 @@
 <template>
   <div>
-    <Modal v-model="$store.state.fileDialog.isShow"
-           class="file_dialog_wrapper"
-           width="880"
-           @on-ok="ok"
-           ref="dialogDOM"
+    <i-modal v-model="$store.state.fileDialog.isShow"
+             class="file_dialog_wrapper"
+             width="880"
+             @on-ok="ok"
+             ref="dialogDOM"
     >
 
       <div class="header" solt="header">插入{{title}}</div>
       <div class="content">
-        <!--<div class="nav_tabs" ref="navTab">-->
-        <!--<router-link class="presentation" to="/resource/local" tag="li">本地{{title}}库</router-link>-->
-        <!--<router-link class="presentation" to="/resource/outer" tag="li">百度{{title}}库</router-link>-->
-        <!--</div>-->
-        <!--<keep-alive>-->
-        <!--<router-view class="dia_view"></router-view>-->
-        <!--</keep-alive>-->
 
-        <Tabs value="0">
-          <Tab-pane :label="`本地${title}库`" name="0">
+        <i-tabs value="0">
+          <i-tab-pane :label="`本地${title}库`" name="0">
             <local @insert="insert"></local>
-          </Tab-pane>
-          <Tab-pane :label="`百度${title}库`" name="1">
+          </i-tab-pane>
+          <i-tab-pane :label="`百度${title}库`" name="1">
             <outer></outer>
-          </Tab-pane>
-        </Tabs>
+          </i-tab-pane>
+        </i-tabs>
       </div>
 
       <div slot="footer"></div>
-    </Modal>
+    </i-modal>
   </div>
 </template>
 
 <script>
   import Local from 'components/insertFile/local';
   import Outer from 'components/insertFile/outerNet';
+
+  import IModal from 'iview/src/components/modal';
+  import ITabs from 'iview/src/components/tabs';
+  import ITabPane from 'iview/src/components/tabs/pane';
+
   import $ from 'expose-loader?$!jquery';
 
   export default {
@@ -77,38 +75,20 @@
         let file = this.$store.state.selectedFile;
         let src = file.src;
         let type = file.type.split('/')[0];
+        let resource = file.resource;
         console.log(type);
         if (src) {
-          let html = `<img src="${src}" data-name="${file.name}" data-type="${type}" class="insertFile insertFile_hook"/>`;
-          return html;
-        }
-      },
-      createVideoHtml: function () {
-        let file = this.$store.state.selectedFile;
-        let src = file.src;
-        if (src) {
-          let html =
-            `<video src="${src}" class="insertVideo insertFile_hook" controls="controls">
-                您的浏览器不支持video
-              </video>`;
-          return html;
-        }
-      },
-      createAudioHtml: function () {
-        let file = this.$store.state.selectedFile;
-        let src = file.src;
-        if (src) {
-          let html =
-            `<audio src="${src}" class="insertAudio insertFile_hook" controls="controls">
-                您的浏览器不支持audio
-              </audio>`;
+          let html = `<img src="${src}" data-name="${file.name}" data-type="${type}" data-src="${resource}" class="insertFile insertFile_hook"/>`;
           return html;
         }
       }
     },
     components: {
       Local,
-      Outer
+      Outer,
+      IModal,
+      ITabs,
+      ITabPane
     }
   };
 </script>

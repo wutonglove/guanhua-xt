@@ -1,23 +1,56 @@
-# vue-multipage-cli
-Simple Multiple-page CLI for scaffolding Vue.js projects.
+## 需求
+#### 17-7-12
+- 选取
+  + 点击空白清空选取
+- 编辑工具
+  + 选区为空 工具恢复初始化
+  + 选区建立 根据选区更新工具状态 ***
+  + 字号工具默认值
 
-#### 基本使用方法
-  使用方法与vue官方的vue-cli基本是一样的，只是因为是多页面应用程序，所以目前这个版本
-  html页面和js入口文件还需要自己手动到build目录下相应的配置文件里去配置一下。
+## bug
+#### 插入公式 内容显示
+- 猜想：可能是本地服务器状态下字体请求问题
 
-#### 基本构建命令
-  `npm update` 更新依赖的模块
+#### 填空题
+- 插入空格,选区的父元素可能为div_input，此时插入的空格编号不正确
+- margin 为- ，用&nbsp做间距（暂时）
+- 最后一个空格预览 不显示
+- 推个删除的时候一次只能删除一个空格
+- vuex 主模块调用子模块
+- 综合题验证
 
-  `npm install` 安装依赖模块（其他命令必须在运行完此命令后才能调用！）
+## 17-7-12
+- color 选择面板
+  + 单击空白 后渲染的能隐藏
+  + 原因：document.onclick 覆盖
 
-  `npm run dev` 开启测试环境，在测试环境下开发
+## 17-7-18 插入文件对话框
+- 获取图片原始大小
+-异步
 
-  `npm run build` 发布正式版本
+## 17-7-19 UI框架 iView
 
-  `npm run build --report` 发布正式版本的同时输出构建情况
+## 17-7-20 iframe 跨域 && formula插件
+- Uncaught DOMException: Blocked a frame with origin "http://gongshi.baidu.com" from accessing a cross-origin frame.
+- formula插件
+  + 改变 formula 生成的图片padding
+  + 修改文件：kityformula-plugin/kityformula/jskityformula-editor.all.min.js
+  + 查找 g=20 和padding:[20,50]
+  + 现将g=20改为g=2 将padding:[20,50]改为pading:[2,5]
 
-  `npm run lint` 应用eslint检测js，vue文件的语法以及规则
+## 17-7-21
+- zoom
+- HTML5的 input:file上传类型控制
 
-#### 相比于1.x版本的变化
-  现在每一个模块都有一个对应的文件目录，如src目录中示例目录user和index。加入了传参示例，单页与单页间需要传参的话通过url传递即可，单页内
-采用vue-router的模式来传参即可（住：此中cli的构建方式不支持vue-router的history模式，若必须采用history模式，请考虑其他cli）。
+## 17-8-3
+- 为了测试综合体，很多组件没有改，主要用radio测试，所以radio模块改了很多
+- 修改options 使其依赖的数据私有化
+
+## 17-8-4
+- 修改基本完成
+- 验证未完成
+
+## 17-8-9
+- 单选/多选/判断/天空 的 vuex-modules中的getResult函数没有复用getResult.js
+- 待修改
+  + 天空编辑页面，选项输入框需要换成input

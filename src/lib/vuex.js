@@ -4,6 +4,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
+import {createQuestionId} from 'utils/utilities';
 
 // 判断习题类型
 let _href = window.location.href;
@@ -18,6 +19,8 @@ Vue.prototype.$ajax = axios;
 export default new Vuex.Store({
   state: {
     questionType: type,
+    questionId: '',
+    urlSnippet: '',
     filelist: [],
     uploadfilelist: [],
     currentRange: null,
@@ -36,10 +39,9 @@ export default new Vuex.Store({
       width: 0
     },
     isPass: false,
-    urlSnippet: '',
-    preDialog:{
-      isShow:false,
-      title:''
+    preDialog: {
+      isShow: false,
+      title: ''
     }
   },
   mutations: {
@@ -114,13 +116,111 @@ export default new Vuex.Store({
         state.isPass = false;
       }
     },
-    // 保存
-    SAVE(sate, data){
-      console.log(data.localData);
-      let localData = JSON.stringify(data.localData);
-      window.localStorage.setItem('guanhuaPPT-data', localData);
+    // 保存 && 上传
+    UPLOAD(state, data) {
+      let formData = new FormData();
+      let fileNameList = [];
+      let fileOriNameList = [];
+      let $insertFileDoms = $('.content_wrapper').find('.insertFile_hook')
+
+      if($insertFileDoms.length < 1) {
+        state.urlSnippet = '/';
+        return;
+      }
+
+      $insertFileDoms.each((index, item) => {
+        let name = $(item).attr('data-name');
+        if (fileNameList.indexOf(name) === -1)
+          fileNameList.push(name)
+      });
+
+      fileNameList.forEach((item, index) => {
+        state.filelist.forEach((file) => {
+          if (file.name === item) {
+            state.uploadfilelist.push(file.file);
+            console.log(file.file.name);
+            formData.append(file.file.name, file.file);
+            fileOriNameList.push(file.file.name)
+          }
+        })
+      });
+
+      formData.append('filelistori', fileOriNameList.join('|'));
+      formData.append('filelistnew', fileNameList.join('|'));
+      formData.append("questionid", state.questionId);
+
+      axios({
+        method: 'post',
+        url: '/api/xiti/v1/resource/uploadxitifiles',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        onUploadProgress(progressEvent) {
+          console.log(progressEvent);
+          console.log(progressEvent.loaded);
+          console.log(progressEvent.loaded/progressEvent.total);
+        }
+      })
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.code === '0') {
+            alert('保存成功');
+            state.urlSnippet = '/' + res.data.data;
+          } else {
+            alert('错误编码：' + res.data.code);
+          }
+        })
+        .catch((res) => {
+          alert('错误编码：' + res.data.code);
+        })
+    },
+    SAVE(state, data){
+      console.log(data);
+      // save
+      data = {
+        questionid: state.questionId,
+        courseid: '111',
+        maincontent: JSON.stringify(data),
+        xtclass: 0,
+        xttype: 0,
+        ispublic: 0,
+        creator: 0
+      };
+
+      axios({
+        method: 'post',
+        url: '/api/xiti/v1/resource/createxiti',
+        data: JSON.stringify(data)
+      })
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.code === '0') {
+            alert('保存成功');
+            state.urlSnippet = '';
+          } else {
+            alert('错误编码：' + res.data.code);
+          }
+        })
+        .catch((res) => {
+          alert('错误编码：' + res.data.code);
+        })
+
+    },
+    PREVIEW(state, data){
+      console.log(data);
+      window.localStorage.setItem('guanhuaPPT-data', JSON.stringify(data));
+      state.preDialog = {
+        isShow: true,
+        title: document.title
+      };
+    },
+    INITQUESTION(state){
+      state.questionId = createQuestionId();
+      state.urlSnippet = '';
     }
-  },
+  }
+  ,
   actions: {
     saveSelection(context) {
       context.commit('GETCURRRANGE');
@@ -161,8 +261,17 @@ export default new Vuex.Store({
     test(context, domarr) {
       context.commit('TEST', domarr);
     },
+    upload(context){
+      context.commit('UPLOAD');
+    },
     save(context, data){
       context.commit('SAVE', data);
+    },
+    preview(context, data) {
+      context.commit('PREVIEW', data);
+    },
+    initQuestion(context){
+      context.commit('INITQUESTION');
     }
   }
 });

@@ -54,10 +54,10 @@
         };
         this.localData = {
           title: document.title,
-          topic: _topic,
+          topic: replaceSrc(_topic, _url),
           answer: _answer,
-          hint: _hint,
-          explanation: _explanation,
+          hint: replaceSrc(_hint, _url),
+          explanation: replaceSrc(_explanation, _url),
           questionType: 'judge'
         };
         return {

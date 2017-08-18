@@ -68,13 +68,13 @@
         };
         this.localData = {
           title: document.title,
-          topic: _topic,
+          topic: replaceSrc(_topic, _url),
           options: (function () {
             let options = [];
             _options.forEach((item, index) => {
               let option = {
                 icon: item.icon,
-                text: item.text,
+                text: replaceSrc(item.text, _url),
                 id: item.id
               };
               options.push(option);
@@ -82,8 +82,8 @@
             return options;
           })(),
           answer: _answer,
-          hint: _hint,
-          explanation: _explanation,
+          hint: replaceSrc(_hint, _url),
+          explanation: replaceSrc(_explanation, _url),
           questionType: 'radio'
         };
         return {

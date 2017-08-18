@@ -13,6 +13,7 @@
       :options="blanks"
       :hasAdd="false"
       name="答案"
+      tag="input"
       v-if="blanks.length>0"
       ref="optionsDOM"
       @delete="removeOption"
@@ -170,17 +171,17 @@
 
         this.localData = {
           title: document.title,
-          topic: _topic,
+          topic: replaceSrc(_topic, _url),
           answer: (function () {
             let options = [];
             _options.forEach((item, index) => {
-              let option = item.text;
+              let option = replaceSrc(item.text, _url);
               options.push(option);
             });
             return options;
           })(),
-          hint: _hint,
-          explanation: _explanation,
+          hint: replaceSrc(_hint, _url),
+          explanation: replaceSrc(_explanation, _url),
           questionType: 'fillblank'
         };
         return {

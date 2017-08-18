@@ -1,6 +1,6 @@
 <template>
   <div>
-    <basic-frame @on-save="save">
+    <basic-frame @on-save="save" @on-preview="preview">
       <keep-alive>
         <div :is="questionType" ref="mainDOM"></div>
       </keep-alive>
@@ -30,7 +30,12 @@
       save() {
         let data = this.$refs.mainDOM.getQuestionData();
         console.log(data);
-        this.$store.dispatch('save', data);
+        this.$store.dispatch('save', data.questionData);
+      },
+      preview() {
+        let data = this.$refs.mainDOM.getQuestionData();
+        console.log(data);
+        this.$store.dispatch('preview', data.localData);
       }
     },
     components: {

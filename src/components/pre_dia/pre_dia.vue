@@ -1,6 +1,6 @@
 <template>
   <div class="dialog_pre" v-if="$store.state.preDialog.isShow">
-    <Modal v-model="$store.state.preDialog.isShow"
+    <i-modal v-model="$store.state.preDialog.isShow"
            class="dialog_wrapper"
            class-name="vertical-center-modal"
            width="880"
@@ -11,11 +11,12 @@
         <iframe name="previewDialog" src="/basic_preview.html" frameborder="0" ref="previewDialog"></iframe>
       </div>
       <div slot="footer"></div>
-    </Modal>
+    </i-modal>
   </div>
 </template>
 
 <script>
+  import IModal from 'iview/src/components/modal';
 
   export default {
     mounted() {
@@ -32,6 +33,9 @@
           document.execCommand('insertHTML', false, html);
         });
       }
+    },
+    components: {
+      IModal
     }
   };
 </script>

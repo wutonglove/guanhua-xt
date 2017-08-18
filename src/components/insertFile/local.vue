@@ -13,9 +13,9 @@
           <div class="size" v-if="file.size">{{file.size}}</div>
           <div class="name" :title="file.name">{{file.name}}</div>
           <span class="icon-check-circle-o"></span>
-          <Icon class="unfold" type="arrow-expand" @click.native="$store.dispatch('unfold',file)"
-                v-if="dialogType==='image'"></Icon>
-          <Icon class="pre_play" type="ios-play" @click.native="$store.dispatch('unfold',file)" v-else></Icon>
+          <i-icon class="unfold" type="arrow-expand" @click.native="$store.dispatch('unfold',file)"
+                  v-if="dialogType==='image'"></i-icon>
+          <i-icon class="pre_play" type="ios-play" @click.native="$store.dispatch('unfold',file)" v-else></i-icon>
         </div>
       </div>
     </div>
@@ -31,6 +31,10 @@
 
 <script>
   import FileConfig from 'common/json/config.json';
+
+  import IIcon from 'iview/src/components/icon';
+  import IMessage from 'iview/src/components/message';
+  import {GUID} from 'utils/utilities';
 
   const FileType = FileConfig.file.fileType;
   const FileSize = FileConfig.file.fileSize;
@@ -57,6 +61,9 @@
       browseFile: function (e) {
         let file = e.srcElement.files[0];
         let filelist = this.$store.state.filelist;
+        let videoThumb = require('./media.jpg');
+        let insertVideo = require('./video.jpg');
+        let insertAudio = require('./audio.jpg');
 
         if (this.discernFile(file)) return;
 
@@ -64,7 +71,7 @@
           case 'image':
             this.imgOriginalSize(file, (w, h) => {
               this.$store.state.filelist.push({
-                name: file.name,
+                name: GUID() + '.' + file.name.split('.')[1],
                 icon: window.URL.createObjectURL(file),
                 src: window.URL.createObjectURL(file),
                 resource: window.URL.createObjectURL(file),
@@ -77,9 +84,9 @@
             break;
           case 'video':
             this.$store.state.filelist.push({
-              name: file.name,
-              icon: '/images/media.jpg',
-              src: '/images/video.jpg',
+              name: GUID() + '.' + file.name.split('.')[1],
+              icon: videoThumb,
+              src: insertVideo,
               resource: window.URL.createObjectURL(file),
               file: file,
               type: file.type,
@@ -88,9 +95,9 @@
             break;
           case 'audio':
             this.$store.state.filelist.push({
-              name: file.name,
-              icon: '/images/media.jpg',
-              src: '/images/audio.jpg',
+              name: GUID() + '.' + file.name.split('.')[1],
+              icon: videoThumb,
+              src: insertAudio,
               resource: window.URL.createObjectURL(file),
               file: file,
               type: file.type,
@@ -130,15 +137,16 @@
         let typeKey = this.dialogType;
         let typeVal = file.type.split('/')[1];
         console.log(typeKey);
+        console.log(typeVal);
         if (FileType[typeKey].indexOf(typeVal) === -1) {
-          this.$Message.error({
+          IMessage.error({
             content: `不支持该文件类型,请选择 ${FileType[typeKey].join('，')}`,
             duration: 3
           });
           return true;// 不通过
         }
         if (file.size > FileSize) {
-          this.$Message.error({
+          IMessage.error({
             content: '插入文件不能大于15M！',
             duration: 3
           });
@@ -164,6 +172,10 @@
             break;
         }
       }
+    },
+    components: {
+      IIcon,
+      IMessage
     }
   };
 </script>

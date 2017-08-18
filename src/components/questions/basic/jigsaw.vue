@@ -100,11 +100,11 @@
         };
         this.localData = {
           title: document.title,
-          topic: _topic,
-          jigsawImg: imgDom,
+          topic: replaceSrc(_topic, _url),
+          jigsawImg: replaceSrc(imgDom, _url),
           itable: {r: this.tr * 1, d: this.td * 1},
-          hint: _hint,
-          explanation: _explanation,
+          hint: replaceSrc(_hint, _url),
+          explanation: replaceSrc(_explanation, _url),
           questionType: 'jigsaw'
         };
         return {

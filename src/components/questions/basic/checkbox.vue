@@ -69,13 +69,13 @@
         };
         this.localData = {
           title: document.title,
-          topic: _topic,
+          topic: replaceSrc(_topic, _url, false),
           options: (function () {
             let options = [];
             _options.forEach((item, index) => {
               let option = {
                 icon: item.icon,
-                text: item.text,
+                text: replaceSrc(item.text, _url, false),
                 id: item.id
               };
               options.push(option);
@@ -83,8 +83,8 @@
             return options;
           })(),
           answer: _answer,
-          hint: _hint,
-          explanation: _explanation,
+          hint: replaceSrc(_hint, _url, false),
+          explanation: replaceSrc(_explanation, _url, false),
           questionType: 'checkbox'
         };
         return {

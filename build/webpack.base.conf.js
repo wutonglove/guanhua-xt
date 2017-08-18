@@ -2,12 +2,15 @@ var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
-var buildEntries = require('./build-entries')
+
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
 
 module.exports = {
-  entry: buildEntries,
+  entry: utils.entries(),
   output: {
-    path: config.build.assetsRoot, //编译后文件的存放目录
+    path: config.build.assetsRoot,
     filename: '[name].js',
     publicPath: process.env.NODE_ENV === 'production'
       ? config.build.assetsPublicPath
@@ -16,12 +19,12 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      '@': utils.resolve('src'),
-      'common': utils.resolve('src/common'),
-      'components': utils.resolve('src/components'),
-      'map':utils.resolve('src/map'),
-      'lib':utils.resolve('src/lib'),
-      'utils':utils.resolve('src/utils')
+      '@': resolve('src'),
+      'common': resolve('src/common'),
+      'components': resolve('src/components'),
+      'map':resolve('src/map'),
+      'lib':resolve('src/lib'),
+      'utils':resolve('src/utils')
     }
   },
   module: {
@@ -40,7 +43,7 @@ module.exports = {
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
         enforce: 'pre',
-        include: [utils.resolve('src')],
+        include: [resolve('src'), resolve('test')],
         options: {
           formatter: require('eslint-friendly-formatter')
         }
@@ -53,7 +56,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [utils.resolve('src')]
+        include: [resolve('src'), resolve('test')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -61,6 +64,14 @@ module.exports = {
         options: {
           limit: 10000,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
+        }
+      },
+      {
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: utils.assetsPath('media/[name].[hash:7].[ext]')
         }
       },
       {
@@ -73,4 +84,4 @@ module.exports = {
       }
     ]
   }
-};
+}

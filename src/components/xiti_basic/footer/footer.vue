@@ -26,14 +26,17 @@
     methods: {
       save: function () {
         console.log('footer');
-        this.$emit('on-save');
+        this.$store.dispatch('initQuestion');
+        this.$store.dispatch('upload');
+        let waitSave = setInterval(() => {
+          if (this.$store.state.urlSnippet !== '') {
+            this.$emit('on-save');
+            clearInterval(waitSave);
+          }
+        }, 60);
       },
       preview: function () {
-        this.save();
-        this.$store.state.preDialog = {
-          isShow: true,
-          title: document.title
-        };
+        this.$emit('on-preview');
       }
     },
     components: {

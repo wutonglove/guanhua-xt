@@ -1,22 +1,24 @@
 <template>
   <div class="dialog_formula">
-    <Modal v-model="$store.state.formulaDialog"
-           class="dialog_wrapper"
-           class-name="vertical-center-modal"
-           width="880"
-           @on-ok="ok"
+    <i-modal v-model="$store.state.formulaDialog"
+             class="dialog_wrapper"
+             class-name="vertical-center-modal"
+             width="880"
+             @on-ok="ok"
     >
 
       <div class="header" slot="header">插入公式</div>
       <div class="content">
         <!-- 插件源码  http://gongshi.baidu.com/ed.html -->
-        <iframe name="formulaDialog" src="/static/plugs/formula-plug/index.html" frameborder="0" ref="formulaDialog"></iframe>
+        <iframe name="formulaDialog" src="/static/plugs/formula-plug/index.html" frameborder="0"
+                ref="formulaDialog"></iframe>
       </div>
-    </Modal>
+    </i-modal>
   </div>
 </template>
 
 <script>
+  import IModal from 'iview/src/components/modal';
 
   export default {
     methods: {
@@ -30,6 +32,9 @@
           document.execCommand('insertHTML', false, html);
         });
       }
+    },
+    components: {
+      IModal
     }
   };
 </script>

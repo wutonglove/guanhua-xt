@@ -2,16 +2,16 @@
   <div class="answer">
     <cnt-module name="答案" :isMandatory="true">
       <div class="answer_wrapper">
-        <Radio-group v-model="ianswer" v-if="inputType === 'radio'" @on-change="test">
-          <Radio
+        <i-radio-group v-model="ianswer" v-if="inputType === 'radio'" @on-change="test">
+          <i-radio
             :label="answer.icon"
             v-for="(answer,index) in options"
             :key="index"
-          ></Radio>
-        </Radio-group>
-        <Checkbox-group v-model="ianswers" v-else @on-change="test">
-          <Checkbox :label="answer.icon" v-for="(answer,index) in options" :key="index"></Checkbox>
-        </Checkbox-group>
+          ></i-radio>
+        </i-radio-group>
+        <i-checkbox-group v-model="ianswers" v-else @on-change="test">
+          <i-checkbox :label="answer.icon" v-for="(answer,index) in options" :key="index"></i-checkbox>
+        </i-checkbox-group>
       </div>
     </cnt-module>
   </div>
@@ -19,6 +19,11 @@
 
 <script>
   import CntModule from 'components/xiti_basic/cnt_module/cnt_module';
+
+  import IRadio from 'iview/src/components/radio';
+  import IRadioGroup from 'iview/src/components/radio/radio-group';
+  import ICheckbox from 'iview/src/components/checkbox';
+  import ICheckboxGroup from 'iview/src/components/checkbox/checkbox-group';
 
   export default {
     props: {
@@ -67,7 +72,11 @@
       }
     },
     components: {
-      CntModule
+      CntModule,
+      IRadio,
+      IRadioGroup,
+      ICheckbox,
+      ICheckboxGroup
     }
   };
 </script>

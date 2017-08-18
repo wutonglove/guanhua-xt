@@ -4,22 +4,33 @@
       <div class="options" ref="optionsDOM">
         <div class="option" v-for="(option,index) in options">
           <span class="code">{{option.icon}}</span>
-          <!-- 如果是选择题  用div -->
+          <!-- tag div -->
           <div class="text div_input"
                contenteditable="true"
                ref="selectDOM"
                @input.lazy="setOption(index,$event)"
                @blur="test"
+               v-if="tag==='div'"
           ></div>
-          <!-- 如果是填空题用input -->
-          <!-- hasAdd 可以判断是否是 天空题 -->
-          <button type="button" class="icon-trash" @click="removeOption(index)"
-                  :disabled="hasAdd && options.length<3"></button>
+
+          <!-- tag input -->
+          <input type="text" class="text div_input"
+                 v-else-if="tag==='input'"
+                 ref="selectDOM"
+                 @input.lazy="setOption(index,$event)"
+                 @blur="test"
+          >
+<!-- class="icon-trash"-->
+          <button type="button" class="icon" @click="removeOption(index)"
+                  :disabled="hasAdd && options.length<3">
+            <i-icon type="trash-a"></i-icon>
+          </button>
         </div>
-        <Button v-if="hasAdd" type="primary" shape="circle" class="add_option" @click="addOption">
-          <span class="icon-plus"></span>
+        <i-button v-if="hasAdd" type="primary" shape="circle" class="add_option" @click="addOption">
+          <!--<span class="icon-plus"></span>-->
+          <i-icon type="android-add" size="20"></i-icon>
           <span class="text">选项</span>
-        </Button>
+        </i-button>
       </div>
     </cnt-module>
   </div>
@@ -27,6 +38,9 @@
 
 <script>
   import CntModule from 'components/xiti_basic/cnt_module/cnt_module';
+
+  import IButton from 'iview/src/components/button';
+  import IIcon from 'iview/src/components/icon';
   import $ from 'expose-loader?$!jquery';
 
   export default {
@@ -45,6 +59,10 @@
       },
       options: {
         type: Array
+      },
+      tag: {
+        type: String,
+        default: 'div'
       }
     },
     data() {
@@ -94,7 +112,7 @@
         }
       },
       setOption: function (index, event) {
-        let optionHtml = event.srcElement.innerHTML;
+        let optionHtml = this.tag === 'div' ? event.srcElement.innerHTML : event.srcElement.value;
         this.options[index].text = optionHtml;
         this.test();
       },
@@ -107,8 +125,10 @@
       },
       setIsPass: function () {
         for (let i = 0; i < this.$refs.selectDOM.length; i++) {
-          if (this.$refs.selectDOM[i].innerHTML.trim() === '') {
-            return false;
+          if (this.tag === 'div') {
+            if (this.$refs.selectDOM[i].innerHTML.trim() === '') return false;
+          } else {
+            if (this.$refs.selectDOM[i].value.trim() === '') return false;
           }
         }
         return true;
@@ -118,16 +138,10 @@
         this.$emit('on-test');
       }
     },
-    watch: {
-      options: {
-        deep: true,
-        handler() {
-//          this.$store.dispatch('test');
-        }
-      }
-    },
     components: {
-      CntModule
+      CntModule,
+      IButton,
+      IIcon
     }
   };
 </script>
@@ -162,7 +176,7 @@
           border: 1px solid #ccc
           line-height: 40px
           padding: 0 10px;
-        .icon-trash
+        .icon
           flex: 0 0 40px
           width: 40px
           height: 40px
@@ -173,7 +187,7 @@
           display: none
           &:hover
             color: #666
-        &:hover .icon-trash
+        &:hover .icon
           display: inline-block
     .add_option
       width: 106px

@@ -93,7 +93,7 @@
         };
         this.localData = {
           title: document.title,
-          topic: _topic,
+          topic: replaceSrc(_topic, _url),
           context: [],
           questionType: 'comprehensive'
         };
