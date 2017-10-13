@@ -14,7 +14,7 @@
           <i-tab-pane :label="`本地${title}库`" name="0">
             <local @insert="insert"></local>
           </i-tab-pane>
-          <i-tab-pane :label="`百度${title}库`" name="1">
+          <i-tab-pane :label="`百度${title}库`" name="1" v-if="title==='图片'">
             <outer></outer>
           </i-tab-pane>
         </i-tabs>

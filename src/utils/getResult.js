@@ -70,5 +70,17 @@ export default {
       }
       return 1;
     }
+  },
+  subjective: function (IAnswer, answer) {
+    if (IAnswer === '-1') {
+      return -1;
+    } else {
+      for (let i = 0; i < IAnswer.length; i++) {
+        if (IAnswer[i] !== i) {
+          return 0;
+        }
+      }
+      return 1;
+    }
   }
 };

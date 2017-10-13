@@ -38,8 +38,8 @@
           if (window.screen.width <= 768) {
             let unfold = this.$refs.content.getElementsByClassName('unfold_file')[0];
             unfold.setAttribute('style', `max-height:${window.screen.height - 20}px;max-width:${window.screen.width - 20}px`);
-            console.log(window.screen.width);
-            console.log(window.screen.height);
+//            console.log(window.screen.width);
+//            console.log(window.screen.height);
           }
         }, 20);
       }

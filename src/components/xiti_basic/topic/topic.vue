@@ -32,11 +32,13 @@
         this.test();
       },
       test: function () {
+        console.log('test');
         if (this.$refs.topicDom.innerHTML.trim() === '') {
           this.isPass = false;
         } else {
           this.isPass = true;
         }
+        this.$store.dispatch('saveSelection');
         this.$emit('on-test');
       }
     },

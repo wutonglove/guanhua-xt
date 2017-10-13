@@ -3,7 +3,7 @@
     <div class="header_wrapper">
       <div class="text_wrapper clear">
         <ul class="tool_wrapper clear" v-for="btns in txtBtns">
-          <li class="tool_btn" v-for="btn in btns.list" @click.stop.prevent="execute(btn.role,btn.type)">
+          <li class="tool_btn" v-for="btn in btns.list">
             <!-- 前景色 颜色选择 start-->
             <color-picker
               v-model="fontColor"
@@ -19,10 +19,10 @@
               <span :class="btn.icon"></span>
             </color-picker> <!-- end -->
             <!-- 字号 -->
-            <Select v-model="curFontSize" v-else-if="btn.role === 'FontSize'" size="small" @on-change="ecFsz">
-              <Option :value="index+1" v-for="(size, index) in btn.content" :key="index">{{ size }}</Option>
-            </Select>
-            <span :class="btn.icon" v-else></span>
+            <i-select v-model="curFontSize" v-else-if="btn.role === 'FontSize'" size="small" @on-change="ecFsz">
+              <i-option :value="index+1" v-for="(size, index) in btn.content" :key="index">{{ size }}</i-option>
+            </i-select>
+            <span :class="btn.icon" v-else  @click.stop.prevent="execute(btn.role,btn.type)"></span>
           </li>
         </ul>
       </div>
@@ -47,6 +47,8 @@
   import ColorPicker from 'components/xiti_basic/colorPicker/colorPicker';
   import TextBtns from 'common/json/text_tool.json';
   import FileBtns from 'common/json/insert_file_btn.json';
+  import ISelect from 'iview/src/components/select/select';
+  import IOption from 'iview/src/components/select/option';
 
   export default {
     data() {
@@ -55,7 +57,7 @@
         fileBtns: FileBtns,
         fontColor: 'red',
         bgColor: 'blue',
-        curFontSize: 1
+        curFontSize: 3
       };
     },
     methods: {
@@ -63,19 +65,23 @@
         if (type) return;
 
         this.$store.dispatch('restoreSelection').then(() => {
-//          console.log(role);
           document.execCommand(role, false, null);
         });
       },
       ecFontColor: function (color) {
-        document.execCommand('ForeColor', false, color);
+        this.$store.dispatch('restoreSelection').then(() => {
+          document.execCommand('ForeColor', false, color);
+        });
       },
       ecBgColor: function (color) {
-        document.execCommand('BackColor', false, color);
+        this.$store.dispatch('restoreSelection').then(() => {
+          document.execCommand('BackColor', false, color);
+        });
       },
       ecFsz: function () {
-        console.log(this.curFontSize);
-        document.execCommand('FontSize', false, this.curFontSize);
+        this.$store.dispatch('restoreSelection').then(() => {
+          document.execCommand('FontSize', false, this.curFontSize);
+        });
       },
       showFileDialog: function (btn) {
         this.$store.state.fileDialog.isShow = true;
@@ -84,7 +90,9 @@
     },
     components: {
       TextTool,
-      ColorPicker
+      ColorPicker,
+      ISelect,
+      IOption
     }
   };
 </script>

@@ -225,7 +225,7 @@ export default {
     }
     .box {
       position: absolute;
-      width: 190px;
+      width: 210px;
       background: #fff;
       border: 1px solid #ddd;
       visibility: hidden;

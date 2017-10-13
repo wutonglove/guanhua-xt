@@ -34,6 +34,8 @@
 </script>
 
 <style scoped lang="stylus">
+  @import "../../../common/stylus/variable.styl"
+
   .wrapper
     width: 100%
     .name
@@ -50,4 +52,5 @@
       width: 100%
       padding: 10px
       border: 1px solid #ccc
+      background-color:$background-divinput
 </style>

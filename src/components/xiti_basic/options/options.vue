@@ -91,7 +91,7 @@
             item.icon = String.fromCharCode(code);
             item.id = index;
           });
-          console.log(this.options);
+//          console.log(this.options);
         }
         this.refreshOption();
       },
@@ -134,6 +134,7 @@
         return true;
       },
       test: function () {
+        this.$store.dispatch('saveSelection');
         this.isPass = this.setIsPass();
         this.$emit('on-test');
       }

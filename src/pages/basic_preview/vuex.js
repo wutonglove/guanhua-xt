@@ -1,11 +1,9 @@
 /**
  * Created by ww on 2017/7/26.
  */
-/**
- * Created by ww on 2017/7/11.
- */
 import Vue from 'vue';
 import Vuex from 'vuex';
+import axios from 'axios';
 import {urlSearch} from 'utils/utilities';
 // import types from 'lib/mutaion-types';
 
@@ -17,8 +15,10 @@ import vote from 'lib/modules/vote';
 import sort from 'lib/modules/sort';
 import jigsaw from 'lib/modules/jigsaw';
 import comprehensive from 'lib/modules/comprehensive';
+import subjective from 'lib/modules/subjective';
 
 Vue.use(Vuex);
+Vue.prototype.$axios = axios;
 
 /* eslint-disable*/
 export default new Vuex.Store({
@@ -34,8 +34,8 @@ export default new Vuex.Store({
   },
   mutations: {
     GETQUESTIONID(state){
-      state.questionId = urlSearch().questionId || '';
-      console.log(state.questionId)
+      state.questionId = urlSearch().id || '';
+      // console.log(state.questionId)
     },
     INITRESULT(state){
       // state.result = Lib[state.questionData.questionType].result;
@@ -46,6 +46,26 @@ export default new Vuex.Store({
         state.questionData = JSON.parse(window.localStorage.getItem('guanhuaPPT-data'));
       }else{
         // 发送请求
+        console.log(state.questionId);
+        axios({
+          method: 'post',
+          url: "/api/xiti/v1/resource/queryquestionbyid",
+          data: JSON.stringify({
+            questionid: state.questionId
+          })
+        })
+          .then((res) => {
+            if (res.data.code === '0') {
+              // console.log(res);
+              state.questionData = JSON.parse(res.data.data.maincontent);
+              // console.log(state.questionData);
+            } else {
+              alert('错误编码：' + res.data.code);
+            }
+          })
+          .catch((res) => {
+            alert('错误编码：' + res.data.code);
+          })
       }
     },
     PAUSEAll(state) {
@@ -73,7 +93,7 @@ export default new Vuex.Store({
     getdata(context){
       context.commit('GETQUESTIONID');
       context.commit('GETQUESTIONDATA');
-      console.log(context.state.questionData);
+      // console.log(context.state.questionData);
     },
     closeUnfold(context){
       context.commit('PAUSEAll');
@@ -116,7 +136,8 @@ export default new Vuex.Store({
     vote,
     sort,
     jigsaw,
-    comprehensive
+    comprehensive,
+    subjective
   }
 });
 

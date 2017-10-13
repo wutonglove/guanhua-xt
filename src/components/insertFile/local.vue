@@ -12,7 +12,7 @@
           </div>
           <div class="size" v-if="file.size">{{file.size}}</div>
           <div class="name" :title="file.name">{{file.name}}</div>
-          <span class="icon-check-circle-o"></span>
+          <i-icon type="checkmark-circled" class="check_icon"></i-icon>
           <i-icon class="unfold" type="arrow-expand" @click.native="$store.dispatch('unfold',file)"
                   v-if="dialogType==='image'"></i-icon>
           <i-icon class="pre_play" type="ios-play" @click.native="$store.dispatch('unfold',file)" v-else></i-icon>
@@ -214,15 +214,18 @@
             top: 50%
             left: 50%
             transform: translate(-50%, -50%)
+        .check_icon
+          font-size: 25px
+          color: $font-color-green
+          position: absolute
+          right: 3px
+          top: 2px
+          display: none
         &.selected
           .thumbnail
             border-color: $bdcolor-blue-d
-          .icon-check-circle-o
-            font-size: 25px
-            color: $font-color-green
-            position: absolute
-            right: 3px
-            top: 2px
+          .check_icon
+            display: block
         .size
           font-size: 12px
           background-color: #fff

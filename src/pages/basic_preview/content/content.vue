@@ -15,6 +15,7 @@
   import Sort from '../sort/sort';
   import Jigsaw from '../jigsaw/jigsaw';
   import Comprehensive from '../comprehensive/comprehensive';
+  import Subjective from '../subjective/subjective';
 
   export default {
     name: 'content',
@@ -49,7 +50,8 @@
       Vote,
       Sort,
       Jigsaw,
-      Comprehensive
+      Comprehensive,
+      Subjective
     }
   };
 </script>

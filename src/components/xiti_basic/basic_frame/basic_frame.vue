@@ -13,7 +13,7 @@
     <insert-formula-dialog></insert-formula-dialog>
     <unfold></unfold>
     <pre-dia ></pre-dia>
-    <up-progress></up-progress>
+    <up-progress :isShow="$store.state.startUpload"></up-progress>
   </div>
 </template>
 

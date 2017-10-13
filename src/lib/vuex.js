@@ -13,7 +13,7 @@ let type = RegExp.$1 || '';
 
 Vue.use(Vuex);
 console.log(axios);
-Vue.prototype.$ajax = axios;
+Vue.prototype.$axios = axios;
 
 /* eslint-disable*/
 export default new Vuex.Store({
@@ -21,6 +21,8 @@ export default new Vuex.Store({
     questionType: type,
     questionId: '',
     urlSnippet: '',
+    progress: 0,
+    startUpload: false,
     filelist: [],
     uploadfilelist: [],
     currentRange: null,
@@ -55,6 +57,7 @@ export default new Vuex.Store({
         range = document.getSelection().getRangeAt(0);
       }
       state.currentRange = range;
+      console.log(range);
     },
     GETCURRANGEPARENT(state){
       state.currentRangeParent = state.currentRange.commonAncestorContainer
@@ -64,10 +67,12 @@ export default new Vuex.Store({
       if (!state.currentRange) {
         return;
       }
+      console.log(state.currentRange);
       let selection = document.getSelection();
       selection.removeAllRanges();
       selection.addRange(state.currentRange);
-      state.currentRange = null;
+      console.log(1);
+      // state.currentRange = null;
     },
     // 暂停页面内所有的媒体元素
     PAUSEAll(state) {
@@ -121,9 +126,12 @@ export default new Vuex.Store({
       let formData = new FormData();
       let fileNameList = [];
       let fileOriNameList = [];
-      let $insertFileDoms = $('.content_wrapper').find('.insertFile_hook')
+      let $insertFileDoms = $('.content_wrapper').find('.insertFile_hook');
+      // 初始化上传进度对话框
+      state.progress = 0;
+      state.startUpload = true;
 
-      if($insertFileDoms.length < 1) {
+      if ($insertFileDoms.length < 1) {
         state.urlSnippet = '/';
         return;
       }
@@ -157,15 +165,14 @@ export default new Vuex.Store({
           'Content-Type': 'multipart/form-data'
         },
         onUploadProgress(progressEvent) {
-          console.log(progressEvent);
-          console.log(progressEvent.loaded);
-          console.log(progressEvent.loaded/progressEvent.total);
+          let proportion = (progressEvent.loaded / progressEvent.total).toFixed(2)
+          state.progress = proportion * 100;
         }
       })
         .then((res) => {
           console.log(res.data);
           if (res.data.code === '0') {
-            alert('保存成功');
+            // alert('保存成功');
             state.urlSnippet = '/' + res.data.data;
           } else {
             alert('错误编码：' + res.data.code);
@@ -196,8 +203,9 @@ export default new Vuex.Store({
         .then((res) => {
           console.log(res.data);
           if (res.data.code === '0') {
-            alert('保存成功');
+            // alert('保存成功');
             state.urlSnippet = '';
+            state.progress = 100;
           } else {
             alert('错误编码：' + res.data.code);
           }

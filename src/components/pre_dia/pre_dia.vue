@@ -8,7 +8,7 @@
 
       <div class="header" slot="header">{{$store.state.preDialog.title}}</div>
       <div class="content">
-        <iframe name="previewDialog" src="/basic_preview.html" frameborder="0" ref="previewDialog"></iframe>
+        <iframe name="previewDialog" src="./basic_preview.html" frameborder="0" ref="previewDialog"></iframe>
       </div>
       <div slot="footer"></div>
     </i-modal>

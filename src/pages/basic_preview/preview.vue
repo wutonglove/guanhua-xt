@@ -8,12 +8,12 @@
     </div>
     <div class="content_wrapper">
       <div class="title">{{questionData.title}}</div>
-      <div class="content" ref="content">
+      <div class="content" ref="contentWrap" >
         <i-content :questionData="questionData" :isDisabled="isDisabled" ref="contextDOM"></i-content>
       </div>
     </div>
     <Button v-if="isSubmited" class="refresh" type="primary" shape="circle" @click="refresh">重新作答</Button>
-    <Button v-else class="submit" type="primary" shape="circle" @click="submit">提交</Button>
+    <Button v-else type="primary" class="submit" shape="circle" @click="submit">提交</Button>
     <unfold-model></unfold-model>
 
   </div>
@@ -37,13 +37,18 @@
     },
     created() {
       this.$store.dispatch('getdata');
-      this.$store.commit('INITRESULT');
       this.$store.commit('ATTCHEVENTTOFILE');
     },
     mounted() {
       setTimeout(() => {
         this.clock();
-        this.$refs.content.style = `height:${window.innerHeight - 210}px`;
+      }, 20);
+      let timer = setInterval(() => {
+        if (this.questionData) {
+          this.$refs.contentWrap.style = `height:${window.innerHeight - 210}px`;
+          this.$store.commit('INITRESULT');
+          clearInterval(timer);
+        }
       }, 20);
     },
     computed: {
@@ -125,7 +130,7 @@
     width: 100%
     height: 100%
     background: url('/static/images/pre_bg.jpg') repeat
-    padding:0 10px
+    padding: 0 10px
     .timer
       $fixedWidth()
       margin: 0 auto

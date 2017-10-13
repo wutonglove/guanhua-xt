@@ -1,16 +1,17 @@
 <template>
   <div class="up_progress">
-    <i-modal v-model="test" width="560" class="up_progress_wrap">
+    <i-modal v-model="showDia"
+             width="560"
+             class="up_progress_wrap"
+             @on-ok="$store.state.startUpload=false"
+             @on-cancel="cancel">
       <p slot="header"></p>
       <div class="content">
         <p class="text">
           <i-spin class="spin" size="large"></i-spin>
           正在保存习题数据...
         </p>
-        <i-progress class="" :percent="25" status="normal"></i-progress>
-      </div>
-      <div slot="footer">
-        <i-button type="error" size="large" @click="">取消</i-button>
+        <i-progress class="" :percent="progress" status="normal"></i-progress>
       </div>
     </i-modal>
   </div>
@@ -23,11 +24,28 @@
   import IButton from 'iview/src/components/button';
 
   export default {
-    props: {},
+    props: {
+      isShow: Boolean
+    },
     data() {
       return {
-        test: true
+        showDia: false
       };
+    },
+    computed: {
+      progress() {
+        return this.$store.state.progress;
+      }
+    },
+    watch: {
+      isShow(curVal, oldVal) {
+        this.showDia = curVal;
+      }
+    },
+    methods: {
+      cancel: function () {
+        this.$store.state.startUpload = false;
+      }
     },
     components: {
       IProgress,

@@ -19,6 +19,7 @@
   import Sort from 'components/questions/basic/sort';
   import Jigsaw from 'components/questions/basic/jigsaw';
   import Comprehensive from 'components/questions/basic/comprehensive';
+  import Subjective from 'components/questions/basic/subjective';
 
   export default {
     data() {
@@ -47,7 +48,8 @@
       Vote,
       Sort,
       Jigsaw,
-      Comprehensive
+      Comprehensive,
+      Subjective
     }
   };
 </script>

@@ -10,7 +10,7 @@
       <div class="header" slot="header">插入公式</div>
       <div class="content">
         <!-- 插件源码  http://gongshi.baidu.com/ed.html -->
-        <iframe name="formulaDialog" src="/static/plugs/formula-plug/index.html" frameborder="0"
+        <iframe name="formulaDialog" src="/static/plugs/formula-plug/ed.html" frameborder="0"
                 ref="formulaDialog"></iframe>
       </div>
     </i-modal>
