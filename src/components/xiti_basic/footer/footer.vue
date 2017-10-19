@@ -4,14 +4,14 @@
       <i-button type="ghost"
                 shape="circle"
                 class="preview"
-                :disabled="!$store.state.isPass"
+                :disabled="isDisabled"
                 @click="preview"
       >预览
       </i-button>
       <i-button type="primary"
                 shape="circle"
                 class="save"
-                :disabled="!$store.state.isPass"
+                :disabled="isDisabled"
                 @click="save"
       >保存
       </i-button>
@@ -21,19 +21,20 @@
 
 <script>
   import IButton from 'iview/src/components/button';
+  import {mapGetters} from 'vuex';
 
   export default {
+    computed: {
+      isDisabled() {
+        return !this.isPass;
+      },
+      ...mapGetters([
+        'isPass'
+      ])
+    },
     methods: {
       save: function () {
-        console.log('footer');
-        this.$store.dispatch('initQuestion');
-        this.$store.dispatch('upload');
-        let waitSave = setInterval(() => {
-          if (this.$store.state.urlSnippet !== '') {
-            this.$emit('on-save');
-            clearInterval(waitSave);
-          }
-        }, 60);
+        this.$emit('on-save');
       },
       preview: function () {
         this.$emit('on-preview');

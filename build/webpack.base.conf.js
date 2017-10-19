@@ -3,7 +3,7 @@ var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -22,9 +22,12 @@ module.exports = {
       '@': resolve('src'),
       'common': resolve('src/common'),
       'components': resolve('src/components'),
-      'map':resolve('src/map'),
-      'lib':resolve('src/lib'),
-      'utils':resolve('src/utils')
+      'map': resolve('src/map'),
+      'lib': resolve('src/lib'),
+      'utils': resolve('src/utils'),
+      'store': resolve('src/store'),
+      'api': resolve('src/api'),
+      'router': resolve('src/router')
     }
   },
   module: {
@@ -34,7 +37,7 @@ module.exports = {
         use: [{
           loader: 'expose-loader',
           options: 'jQuery'
-        },{
+        }, {
           loader: 'expose-loader',
           options: '$'
         }]

@@ -9,7 +9,7 @@
                contenteditable="true"
                ref="selectDOM"
                @input.lazy="setOption(index,$event)"
-               @blur="test"
+               @blur="blur"
                v-if="tag==='div'"
           ></div>
 
@@ -18,16 +18,15 @@
                  v-else-if="tag==='input'"
                  ref="selectDOM"
                  @input.lazy="setOption(index,$event)"
-                 @blur="test"
+                 @blur="blur"
           >
-<!-- class="icon-trash"-->
+
           <button type="button" class="icon" @click="removeOption(index)"
                   :disabled="hasAdd && options.length<3">
             <i-icon type="trash-a"></i-icon>
           </button>
         </div>
         <i-button v-if="hasAdd" type="primary" shape="circle" class="add_option" @click="addOption">
-          <!--<span class="icon-plus"></span>-->
           <i-icon type="android-add" size="20"></i-icon>
           <span class="text">选项</span>
         </i-button>
@@ -42,6 +41,8 @@
   import IButton from 'iview/src/components/button';
   import IIcon from 'iview/src/components/icon';
   import $ from 'expose-loader?$!jquery';
+
+  import {mapActions} from 'vuex';
 
   export default {
     props: {
@@ -76,7 +77,7 @@
       }, 20);
     },
     methods: {
-      updateOptionIcon: function () {
+      updateOptionIcon() {
         if (this.options.length < 1) return;
         let iconType = this.options[0].icon;
         if (!isNaN(iconType * 1)) {
@@ -91,11 +92,9 @@
             item.icon = String.fromCharCode(code);
             item.id = index;
           });
-//          console.log(this.options);
         }
-        this.refreshOption();
       },
-      addOption: function () {
+      addOption() {
         this.options.push({
           icon: 'A',
           text: '',
@@ -104,26 +103,32 @@
         this.updateOptionIcon();
       },
 //      按index 下标删除
-      removeOption: function (index, isPropagate) {
+      removeOption(index, isPropagate) {
         this.options.splice(index, 1);
-        this.updateOptionIcon();
+        this.refresh();
         if (!isPropagate) {
           this.$emit('delete', index);
         }
       },
-      setOption: function (index, event) {
+      setOption(index, event) {
         let optionHtml = this.tag === 'div' ? event.srcElement.innerHTML : event.srcElement.value;
         this.options[index].text = optionHtml;
-        this.test();
+        this.verify();
       },
-      refreshOption: function () {
-        setTimeout(() => {
+      refreshOption() {
+        this.$nextTick(() => {
           $(this.$refs.optionsDOM).children('.option').each((index, item) => {
-            $(item).children('.text').html(this.options[index].text);
+            $(item).children('.text').is('input')
+              ? $(item).children('.text').val(this.options[index].text)
+              : $(item).children('.text').html(this.options[index].text);
           });
-        }, 20);
+        });
       },
-      setIsPass: function () {
+      refresh() {
+        this.updateOptionIcon();
+        this.refreshOption();
+      },
+      setIsPass() {
         for (let i = 0; i < this.$refs.selectDOM.length; i++) {
           if (this.tag === 'div') {
             if (this.$refs.selectDOM[i].innerHTML.trim() === '') return false;
@@ -133,11 +138,17 @@
         }
         return true;
       },
-      test: function () {
-        this.$store.dispatch('saveSelection');
+      blur() {
+        this.saveCurrentRange();
+        this.verify();
+      },
+      verify: function () {
         this.isPass = this.setIsPass();
-        this.$emit('on-test');
-      }
+        this.$emit('verify');
+      },
+      ...mapActions({
+        saveCurrentRange: 'saveCurrentRange'
+      })
     },
     components: {
       CntModule,

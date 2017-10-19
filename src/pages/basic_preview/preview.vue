@@ -1,123 +1,136 @@
 <template>
-  <div class="view_wrapper" v-if="questionData">
+  <div class="view_wrapper">
     <div class="timer">
       <span class="text">答题时间</span>
       <span class="time">
-        {{showTimes.minute}} 分 {{showTimes.second}} 秒
+        {{timesFilter(times.minute)}} 分 {{timesFilter(times.second)}} 秒
       </span>
     </div>
-    <div class="content_wrapper">
+    <div class="content_wrapper" v-if="questionData">
       <div class="title">{{questionData.title}}</div>
-      <div class="content" ref="contentWrap" >
+      <div class="content" ref="contentWrap">
         <i-content :questionData="questionData" :isDisabled="isDisabled" ref="contextDOM"></i-content>
       </div>
     </div>
-    <Button v-if="isSubmited" class="refresh" type="primary" shape="circle" @click="refresh">重新作答</Button>
-    <Button v-else type="primary" class="submit" shape="circle" @click="submit">提交</Button>
+    <i-spin size="large" fix v-else></i-spin>
+    <i-button v-if="isSubmited" class="refresh" type="primary" shape="circle" @click="refresh">重新作答</i-button>
+    <i-button v-else type="primary" class="submit" shape="circle" @click="submit">提交</i-button>
     <unfold-model></unfold-model>
-
   </div>
 </template>
 
 <script>
   import UnfoldModel from 'components/unfoldDialog/unfoldDialog';
   import IContent from './content/content';
+  import IButton from 'iview/src/components/button';
+  import ISpin from 'iview/src/components/spin';
+  import Modal from 'iview/src/components/modal';
+
+  import {mapGetters, mapMutations} from 'vuex';
+  import {getQuestionData} from 'api/getQuestionData';
+  import {urlSearch} from 'utils/utilities';
+  import $ from 'expose-loader?$!jquery';
 
   export default {
     data() {
       return {
-        times: {
-          minute: 0,
-          second: 0
-        },
         isSubmited: false,
-        indexes: [],
-        isDisabled: false
+        isDisabled: false,
+        questionData: null
       };
     },
-    created() {
-      this.$store.dispatch('getdata');
-      this.$store.commit('ATTCHEVENTTOFILE');
-    },
     mounted() {
-      setTimeout(() => {
-        this.clock();
-      }, 20);
-      let timer = setInterval(() => {
-        if (this.questionData) {
-          this.$refs.contentWrap.style = `height:${window.innerHeight - 210}px`;
-          this.$store.commit('INITRESULT');
-          clearInterval(timer);
-        }
-      }, 20);
+      this._init();
     },
     computed: {
-      questionData() {
-        return this.$store.state.questionData;
-      },
-      options() {
-        if (this.indexes.length < 1) return;
-        let newOptions = [];
-        let oldOptions = this.$store.state.questionData.options;
-        for (let i = 0; i < oldOptions.length; i++) {
-          newOptions[i] = {
-            icon: oldOptions[i].icon,
-            text: oldOptions[this.indexes[i]].text,
-            id: oldOptions[this.indexes[i]].id
-          };
-        }
-        return newOptions;
-      },
-      showTimes() {
-        let times = {
-          minute: 0,
-          second: 0
-        };
-        times.minute = this.times.minute.toString().length < 2
-          ? '0' + this.times.minute
-          : this.times.minute;
-        times.second = this.times.second.toString().length < 2
-          ? '0' + this.times.second
-          : this.times.second;
-
-        return times;
-      }
+      ...mapGetters([
+        'times'
+      ])
     },
     methods: {
+      timesFilter(num) {
+        let l = num.toString().length;
+        return l < 2 ? '0' + num : num;
+      },
+      getQuestion() {
+        let questionId = urlSearch().id;
+        return new Promise((resolve, reject) => {
+          getQuestionData(questionId)
+            .then((data) => {
+              this.questionData = data;
+              console.log(this.questionData);
+              resolve();
+            })
+            .catch((code) => {
+              alert('错误编码：' + code);
+            });
+        });
+      },
+      bindUnfoldEvent() {
+        let _self = this;
+        $(this.$refs.contentWrap).find('.img_wrap').on('click', function () {
+          let src = $(this).children('img')[0].src;
+          _self.unfold(src);
+        });
+      },
       unfold(src) {
-        this.$store.state.unfold.isShow = true;
-        this.$store.state.unfold.content = `<img src="${src}" class="unfold_file"/>`;
+        let isShow = true;
+        let content = `<img src="${src}" class="unfold_file"/>`;
+        this.setUnfold({isShow, content});
       },
       clock() {
         this.timer = setInterval(() => {
-          this.times.second++;
-          if (this.times.second > 59) {
-            this.times.minute++;
-            this.times.second = 0;
+          let second = this.times.second + 1;
+          let minute = this.times.minute;
+          if (this.times.second > 58) {
+            minute++;
+            second = 0;
           }
+          this.setTimes({second, minute});
         }, 1000);
       },
       submit () {
-        this.$Modal.confirm({
+        Modal.confirm({
           title: '',
           content: '<p class="text">确认提交答案么？</p>',
           onOk: () => {
-            this.$store.state[this.questionData.questionType].IAnswer = this.$refs.contextDOM.answer;
-            this.$store.dispatch('submit', this);
-
             clearInterval(this.timer);
             this.isDisabled = true;
             this.isSubmited = true;
+            // 为了保证上一个对话框完全消失（对话框和遮罩的延迟动画）
+            setTimeout(() => {
+              this.$refs.contextDOM.submit();
+            }, 500);
           }
         });
       },
       refresh() {
         window.location.reload();
-      }
+      },
+      _init() {
+        this.getQuestion()
+          .then(() => {
+            this.$nextTick(() => {
+              this._initContentHeight();
+              this.bindUnfoldEvent();
+              this.clock();
+            });
+          });
+      },
+      _initContentHeight() {
+        this.$refs.contentWrap.style = `height:${window.innerHeight - 210}px`;
+      },
+      ...mapMutations({
+        setTimes: 'SET_TIMES',
+        setUnfold: 'SET_UNFOLD'
+      })
     },
     components: {
       UnfoldModel,
-      IContent
+      IContent,
+      IButton,
+      ISpin,
+      Modal
     }
   };
 </script>
@@ -160,6 +173,7 @@
         box-sizing: border-box
         .img_wrap
           position: relative
+          display: inline-block
           .shade
             position: absolute
             left: 4px

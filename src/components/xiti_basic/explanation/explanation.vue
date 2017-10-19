@@ -4,7 +4,7 @@
       <div class="div_input"
            contenteditable="true"
            ref="explanationDOM"
-           @blur="$store.dispatch('saveSelection')"
+           @blur="blur"
            @input="setExplanation"
       ></div>
     </cnt-module>
@@ -13,6 +13,7 @@
 
 <script>
   import CntModule from 'components/xiti_basic/cnt_module/cnt_module';
+  import {mapActions} from 'vuex';
   export default {
     data() {
       return {
@@ -22,9 +23,15 @@
       };
     },
     methods: {
+      blur() {
+        this.saveCurrentRange();
+      },
       setExplanation() {
         this.explanation = this.$refs.explanationDOM.innerHTML.trim();
-      }
+      },
+      ...mapActions({
+        saveCurrentRange: 'saveCurrentRange'
+      })
     },
     components: {
       CntModule

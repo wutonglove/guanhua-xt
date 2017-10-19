@@ -4,7 +4,7 @@
       <div class="div_input"
            contenteditable="true"
            ref="hintDOM"
-           @blur="$store.dispatch('saveSelection')"
+           @blur="blur"
            @input="setHint"
       ></div>
     </cnt-module>
@@ -13,18 +13,23 @@
 
 <script>
   import CntModule from 'components/xiti_basic/cnt_module/cnt_module';
+  import {mapActions} from 'vuex';
   export default {
     data() {
       return {
-        questionType: this.$store.state.questionType,
-        questionCode: this.$store.state.questionCode,
         hint: ''
       };
     },
     methods: {
+      blur() {
+        this.saveCurrentRange();
+      },
       setHint() {
         this.hint = this.$refs.hintDOM.innerHTML.trim();
-      }
+      },
+      ...mapActions({
+        saveCurrentRange: 'saveCurrentRange'
+      })
     },
     components: {
       CntModule

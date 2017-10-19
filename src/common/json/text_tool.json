@@ -5,32 +5,38 @@
       {
         "name": "加粗",
         "icon": "icon-bold",
-        "role": "bold"
+        "role": "bold",
+        "state": "off"
       },
       {
         "name": "斜体",
         "icon": "icon-italic",
-        "role": "italic"
+        "role": "italic",
+        "state": "off"
       },
       {
         "name": "下划线",
         "icon": "icon-underline",
-        "role": "underline"
+        "role": "underline",
+        "state": "off"
       },
       {
         "name": "格式化",
         "icon": "icon-eraser",
-        "role": "RemoveFormat"
+        "role": "RemoveFormat",
+        "state": "off"
       },
       {
         "name": "上标",
         "icon": "icon-superscript",
-        "role": "superscript"
+        "role": "superscript",
+        "state": "off"
       },
       {
         "name": "下标",
         "icon": "icon-subscript",
-        "role": "subscript"
+        "role": "subscript",
+        "state": "off"
       },
       {
         "name": "前景色",

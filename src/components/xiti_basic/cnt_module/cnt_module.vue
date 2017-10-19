@@ -27,6 +27,11 @@
         default: false
       }
     },
+    methods: {
+      verify() {
+
+      }
+    },
     components: {
       Sign
     }

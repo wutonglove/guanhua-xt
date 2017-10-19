@@ -1,10 +1,10 @@
 <template>
   <div class="local_wrapper">
     <div class="content">
-      <div class="files_wrapper" v-show="showFilelist.length>0">
+      <div class="files_wrapper" v-show="list.length>0">
         <div class="file_box"
-             v-for="file in showFilelist"
-             :class="{'selected':file.selected}"
+             v-for="file in list"
+             :class="{'selected': file.selected}"
              @click="selectFile(file)"
         >
           <div class="thumbnail">
@@ -13,9 +13,9 @@
           <div class="size" v-if="file.size">{{file.size}}</div>
           <div class="name" :title="file.name">{{file.name}}</div>
           <i-icon type="checkmark-circled" class="check_icon"></i-icon>
-          <i-icon class="unfold" type="arrow-expand" @click.native="$store.dispatch('unfold',file)"
+          <i-icon class="unfold" type="arrow-expand" @click.native.stop="unfold(file)"
                   v-if="dialogType==='image'"></i-icon>
-          <i-icon class="pre_play" type="ios-play" @click.native="$store.dispatch('unfold',file)" v-else></i-icon>
+          <i-icon class="pre_play" type="ios-play" @click.native.stop="unfold(file)" v-else></i-icon>
         </div>
       </div>
     </div>
@@ -30,92 +30,96 @@
 </template>
 
 <script>
-  import FileConfig from 'common/json/config.json';
+  import types from 'common/json/file-type.json';
 
   import IIcon from 'iview/src/components/icon';
   import IMessage from 'iview/src/components/message';
-  import {GUID} from 'utils/utilities';
+  import {IAmage, IVideo, IAudio} from 'common/js/fileObject';
+  import {mapGetters, mapMutations} from 'vuex';
 
-  const FileType = FileConfig.file.fileType;
-  const FileSize = FileConfig.file.fileSize;
+  const FileType = types.fileType;
+  const FileSize = types.fileSize;
 
   export default {
+    data() {
+      return {
+        list: []
+      };
+    },
+    mounted() {
+      this.list = this.filterFilelist(this.fileList);
+    },
     computed: {
       dialogType() {
-        return this.$store.state.fileDialog.type;
+        return this.fileDialogInfo.type;
       },
-      showFilelist() {
-        return this.filterFilelist(this.dialogType);
-      }
+      fileList() {
+        return this.fileList;
+      },
+      ...mapGetters([
+        'fileDialogInfo',
+        'fileList',
+        'selectedFile'
+      ])
     },
     methods: {
-      filterFilelist: function (type) {
-        let list = [];
-        this.$store.state.filelist.forEach((item, index) => {
-          if (item.file.type.split('/')[0] === this.dialogType) {
-            list.push(item);
+      _normalizeList(list) {
+        let ret = [];
+        list.forEach((item, index) => {
+          ret.push(item);
+          ret[index].selected = false;
+        });
+        return ret;
+      },
+      filterFilelist(list) {
+        let ret = [];
+        list.forEach((item, index) => {
+          if (item.type.split('/')[0] === this.dialogType) {
+            ret.push(item);
+            ret[ret.length - 1].selected = false;
           }
         });
-        return list;
+        return ret;
       },
       browseFile: function (e) {
         let file = e.srcElement.files[0];
-        let filelist = this.$store.state.filelist;
-        let videoThumb = require('./media.jpg');
-        let insertVideo = require('./video.jpg');
-        let insertAudio = require('./audio.jpg');
 
         if (this.discernFile(file)) return;
 
-        switch (this.dialogType) {
-          case 'image':
-            this.imgOriginalSize(file, (w, h) => {
-              this.$store.state.filelist.push({
-                name: GUID() + '.' + file.name.split('.')[1],
-                icon: window.URL.createObjectURL(file),
-                src: window.URL.createObjectURL(file),
-                resource: window.URL.createObjectURL(file),
-                size: `${w} * ${h}`,
-                file: file,
-                type: file.type,
-                selected: false
+        new Promise((resolve) => {
+          switch (this.dialogType) {
+            case 'image':
+              this.imgOriginalSize(file, (w, h) => {
+                this.setFileList(new IAmage({file, w, h}));
+                resolve();
               });
-            });
-            break;
-          case 'video':
-            this.$store.state.filelist.push({
-              name: GUID() + '.' + file.name.split('.')[1],
-              icon: videoThumb,
-              src: insertVideo,
-              resource: window.URL.createObjectURL(file),
-              file: file,
-              type: file.type,
-              selected: false
-            });
-            break;
-          case 'audio':
-            this.$store.state.filelist.push({
-              name: GUID() + '.' + file.name.split('.')[1],
-              icon: videoThumb,
-              src: insertAudio,
-              resource: window.URL.createObjectURL(file),
-              file: file,
-              type: file.type,
-              selected: false
-            });
-            break;
-        }
-        // 默认选中filelist最后一个file
-        setTimeout(() => {
-          this.selectFile(filelist[filelist.length - 1]);
-        }, 20);
+              break;
+            case 'video':
+              this.setFileList(new IVideo({file}));
+              resolve();
+              break;
+            case 'audio':
+              this.setFileList(new IAudio({file}));
+              resolve();
+              break;
+          }
+        }).then(() => {
+          // 默认选中filelist最后一个file
+          console.log(this.list);
+          this.selectFile(this.list[this.list.length - 1]);
+        });
       },
       selectFile: function (file) {
-        this.$store.state.filelist.forEach((item, index) => {
-          item.selected = false;
+        this.setSelectedFile(file);
+        let list = this.list.slice();
+        list.forEach((item) => {
+          if (item.name === file.name) {
+            item.selected = true;
+          } else {
+            item.selected = false;
+          }
         });
-        file.selected = true;
-        this.$store.state.selectedFile = file;
+        this.list = list;
       },
       imgOriginalSize: function (file, cbk) {
         let reader = new FileReader();
@@ -136,8 +140,6 @@
         if (!file) return true;
         let typeKey = this.dialogType;
         let typeVal = file.type.split('/')[1];
-        console.log(typeKey);
-        console.log(typeVal);
         if (FileType[typeKey].indexOf(typeVal) === -1) {
           IMessage.error({
             content: `不支持该文件类型,请选择 ${FileType[typeKey].join('，')}`,
@@ -155,22 +157,25 @@
         return false;
       },
       ok() {
-//        this.$parent.ok();
-        this.$emit('insert');
+        this.$emit('ok');
       },
       unfold: function (file) {
-        this.$store.state.unfold.isShow = true;
-        switch (file.type.split('/')[0]) {
-          case 'image':
-            this.$store.state.unfold.content = `<img src="${file.src}" class="unfold_file"/>`;
-            break;
-          case 'video':
-            this.$store.state.unfold.content = `<video src="${file.src}" class="unfold_file" controls>您的浏览器不支持video</video>`;
-            break;
-          case 'audio':
-            this.$store.state.unfold.content = `<audio src="${file.src}" class="unfold_file" controls>您的浏览器不支持audio</audio>`;
-            break;
+        this.$emit('unfold', file);
+      },
+      ...mapMutations({
+        setFileList: 'SET_FILELIST',
+        setSelectedFile: 'SET_SELECTEDFILE'
+      })
+    },
+    watch: {
+      fileList: {
+        deep: true,
+        handler(newVal) {
+          this.list = this.filterFilelist(newVal);
         }
+      },
+      dialogType(newVal) {
+        this.list = this.filterFilelist(this.fileList);
       }
     },
     components: {

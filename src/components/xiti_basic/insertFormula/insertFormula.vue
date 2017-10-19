@@ -1,6 +1,6 @@
 <template>
   <div class="dialog_formula">
-    <i-modal v-model="$store.state.formulaDialog"
+    <i-modal v-model="isShow"
              class="dialog_wrapper"
              class-name="vertical-center-modal"
              width="880"
@@ -19,18 +19,51 @@
 
 <script>
   import IModal from 'iview/src/components/modal';
+  import {mapGetters, mapMutations, mapActions} from 'vuex';
 
   export default {
+    data() {
+      return {
+        isShow: null
+      };
+    },
+    computed: {
+      status() {
+        return this.formulaDialog;
+      },
+      currentRange() {
+        return this.currentRange;
+      },
+      ...mapGetters([
+        'formulaDialog'
+      ])
+    },
     methods: {
       ok() {
-        let body = this.$refs.formulaDialog.contentWindow;
+        this.resetSelection();
+        if (!this.currentRange) return;
 
+        let body = this.$refs.formulaDialog.contentWindow;
         let editor = body.KFEditor;
         editor.execCommand('get.image.data', function (data) {
-          console.log(data);
+//          console.log(data);
           let html = `<img class="formula" src="${data.img}"/>`;
           document.execCommand('insertHTML', false, html);
         });
+      },
+      ...mapMutations({
+        setFormula: 'SET_FORMULADIALOG'
+      }),
+      ...mapActions({
+        resetSelection: 'resetSelection'
+      })
+    },
+    watch: {
+      status(newVal) {
+        if (newVal !== this.isShow) this.isShow = newVal;
+      },
+      isShow(newVal) {
+        if (newVal !== this.status) this.setFormula(newVal);
       }
     },
     components: {

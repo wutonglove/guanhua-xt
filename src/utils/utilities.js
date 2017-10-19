@@ -2,18 +2,13 @@
  * Created by ww on 2017/7/26.
  */
 // 替换插入资源的路径 false 为本地
-export function replaceSrc(htmlstr, url, bool) {
+export function replaceSrc(htmlstr, url) {
   return htmlstr.replace(/<img[^>]*src="[^>]*"[^>]*data-name="[^(>")]*"[^>]*>/g, (str) => {
-    // console.log(str);
     str.match(/data-name="([^"]*)"[^>]*data-type="([^"]*)"[^>]*data-src="([^"]*)"/g);
-    // console.log(RegExp.$1);
-    // console.log(RegExp.$2);
-    // let loaclSrc = RegExp.$1;
     let filename = RegExp.$1;
     let filetype = RegExp.$2;
     let resource = RegExp.$3;
-    let src = bool ? url + filename : resource;
-    console.log(src);
+    let src = (url || url === '') ? url + filename : resource;
     switch (filetype) {
       case 'image':
         str = `<span class="img_wrap"><img src="${src}" title="${filename}" class="insertFile insertFile_hook"/><span class="shade">点击图片查看原图</span></span>`;

@@ -3,55 +3,55 @@
     {
       "type": "radio",
       "name": "单选题",
-      "href": "basic/radio.html",
+      "href": "edit.html#/general/radio",
       "thumbUrl": "24991c8c-40a5-4412-9184-0f29963dae6f.png"
     },
     {
       "type": "checkbox",
       "name": "多选题",
-      "href": "basic/checkbox.html",
+      "href": "edit.html#/general/checkbox",
       "thumbUrl": "8df70f13-38f1-466f-8b2e-2be137e8939b.png"
     },
     {
       "type": "fillblank",
       "name": "填空题",
-      "href": "basic/fillblank.html",
+      "href": "edit.html#/general/fillblank",
       "thumbUrl": "f2068d73-9a6f-46be-bb18-6db98121c8e3.png"
     },
     {
       "type": "judge",
       "name": "判断题",
-      "href": "basic/judge.html",
+      "href": "edit.html#/general/judge",
       "thumbUrl": "7e3e6c1e-02fe-43c3-a689-c1bc2bbe22e1.png"
     },
     {
       "type": "vote",
       "name": "投票题",
-      "href": "basic/vote.html",
+      "href": "edit.html#/general/vote",
       "thumbUrl": "55966b6e-a1cd-43ea-bd90-c51393fc968c.png"
     },
     {
       "type": "sort",
       "name": "排序题",
-      "href": "basic/sort.html",
+      "href": "edit.html#/general/sort",
       "thumbUrl": "15a3588a-7749-471e-a330-5a0afe74136d.png"
     },
     {
       "type": "jigsaw",
       "name": "拼图题",
-      "href": "basic/jigsaw.html",
+      "href": "edit.html#/general/jigsaw",
       "thumbUrl": "610d083b-ed5d-4043-92c5-43fd3805902e.png"
     },
     {
-      "type": "Subjective",
+      "type": "subjective",
       "name": "主观题",
-      "href": "basic/subjective.html",
+      "href": "edit.html#/general/subjective",
       "thumbUrl": "f467dfb9-7e8c-459d-88b9-9ec0d185d66b.png"
     },
     {
       "type": "comprehensive",
       "name": "复合题",
-      "href": "basic/comprehensive.html",
+      "href": "edit.html#/general/comprehensive",
       "thumbUrl": "a752f733-12b3-4a42-a3e1-3ee834ab3398.png"
     }
   ],

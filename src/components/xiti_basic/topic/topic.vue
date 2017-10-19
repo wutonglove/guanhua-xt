@@ -5,9 +5,11 @@
            data-duty="topic"
            contenteditable="true"
            spellcheck="false" ref="topicDom"
-           @blur="test"
+           @blur="blur"
            @input="setTopic"
            @keyup.delete="keydelete"
+           @click="changeRange"
+           @keyup="changeRange($event)"
       ></div>
     </cnt-module>
   </div>
@@ -15,6 +17,8 @@
 
 <script>
   import CntModule from 'components/xiti_basic/cnt_module/cnt_module';
+  import {mapActions} from 'vuex';
+  import {UNFINISHED, FINISHED} from 'common/js/config';
 
   export default {
     data() {
@@ -27,20 +31,30 @@
       keydelete: function () {
         this.$emit('key-delete');
       },
+      changeRange(e) {
+        if ((e.keyCode > 36 && e.keyCode < 41) || (e.type === 'click')) {
+          this.saveCurrentRange();
+        }
+      },
       setTopic: function () {
         this.topic = this.$refs.topicDom.innerHTML.trim();
-        this.test();
+        this.verify();
       },
-      test: function () {
-        console.log('test');
+      blur() {
+        this.saveCurrentRange();
+        this.verify();
+      },
+      verify: function () {
         if (this.$refs.topicDom.innerHTML.trim() === '') {
-          this.isPass = false;
+          this.isPass = UNFINISHED;
         } else {
-          this.isPass = true;
+          this.isPass = FINISHED;
         }
-        this.$store.dispatch('saveSelection');
-        this.$emit('on-test');
-      }
+        this.$emit('verify');
+      },
+      ...mapActions({
+        saveCurrentRange: 'saveCurrentRange'
+      })
     },
     components: {
       CntModule

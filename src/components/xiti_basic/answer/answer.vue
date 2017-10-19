@@ -2,14 +2,14 @@
   <div class="answer">
     <cnt-module name="答案" :isMandatory="true">
       <div class="answer_wrapper">
-        <i-radio-group v-model="ianswer" v-if="inputType === 'radio'" @on-change="test">
+        <i-radio-group v-model="ianswer" v-if="inputType === 'radio'" @on-change="verify">
           <i-radio
             :label="answer.icon"
             v-for="(answer,index) in options"
             :key="index"
           ></i-radio>
         </i-radio-group>
-        <i-checkbox-group v-model="ianswers" v-else @on-change="test">
+        <i-checkbox-group v-model="ianswers" v-else @on-change="verify">
           <i-checkbox :label="answer.icon" v-for="(answer,index) in options" :key="index"></i-checkbox>
         </i-checkbox-group>
       </div>
@@ -24,6 +24,8 @@
   import IRadioGroup from 'iview/src/components/radio/radio-group';
   import ICheckbox from 'iview/src/components/checkbox';
   import ICheckboxGroup from 'iview/src/components/checkbox/checkbox-group';
+
+  import {UNFINISHED, FINISHED} from 'common/js/config';
 
   export default {
     props: {
@@ -60,15 +62,15 @@
       }
     },
     methods: {
-      test: function () {
+      verify: function () {
         if (this.inputType === 'radio' && this.answer === '') {
-          this.isPass = false;
+          this.isPass = UNFINISHED;
         } else if (this.inputType === 'checkbox' && this.answers.length === 0) {
-          this.isPass = false;
+          this.isPass = UNFINISHED;
         } else {
-          this.isPass = true;
+          this.isPass = FINISHED;
         }
-        this.$emit('on-test');
+        this.$emit('verify');
       }
     },
     components: {

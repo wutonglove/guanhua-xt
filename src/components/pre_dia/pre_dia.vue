@@ -1,12 +1,11 @@
 <template>
-  <div class="dialog_pre" v-if="$store.state.preDialog.isShow">
-    <i-modal v-model="$store.state.preDialog.isShow"
-           class="dialog_wrapper"
-           class-name="vertical-center-modal"
-           width="880"
+  <div class="dialog_pre" v-if="isShow">
+    <i-modal v-model="isShow"
+             class="dialog_wrapper"
+             class-name="vertical-center-modal"
+             width="880"
     >
-
-      <div class="header" slot="header">{{$store.state.preDialog.title}}</div>
+      <div class="header" slot="header">{{title}}</div>
       <div class="content">
         <iframe name="previewDialog" src="./basic_preview.html" frameborder="0" ref="previewDialog"></iframe>
       </div>
@@ -17,10 +16,24 @@
 
 <script>
   import IModal from 'iview/src/components/modal';
+  import {mapGetters, mapMutations} from 'vuex';
 
   export default {
-    mounted() {
-      console.log(this.$store.state.preDialog);
+    data() {
+      return {
+        isShow: null
+      };
+    },
+    computed: {
+      status() {
+        return this.preDialog.isShow;
+      },
+      title() {
+        return this.preDialog.title;
+      },
+      ...mapGetters([
+        'preDialog'
+      ])
     },
     methods: {
       ok() {
@@ -32,6 +45,20 @@
           let html = `<img class="formula" src="${data.img}"/>`;
           document.execCommand('insertHTML', false, html);
         });
+      },
+      ...mapMutations({
+        setPreDialog: 'SET_PREDIALOG'
+      })
+    },
+    watch: {
+      isShow(newVal) {
+        if (newVal !== this.preDialog.isShow) this.setPreDialog(newVal);
+      },
+      status: {
+        deep: true,
+        handler(newVal) {
+          if (newVal !== this.isShow) this.isShow = newVal;
+        }
       }
     },
     components: {

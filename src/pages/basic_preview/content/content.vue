@@ -2,23 +2,22 @@
   <div class="question_context">
     <div class="topic" v-html="questionData.topic"></div>
 
-    <div :is="componentsName" :questionData="questionData" ref="contentModule" :isDisabled="isDisabled"></div>
+    <div :is="componentsName" :questionData="questionData" ref="contentModule"></div>
 
   </div>
 </template>
 
 <script>
-  import Choice from '../choice/choice';
-  import Fillblank from '../fillBlank/fillBlank';
-  import Judge from '../judge/judge';
-  import Vote from '../vote/vote';
-  import Sort from '../sort/sort';
-  import Jigsaw from '../jigsaw/jigsaw';
-  import Comprehensive from '../comprehensive/comprehensive';
-  import Subjective from '../subjective/subjective';
+  import Choice from 'components/basic_preview/choice/choice';
+  import Fillblank from 'components/basic_preview/fillBlank/fillBlank';
+  import Judge from 'components/basic_preview/judge/judge';
+  import Vote from 'components/basic_preview/vote/vote';
+  import Sort from 'components/basic_preview/sort/sort';
+  import Jigsaw from 'components/basic_preview/jigsaw/jigsaw';
+  import Comprehensive from 'components/basic_preview/comprehensive/comprehensive';
+  import Subjective from 'components/basic_preview/subjective/subjective';
 
   export default {
-    name: 'content',
     props: {
       questionData: {
         type: Object
@@ -28,14 +27,16 @@
       }
     },
     computed: {
-      answer() {
-        if (this.questionData.questionType === 'comprehensive') {
-          this.$refs.contentModule.getAnswer();
-        }
-        return this.$refs.contentModule.answer;
-      },
       componentsName() {
         return this.questionData.questionType === 'radio' || this.questionData.questionType === 'checkbox' ? 'choice' : this.questionData.questionType;
+      }
+    },
+    methods: {
+      submit() {
+        this.$refs.contentModule.submit();
+      },
+      getResult() {
+        return this.$refs.contentModule.getResult();
       }
     },
     watch: {
