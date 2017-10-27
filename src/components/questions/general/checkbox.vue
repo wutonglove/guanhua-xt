@@ -9,11 +9,11 @@
 </template>
 
 <script>
-  import Topic from 'components/xiti_basic/topic/topic';
-  import Options from 'components/xiti_basic/options/options';
-  import Answer from 'components/xiti_basic/answer/answer';
-  import Hint from 'components/xiti_basic/hint/hint';
-  import Explanation from 'components/xiti_basic/explanation/explanation';
+  import Topic from 'components/general-part/topic/topic';
+  import Options from 'components/general-part/options/options';
+  import Answer from 'components/general-part/answer/answer';
+  import Hint from 'components/general-part/hint/hint';
+  import Explanation from 'components/general-part/explanation/explanation';
 
   import {replaceSrc} from 'utils/utilities';
   import {verifyMixin} from 'common/js/mixin';

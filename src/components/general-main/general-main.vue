@@ -12,19 +12,19 @@
     <insert-file-dialog></insert-file-dialog>
     <insert-formula-dialog></insert-formula-dialog>
     <unfold></unfold>
-    <pre-dia ></pre-dia>
+    <pre-dia :pageSrc="'./preview.html'"></pre-dia>
     <up-progress @interrupt="interrupt"></up-progress>
   </div>
 </template>
 
 <script>
-  import PHeader from 'components/xiti_basic/header/header';
-  import PFooter from 'components/xiti_basic/footer/footer';
+  import PHeader from 'components/general-part/header/header';
+  import PFooter from 'components/general-part/footer/footer';
 
   import InsertFileDialog from 'components/insertFile/insertFile';
-  import InsertFormulaDialog from 'components/xiti_basic/insertFormula/insertFormula';
+  import InsertFormulaDialog from 'components/general-part/insertFormula/insertFormula';
   import Unfold from 'components/unfoldDialog/unfoldDialog';
-  import PreDia from 'components/pre_dia/pre_dia';
+  import PreDia from 'components/pre-dialog/pre-dialog';
   import UpProgress from 'components/progress/progress';
   import Modal from 'iview/src/components/modal';
 
@@ -69,7 +69,8 @@
           .then((urlSnippet) => {
             let data = this.$refs.mainDOM.getQuestionData(urlSnippet).questionData;
             console.log(data);
-            return this.saveToRemote({data, questionId: this.questionId});
+            this.saveToRemote({data, questionId: this.questionId})
+              .then(this.setProgressDia({progress: 100}));
           })
           .catch((code) => {
             alert('错误编码：' + code);

@@ -2,7 +2,7 @@
  * Created by ww on 2017/9/28.
  */
 import Modal from 'iview/src/components/modal';
-import {mapActions} from 'vuex';
+import {mapActions, mapGetters, mapMutations} from 'vuex';
 
 export const submitMixin = {
   props: {
@@ -55,6 +55,33 @@ export const verifyMixin = {
     },
     ...mapActions({
       verifyIsPass: 'verifyIsPass'
+    })
+  }
+};
+
+export const timerMixin = {
+  computed: {
+    ...mapGetters([
+      'times'
+    ])
+  },
+  methods: {
+    filterDoubleDigit(num) {
+      return num.toString().length < 2 ? '0' + num : num;
+    },
+    clock() {
+      this.timer = setInterval(() => {
+        let second = this.times.second + 1;
+        let minute = this.times.minute;
+        if (this.times.second > 58) {
+          minute++;
+          second = 0;
+        }
+        this.setTimes({second, minute});
+      }, 1000);
+    },
+    ...mapMutations({
+      setTimes: 'SET_TIMES'
     })
   }
 };

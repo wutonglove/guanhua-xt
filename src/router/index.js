@@ -6,6 +6,7 @@ import Router from 'vue-router';
 
 import Index from 'components/index-main/index-main';
 import General from 'components/general-main/general-main';
+import Interest from 'components/template1-main/template1-main';
 
 import Radio from 'components/questions/general/radio';
 import Judge from 'components/questions/general/judge';
@@ -17,43 +18,9 @@ import Jigsaw from 'components/questions/general/jigsaw';
 import Comprehensive from 'components/questions/general/comprehensive';
 import Subjective from 'components/questions/general/subjective';
 
-Vue.use(Router);
+import Compare from 'components/questions/maths/compare';
 
-// const Index = (resolve) => {
-//   import('components/index-main/index-main').then((module) => {
-//     resolve(module);
-//   });
-// };
-// const General = (resolve) => {
-//   import('components/general-main/general-main').then((module) => {
-//     resolve(module);
-//   });
-// };
-// const Radio = (resolve) => {
-//   import('components/questions/general/radio').then((module) => {
-//     resolve(module);
-//   });
-// };
-// const Checkbox = (resolve) => {
-//   import('components/questions/general/checkbox').then((module) => {
-//     resolve(module);
-//   });
-// };
-// const Fillblank = (resolve) => {
-//   import('components/questions/general/fillblank').then((module) => {
-//     resolve(module);
-//   });
-// };
-// const Vote = (resolve) => {
-//   import('components/questions/general/vote').then((module) => {
-//     resolve(module);
-//   });
-// };
-// const Judge = (resolve) => {
-//   import('components/questions/general/judge').then((module) => {
-//     resolve(module);
-//   });
-// };
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -100,6 +67,16 @@ export default new Router({
         {
           path: '/general/subjective',
           component: Subjective
+        }
+      ]
+    },
+    {
+      path: '/math',
+      component: Interest,
+      children: [
+        {
+          path: '/math/compare',
+          component: Compare
         }
       ]
     }

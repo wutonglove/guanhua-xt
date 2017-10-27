@@ -130,7 +130,7 @@ export const saveToRemote = function ({commit, state}, {data, questionId}) {
     })
       .then((res) => {
         if (res.data.code === '0') {
-          commit('SET_PROGRESSDIA', {progress: 100});
+          resolve();
         } else {
           reject(res.data.code);
         }

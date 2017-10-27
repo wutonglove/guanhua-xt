@@ -47,7 +47,7 @@
   import {replaceSrc} from 'utils/utilities';
   import $ from 'expose-loader?$!jquery';
   import {verifyMixin} from 'common/js/mixin';
-  import Topic from 'components/xiti_basic/topic/topic';
+  import Topic from 'components/general-part/topic/topic';
 
   import Radio from 'components/questions/general/radio';
   import Checkbox from 'components/questions/general/checkbox';

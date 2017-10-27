@@ -34,10 +34,10 @@
 </template>
 
 <script>
-  import Topic from 'components/xiti_basic/topic/topic';
-  import Hint from 'components/xiti_basic/hint/hint';
-  import Explanation from 'components/xiti_basic/explanation/explanation';
-  import CntModule from 'components/xiti_basic/cnt_module/cnt_module';
+  import Topic from 'components/general-part/topic/topic';
+  import Hint from 'components/general-part/hint/hint';
+  import Explanation from 'components/general-part/explanation/explanation';
+  import CntModule from 'components/general-part/cnt-module/cnt-module';
 
   import IInput from 'iview/src/components/input';
   import IIcon from 'iview/src/components/icon';

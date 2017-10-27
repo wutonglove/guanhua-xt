@@ -16,8 +16,8 @@
 </template>
 
 <script>
-  import Topic from 'components/xiti_basic/topic/topic';
-  import Options from 'components/xiti_basic/options/options';
+  import Topic from 'components/general-part/topic/topic';
+  import Options from 'components/general-part/options/options';
 
   import IRadioGroup from 'iview/src/components/radio/radio-group';
   import IRadio from 'iview/src/components/radio';
