@@ -10,6 +10,9 @@ const mutations = {
   [types.SET_ISPASS](state, is) {
     state.isPass = is;
   },
+  [types.SET_TIMES](state, {minute, second}) {
+    state.times = {minute, second};
+  },
   [types.SET_FILEDIALOGINFO](state, {status, name, type}) {
     state.fileDialogInfo.status = status;
     if (name) state.fileDialogInfo.name = name;

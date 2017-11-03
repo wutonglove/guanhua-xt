@@ -5,6 +5,8 @@ export const currentRange = state => state.currentRange;
 
 export const isPass = state => state.isPass;
 
+export const times = state => state.times;
+
 export const fileDialogInfo = state => state.fileDialogInfo;
 
 export const fileList = state => state.fileList;

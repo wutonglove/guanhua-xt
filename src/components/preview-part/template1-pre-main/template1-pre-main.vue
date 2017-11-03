@@ -6,10 +6,17 @@
         <router-view :questionData="questionData" ref="content"></router-view>
       </div>
     </div>
+    <div class="hint_box" v-if="questionData.hints.length>0">
+      <a class="hint_btn" @click="showHintDia"></a>
+      <span class="num_icon">{{questionData.hints.length}}</span>
+    </div>
+    <hint-dia :hints="questionData.hints" ref="hintDia" :disabled="true"></hint-dia>
   </div>
 </template>
 
 <script>
+  import HintDia from 'components/template1-part/hint-dialog/hint-dialog';
+
   export default {
     props: {
       questionData: {
@@ -22,7 +29,13 @@
     methods: {
       submit() {
         this.$refs.content.submit();
+      },
+      showHintDia() {
+        this.$refs.hintDia.show();
       }
+    },
+    components: {
+      HintDia
     }
   };
 </script>
@@ -37,6 +50,7 @@
     border: 8px solid #ECC281
     box-shadow: 0 0 60px 10px rgba(0, 0, 0, .6) inset
     border-radius: 14px
+    position: relative
     .box_outer
       border: 1px solid #F2CC8E
       border-radius: 6px
@@ -56,6 +70,31 @@
       .box_content
         height: 100%
         padding-top: 40px
-        box-sizing :border-box
+        box-sizing: border-box
         background-color: #E3BB80
+    .hint_box
+      position: absolute
+      left: -15px
+      top: -10px
+      z-index: 20
+      width: 40px
+      height: 55px
+      .hint_btn
+        display: block
+        width: 100%
+        height: 100%
+        background: url('/static/images/hint_btn.png') no-repeat
+        background-size: 40px 130px
+      .num_icon
+        position: absolute
+        right: 0
+        top: 0
+        width: 14px
+        height: 14px
+        background: #CE2420
+        color: #fff
+        font-size: 12px
+        border-radius: 50%
+        text-align: center
+        line-height: 14px
 </style>

@@ -9,7 +9,7 @@ export class IAmage {
   constructor({file, w, h}) {
     this.name = GUID() + getSuffix(file.name);
     this.icon = window.URL.createObjectURL(file);
-    this.src = window.URL.createObjectURL(file);
+    this.objURL = window.URL.createObjectURL(file);
     this.resource = window.URL.createObjectURL(file);
     this.size = `${w} * ${h}`;
     this.original = file;
@@ -24,7 +24,6 @@ export class IVideo {
     this.icon = videoThumb;
     this.src = insertVideo;
     this.resource = window.URL.createObjectURL(file);
-    ;
     this.original = file;
     this.type = file.type;
     this.suffix = file.type.split('/')[1];

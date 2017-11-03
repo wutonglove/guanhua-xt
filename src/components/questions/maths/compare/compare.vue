@@ -42,6 +42,7 @@
 <script>
   import IIcon from 'iview/src/components/icon';
   import IPoptip from 'iview/src/components/poptip';
+  import Notice from 'iview/src/components/notice';
 
   import {compareSymbolList} from 'common/js/config';
 
@@ -79,7 +80,6 @@
         let questionData = {
           title: document.title,
           options: this.options,
-          hint: '',
           times: '',
           questionType: 'compare'
         };
@@ -88,6 +88,23 @@
           questionData,
           localData
         };
+      },
+      verifyHandle() {
+        for (let i = 0; i < this.options.length; i++) {
+          if (this.options[i].num1.trim() === '') return 0;
+          if (this.options[i].num2.trim() === '') return 0;
+          if (this.options[i].symbol.trim() === '') return 0;
+        }
+        return 1;
+      },
+      showMessage() {
+        if (this.verifyHandle()) {
+          return 1;
+        } else {
+          Notice.destroy();
+          Notice.warning('有“比较大小选项”未填写');
+          return 0;
+        }
       }
     },
     components: {
@@ -98,7 +115,7 @@
 </script>
 
 <style scoped lang="stylus">
-  @import '../../../common/stylus/variable.styl'
+  @import '../../../../common/stylus/variable.styl'
 
   .compare_main
     width: 100%

@@ -18,7 +18,22 @@ import Jigsaw from 'components/questions/general/jigsaw';
 import Comprehensive from 'components/questions/general/comprehensive';
 import Subjective from 'components/questions/general/subjective';
 
-import Compare from 'components/questions/maths/compare';
+const Compare = (resolve) => {
+  import('components/questions/maths/compare/compare').then((module) => {
+    resolve(module);
+  });
+};
+
+const FractionalCalc = (resolve) => {
+  import('components/questions/maths/fractional-calc/fractional-calc').then((module) => {
+    resolve(module);
+  });
+};
+const VerticalCalc = (resolve) => {
+  import('components/questions/maths/vertical-calc/vertical-calc').then((module) => {
+    resolve(module);
+  });
+};
 
 Vue.use(Router);
 
@@ -77,6 +92,14 @@ export default new Router({
         {
           path: '/math/compare',
           component: Compare
+        },
+        {
+          path: '/math/fractional-calc',
+          component: FractionalCalc
+        },
+        {
+          path: '/math/vertical-calc',
+          component: VerticalCalc
         }
       ]
     }

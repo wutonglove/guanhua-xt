@@ -4,6 +4,10 @@
 const state = {
   currentRange: null,
   isPass: false,
+  times: {
+    minute: 0,
+    second: 0
+  },
   fileDialogInfo: {
     name: '',
     status: false,

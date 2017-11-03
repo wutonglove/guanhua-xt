@@ -6,10 +6,10 @@
         <div class="box_header">
           <div class="time_box">
             <div class="time_panel">
-              <span class="time_nmb">00</span>
+              <span class="time_nmb">{{filterDoubleDigit(times.minute)}}</span>
             </div>
             <div class="time_panel">
-              <span class="time_nmb">00</span>
+              <span class="time_nmb">{{filterDoubleDigit(times.second)}}</span>
             </div>
           </div>
           <a class="example_btn">
@@ -18,22 +18,28 @@
           </a>
         </div>
         <div class="box_content">
-          <mboard :titleLength="70" ref="mboard"></mboard>
+          <mboard ref="mboard" :mboard="mboard"></mboard>
         </div>
-        <a class="hint_btn"></a>
+        <div class="hint_box">
+          <a class="hint_btn" @click="showHintDia"></a>
+          <span class="num_icon" v-if="hints.length>0">{{hints.length}}</span>
+        </div>
       </div>
       <div class="bottom_lay">
         <div class="btns_foot_wrapper">
           <footer-btns
             :btns="footBtns"
             :desc="desc"
+            :questionName="preTitle"
             @on-save="showDia"
             @on-preview="preview"
+            @set-times="setTimeHandle"
           ></footer-btns>
         </div>
       </div>
     </div>
     <pre-dia :pageSrc="'./preview.html#/interest'"></pre-dia>
+    <hint-dia :hints="hints" @setHint="setHint" ref="hintDia"></hint-dia>
   </div>
 </template>
 
@@ -44,9 +50,10 @@
   import Modal from 'iview/src/components/modal';
 
   import PreDia from 'components/pre-dialog/pre-dialog';
+  import HintDia from 'components/template1-part/hint-dialog/hint-dialog';
 
   import {LOCALSTORAGEKEY} from 'common/js/config';
-  import {mapMutations} from 'vuex';
+  import {mapMutations, mapGetters} from 'vuex';
   import exercises from 'map/exercises.json';
 
   export default {
@@ -57,22 +64,29 @@
           document.title = item.name;
           this.preTitle = item.name;
           this.desc = item.desc;
+          this.footBtns = item.config.footBtns;
+          this.mboard = item.config.mboard;
         }
       });
     },
     data() {
       return {
-        footBtns: [
-          'disprtion',
-          'timeset',
-          'preview',
-          'save'
-        ],
+        footBtns: [],
+        mboard: {},
         preTitle: '',
-        desc: ''
+        desc: '',
+        hints: []
       };
     },
+    computed: {
+      ...mapGetters([
+        'times'
+      ])
+    },
     methods: {
+      filterDoubleDigit(num) {
+        return num.toString().length < 2 ? '0' + num : num;
+      },
       showDia() {
         Modal.confirm({
           title: '',
@@ -83,17 +97,38 @@
         });
       },
       preview() {
+        if (!this.verify()) return;
         let data = this.$refs.mboard.getQuestionData().localData;
         data['mboardTitle'] = this.$refs.mboard.title;
+        data['hints'] = this.hints; // set
         console.log(data);
         localStorage.setItem(LOCALSTORAGEKEY, JSON.stringify(data));
         this.setPreDialog({isShow: true, title: this.preTitle});
       },
       save() {
-
+      },
+      setTimeHandle(times) {
+        let minute = 0;
+        let second = 0;
+        if (times) {
+          minute = times.minute;
+          second = times.second;
+        }
+        this.setTimes({minute, second});
+      },
+      showHintDia() {
+        this.$refs.hintDia.show();
+      },
+      setHint(hints) {
+        this.hints = hints;
+      },
+      verify(cb) {
+        let question = this.$refs.mboard.$refs.mainDOM;
+        return question.showMessage();
       },
       ...mapMutations({
-        setPreDialog: 'SET_PREDIALOG'
+        setPreDialog: 'SET_PREDIALOG',
+        setTimes: 'SET_TIMES'
       })
     },
     components: {
@@ -101,7 +136,8 @@
       Mboard,
       IIcon,
       Modal,
-      PreDia
+      PreDia,
+      HintDia
     }
   };
 </script>
@@ -145,14 +181,30 @@
         &:before
           right: -28px
           background-image: url('/static/images/nail_right.png')
-        .hint_btn
+        .hint_box
           position: absolute
           left: -45px
           top: 0
           width: 40px
           height: 55px
-          background: url('/static/images/hint_btn.png') no-repeat
-          background-size: 40px 130px
+          .hint_btn
+            display: block
+            width: 100%
+            height: 100%
+            background: url('/static/images/hint_btn.png') no-repeat
+            background-size: 40px 130px
+          .num_icon
+            position: absolute
+            right: 0
+            top: 0
+            width: 14px
+            height: 14px
+            background: #CE2420
+            color: #fff
+            font-size: 12px
+            border-radius: 50%
+            text-align: center
+            line-height: 14px
         .box_header
           .time_box
             margin-left: 20px

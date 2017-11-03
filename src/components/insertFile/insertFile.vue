@@ -10,12 +10,12 @@
       <div class="header" solt="header">{{title}}</div>
       <div class="content">
 
-        <i-tabs value="0">
+        <i-tabs value="0" ref="tabs" @on-click="clearSelectFile">
           <i-tab-pane :label="`本地${title.substr(2,2)}库`" name="0">
-            <local @ok="ok" @unfold="unfold"></local>
+            <local @ok="ok" @unfold="unfold" ref="local"></local>
           </i-tab-pane>
           <i-tab-pane :label="`百度${title.substr(2,2)}库`" name="1" v-if="dialogType==='image'">
-            <outer></outer>
+            <outer @ok="ok" @unfold="unfold" ref="outer"></outer>
           </i-tab-pane>
         </i-tabs>
       </div>
@@ -74,9 +74,10 @@
       unfold(file) {
         let isShow = true;
         let content = '';
+        console.log(file.type);
         switch (file.type.split('/')[0]) {
           case 'image':
-            content = `<img src="${file.src}" class="unfold_file"/>`;
+            content = `<img src="${file.objURL}" class="unfold_file"/>`;
             break;
           case 'video':
             content = `<video src="${file.resource}" class="unfold_file" controls>您的浏览器不支持video</video>`;
@@ -88,7 +89,7 @@
         this.setUnfold({isShow, content});
       },
       createImgHtml(file) {
-        let src = file.src;
+        let src = file.objURL;
         let type = file.type.split('/')[0];
         let name = file.name;
         let resource = file.resource;
@@ -97,10 +98,16 @@
         }
         return '';
       },
+      clearSelectFile() {
+        this.$refs.outer.clearSelectFile();
+        this.$refs.local.clearSelectFile();
+        this.setSelectFile(null);
+      },
       ...mapMutations({
         setFileDiaSta: 'SET_FILEDIALOGINFO',
         setUnfold: 'SET_UNFOLD',
-        setTargetDom: 'SET_TARGETDOM'
+        setTargetDom: 'SET_TARGETDOM',
+        setSelectFile: 'SET_SELECTEDFILE'
       }),
       ...mapActions({
         resetSelection: 'resetSelection'

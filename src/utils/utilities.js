@@ -73,6 +73,24 @@ export function createQuestionId() {
   return id;
 }
 
+// 最小公倍数
+export function lcm(x, y) {
+  return x * y / gcd(x, y);
+}
+
+// 最大公约数
+export function gcd(x, y) {
+  let max, min, temp;
+  max = x > y ? x : y;
+  min = x < y ? x : y;
+  while (max % min) {
+    temp = max % min;
+    max = min;
+    min = temp;
+  }
+  return min;
+}
+
 // 对Date的扩展，将 Date 转化为指定格式的String
 // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
 // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
@@ -95,3 +113,4 @@ window.Date.prototype.Format = function (fmt) {
   }
   return fmt;
 };
+

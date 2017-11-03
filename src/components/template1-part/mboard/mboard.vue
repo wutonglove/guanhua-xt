@@ -2,10 +2,11 @@
   <div class="box-outer-bd" :style="{height:boxHeight}">
     <div class="mboard-box">
       <div class="box-header" v-if="isHeader">
-        <input v-model="title" type="text" class="title" :maxLength="titleLength">
+        <input v-model="title" type="text" class="title" :maxLength="mboard.titleLength">
         <div class="desc">
-          <span class="count" v-if="titleLength">
-            <span class="curn">{{filterDoubleDigit(title.length)}}</span>/<span class="total">{{titleLength}}</span>
+          <span class="count" v-if="mboard.titleLength">
+            <span class="curn">{{filterDoubleDigit(title.length)}}</span>/<span
+            class="total">{{mboard.titleLength}}</span>
           </span>
         </div>
       </div>
@@ -22,14 +23,15 @@
   export default {
     mounted() {
       this.marginTop = this.isHeader ? '40px' : '0px';
+      this.title = this.mboard.title;
     },
     props: {
       boxHeight: {
         type: String,
         default: '480px'
       },
-      titleLength: {
-        type: Number
+      mboard: {
+        type: Object
       },
       isHeader: {
         type: Boolean,
@@ -38,7 +40,7 @@
     },
     data() {
       return {
-        title: '比较左右两边的大小，并填入正确的符号',
+        title: '',
         marginTop: ''
       };
     },
@@ -47,7 +49,6 @@
         return num.toString().length < 2 ? '0' + num : num;
       },
       getQuestionData() {
-        console.log(1);
         return this.$refs.mainDOM.getQuestionData();
       }
     }
@@ -106,6 +107,7 @@
         .box-inner
           position: relative
           flex: 1
+          width: 100%
           margin: 0 8px
           background: url('/static/images/box_inner_bg.jpg')
           border-radius: 12px

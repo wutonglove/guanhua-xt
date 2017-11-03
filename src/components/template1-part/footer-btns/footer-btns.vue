@@ -1,6 +1,6 @@
 <template>
   <ul class="box_wrapper">
-    <li class="btn_box">
+    <li class="btn_box" v-if="btnIsShow('disprtion')">
       <i-poptip trigger="click" placement="top" ref="desc">
         <div class="btn_icon">
           <span class="icon">
@@ -9,7 +9,7 @@
           <span class="text">题型描述</span>
         </div>
         <div slot="content" class="desc_box pop_box">
-          <div class="pop_title">比较大小题型描述</div>
+          <div class="pop_title">{{questionName}}题型描述</div>
           <div class="pop_content">
             <div class="desc_pic">
               <i-carousel v-model="picIndex" style="width:360px">
@@ -31,7 +31,7 @@
         </div>
       </i-poptip>
     </li>
-    <li class="btn_box">
+    <li class="btn_box" v-if="btnIsShow('timeset')">
       <i-poptip trigger="click" placement="top">
         <div class="btn_icon">
           <span class="icon">
@@ -48,23 +48,25 @@
               </i-radio>
               <i-radio label="counterclockwise" class="timing_item">
                 <span class="text" :class="{active:timing === 'counterclockwise'}">倒计时</span>
-                <span class="set_time_wrap">
-                  <i-input maxlength="2" class="input" :disabled="timing !== 'counterclockwise'"></i-input>
+                <span class="set_time_wrap" @click="clickAgent">
+                  <i-input v-model="minute" :maxlength="2" class="input"
+                           :disabled="timing !== 'counterclockwise'"></i-input>
                   分
-                  <i-input maxlength="2" class="input" :disabled="timing !== 'counterclockwise'"></i-input>
+                  <i-input v-model="second" :maxlength="2" class="input"
+                           :disabled="timing !== 'counterclockwise'"></i-input>
                   秒
                 </span>
               </i-radio>
             </i-radio-group>
           </div>
           <div class="pop_foot">
-            <button class="ok_btn btn">确定</button>
+            <button class="ok_btn btn" @click="setTime">确定</button>
             <button class="cl_btn btn">取消</button>
           </div>
         </div>
       </i-poptip>
     </li>
-    <li class="btn_box" @click="preview">
+    <li class="btn_box" @click="preview"  v-if="btnIsShow('preview')">
       <div class="btn_icon">
         <span class="icon">
           <img src="/static/images/icon_tool4.png" alt="">
@@ -72,7 +74,7 @@
         <span class="text">预览</span>
       </div>
     </li>
-    <li class="btn_box" @click="save">
+    <li class="btn_box" @click="save" v-if="btnIsShow('save')">
       <div class="btn_icon">
         <span class="icon">
           <img src="/static/images/icon_tool5.png" alt="">
@@ -101,6 +103,9 @@
       },
       desc: {
         type: Object
+      },
+      questionName: {
+        type: String
       }
     },
     mounted() {
@@ -119,7 +124,9 @@
             text: '编辑导引'
           }
         ],
-        timing: 'clockwise'
+        timing: 'clockwise',
+        minute: 0,
+        second: 0
       };
     },
     methods: {
@@ -131,6 +138,24 @@
       },
       hideDesc() {
         this.$refs.desc.handleClose();
+      },
+      clickAgent() {
+        this.timing = 'counterclockwise';
+      },
+      setTime() {
+        if (this.timing === 'counterclockwise') {
+          let minute = this.minute;
+          let second = this.second;
+          this.$emit('set-times', {minute, second});
+        } else {
+          this.$emit('set-times');
+        }
+      },
+      btnIsShow(type) {
+        let index = this.btns.findIndex((item) => {
+          return type === item;
+        });
+        return index !== -1;
       }
     },
     components: {
@@ -199,7 +224,7 @@
             color: #fff
             font-size: 15px
             border-radius: 6px
-            cursor:pointer
+            cursor: pointer
         &.desc_box
           width: 385px
           height: 450px
@@ -220,6 +245,7 @@
               height: 64px
               line-height: 16px
               font-size: 14px
+              white-space: normal
           .pop_foot
             .close_btn
               width: 100px
@@ -228,19 +254,19 @@
           width: 335px
           height: 225px
           .pop_content
-            height:115px
+            height: 115px
             padding: 0 15px
             .timing_item
               margin: 10px 0
               font-size: 15px
               line-height: 34px
-              color:#777
+              color: #777
               .active
-                color:#342B2B
+                color: #342B2B
               .set_time_wrap
                 .input
                   position: relative
-                  top:-10px
+                  top: -10px
                   width: 66px
                   height: 34px
           .pop_foot
@@ -248,8 +274,8 @@
               width: 80px
               &.ok_btn
                 background: linear-gradient(to top, #DCA55E, #F3CB97)
-                margin-right:20px
+                margin-right: 20px
               &.cl_btn
-                color:#777
+                color: #777
                 background: linear-gradient(to top, #AFAFAF, #E9E9E8)
 </style>

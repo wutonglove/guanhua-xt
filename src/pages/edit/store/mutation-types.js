@@ -6,6 +6,8 @@ export const SET_CURRENTRANGE = 'SET_CURRENTRANGE';
 
 export const SET_ISPASS = 'SET_ISPASS';
 
+export const SET_TIMES = 'SET_TIMES';
+
 export const SET_FILEDIALOGINFO = 'SET_FILEDIALOGINFO';
 
 export const SET_FILELIST = 'SET_FILELIST';

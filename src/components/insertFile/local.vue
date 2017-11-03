@@ -58,8 +58,7 @@
       },
       ...mapGetters([
         'fileDialogInfo',
-        'fileList',
-        'selectedFile'
+        'fileList'
       ])
     },
     methods: {
@@ -118,6 +117,13 @@
           } else {
             item.selected = false;
           }
+        });
+        this.list = list;
+      },
+      clearSelectFile() {
+        let list = this.list.slice();
+        list.forEach((item) => {
+          item.selected = false;
         });
         this.list = list;
       },

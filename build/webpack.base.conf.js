@@ -25,9 +25,7 @@ module.exports = {
       'map': resolve('src/map'),
       'lib': resolve('src/lib'),
       'utils': resolve('src/utils'),
-      'store': resolve('src/store'),
-      'api': resolve('src/api'),
-      'router': resolve('src/router')
+      'api': resolve('src/api')
     }
   },
   module: {

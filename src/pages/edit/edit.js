@@ -3,8 +3,8 @@
  */
 import Vue from 'vue';
 import App from './app';
-import store from 'store/index';
-import router from 'router';
+import store from './store/index';
+import router from './router';
 import 'iview/dist/styles/iview.css';
 import 'common/stylus/base.styl';
 

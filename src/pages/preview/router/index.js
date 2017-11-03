@@ -9,6 +9,7 @@ import Preview from 'components/preview-part/general-pre-main/general-pre-main';
 import Template1 from 'components/preview-part/template1-pre-main/template1-pre-main';
 
 import Compare from 'components/preview-question/math/compare/compare';
+import FractionalCalc from 'components/preview-question/math/fractional-calc/fractional-calc';
 
 Vue.use(Router);
 
@@ -29,6 +30,10 @@ export default new Router({
         {
           path: '/interest/compare',
           component: Compare
+        },
+        {
+          path: '/interest/fractional-calc',
+          component: FractionalCalc
         }
       ]
     }
