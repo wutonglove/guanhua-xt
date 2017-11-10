@@ -23,7 +23,6 @@ const Compare = (resolve) => {
     resolve(module);
   });
 };
-
 const FractionalCalc = (resolve) => {
   import('components/questions/maths/fractional-calc/fractional-calc').then((module) => {
     resolve(module);

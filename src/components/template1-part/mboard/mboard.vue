@@ -107,7 +107,7 @@
         .box-inner
           position: relative
           flex: 1
-          width: 100%
+          width: 844px
           margin: 0 8px
           background: url('/static/images/box_inner_bg.jpg')
           border-radius: 12px

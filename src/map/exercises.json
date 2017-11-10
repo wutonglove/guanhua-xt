@@ -154,6 +154,32 @@
           "titleLength": 70
         }
       }
+    },
+    {
+      "type": "vertical-calc",
+      "name": "竖式计算",
+      "href": "edit.html#/math/vertical-calc",
+      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "desc": {
+        "descPic": [
+          "/static/images/vertical-calc.jpg",
+          "/static/images/vertical-calc.gif"
+        ],
+        "descText": [
+          "填写正确的算式，并设置“待填空项”保存即可"
+        ]
+      },
+      "config": {
+        "footBtns": [
+          "disprtion",
+          "preview",
+          "save"
+        ],
+        "mboard": {
+          "title": "请将下列分式计算补充完整",
+          "titleLength": 70
+        }
+      }
     }
   ]
 }

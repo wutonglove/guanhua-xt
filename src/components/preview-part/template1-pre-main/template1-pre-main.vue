@@ -72,6 +72,7 @@
         padding-top: 40px
         box-sizing: border-box
         background-color: #E3BB80
+        overflow: auto
     .hint_box
       position: absolute
       left: -15px
