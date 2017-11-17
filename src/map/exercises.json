@@ -181,5 +181,35 @@
         }
       }
     }
+  ],
+  "语文题型": [
+    {
+      "type": "rubik-box",
+      "name": "魔方盒游戏",
+      "href": "edit.html#/chinese/rubik-box",
+      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "desc": {
+        "descPic": [
+          "/static/images/compare_desc.jpg",
+          "/static/images/compare_desc.gif"
+        ],
+        "descText": [
+          "数学算式的大小比较或抽象内容的比较。",
+          "数学等式的比较大小。",
+          "编辑待比较两方的内容，设置待填空的符号保存即可。"
+        ]
+      },
+      "config": {
+        "footBtns": [
+          "disprtion",
+          "preview",
+          "save"
+        ],
+        "mboard": {
+          "title": "比较左右两边的大小，并填入正确的符号",
+          "titleLength": 70
+        }
+      }
+    }
   ]
 }

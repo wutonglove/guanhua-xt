@@ -297,6 +297,7 @@
           maxl = Math.max(dot1, dot2);
           res = this.numToFixed(res, maxl);
         }
+        console.log(maxl);
         if (this.symbol === 'x') res.toFixed(maxl);
         if (this.symbol === '÷') {
           res = this.numToFixed(res, 4);
@@ -443,16 +444,6 @@
           }
         }
         // 没有小数 不需要补
-      },
-      judgeDivisor(m, n) {
-        let num = {};
-        let i = 0;
-        m = m % n;
-        while (m !== 0 && !(m in num)) {
-          num[m] = i++;
-          m = m * 10 % n;
-        }
-        return m === 0;
       },
       numToFixed(num, n) {
         let numStr = num.toString();
@@ -638,6 +629,7 @@
           questionType: 'vertical-calc'
         };
         let localData = questionData;
+        console.log(questionData);
         return {
           questionData,
           localData
@@ -646,7 +638,9 @@
       getAnswer() {
         let ret = [];
         $('a.active').each((index, item) => {
-          ret.push($(item).html().trim());
+          if ($(item).html().trim() !== '') {
+            ret.push($(item).html().trim());
+          }
         });
         return ret;
       },
@@ -670,7 +664,9 @@
         try {
           this.numArr1 = this.numToArr(this.num1);
           this.numArr2 = this.numToArr(this.num2);
-          this.fillEmpty();
+          if (this.symbol !== 'x') {
+            this.fillEmpty();
+          }
         } catch (e) {
 
         }
@@ -876,6 +872,7 @@
                 margin-top: 65px
               .division_right
                 display: inline-block
+                padding-right: 20px
                 .clac_result
                   .num_wrap
                     justify-content: flex-end

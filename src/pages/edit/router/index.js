@@ -33,6 +33,11 @@ const VerticalCalc = (resolve) => {
     resolve(module);
   });
 };
+const RubikBox = (resolve) => {
+  import('components/questions/chinese/rubik-box/rubik-box').then((module) => {
+    resolve(module);
+  });
+};
 
 Vue.use(Router);
 
@@ -99,6 +104,16 @@ export default new Router({
         {
           path: '/math/vertical-calc',
           component: VerticalCalc
+        }
+      ]
+    },
+    {
+      path: '/chinese',
+      component: Interest,
+      children: [
+        {
+          path: '/chinese/rubik-box',
+          component: RubikBox
         }
       ]
     }

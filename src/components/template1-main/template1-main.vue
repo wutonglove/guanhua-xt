@@ -56,10 +56,25 @@
   import {mapMutations, mapGetters} from 'vuex';
   import exercises from 'map/exercises.json';
 
+  const chinese = '语文题型';
+  const math = '数学题型';
+
   export default {
     created() {
       this.type = this.$route.path.trim().split('/')[2];
-      exercises['数学题型'].forEach((item, index) => {
+      let sub = this.$route.path.trim().split('/')[1];
+      let key = '';
+      switch (sub) {
+        case 'chinese':
+          key = chinese;
+          break;
+        case 'math':
+          key = math;
+          break;
+        default:
+          key = 'general';
+      }
+      exercises[key].forEach((item, index) => {
         if (item.type === this.type) {
           document.title = item.name;
           this.preTitle = item.name;

@@ -184,7 +184,7 @@
         color: #ccc
     .content
       height: 430px
-      background: url('/static/images/graphPaper.png')
+      background: url('/static/images/graphPaper.jpg')
       padding: 16px
       .hint_list
         max-height: 353px

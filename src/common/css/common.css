@@ -8,6 +8,7 @@ body {
   user-select: none;
   word-wrap: break-word;
   background-color: #f3f2ef;
+  position: relative;
 }
 
 ::-webkit-scrollbar {

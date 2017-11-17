@@ -11,6 +11,7 @@ import Template1 from 'components/preview-part/template1-pre-main/template1-pre-
 import Compare from 'components/preview-question/math/compare/compare';
 import FractionalCalc from 'components/preview-question/math/fractional-calc/fractional-calc';
 import VerticalCalc from 'components/preview-question/math/vertical-calc/vertical-calc';
+import RubikBox from 'components/preview-question/chinese/rubik-box/rubik-box';
 
 Vue.use(Router);
 
@@ -39,6 +40,10 @@ export default new Router({
         {
           path: '/interest/vertical-calc',
           component: VerticalCalc
+        },
+        {
+          path: '/interest/rubik-box',
+          component: RubikBox
         }
       ]
     }

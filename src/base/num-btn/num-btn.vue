@@ -12,7 +12,7 @@
         <span class="del_line" v-if="hasDot && dotIsDel">|</span>
       </div>
     </div>
-    <div class="num_btn_box" @click="numClick" :class="{'active':numActive}">
+    <div class="num_btn_box" @click="numClick">
       <div class="num_input_box" v-if="isEdit">
         <input type="text" class="num_input" maxlength="1">
       </div>
@@ -67,14 +67,18 @@
         default() {
           return [SHOW_MODE];
         }
+      },
+      dotDisabled: {
+        type: Boolean,
+        default: true
       }
     },
     computed: {
       isEdit() {
-        return EDIT_MODE in this.mode && this.numActive;
+        return this.include(EDIT_MODE, this.mode) && this.numActive;
       },
       isNotdot() {
-        return NOTDOT_MODE in this.mode;
+        return this.include(NOTDOT_MODE, this.mode);
       }
     },
     data() {
@@ -85,7 +89,14 @@
         this.$emit('num-click');
       },
       dotClick() {
+        if (this.include(EDIT_MODE, this.mode) && this.dotDisabled) return;
         this.$emit('dot-click');
+      },
+      include(str, arr) {
+        for (let i = 0; i < arr.length; i++) {
+          if (arr[i] === str) return true;
+        }
+        return false;
       }
     }
   };

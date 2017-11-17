@@ -5,53 +5,47 @@
       <div class="add_sub_box" v-if="/[+\-]/.test(symbol)">
         <div class="clac_num_x2">
           <div class="num_wrap">
-            <div class="num_out_box" v-for="(num,index) in numArr1">
-              <div class="dot_btn_box">
-                <a href="javascript:void(0)" class="num_btn"
-                   v-if="num.hasDot">.</a>
-              </div>
-              <div class="num_btn_box" v-if="!num.numActive">
-                <a href="javascript:void(0)" class="num_btn"
-                   v-if="num.key">{{num.key}}</a>
-              </div>
-              <div class="num_input_box" v-else>
-                <input type="text" class="num_input">
-              </div>
-            </div>
+            <num-btn
+              v-for="(num,index) in numArr1"
+              :key="index"
+              :text="num.key"
+              :dotActive="num.dotActive"
+              :numActive="num.numActive"
+              :hasDot="num.hasDot"
+              :mode="mode"
+              :dotDisabled="num.dotDisabled"
+              @dot-click="dotClickHandle(num, index)"
+            ></num-btn>
           </div>
           <div class="num_wrap">
-            <div class="num_out_box" v-for="(num,index) in numArr2">
-              <div class="dot_btn_box">
-                <a href="javascript:void(0)" class="num_btn"
-                   v-if="num.hasDot">.</a>
-              </div>
-              <div class="num_btn_box" v-if="!num.numActive">
-                <a href="javascript:void(0)" class="num_btn"
-                   v-if="num.key">{{num.key}}</a>
-              </div>
-              <div class="num_input_box" v-else>
-                <input type="text" class="num_input">
-              </div>
-            </div>
+            <num-btn
+              v-for="(num,index) in numArr2"
+              :key="index"
+              :text="num.key"
+              :dotActive="num.dotActive"
+              :numActive="num.numActive"
+              :hasDot="num.hasDot"
+              :mode="mode"
+              :dotDisabled="num.dotDisabled"
+              @dot-click="dotClickHandle(num, index)"
+            ></num-btn>
           </div>
           <div class="symbol">{{symbol}}</div>
         </div>
         <span class="line"></span>
         <div class="clac_result">
           <div class="num_wrap">
-            <div class="num_out_box" v-for="(num,index) in resultArr">
-              <div class="dot_btn_box">
-                <a href="javascript:void(0)" class="num_btn"
-                   v-if="num.hasDot">.</a>
-              </div>
-              <div class="num_btn_box" v-if="!num.numActive">
-                <a href="javascript:void(0)" class="num_btn"
-                   v-if="num.key">{{num.key}}</a>
-              </div>
-              <div class="num_input_box" v-else>
-                <input type="text" class="num_input">
-              </div>
-            </div>
+            <num-btn
+              v-for="(num,index) in resultArr"
+              :key="index"
+              :text="num.key"
+              :dotActive="num.dotActive"
+              :numActive="num.numActive"
+              :hasDot="num.hasDot"
+              :mode="mode"
+              :dotDisabled="num.dotDisabled"
+              @dot-click="dotClickHandle(num, index)"
+            ></num-btn>
           </div>
         </div>
       </div>
@@ -59,58 +53,50 @@
       <div class="multiply_box" v-else-if="symbol==='x'">
         <div class="clac_num_x2">
           <div class="num_wrap">
-            <div class="num_out_box" v-for="num in numToArr(this.num1)">
-              <div class="dot_btn_box">
-                <a href="javascript:void(0)" class="num_btn" v-if="num.hasDot">.</a>
-              </div>
-              <div class="num_btn_box">
-                <a href="javascript:void(0)" class="num_btn" v-if="num.key">{{num.key}}</a>
-              </div>
-            </div>
+            <num-btn
+              v-for="(num,index) in numArr1"
+              :key="index"
+              :text="num.key"
+              :hasDot="num.hasDot"
+              :mode="mode"
+            ></num-btn>
           </div>
           <div class="num_wrap">
-            <div class="num_out_box" v-for="num in numToArr(this.num2)">
-              <div class="dot_btn_box">
-                <a href="javascript:void(0)" class="num_btn" v-if="num.hasDot">.</a>
-              </div>
-              <div class="num_btn_box">
-                <a href="javascript:void(0)" class="num_btn" v-if="num.key">{{num.key}}</a>
-              </div>
-            </div>
+            <num-btn
+              v-for="(num,index) in numArr2"
+              :key="index"
+              :text="num.key"
+              :hasDot="num.hasDot"
+              :mode="mode"
+            ></num-btn>
           </div>
           <div class="symbol">{{symbol}}</div>
         </div>
         <span class="line"></span>
         <div class="num_wrap" v-for="(numWrap,r) in mulCalcStep">
-          <div class="num_out_box" v-for="(num,c) in numWrap">
-            <div class="dot_btn_box">
-              <a href="javascript:void(0)" class="num_btn" v-if="num.hasDot">.</a>
-            </div>
-            <div class="num_btn_box" v-if="!num.numActive">
-              <a href="javascript:void(0)" class="num_btn"
-                 v-if="num.key">{{num.key}}</a>
-            </div>
-            <div class="num_input_box" v-else>
-              <input type="text" class="num_input">
-            </div>
-          </div>
+          <num-btn
+            v-for="(num,index) in numWrap"
+            :key="index"
+            :text="num.key"
+            :numActive="num.numActive"
+            :hasDot="num.hasDot"
+            :mode="mode"
+          ></num-btn>
         </div>
         <span class="line"></span>
         <div class="clac_result">
           <div class="num_wrap">
-            <div class="num_out_box" v-for="num in resultArr">
-              <div class="dot_btn_box">
-                <a href="javascript:void(0)" class="num_btn"
-                   v-if="num.hasDot">.</a>
-              </div>
-              <div class="num_btn_box" v-if="!num.numActive">
-                <a href="javascript:void(0)" class="num_btn"
-                   v-if="num.key">{{num.key}}</a>
-              </div>
-              <div class="num_input_box" v-else>
-                <input type="text" class="num_input">
-              </div>
-            </div>
+            <num-btn
+              v-for="(num,index) in resultArr"
+              :key="index"
+              :text="num.key"
+              :dotActive="num.dotActive"
+              :numActive="num.numActive"
+              :hasDot="num.hasDot"
+              :mode="mode"
+              :dotDisabled="num.dotDisabled"
+              @dot-click="dotClickHandle(num, index)"
+            ></num-btn>
           </div>
         </div>
       </div>
@@ -119,63 +105,54 @@
 
         <div class="dividend_box">
           <div class="num_wrap">
-            <div class="num_out_box" v-for="num in numArr2">
-
-              <div class="dot_btn_box" :class="{'del':num.hasDot}">
-                <a href="javascript:void(0)" class="num_btn" v-if="num.hasDot">.</a>
-              </div>
-              <div class="num_btn_box">
-                <a href="javascript:void(0)" class="num_btn" v-if="num.key">{{num.key}}</a>
-              </div>
-            </div>
+            <num-btn
+              v-for="(num,index) in numArr2"
+              :key="index"
+              :text="num.key"
+              :hasDot="num.hasDot"
+              :dotIsDel="true"
+              :mode="mode"
+            ></num-btn>
           </div>
         </div>
         <div class="division_right">
           <div class="clac_result">
             <div class="num_wrap">
-              <div class="num_out_box" v-for="num in resultArr">
-                <div class="dot_btn_box">
-                  <a href="javascript:void(0)" class="num_btn"
-                     v-if="num.hasDot">.</a>
-                </div>
-                <div class="num_btn_box" v-if="!num.numActive">
-                  <a href="javascript:void(0)" class="num_btn"
-                     v-if="num.key">{{num.key}}</a>
-                </div>
-                <div class="num_input_box" v-else>
-                  <input type="text" class="num_input">
-                </div>
-              </div>
+              <num-btn
+                v-for="(num,index) in resultArr"
+                :key="index"
+                :text="num.key"
+                :dotActive="num.dotActive"
+                :numActive="num.numActive"
+                :hasDot="num.hasDot"
+                :mode="mode"
+                :dotDisabled="num.dotDisabled"
+                @dot-click="dotClickHandle(num, index)"
+              ></num-btn>
             </div>
           </div>
           <div class="division_clac_box" ref="divisionBox">
             <div class="division_step_box" v-for="(numWrap,index) in divCalcStep">
               <div class="num_wrap">
-                <div class="num_out_box" v-for="num in numWrap[0]">
-                  <div class="dot_btn_box" :class="{'del':num.dotIsShow}">
-                    <a href="javascript:void(0)" class="num_btn"
-                       v-if="num.hasDot">.</a>
-                  </div>
-                  <div class="num_btn_box" :class="{'virtual':num.virtual}">
-                    <a href="javascript:void(0)" class="num_btn"
-                       v-if="num.key">{{num.key}}</a>
-                  </div>
-                </div>
+                <num-btn
+                  v-for="(num,index) in numWrap[0]"
+                  :key="index"
+                  :text="num.key"
+                  :numActive="num.numActive"
+                  :isVirtual="num.isVirtual"
+                  :dotIsDel="true"
+                  :mode="mode"
+                ></num-btn>
               </div>
               <div class="num_wrap">
-                <div class="num_out_box" v-for="num in numWrap[1]" v-if="numWrap[1]">
-                  <div class="dot_btn_box">
-                    <a href="javascript:void(0)" class="num_btn"
-                       v-if="num.hasDot">.</a>
-                  </div>
-                  <div class="num_btn_box" v-if="!num.numActive">
-                    <a href="javascript:void(0)" class="num_btn"
-                       v-if="num.key">{{num.key}}</a>
-                  </div>
-                  <div class="num_input_box" v-else>
-                    <input type="text" class="num_input">
-                  </div>
-                </div>
+                <num-btn
+                  v-for="(num,index) in numWrap[1]"
+                  :key="index"
+                  :text="num.key"
+                  :numActive="num.numActive"
+                  @num-click="numClickHandle({num, index})"
+                  :mode="mode"
+                ></num-btn>
               </div>
               <span class="line" v-if="index<divCalcStep.length-1"></span>
             </div>
@@ -187,6 +164,7 @@
 </template>
 
 <script>
+  import NumBtn from 'base/num-btn/num-btn';
   import divisionSign from './division_sign.png';
   import {submitMixin} from 'common/js/mixin';
   import $ from 'expose-loader?$!jquery';
@@ -205,14 +183,16 @@
         resultArr: [],
         mulCalcStep: [],
         divCalcStep: [],
-        symbol: ''
+        symbol: '',
+        mode: ['edit'],
+        dotIndex: -1
       };
     },
     mounted() {
       this.$nextTick(() => {
-        this.numArr1 = this.questionData.vertical.numArr1;
-        this.numArr2 = this.questionData.vertical.numArr2;
-        this.resultArr = this.questionData.vertical.resultArr;
+        this.numArr1 = this.setDot(this.questionData.vertical.numArr1);
+        this.numArr2 = this.setDot(this.questionData.vertical.numArr2);
+        this.resultArr = this.setDot(this.questionData.vertical.resultArr);
         this.mulCalcStep = this.questionData.vertical.mulCalcStep;
         this.divCalcStep = this.questionData.vertical.divCalcStep;
         this.symbol = this.questionData.vertical.symbol;
@@ -222,7 +202,57 @@
       });
     },
     methods: {
+      setDot(arr) {
+        let res = false;
+
+        let _arr = arr.concat();
+        for (let i = 0; i < _arr.length; i++) {
+          arr[i] = Object.assign({}, _arr[i]);
+        }
+
+        for (let i = 0; i < _arr.length; i++) {
+          if (_arr[i].dotActive) {
+            res = _arr[i].dotActive;
+            break;
+          }
+        }
+        if (res) {
+          for (let i = 0; i < _arr.length; i++) {
+            if (_arr[i].key !== '') {
+              _arr[i].dotActive = true;
+              _arr[i].hasDot = true;
+              _arr[i].dotDisabled = false;
+            }
+          }
+        }
+        return _arr;
+      },
+      dotClickHandle(num, index) {
+        num.dotActive = !num.dotActive;
+        if (!num.dotActive) this.dotIndex = index;
+      },
+      findDotBlank() {
+        let n = 0;
+        for (let i = 0; i < this.numArr1.length; i++) {
+          if (this.numArr1[i].hasDot) n++;
+        }
+        if (n > 1) return 'numArr1';
+        for (let i = 0; i < this.numArr2.length; i++) {
+          if (this.numArr2[i].hasDot) n++;
+        }
+        if (n > 1) return 'numArr2';
+        for (let i = 0; i < this.resultArr.length; i++) {
+          if (this.resultArr[i].hasDot) n++;
+        }
+        if (n > 1) return 'resultArr';
+        return '';
+      },
       getResult() {
+        let key = this.findDotBlank();
+        if (key !== '') {
+          let num = this.questionData.vertical[key][this.dotIndex];
+          if (!num.dotActive) return 0;
+        }
         let $inputs = $('input.num_input');
         for (let i = 0; i < $inputs.length; i++) {
           if ($inputs.eq(i).val().trim() !== this.questionData.answer[i]) {
@@ -231,13 +261,16 @@
         }
         return 1;
       }
+    },
+    components: {
+      NumBtn
     }
   };
 </script>
 
 <style scoped lang="stylus">
   .vertical-calc
-    padding-top:20px
+    padding-top: 20px
     text-align: center
     .vertical_box
       display: block
@@ -352,8 +385,10 @@
           display: inline-block
           vertical-align: top
           margin-top: 65px
+          padding-left: 20px
         .division_right
           display: inline-block
+          padding-right: 20px
           .clac_result
             .num_wrap
               justify-content: flex-end
