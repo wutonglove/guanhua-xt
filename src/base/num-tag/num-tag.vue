@@ -1,8 +1,8 @@
 <template>
   <div class="tag_wrap" ref="tagWrap">
-    <span class="text">{{text}}</span>
-    <span class="corner_r" v-if="ori === 'right'"></span>
-    <span class="corner_d" v-else-if="ori === 'down'"></span>
+    <span class="text" :style="{'background-color': color }">{{text}}</span>
+    <span class="corner_r" v-if="ori === 'right'" :style="{'border-left-color': color }"></span>
+    <span class="corner_d" v-else-if="ori === 'down'" :style="{'border-top-color': color }"></span>
   </div>
 </template>
 
@@ -13,6 +13,9 @@
         type: String
       },
       ori: {
+        type: String
+      },
+      color: {
         type: String
       }
     },
@@ -43,14 +46,10 @@
     .text
       font-size: 12px
       color: #fff
-      background-color: #51A6FB
       padding: 0 2px
       line-height: 16px
     .corner_r
       border: 8px solid transparent
-      border-left-color: #51A6FB
-
-  .corner_d
-    border: 8px solid transparent
-    border-top-color: #51A6FB
+    .corner_d
+      border: 8px solid transparent
 </style>

@@ -4,10 +4,10 @@
       <div class="setting_box">
         <div class="title">选择题目的语言</div>
         <ul class="options_box">
-          <li class="cn_box">
+          <li class="cn_box" @click="setLan('cn')">
             <span class="text">中文</span>
           </li>
-          <li class="en_box">
+          <li class="en_box" @click="setLan('en')">
             <span class="text">英语</span>
           </li>
         </ul>
@@ -15,7 +15,7 @@
     </li>
     <li class="calc_step_2" key="step2" v-show="curIndex === 1">
       <div class="grid_box">
-        <grid @op-change="setOptions" ref="grid"></grid>
+        <grid @op-change="setOptions" ref="grid" :language="zh"></grid>
       </div>
       <div class="side_box">
         <div class="guidance">
@@ -48,23 +48,31 @@
   export default {
     data() {
       return {
-        curIndex: 1,
-        guidList: []
+        curIndex: 0,
+        guidList: [],
+        zh: ''
       };
     },
     methods: {
-      setOptions(options) {
+      setLan(val) {
+        this.zh = val;
+        this.curIndex = 1;
+      },
+      setOptions(optionsObj) {
         this.guidList = [];
-        options.forEach((item, index) => {
+        optionsObj.forEach((options, i) => {
+          let text = '';
+          options.forEach((item, index) => {
+            text += item.text;
+          });
           this.guidList.push({
-            answer: item,
+            answer: text,
             desc: ''
           });
         });
       },
       delGuid(index) {
-        this.$refs.grid.delCodeItem(index);
-        this.guidList.splice(index, 1);
+        this.$refs.grid.delItem(index);
       },
       getQuestionData() {
         let questionData = {
@@ -79,10 +87,6 @@
           questionData,
           localData
         };
-      },
-      getAnswer() {
-        let ret = [];
-        return ret;
       },
       verifyHandle() {
         if (this.guidList.length > 2) {
@@ -128,7 +132,8 @@
       &.calc_step_1
         .setting_box
           width: 500px
-          margin: 80px auto 0
+          margin: 0 auto
+          padding-top: 60px
           color: #222
           .title
             width: 100%

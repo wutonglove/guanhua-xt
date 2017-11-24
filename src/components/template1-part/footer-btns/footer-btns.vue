@@ -66,7 +66,7 @@
         </div>
       </i-poptip>
     </li>
-    <li class="btn_box" @click="preview"  v-if="btnIsShow('preview')">
+    <li class="btn_box" @click="preview" v-if="btnIsShow('preview')">
       <div class="btn_icon">
         <span class="icon">
           <img src="/static/images/icon_tool4.png" alt="">
@@ -227,7 +227,7 @@
             cursor: pointer
         &.desc_box
           width: 385px
-          height: 450px
+          height: 485px
           .pop_content
             .desc_pic
               width: 100%
@@ -242,10 +242,11 @@
                   left: 0
                   z-index: 10
             .desc_text
-              height: 64px
+              height: 96px
               line-height: 16px
               font-size: 14px
               white-space: normal
+              overflow-y: auto
           .pop_foot
             .close_btn
               width: 100px

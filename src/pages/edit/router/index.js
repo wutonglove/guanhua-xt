@@ -38,6 +38,16 @@ const RubikBox = (resolve) => {
     resolve(module);
   });
 };
+const Logogriph = (resolve) => {
+  import('components/questions/chinese/logogriph/logogriph').then((module) => {
+    resolve(module);
+  });
+};
+const SpellingPoem = (resolve) => {
+  import('components/questions/chinese/spelling-poem/spelling-poem').then((module) => {
+    resolve(module);
+  });
+};
 
 Vue.use(Router);
 
@@ -114,6 +124,14 @@ export default new Router({
         {
           path: '/chinese/rubik-box',
           component: RubikBox
+        },
+        {
+          path: '/chinese/logogriph',
+          component: Logogriph
+        },
+        {
+          path: '/chinese/spelling-poem',
+          component: SpellingPoem
         }
       ]
     }

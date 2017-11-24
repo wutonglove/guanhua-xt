@@ -1,8 +1,11 @@
 <template>
   <div class="content_wrapper">
     <div class="box_outer">
-      <div class="box_title">{{questionData.mboardTitle}}</div>
-      <div class="box_content">
+      <div class="box_title"
+           v-if="hasTitle"
+      >{{questionData.mboardTitle}}
+      </div>
+      <div class="box_content" :style="hasTitle?`padding-top: 40px`:''">
         <router-view :questionData="questionData" ref="content"></router-view>
       </div>
     </div>
@@ -25,6 +28,11 @@
     },
     mounted() {
       this.$router.push({path: `/interest/${this.questionData.questionType}`});
+    },
+    computed: {
+      hasTitle() {
+        return Boolean(this.questionData.mboardTitle);
+      }
     },
     methods: {
       submit() {
@@ -69,7 +77,6 @@
         background: url("/static/images/title_bg.jpg")
       .box_content
         height: 100%
-        padding-top: 40px
         box-sizing: border-box
         background-color: #E3BB80
         overflow: auto

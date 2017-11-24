@@ -42,6 +42,9 @@
         type: String,
         default: ''
       },
+      color: {
+        type: String
+      },
       hasDot: {
         type: Boolean,
         default: false

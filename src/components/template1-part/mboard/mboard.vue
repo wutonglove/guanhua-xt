@@ -1,8 +1,8 @@
 <template>
-  <div class="box-outer-bd" :style="{height:boxHeight}">
+  <div class="box-outer-bd" :style="{height}">
     <div class="mboard-box">
-      <div class="box-header" v-if="isHeader">
-        <input v-model="title" type="text" class="title" :maxLength="mboard.titleLength">
+      <div class="box-header" v-if="hasHeader">
+        <input v-model="title" type="text" class="title" :maxLength="mboard.titleLength" v-if="hasTitle">
         <div class="desc">
           <span class="count" v-if="mboard.titleLength">
             <span class="curn">{{filterDoubleDigit(title.length)}}</span>/<span
@@ -11,8 +11,8 @@
         </div>
       </div>
       <div class="box-content">
-        <div class="box-inner" :style="{'margin-top':marginTop}">
-          <router-view ref="mainDOM"></router-view>
+        <div class="box-inner" :style="{'margin-top':this.hasHeader?'40px':'0px'}">
+          <slot></slot>
         </div>
       </div>
     </div>
@@ -22,26 +22,29 @@
 <script>
   export default {
     mounted() {
-      this.marginTop = this.isHeader ? '40px' : '0px';
-      this.title = this.mboard.title;
+      this.title = this.mboard.title || '';
     },
     props: {
-      boxHeight: {
-        type: String,
-        default: '480px'
-      },
       mboard: {
         type: Object
+      }
+    },
+    computed: {
+      hasHeader() {
+        if (typeof this.mboard.hasHeader === 'undefined') return true;
+        return this.mboard.hasHeader;
       },
-      isHeader: {
-        type: Boolean,
-        default: true
+      hasTitle() {
+        if (typeof this.mboard.hasTitle === 'undefined') return true;
+        return this.mboard.hasTitle;
+      },
+      height() {
+        return this.mboard.height || '480px';
       }
     },
     data() {
       return {
-        title: '',
-        marginTop: ''
+        title: ''
       };
     },
     methods: {
@@ -57,8 +60,6 @@
 
 <style scoped lang="stylus">
   .box-outer-bd
-    width: 878px
-    margin: 0 auto
     border: 2px solid #E49941
     box-shadow: 0 0 24px 4px #e49941 inset;
     border-radius: 12px
@@ -107,9 +108,9 @@
         .box-inner
           position: relative
           flex: 1
-          width: 844px
           margin: 0 8px
           background: url('/static/images/box_inner_bg.jpg')
+          border: 1px solid #B58748
           border-radius: 12px
           box-shadow: 0 0 350px 2px rgba(0, 0, 0, 0.3) inset
 </style>

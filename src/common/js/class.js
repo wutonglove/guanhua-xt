@@ -6,9 +6,7 @@ class Grid {
   constructor({text}) {
     this.text = text;
     this.code = [];
-    this.tagCode = 0;
-    this.tagOri = '';
-    this.tagShow = false;
+    this.tags = [];
     this.hover = false;
     this.selecting = false;
     this.disableX = false;
@@ -27,18 +25,21 @@ class Grid {
     this.code.push(code);
   }
 
-  setTagOri(val) {
-    this.tagOri = val;
-  }
-
-  setTagShow(val) {
-    this.tagShow = val;
+  setTags({ori, code}) {
+    this.tags.push({
+      ori,
+      code,
+      show: true
+    });
   }
 
   setDisable(ori, val) {
     if (ori === 'x') {
       this.disableX = val;
+    } else if (ori === 'y') {
+      this.disableY = val;
     } else {
+      this.disableX = val;
       this.disableY = val;
     }
   }

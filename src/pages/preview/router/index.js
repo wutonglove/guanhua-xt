@@ -12,6 +12,8 @@ import Compare from 'components/preview-question/math/compare/compare';
 import FractionalCalc from 'components/preview-question/math/fractional-calc/fractional-calc';
 import VerticalCalc from 'components/preview-question/math/vertical-calc/vertical-calc';
 import RubikBox from 'components/preview-question/chinese/rubik-box/rubik-box';
+import Logogriph from 'components/preview-question/chinese/logogriph/logogriph';
+import SpellingPoem from 'components/preview-question/chinese/spelling-poem/spelling-poem';
 
 Vue.use(Router);
 
@@ -44,6 +46,14 @@ export default new Router({
         {
           path: '/interest/rubik-box',
           component: RubikBox
+        },
+        {
+          path: '/interest/logogriph',
+          component: Logogriph
+        },
+        {
+          path: '/interest/spelling-poem',
+          component: SpellingPoem
         }
       ]
     }

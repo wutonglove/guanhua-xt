@@ -18,7 +18,7 @@
           </a>
         </div>
         <div class="box_content">
-          <mboard ref="mboard" :mboard="mboard"></mboard>
+          <router-view ref="mainDOM" :mboard="mboard"></router-view>
         </div>
         <div class="hint_box">
           <a class="hint_btn" @click="showHintDia"></a>
@@ -45,7 +45,6 @@
 
 <script>
   import FooterBtns from 'components/template1-part/footer-btns/footer-btns';
-  import Mboard from 'components/template1-part/mboard/mboard';
   import IIcon from 'iview/src/components/icon';
   import Modal from 'iview/src/components/modal';
 
@@ -113,8 +112,8 @@
       },
       preview() {
         if (!this.verify()) return;
-        let data = this.$refs.mboard.getQuestionData().localData;
-        data['mboardTitle'] = this.$refs.mboard.title;
+        let data = this.$refs.mainDOM.getQuestionData().localData;
+        data['mboardTitle'] = this.$refs.mainDOM.title;
         data['hints'] = this.hints; // set
         console.log(data);
         localStorage.setItem(LOCALSTORAGEKEY, JSON.stringify(data));
@@ -138,7 +137,7 @@
         this.hints = hints;
       },
       verify(cb) {
-        let question = this.$refs.mboard.$refs.mainDOM;
+        let question = this.$refs.mainDOM;
         return question.showMessage();
       },
       ...mapMutations({
@@ -148,7 +147,6 @@
     },
     components: {
       FooterBtns,
-      Mboard,
       IIcon,
       Modal,
       PreDia,
@@ -250,6 +248,7 @@
         .box_content
           width: 100%
           height: 485px
+          padding:0 10px
         .example_btn
           width: 76px
           height: 32px

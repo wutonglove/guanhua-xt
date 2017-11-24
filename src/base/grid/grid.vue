@@ -15,17 +15,21 @@
            @mousedown="selectStart({r,c})"
            @mousemove.stop="selectMove({r,c})"
            @mouseup="selectEnd({r,c})"
-           @mouseover="over({r,c})"
-           @mouseout="out"
+           @mouseover="mouseOver(td)"
+           @mouseout="mouseOut"
            @touchstart="touchStart({r,c}, $event)"
            @touchmove="touchMove($event)"
-           @touchend="touchEnd({r,c})"
+           @touchend="touchEnd($event)"
       >
         <num-tag
           class="tag"
-          v-if="td.tagShow"
-          :text="td.tagCode+''"
-          :ori="td.tagOri"
+          :class="{'tag_x':tag.ori==='right','tag_y':tag.ori==='down'}"
+          v-for="(tag,index) in td.tags"
+          :key="'tag'+index"
+          v-if="tag.show"
+          :text="tag.code+''"
+          :ori="tag.ori"
+          :color="calcTagColor(tag.ori)"
         ></num-tag>
         <input class="input"
                v-if="isEdit"
@@ -56,10 +60,14 @@
 
 <script>
   import IIcon from 'iview/src/components/icon';
-  import NumTag from 'components/template1-part/num-tag/num-tag';
+  import NumTag from 'base/num-tag/num-tag';
   import Notice from 'iview/src/components/notice';
   import {createGrid} from 'common/js/class';
   //  import $ from 'expose-loader?$!jquery';
+
+  const NO_CN = /[^\u4E00-\u9FA5]/g;
+  const NO_EN = /[^A-Za-z]/g;
+  const NO_SYMBOL = /[^\u4E00-\u9FA5^A-Za-z]/g;
 
   export default {
     props: {
@@ -69,6 +77,10 @@
       mode: {
         type: String,
         default: 'edit'
+      },
+      language: {
+        type: String,
+        default: ''
       }
     },
     data() {
@@ -92,7 +104,8 @@
           curX: 0,
           curY: 0
         },
-        optionsObj: []
+        optionsObj: [],
+        gridCodeNum: 0
       };
     },
     computed: {
@@ -132,10 +145,23 @@
       });
     },
     methods: {
+      calcTagColor(ori) {
+        switch (ori) {
+          case 'right':
+            return '#51A6FB';
+          case 'down':
+            return '#73B108';
+        }
+      },
       input({tr, r, c}) {
         // 输入事件
-        let NO_CN = /[^\u4E00-\u9FA5]/g;
-        let str = tr[c].text.replace(NO_CN, ''); // 将非中文替换
+        let zh = NO_SYMBOL;
+        if (this.language === 'cn') {
+          zh = NO_CN;
+        } else if (this.language === 'en') {
+          zh = NO_EN;
+        }
+        let str = tr[c].text.replace(zh, '');
         let n = (c + str.length) - (this.table[0].length);
         if (n > 0) {
           this.addC(n);
@@ -256,12 +282,15 @@
           for (let i = 0; i < _c; i++) {
             let grid = this.table[this.pos.curR][i + this.pos.curC];
             if (grid.getText() === '') return;
-            grid.setCode(this.options.length);
+//            grid.setCode(this.optionsObj.length);
+            grid.setCode(this.gridCodeNum);
             grid.setDisable('x', true);
             if (i === 0) {
-              grid.setTagOri('right');
+//              grid.setTagOri('down');
+              grid.setTags({ori: 'right', code: 0});
             }
           }
+          this.gridCodeNum++;
         } else if (_r > 1) {
           let bol = this.chooseable({
             ori: 'y',
@@ -276,12 +305,14 @@
           for (let i = 0; i < _r; i++) {
             let grid = this.table[i + this.pos.curR][this.pos.curC];
             if (grid.getText() === '') return;
-            grid.setCode(this.options.length);
+            grid.setCode(this.gridCodeNum);
             grid.setDisable('y', true);
             if (i === 0) {
-              grid.setTagOri('down');
+//              grid.setTagOri('down');
+              grid.setTags({ori: 'down', code: 0});
             }
           }
+          this.gridCodeNum++;
         } else {
           this.initPos();
           return;
@@ -307,11 +338,16 @@
         let c = this.pos.curC + cn;
         this.selectMove({r, c});
       },
-      touchEnd() {
+      touchEnd(e) {
         console.log('touch end');
+        let rn = Math.trunc((e.changedTouches[0].pageY - this.pos.curY) / this.tdWidth);
+        let cn = Math.trunc((e.changedTouches[0].pageX - this.pos.curX) / this.tdWidth);
+        let r = this.pos.curR + rn;
+        let c = this.pos.curC + cn;
+        this.selectEnd({r, c});
       },
-      over({r, c}) {
-        let codes = this.table[r][c].code;
+      mouseOver(td) {
+        let codes = td.code;
         codes.forEach((code) => {
           let arr = this.table.slice();
           arr.forEach((item) => {
@@ -324,20 +360,44 @@
           this.table = arr;
         });
       },
-      out() {
+      mouseOut() {
         this.table.forEach((item) => {
           item.forEach((grid) => {
             grid.hover = false;
           });
         });
       },
-      delCodeItem(code) {
+      delItem(code) {
+        let delCode = this._getCode(code);
         this.optionsObj[code].forEach((item, index) => {
-          if (index === 0) item.setTagShow(false);
-          let i = item.code.indexOf(code);
+          if (index === 0) {
+            for (let i = 0; i < item.tags.length; i++) {
+              if (item.tags[i].code === code + 1) {
+                item.tags.splice(i, 1);
+                break;
+              }
+            }
+          }
+          let i = item.code.indexOf(delCode);
           item.code.splice(i, 1);
+          item.setDisable(false);
+//          console.log(this.table);
         });
+        this.optionsObj.splice(code, 1);
         this.refreshOptions();
+        this.$emit('op-change', this.optionsObj);
+      },
+      addOption() {
+        let arr = [];
+        this.table.forEach((item) => {
+          item.forEach((grid) => {
+            if (grid.selecting) {
+              arr.push(grid);
+            }
+          });
+        });
+        this.optionsObj.push(arr);
+        this.$emit('op-change', this.optionsObj);
       },
       initPos() {
         this.pos = Object.assign({}, this.pos, {
@@ -356,26 +416,35 @@
           });
         });
       },
-      addOption() {
-        let str = '';
-        let arr = [];
-        this.table.forEach((item) => {
-          item.forEach((grid) => {
-            if (grid.selecting) {
-              str += grid.text;
-              arr.push(grid);
+      refreshOptions() {
+        let code = 1;
+        this.optionsObj.forEach((item, index) => {
+          let ori = this.getOri(item);
+          item[0].tags.forEach((tag, i) => {
+            if (tag.ori === 'down' && ori === 'y') {
+              tag.code = code;
+              code++;
+            } else if (tag.ori === 'right' && ori === 'x') {
+              tag.code = code;
+              code++;
             }
           });
         });
-        this.options.push(str);
-        this.optionsObj.push(arr);
-        console.log(this.options, this.table);
+//        console.log(this.table);
       },
-      refreshOptions() {
-        this.optionsObj.forEach((item, index) => {
-          item[0].tagCode = index + 1;
-          item[0].setTagShow(true);
-        });
+      getOri(arr) {
+        let table = this.table;
+        for (let r = 0; r < table.length; r++) {
+          for (let c = 0; c < table[r].length; c++) {
+            if (table[r][c] === arr[0]) {
+              if (table[r][c + 1] && table[r][c + 1] === arr[1]) {
+                return 'x';
+              } else if (table[r + 1] && table[r + 1][c] === arr[1]) {
+                return 'y';
+              }
+            }
+          }
+        }
       },
       showMessage(desc) {
         Notice.destroy();
@@ -405,8 +474,20 @@
       getRandom() {
         return String.fromCharCode(Math.round(Math.random() * 20901) + 19968);
       },
+      _getCode(index) {
+        // 获取当前要删除的 项的 共同 code
+        let grids = this.optionsObj[index];
+        for (let i = 0; i < grids.length; i++) {
+          let codes = grids[i].code;
+          if (!grids[i + 1]) return '该选项是一个字符';
+          for (let n = 0; n < grids[i + 1].code.length; n++) {
+            if (codes.indexOf(grids[i + 1].code[n]) !== -1) {
+              return grids[i + 1].code[n];
+            }
+          }
+        }
+      },
       _initTable(rn = this.config.r, cn = this.config.c) {
-        console.log(rn, cn);
         for (let r = 0; r < rn; r++) {
           this.table.push([]);
           for (let c = 0; c < cn; c++) {
@@ -449,12 +530,6 @@
         handler(newVal) {
           this._calcWidth();
           this._initGird();
-        }
-      },
-      options: {
-        deep: true,
-        handler(newVal) {
-          this.$emit('op-change', newVal);
         }
       }
     },
@@ -539,7 +614,10 @@
         .tag
           position: absolute
           top: 2px
-          left: 2px
+          &.tag_x
+            left: 2px
+          &.tag_y
+            right: 2px
         .input
           display: block
           border: none

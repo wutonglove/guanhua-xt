@@ -1,60 +1,64 @@
 <template>
-  <transition-group tag="ul" class="fractional_calc" name="slide">
-    <li class="calc_step calc_step_1" key="step1" v-show="curIndex === 0">
-      <div class="fractional_input_box">
-        <div class="title">请输入完整的算式</div>
-        <input type="text" class="fractional_input" v-model="inputStr" maxlength="15" ref="equationInput"/>
-        <ul class="num_btn_box">
-          <li class="num_btn btn" v-for="num in numBtns" @click="inputNum(num)">{{num}}</li>
-        </ul>
-        <ul class="calc_symbol_box">
-          <li class="calc_btn btn" @click="inputSymbol('+')">+</li>
-          <li class="calc_btn btn" @click="inputSymbol('-')">-</li>
-          <li class="calc_btn btn" @click="inputLine">/</li>
-          <li class="calc_btn btn" @click="deleteWord">
-            <i-icon type="ios-arrow-thin-left" :size="20" style="transform:scaleX(3);font-weight:800"></i-icon>
-          </li>
-        </ul>
-      </div>
-      <a class="step_btn" @click="next">下一步</a>
-    </li>
-    <li class="calc_step calc_step_2" key="step2" v-show="curIndex === 1">
-      <div class="equation_box" v-if="curIndex ===1">
-        <div class="title">点击数字选项设置“待填空项”</div>
-        <div class="equation_wrap">
-          <div class="equation_item" v-for="item in equation">
-            <div class="fractional" v-if="typeof item !== 'string'">
-              <div :class="{equation_md:Array.isArray(half)}" v-for="half in item">
-                <div class="line" v-if="half === '-'"></div>
-                <div class="half" v-else>
-                  <div class="num_box" v-if="Array.isArray(half)">
-                    <div style="display: inline-block;"
-                         v-for="num in half"
-                    >
-                      <span class="symbol" v-if="num.text === 'x'">{{num.text}}</span>
-                      <span class="num" :class="{active:num.active}" @click="selected(num)" v-else>{{num.text}}</span>
+  <mboard :mboard="mboard">
+    <transition-group tag="ul" class="fractional_calc" name="slide">
+      <li class="calc_step calc_step_1" key="step1" v-show="curIndex === 0">
+        <div class="fractional_input_box">
+          <div class="title">请输入完整的算式</div>
+          <input type="text" class="fractional_input" v-model="inputStr" maxlength="15" ref="equationInput"/>
+          <ul class="num_btn_box">
+            <li class="num_btn btn" v-for="num in numBtns" @click="inputNum(num)">{{num}}</li>
+          </ul>
+          <ul class="calc_symbol_box">
+            <li class="calc_btn btn" @click="inputSymbol('+')">+</li>
+            <li class="calc_btn btn" @click="inputSymbol('-')">-</li>
+            <li class="calc_btn btn" @click="inputLine">/</li>
+            <li class="calc_btn btn" @click="deleteWord">
+              <i-icon type="ios-arrow-thin-left" :size="20" style="transform:scaleX(3);font-weight:800"></i-icon>
+            </li>
+          </ul>
+        </div>
+        <a class="step_btn" @click="next">下一步</a>
+      </li>
+      <li class="calc_step calc_step_2" key="step2" v-show="curIndex === 1">
+        <div class="equation_box" v-if="curIndex ===1">
+          <div class="title">点击数字选项设置“待填空项”</div>
+          <div class="equation_wrap">
+            <div class="equation_item" v-for="item in equation">
+              <div class="fractional" v-if="typeof item !== 'string'">
+                <div :class="{equation_md:Array.isArray(half)}" v-for="half in item">
+                  <div class="line" v-if="half === '-'"></div>
+                  <div class="half" v-else>
+                    <div class="num_box" v-if="Array.isArray(half)">
+                      <div style="display: inline-block;"
+                           v-for="num in half"
+                      >
+                        <span class="symbol" v-if="num.text === 'x'">{{num.text}}</span>
+                        <span class="num" :class="{active:num.active}" @click="selected(num)" v-else>{{num.text}}</span>
+                      </div>
                     </div>
-                  </div>
-                  <div class="num" :class="{active:half.active}" @click="selected(half)" v-else>
-                    {{half.text}}
+                    <div class="num" :class="{active:half.active}" @click="selected(half)" v-else>
+                      {{half.text}}
+                    </div>
                   </div>
                 </div>
               </div>
+              <div class="symbol" v-else>{{item}}</div>
             </div>
-            <div class="symbol" v-else>{{item}}</div>
           </div>
         </div>
-      </div>
-      <a class="step_btn" @click="prev">上一步</a>
-      <div class="calc_config">
-        <i-checkbox v-model="isMinMultiple" style="font-size: 15px;">只允许最小公倍数通分</i-checkbox>
-        <i-checkbox v-model="isReduction" style="font-size: 15px;">计算结果自动约分</i-checkbox>
-      </div>
-    </li>
-  </transition-group>
+        <a class="step_btn" @click="prev">上一步</a>
+        <div class="calc_config">
+          <i-checkbox v-model="isMinMultiple" style="font-size: 15px;">只允许最小公倍数通分</i-checkbox>
+          <i-checkbox v-model="isReduction" style="font-size: 15px;">计算结果自动约分</i-checkbox>
+        </div>
+      </li>
+    </transition-group>
+  </mboard>
 </template>
 
 <script>
+  import Mboard from 'components/template1-part/mboard/mboard';
+
   import IIcon from 'iview/src/components/icon';
   import ICheckbox from 'iview/src/components/checkbox';
   import Notice from 'iview/src/components/notice';
@@ -62,6 +66,11 @@
   import $ from 'expose-loader?$!jquery';
 
   export default {
+    props: {
+      mboard: {
+        type: Object
+      }
+    },
     data() {
       return {
         curIndex: 0,
@@ -302,6 +311,7 @@
       }
     },
     components: {
+      Mboard,
       IIcon,
       ICheckbox
     }

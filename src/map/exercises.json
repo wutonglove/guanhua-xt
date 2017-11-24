@@ -190,25 +190,89 @@
       "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
       "desc": {
         "descPic": [
-          "/static/images/compare_desc.jpg",
-          "/static/images/compare_desc.gif"
+          "/static/images/rubik_box_desc.jpg",
+          "/static/images/rubik_box_desc.gif"
         ],
         "descText": [
-          "数学算式的大小比较或抽象内容的比较。",
-          "数学等式的比较大小。",
-          "编辑待比较两方的内容，设置待填空的符号保存即可。"
+          "本题型适合于考察学生对语文学科的成语、诗句以及英语单词理解和记忆；",
+          "最少支持5*5，最多支持10*10的单元格矩阵，每个单元格内只能输入一个字母或汉字；",
+          "本题型支持方向键和鼠标点击两种表格输入方式。"
         ]
       },
       "config": {
         "footBtns": [
           "disprtion",
+          "timeset",
           "preview",
           "save"
         ],
         "mboard": {
-          "title": "比较左右两边的大小，并填入正确的符号",
+          "title": "请根据右侧提示在格子中找出对应的单词/词语",
           "titleLength": 70
         }
+      }
+    },
+    {
+      "type": "logogriph",
+      "name": "字谜游戏",
+      "href": "edit.html#/chinese/logogriph",
+      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "desc": {
+        "descPic": [
+          "/static/images/logogriph_desc.jpg",
+          "/static/images/logogriph_desc.gif"
+        ],
+        "descText": [
+          "本题型适用于考察多科目的词汇、名词、诗句的理解与记忆。",
+          "最少支持5*5、最多支持10*10的单元格矩阵，每个单元格内只能输入一个字符。",
+          "单元格内的字符内容支持中文和英文，但不支持同时输入两种文字。",
+          "本题型支持方向键和鼠标两种内容输入操作，选择单元格后单击【Enter】改变文字输入方向。"
+        ]
+      },
+      "config": {
+        "footBtns": [
+          "disprtion",
+          "timeset",
+          "preview",
+          "save"
+        ],
+        "mboard": {
+          "title": "请根据右侧提示在格子中找出合适的词语",
+          "titleLength": 70
+        }
+      }
+    },
+    {
+      "type": "spelling-poem",
+      "name": "连字拼诗",
+      "href": "edit.html#/chinese/spelling-poem",
+      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "desc": {
+        "descPic": [
+          "/static/images/spelling_poem_desc_1.jpg",
+          "/static/images/spelling_poem_desc_2.jpg"
+        ],
+        "descText": [
+          "本题型为语文学科使用题型，主要用于考察学生对古诗语句的通篇连续性记忆以及古诗中对生字的记忆；",
+          "本题型支持小学部分常规五言、七言古诗的使用，用户也可以根据需要手动输入不超过100个字的其它形式的古诗；",
+          "本题型的操作形式为：滑动轨迹将古诗句子中的文字按前后顺序连接为完整的一串。"
+        ]
+      },
+      "config": {
+        "footBtns": [
+          "disprtion",
+          "timeset",
+          "preview",
+          "save"
+        ],
+        "mboard": [
+          {
+            "hasTitle": false
+          },
+          {
+            "hasHeader": false
+          }
+        ]
       }
     }
   ]
