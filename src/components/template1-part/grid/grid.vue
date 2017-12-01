@@ -60,7 +60,7 @@
 
 <script>
   import IIcon from 'iview/src/components/icon';
-  import NumTag from 'base/num-tag/num-tag';
+  import NumTag from 'components/template1-part/num-tag/num-tag';
   import Notice from 'iview/src/components/notice';
   import {createGrid} from 'common/js/class';
   //  import $ from 'expose-loader?$!jquery';

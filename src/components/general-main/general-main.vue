@@ -21,11 +21,11 @@
   import PHeader from 'components/general-part/header/header';
   import PFooter from 'components/general-part/footer/footer';
 
-  import InsertFileDialog from 'components/insertFile/insertFile';
+  import InsertFileDialog from 'base/insertFile/insertFile';
   import InsertFormulaDialog from 'components/general-part/insertFormula/insertFormula';
-  import Unfold from 'components/unfoldDialog/unfoldDialog';
-  import PreDia from 'components/pre-dialog/pre-dialog';
-  import UpProgress from 'components/progress/progress';
+  import Unfold from 'base/unfoldDialog/unfoldDialog';
+  import PreDia from 'base/pre-dialog/pre-dialog';
+  import UpProgress from 'base/progress/progress';
   import Modal from 'iview/src/components/modal';
 
   import $ from 'expose-loader?$!jquery';

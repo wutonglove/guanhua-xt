@@ -1,62 +1,71 @@
 <template>
-  <div class="logogriph_wrap">
-    <div class="grid_box">
-      <grid ref="grid" @op-change="setOptions"></grid>
-    </div>
-    <div class="side_box">
-      <div class="cro_guidance guidance">
-        <div class="header">
-          <div class="title">横向提示</div>
+  <mboard :mboard="mboard">
+    <div class="logogriph_wrap">
+      <div class="grid_box">
+        <grid ref="grid" @op-change="setOptions"></grid>
+      </div>
+      <div class="side_box">
+        <div class="cro_guidance guidance">
+          <div class="header">
+            <div class="title">横向提示</div>
+          </div>
+          <div class="content">
+            <ul class="guidance_list">
+              <li class="guidance_item"
+                  v-for="(item,index) in croGuidList"
+                  @mouseover="mouseOver(item.index)"
+                  @mouseout="mouseOut"
+              >
+                <div class="answer_wrap">{{index + 1}}</div>
+                <div class="input_wrap">
+                  <input type="text" class="input" v-model="item.desc" placeholder="请输入提示内容">
+                </div>
+                <div class="btn_wrap">
+                  <span class="del_btn" @click="delGuid(item.index)"></span>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="content">
-          <ul class="guidance_list">
-            <li class="guidance_item"
-                v-for="(item,index) in croGuidList"
-                @mouseover="mouseOver(item.index)"
-                @mouseout="mouseOut"
-            >
-              <div class="answer_wrap">{{index + 1}}</div>
-              <div class="input_wrap">
-                <input type="text" class="input" v-model="item.desc" placeholder="请输入提示内容">
-              </div>
-              <div class="btn_wrap">
-                <span class="del_btn" @click="delGuid(item.index)"></span>
-              </div>
-            </li>
-          </ul>
+        <div class="len_guidance guidance">
+          <div class="header">
+            <div class="title">纵向提示</div>
+          </div>
+          <div class="content">
+            <ul class="guidance_list">
+              <li class="guidance_item"
+                  v-for="(item,index) in lenGuidList"
+                  @mouseover="mouseOver(item.index)"
+                  @mouseout="mouseOut"
+              >
+                <div class="answer_wrap">{{index + 1}}</div>
+                <div class="input_wrap">
+                  <input type="text" class="input" v-model="item.desc" placeholder="请输入提示内容">
+                </div>
+                <div class="btn_wrap">
+                  <span class="del_btn" @click="delGuid(item.index)"></span>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div class="len_guidance guidance">
-        <div class="header">
-          <div class="title">纵向提示</div>
-        </div>
-        <div class="content">
-          <ul class="guidance_list">
-            <li class="guidance_item"
-                v-for="(item,index) in lenGuidList"
-                @mouseover="mouseOver(item.index)"
-                @mouseout="mouseOut"
-            >
-              <div class="answer_wrap">{{index + 1}}</div>
-              <div class="input_wrap">
-                <input type="text" class="input" v-model="item.desc" placeholder="请输入提示内容">
-              </div>
-              <div class="btn_wrap">
-                <span class="del_btn" @click="delGuid(item.index)"></span>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
     </div>
-  </div>
+  </mboard>
 </template>
 
 <script>
-  import Grid from 'base/grid/grid';
+  import Mboard from 'components/template1-part/mboard/mboard';
+
+  import Grid from 'components/template1-part/grid/grid';
   import Notice from 'iview/src/components/notice';
 
   export default {
+    props: {
+      mboard: {
+        type: Object
+      }
+    },
     data() {
       return {
         croGuidList: [],
@@ -192,7 +201,8 @@
       }
     },
     components: {
-      Grid
+      Grid,
+      Mboard
     }
   };
 </script>

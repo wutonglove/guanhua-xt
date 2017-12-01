@@ -1,51 +1,60 @@
 <template>
-  <transition-group tag="ul" class="vertical_calc" name="slide">
-    <li class="calc_step_1" key="step1" v-show="curIndex === 0">
-      <div class="setting_box">
-        <div class="title">选择题目的语言</div>
-        <ul class="options_box">
-          <li class="cn_box" @click="setLan('cn')">
-            <span class="text">中文</span>
-          </li>
-          <li class="en_box" @click="setLan('en')">
-            <span class="text">英语</span>
-          </li>
-        </ul>
-      </div>
-    </li>
-    <li class="calc_step_2" key="step2" v-show="curIndex === 1">
-      <div class="grid_box">
-        <grid @op-change="setOptions" ref="grid" :language="zh"></grid>
-      </div>
-      <div class="side_box">
-        <div class="guidance">
-          <div class="header">
-            <div class="title">提示</div>
-          </div>
-          <div class="content">
-            <ul class="guidance_list">
-              <li class="guidance_item" v-for="(item,index) in guidList">
-                <div class="answer_wrap">{{`${index + 1}. ${item.answer}`}}</div>
-                <div class="input_wrap">
-                  <input type="text" class="input" v-model="item.desc" placeholder="请输入提示内容">
-                </div>
-                <div class="btn_wrap">
-                  <span class="del_btn" @click="delGuid(index)"></span>
-                </div>
-              </li>
-            </ul>
+  <mboard :mboard="mboard">
+    <transition-group tag="ul" class="vertical_calc" name="slide">
+      <li class="calc_step_1" key="step1" v-show="curIndex === 0">
+        <div class="setting_box">
+          <div class="title">选择题目的语言</div>
+          <ul class="options_box">
+            <li class="cn_box" @click="setLan('cn')">
+              <span class="text">中文</span>
+            </li>
+            <li class="en_box" @click="setLan('en')">
+              <span class="text">英语</span>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="calc_step_2" key="step2" v-show="curIndex === 1">
+        <div class="grid_box">
+          <grid @op-change="setOptions" ref="grid" :language="zh"></grid>
+        </div>
+        <div class="side_box">
+          <div class="guidance">
+            <div class="header">
+              <div class="title">提示</div>
+            </div>
+            <div class="content">
+              <ul class="guidance_list">
+                <li class="guidance_item" v-for="(item,index) in guidList">
+                  <div class="answer_wrap">{{`${index + 1}. ${item.answer}`}}</div>
+                  <div class="input_wrap">
+                    <input type="text" class="input" v-model="item.desc" placeholder="请输入提示内容">
+                  </div>
+                  <div class="btn_wrap">
+                    <span class="del_btn" @click="delGuid(index)"></span>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-    </li>
-  </transition-group>
+      </li>
+    </transition-group>
+  </mboard>
 </template>
 
 <script>
-  import Grid from 'base/grid/grid';
+  import Mboard from 'components/template1-part/mboard/mboard';
+
+  import Grid from 'components/template1-part/grid/grid';
   import Notice from 'iview/src/components/notice';
 
   export default {
+    props: {
+      mboard: {
+        type: Object
+      }
+    },
     data() {
       return {
         curIndex: 0,
@@ -116,7 +125,8 @@
       }
     },
     components: {
-      Grid
+      Grid,
+      Mboard
     }
   };
 </script>

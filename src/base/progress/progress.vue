@@ -37,7 +37,7 @@
   import IButton from 'iview/src/components/button';
   import IIcon from 'iview/src/components/icon';
 
-  import ConfirmDia from 'components/confirm/confirm';
+  import ConfirmDia from 'base/confirm/confirm';
 
   import {mapGetters, mapMutations} from 'vuex';
 

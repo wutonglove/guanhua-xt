@@ -94,7 +94,7 @@
   import IRadio from 'iview/src/components/radio';
   import IInput from 'iview/src/components/input';
 
-  import Tag from 'components/tag/tag';
+  import Tag from 'components/template1-part/tag/tag';
 
   export default {
     props: {

@@ -26,8 +26,8 @@
 </template>
 
 <script>
-  import Local from 'components/insertFile/local';
-  import Outer from 'components/insertFile/outerNet';
+  import Local from '../insertFile/local';
+  import Outer from '../insertFile/outerNet';
 
   import IModal from 'iview/src/components/modal';
   import ITabs from 'iview/src/components/tabs';

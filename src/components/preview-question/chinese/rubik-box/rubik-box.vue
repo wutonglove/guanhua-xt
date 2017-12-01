@@ -21,7 +21,7 @@
 </template>
 
 <script>
-  import Grid from 'base/grid/grid';
+  import Grid from 'components/template1-part/grid/grid';
   import {submitMixin} from 'common/js/mixin';
   import {createGrid} from 'common/js/class';
 

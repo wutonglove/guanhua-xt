@@ -1,185 +1,104 @@
 <template>
-  <transition-group tag="ul" class="vertical_calc" name="slide">
-    <li class="calc_step_1" key="step1" v-show="curIndex === 0">
-      <div class="vertical_input_box">
-        <div class="title">1、请输入完整的版式</div>
-        <input type="text" class="equation_input" v-model="inputStr" ref="equationInput"/>
-        <ul class="num_btn_box">
-          <li class="calc_btn" v-for="key in calcBtns">
-            <a href="javascript:void(0)" class="num_btn" v-if="/[\d\.]/.test(key)" @click="setInputStr(key)">{{key}}</a>
-            <a href="javascript:void(0)" class="del_btn" v-else-if="key === '←'" @click="backspace">{{key}}</a>
-            <a href="javascript:void(0)" class="symbol_btn" v-else @click="setInputStr(key)">{{key}}</a>
-          </li>
-        </ul>
-      </div>
-      <a class="step_btn" @click="next">下一步</a>
-    </li>
-    <li class="calc_step_2" key="step2" v-show="curIndex === 1">
-      <div class="vertical_show_box" v-if="curIndex ===1">
-        <div class="title">2、点击数字选项设置“待填空项”</div>
-        <div class="vertical_box">
-          <!-- 加减计算 -->
-          <div class="add_sub_box" v-if="/[+\-]/.test(symbol)">
-            <div class="clac_num_x2">
-              <div class="num_wrap">
-                <num-btn
-                  v-for="(num,index) in numArr1"
-                  :key="index"
-                  :text="num.key"
-                  :dotActive="num.dotActive"
-                  :numActive="num.numActive"
-                  :hasDot="num.hasDot"
-                  @num-click="numClickHandle({num, index, nums:numArr1})"
-                  @dot-click="dotClickHandle({num})"
-                ></num-btn>
-              </div>
+  <mboard :mboard="mboard">
+    <transition-group tag="ul" class="vertical_calc" name="slide">
+      <li class="calc_step_1" key="step1" v-show="curIndex === 0">
+        <div class="vertical_input_box">
+          <div class="title">1、请输入完整的算式</div>
+          <input type="text" class="equation_input" v-model="inputStr" ref="equationInput"/>
+          <ul class="num_btn_box">
+            <li class="calc_btn" v-for="key in calcBtns">
+              <a href="javascript:void(0)" class="num_btn" v-if="/[\d\.]/.test(key)"
+                 @click="setInputStr(key)">{{key}}</a>
+              <a href="javascript:void(0)" class="del_btn" v-else-if="key === '←'" @click="backspace">{{key}}</a>
+              <a href="javascript:void(0)" class="symbol_btn" v-else @click="setInputStr(key)">{{key}}</a>
+            </li>
+          </ul>
+        </div>
+        <a class="step_btn" @click="next">下一步</a>
+      </li>
+      <li class="calc_step_2" key="step2" v-show="curIndex === 1">
+        <div class="vertical_show_box" v-if="curIndex ===1">
+          <div class="title">2、点击数字选项设置“待填空项”</div>
+          <div class="vertical_box">
+            <!-- 加减计算 -->
+            <div class="add_sub_box" v-if="/[+\-]/.test(symbol)">
+              <div class="clac_num_x2">
+                <div class="num_wrap">
+                  <num-btn
+                    v-for="(num,index) in numArr1"
+                    :key="index"
+                    :text="num.key"
+                    :dotActive="num.dotActive"
+                    :numActive="num.numActive"
+                    :hasDot="num.hasDot"
+                    @num-click="numClickHandle({num, index, nums:numArr1})"
+                    @dot-click="dotClickHandle({num})"
+                  ></num-btn>
+                </div>
 
-              <div class="num_wrap">
-                <num-btn
-                  v-for="(num,index) in numArr2"
-                  :key="index"
-                  :text="num.key"
-                  :dotActive="num.dotActive"
-                  :numActive="num.numActive"
-                  :hasDot="num.hasDot"
-                  @num-click="numClickHandle({num, index, nums:numArr1})"
-                  @dot-click="dotClickHandle({num})"
-                ></num-btn>
+                <div class="num_wrap">
+                  <num-btn
+                    v-for="(num,index) in numArr2"
+                    :key="index"
+                    :text="num.key"
+                    :dotActive="num.dotActive"
+                    :numActive="num.numActive"
+                    :hasDot="num.hasDot"
+                    @num-click="numClickHandle({num, index, nums:numArr1})"
+                    @dot-click="dotClickHandle({num})"
+                  ></num-btn>
+                </div>
+                <div class="symbol">{{symbol}}</div>
               </div>
-              <div class="symbol">{{symbol}}</div>
+              <span class="line"></span>
+              <div class="clac_result">
+                <div class="num_wrap">
+                  <num-btn
+                    v-for="(num,index) in resultArr"
+                    :key="index"
+                    :text="num.key"
+                    :dotActive="num.dotActive"
+                    :numActive="num.numActive"
+                    :hasDot="num.hasDot"
+                    @num-click="numClickHandle({num, index, nums:numArr1})"
+                    @dot-click="dotClickHandle({num})"
+                  ></num-btn>
+                </div>
+              </div>
             </div>
-            <span class="line"></span>
-            <div class="clac_result">
-              <div class="num_wrap">
+            <!-- 乘法计算 -->
+            <div class="multiply_box" v-else-if="symbol==='x'">
+              <div class="clac_num_x2">
+                <div class="num_wrap">
+                  <num-btn
+                    v-for="(num,index) in numArr1"
+                    :key="index"
+                    :text="num.key"
+                    :hasDot="num.hasDot"
+                  ></num-btn>
+                </div>
+                <div class="num_wrap">
+                  <num-btn
+                    v-for="(num,index) in numArr2"
+                    :key="index"
+                    :text="num.key"
+                    :hasDot="num.hasDot"
+                  ></num-btn>
+                </div>
+                <div class="symbol">{{symbol}}</div>
+              </div>
+              <span class="line"></span>
+              <div class="num_wrap" v-for="(numWrap,r) in mulCalcStep">
                 <num-btn
-                  v-for="(num,index) in resultArr"
+                  v-for="(num,index) in numWrap"
                   :key="index"
                   :text="num.key"
-                  :dotActive="num.dotActive"
-                  :numActive="num.numActive"
-                  :hasDot="num.hasDot"
-                  @num-click="numClickHandle({num, index, nums:numArr1})"
-                  @dot-click="dotClickHandle({num})"
-                ></num-btn>
-              </div>
-            </div>
-          </div>
-          <!-- 乘法计算 -->
-          <div class="multiply_box" v-else-if="symbol==='x'">
-            <div class="clac_num_x2">
-              <div class="num_wrap">
-                <!--
-                <div class="num_out_box" v-for="num in numArr1">
-                  <div class="dot_btn_box">
-                    <a href="javascript:void(0)" class="num_btn" v-if="num.hasDot">.</a>
-                  </div>
-                  <div class="num_btn_box">
-                    <a href="javascript:void(0)" class="num_btn" v-if="num.key">{{num.key}}</a>
-                  </div>
-                </div>
-                -->
-                <num-btn
-                  v-for="(num,index) in numArr1"
-                  :key="index"
-                  :text="num.key"
-                  :hasDot="num.hasDot"
-                ></num-btn>
-              </div>
-              <div class="num_wrap">
-                <!--
-                <div class="num_out_box" v-for="num in numToArr(this.num2)">
-                  <div class="dot_btn_box">
-                    <a href="javascript:void(0)" class="num_btn" v-if="num.hasDot">.</a>
-                  </div>
-                  <div class="num_btn_box">
-                    <a href="javascript:void(0)" class="num_btn" v-if="num.key">{{num.key}}</a>
-                  </div>
-                </div>
-                -->
-                <num-btn
-                  v-for="(num,index) in numArr2"
-                  :key="index"
-                  :text="num.key"
-                  :hasDot="num.hasDot"
-                ></num-btn>
-              </div>
-              <div class="symbol">{{symbol}}</div>
-            </div>
-            <span class="line"></span>
-            <div class="num_wrap" v-for="(numWrap,r) in mulCalcStep">
-              <num-btn
-                v-for="(num,index) in numWrap"
-                :key="index"
-                :text="num.key"
-                :numActive="num.numActive"
-                :hasDot="num.hasDot"
-                @num-click="numClickHandle({num})"
-              ></num-btn>
-              <!--
-              <div class="num_out_box" v-for="(num,c) in numWrap">
-                <div class="dot_btn_box">
-                  <a href="javascript:void(0)" class="num_btn" v-if="num.hasDot">.</a>
-                </div>
-                <div class="num_btn_box" @click="numClickHandle({num})">
-                  <a href="javascript:void(0)" class="num_btn" :class="{'active':num.numActive}"
-                     v-if="num.key">{{num.key}}</a>
-                </div>
-              </div>
-              -->
-            </div>
-            <span class="line"></span>
-            <div class="clac_result">
-              <div class="num_wrap">
-                <!--
-                <div class="num_out_box" v-for="num in resultArr">
-                  <div class="dot_btn_box" @click="dotClickHandle({num})">
-                    <a href="javascript:void(0)" class="num_btn" :class="{'active':num.dotActive}"
-                       v-if="num.hasDot">.</a>
-                  </div>
-                  <div class="num_btn_box" @click="numClickHandle({num})">
-                    <a href="javascript:void(0)" class="num_btn" :class="{'active':num.numActive}"
-                       v-if="num.key">{{num.key}}</a>
-                  </div>
-                </div>
-                -->
-                <num-btn
-                  v-for="(num,index) in resultArr"
-                  :key="index"
-                  :text="num.key"
-                  :dotActive="num.dotActive"
                   :numActive="num.numActive"
                   :hasDot="num.hasDot"
                   @num-click="numClickHandle({num})"
-                  @dot-click="dotClickHandle({num})"
                 ></num-btn>
               </div>
-            </div>
-          </div>
-          <!-- 除法 -->
-          <div class="division_box" v-else>
-
-            <div class="dividend_box">
-              <div class="num_wrap">
-                <!--
-                <div class="num_out_box" v-for="num in numArr2">
-                  <div class="dot_btn_box" :class="{'del':num.dotIsShow}">
-                    <a href="javascript:void(0)" class="num_btn" v-if="num.hasDot">.</a>
-                  </div>
-                  <div class="num_btn_box">
-                    <a href="javascript:void(0)" class="num_btn" v-if="num.key">{{num.key}}</a>
-                  </div>
-                </div>
-                -->
-                <num-btn
-                  v-for="(num,index) in numArr2"
-                  :key="index"
-                  :text="num.key"
-                  :hasDot="num.hasDot"
-                  :dotIsDel="num.dotIsDel"
-                ></num-btn>
-              </div>
-            </div>
-            <div class="division_right">
+              <span class="line"></span>
               <div class="clac_result">
                 <div class="num_wrap">
                   <num-btn
@@ -194,44 +113,77 @@
                   ></num-btn>
                 </div>
               </div>
-              <div class="division_clac_box" ref="divisionBox">
-                <div class="division_step_box" v-for="(numWrap,r) in divCalcStep">
+            </div>
+            <!-- 除法 -->
+            <div class="division_box" v-else>
+
+              <div class="dividend_box">
+                <div class="num_wrap">
+                  <num-btn
+                    v-for="(num,index) in numArr2"
+                    :key="index"
+                    :text="num.key"
+                    :hasDot="num.hasDot"
+                    :dotIsDel="num.dotIsDel"
+                  ></num-btn>
+                </div>
+              </div>
+              <div class="division_right">
+                <div class="clac_result">
                   <div class="num_wrap">
                     <num-btn
-                      v-for="(num,index) in numWrap[0]"
+                      v-for="(num,index) in resultArr"
                       :key="index"
                       :text="num.key"
+                      :dotActive="num.dotActive"
                       :numActive="num.numActive"
-                      :isVirtual="num.isVirtual"
-                      @num-click="numClickHandle({num,index:r})"
-                    ></num-btn>
-                  </div>
-                  <div class="num_wrap">
-                    <num-btn
-                      v-for="(num,index) in numWrap[1]"
-                      :key="index"
-                      :text="num.key"
-                      :numActive="num.numActive"
+                      :hasDot="num.hasDot"
                       @num-click="numClickHandle({num})"
+                      @dot-click="dotClickHandle({num})"
                     ></num-btn>
                   </div>
-                  <span class="line" v-if="r<divCalcStep.length-1"></span>
+                </div>
+                <div class="division_clac_box" ref="divisionBox">
+                  <div class="division_step_box" v-for="(numWrap,r) in divCalcStep">
+                    <div class="num_wrap">
+                      <num-btn
+                        v-for="(num,index) in numWrap[0]"
+                        :key="index"
+                        :text="num.key"
+                        :numActive="num.numActive"
+                        :isVirtual="num.isVirtual"
+                        @num-click="numClickHandle({num,index:r})"
+                      ></num-btn>
+                    </div>
+                    <div class="num_wrap">
+                      <num-btn
+                        v-for="(num,index) in numWrap[1]"
+                        :key="index"
+                        :text="num.key"
+                        :numActive="num.numActive"
+                        @num-click="numClickHandle({num})"
+                      ></num-btn>
+                    </div>
+                    <span class="line" v-if="r<divCalcStep.length-1"></span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <a class="step_btn" @click="prev">上一步</a>
-    </li>
-  </transition-group>
+        <a class="step_btn" @click="prev">上一步</a>
+      </li>
+    </transition-group>
+  </mboard>
 </template>
 
 <script>
+  import Mboard from 'components/template1-part/mboard/mboard';
+
   import Notice from 'iview/src/components/notice';
   import divisionSign from './division_sign.png';
   import $ from 'expose-loader?$!jquery';
-  import NumBtn from 'base/num-btn/num-btn';
+  import NumBtn from 'components/template1-part/num-btn/num-btn';
 
   class NumKey {
     constructor({key, hasDot, isVirtual, dotIsShow}) {
@@ -246,6 +198,11 @@
   // _ ： 虚位 0
   // / ：划掉的小数点
   export default {
+    props: {
+      mboard: {
+        type: Object
+      }
+    },
     data() {
       return {
         curIndex: 0,
@@ -673,7 +630,8 @@
       }
     },
     components: {
-      NumBtn
+      NumBtn,
+      Mboard
     }
   }
   ;

@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import UnfoldModel from 'components/unfoldDialog/unfoldDialog';
+  import UnfoldModel from 'base/unfoldDialog/unfoldDialog';
   import IButton from 'iview/src/components/button';
   import ISpin from 'iview/src/components/spin';
   import Modal from 'iview/src/components/modal';

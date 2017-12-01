@@ -44,7 +44,7 @@ export function urlSearch() {
   }
   return parameters;
 }
-// 生成 n-m 的 length=l 的随机数组
+// 生成 n-m 的 length=l 的随机数组 闭区间
 export function createRandomArr(l, n, m) {
   let arr = [];
   while (arr.length < l) {

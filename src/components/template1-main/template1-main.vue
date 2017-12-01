@@ -48,7 +48,7 @@
   import IIcon from 'iview/src/components/icon';
   import Modal from 'iview/src/components/modal';
 
-  import PreDia from 'components/pre-dialog/pre-dialog';
+  import PreDia from 'base/pre-dialog/pre-dialog';
   import HintDia from 'components/template1-part/hint-dialog/hint-dialog';
 
   import {LOCALSTORAGEKEY} from 'common/js/config';
