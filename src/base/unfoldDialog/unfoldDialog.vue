@@ -89,6 +89,9 @@
       border: 10px solid #fff
       z-index: 1200
       background-color: #fff
+      max-height: 100%
+      max-width: 100%
+      overflow: auto
       .close
         position: absolute
         right: 0

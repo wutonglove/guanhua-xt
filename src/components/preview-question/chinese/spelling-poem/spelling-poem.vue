@@ -85,95 +85,135 @@
       },
       createMatrix() {
         let matrix = [];
-        let maxR = 5;
-        let maxC = 5;
+        let maxR = 7;
+        let maxC = 7;
         for (let r = 0; r < maxR; r++) {
           matrix.push([]);
           for (let c = 0; c < maxC; c++) {
             matrix[r].push(-1);
           }
         }
-        let curR = 4;
-        let curC = 0;
+
+        let curR = 0;
+        let curC = 4;
         let l = maxR * maxC;
         for (let num = 0; num < l; num++) {
           matrix[curR][curC] = num;
-          let nextR;
-          let nextC;
+//          let nextR;
+//          let nextC;
+          let obj;
 
-          // 上
-          nextR = curR - 1;
-          nextC = curC;
-          if (matrix[nextR] && matrix[nextR][nextC] === -1) {
-            if (matrix[nextR - 1] && matrix[nextR - 1][nextC] === -1) {
-              curR = nextR;
-              curC = nextC;
-              continue;
-            } else {
-              // || (!matrix[nextR - 1] || (matrix[nextR - 1][nextC + 1] < 0 || matrix[nextR - 1][nextC - 1] < 0))
-              if (((matrix[nextR][nextC - 1] !== -1) || (matrix[nextR][nextC + 1] !== -1))) {
-                curR = nextR;
-                curC = nextC;
-                continue;
-              }
-            }
-          }
-
-          // you
-          nextR = curR;
-          nextC = curC + 1;
-          if (matrix[nextR] && matrix[nextR][nextC] === -1) {
-            if (matrix[nextR][nextC + 1] === -1) {
-              curR = nextR;
-              curC = nextC;
-              continue;
-            } else {
-              if ((!matrix[nextR - 1] || matrix[nextR - 1][nextC] !== -1) || (!matrix[nextR + 1] || matrix[nextR + 1][nextC] !== -1)) {
-                curR = nextR;
-                curC = nextC;
-                continue;
-              }
-            }
-          }
-
-          // zuo
-          nextR = curR;
-          nextC = curC - 1;
-          if (matrix[nextR][nextC] === -1) {
-            if (matrix[nextR][nextC - 1] === -1) {
-              curR = nextR;
-              curC = nextC;
-              continue;
-            } else {
-              if ((!matrix[nextR - 1] || matrix[nextR - 1][nextC] !== -1) || (!matrix[nextR + 1] || matrix[nextR + 1][nextC] !== -1)) {
-                curR = nextR;
-                curC = nextC;
-                continue;
-              }
-            }
-          }
-
-          // xia
-          nextR = curR + 1;
-          nextC = curC;
-          if (matrix[nextR] && matrix[nextR][nextC] === -1) {
-            if (matrix[nextR + 1] && matrix[nextR + 1][nextC] === -1) {
-              curR = nextR;
-              curC = nextC;
-              continue;
-            } else {
-              if ((!matrix[nextR][nextC - 1] !== -1) || (matrix[nextR][nextC + 1] !== -1)) {
-                curR = nextR;
-                curC = nextC;
-                continue;
-              }
-            }
-          }
+//          // 上
+//          nextR = curR - 1;
+//          nextC = curC;
+//          if (matrix[nextR] && matrix[nextR][nextC] === -1) {
+//            if (matrix[nextR - 1] && matrix[nextR - 1][nextC] === -1) {
+//              curR = nextR;
+//              curC = nextC;
+//              continue;
+//            } else {
+//              // || (!matrix[nextR - 1] || (matrix[nextR - 1][nextC + 1] < 0 || matrix[nextR - 1][nextC - 1] < 0))
+//              if (((matrix[nextR][nextC - 1] !== -1) || (matrix[nextR][nextC + 1] !== -1))) {
+//                curR = nextR;
+//                curC = nextC;
+//                continue;
+//              }
+//            }
+//          }
+//
+//          // you
+//          nextR = curR;
+//          nextC = curC + 1;
+//          if (matrix[nextR] && matrix[nextR][nextC] === -1) {
+//            if (matrix[nextR][nextC + 1] === -1) {
+//              curR = nextR;
+//              curC = nextC;
+//              continue;
+//            } else {
+//              if ((!matrix[nextR - 1] || matrix[nextR - 1][nextC] !== -1) || (!matrix[nextR + 1] || matrix[nextR + 1][nextC] !== -1)) {
+//                curR = nextR;
+//                curC = nextC;
+//                continue;
+//              }
+//            }
+//          }
+//
+//          // zuo
+//          nextR = curR;
+//          nextC = curC - 1;
+//          if (matrix[nextR][nextC] === -1) {
+//            if (matrix[nextR][nextC - 1] === -1) {
+//              curR = nextR;
+//              curC = nextC;
+//              continue;
+//            } else {
+//              if ((!matrix[nextR - 1] || matrix[nextR - 1][nextC] !== -1) || (!matrix[nextR + 1] || matrix[nextR + 1][nextC] !== -1)) {
+//                curR = nextR;
+//                curC = nextC;
+//                continue;
+//              }
+//            }
+//          }
+//
+//          // xia
+//          nextR = curR + 1;
+//          nextC = curC;
+//          if (matrix[nextR] && matrix[nextR][nextC] === -1) {
+//            if (matrix[nextR + 1] && matrix[nextR + 1][nextC] === -1) {
+//              curR = nextR;
+//              curC = nextC;
+//              continue;
+//            } else {
+//              if ((!matrix[nextR][nextC - 1] !== -1) || (matrix[nextR][nextC + 1] !== -1)) {
+//                curR = nextR;
+//                curC = nextC;
+//                continue;
+//              }
+//            }
+//          }
           // 随机
           let rn = parseInt(Math.random() * 4, 10);
           switch (rn) {
             case 0: // shang
               break;
+          }
+          obj = this.toBottom(matrix, curR, curC);
+          let ori = '';
+          if (obj) {
+            // 随机左右
+            if (obj === 'lr') {
+              ori = Math.random() < 0.5 ? 'r' : 'l';
+            } else {
+              curC = obj.curC;
+              curR = obj.curR;
+              continue;
+            }
+          }
+          if (ori === '' || ori === 'r') {
+            obj = this.toRight(matrix, curR, curC);
+            if (obj) {
+              curC = obj.curC;
+              curR = obj.curR;
+              continue;
+            }
+          }
+          if (ori === '' || ori === 'l') {
+            obj = this.toLeft(matrix, curR, curC);
+            if (obj) {
+              curC = obj.curC;
+              curR = obj.curR;
+              continue;
+            }
+          }
+          obj = this.toTop(matrix, curR, curC);
+          if (obj) {
+            if (obj === 'lr') {
+              ori = Math.random() < 0.5 ? 'r' : 'l';
+            } else {
+              curC = obj.curC;
+              curR = obj.curR;
+              continue;
+            }
           }
         }
         console.log(matrix);
@@ -183,37 +223,87 @@
         let nextC = curC;
         if (matrix[nextR] && matrix[nextR][nextC] === -1) {
           if (matrix[nextR - 1] && matrix[nextR - 1][nextC] === -1) {
-            curR = nextR;
-            curC = nextC;
-            return true;
+            return {
+              curR: nextR,
+              curC: nextC
+            };
           } else {
             // || (!matrix[nextR - 1] || (matrix[nextR - 1][nextC + 1] < 0 || matrix[nextR - 1][nextC - 1] < 0))
-            if (((matrix[nextR][nextC - 1] !== -1) || (matrix[nextR][nextC + 1] !== -1))) {
+            if ((matrix[nextR][nextC - 1] !== -1) || (matrix[nextR][nextC + 1] !== -1)) {
               curR = nextR;
               curC = nextC;
-              return true;
+              return {
+                curR: nextR,
+                curC: nextC
+              };
+            } else {
+              return 'lr';
             }
           }
         }
-        return false;
+        return null;
       },
       toRight(matrix, curR, curC) {
         let nextR = curR;
         let nextC = curC + 1;
         if (matrix[nextR] && matrix[nextR][nextC] === -1) {
           if (matrix[nextR][nextC + 1] === -1) {
-            curR = nextR;
-            curC = nextC;
-            return true;
+            return {
+              curR: nextR,
+              curC: nextC
+            };
           } else {
             if ((!matrix[nextR - 1] || matrix[nextR - 1][nextC] !== -1) || (!matrix[nextR + 1] || matrix[nextR + 1][nextC] !== -1)) {
-              curR = nextR;
-              curC = nextC;
-              return true;
+              return {
+                curR: nextR,
+                curC: nextC
+              };
             }
           }
         }
-        return false;
+        return null;
+      },
+      toLeft(matrix, curR, curC) {
+        let nextR = curR;
+        let nextC = curC - 1;
+        if (matrix[nextR][nextC] === -1) {
+          if (matrix[nextR][nextC - 1] === -1) {
+            return {
+              curR: nextR,
+              curC: nextC
+            };
+          } else {
+            if ((!matrix[nextR - 1] || matrix[nextR - 1][nextC] !== -1) || (!matrix[nextR + 1] || matrix[nextR + 1][nextC] !== -1)) {
+              return {
+                curR: nextR,
+                curC: nextC
+              };
+            }
+          }
+        }
+        return null;
+      },
+      toBottom(matrix, curR, curC) {
+        let nextR = curR + 1;
+        let nextC = curC;
+        if (matrix[nextR] && matrix[nextR][nextC] === -1) {
+          if (matrix[nextR + 1] && matrix[nextR + 1][nextC] === -1) {
+            return {
+              curR: nextR,
+              curC: nextC
+            };
+          } else {
+            if ((matrix[nextR][nextC - 1] !== -1) || (matrix[nextR][nextC + 1] !== -1)) {
+              return {
+                curR: nextR,
+                curC: nextC
+              };
+            } else {
+              return 'lr';
+            }
+          }
+        }
+        return null;
       },
       regroupPoem() {
 

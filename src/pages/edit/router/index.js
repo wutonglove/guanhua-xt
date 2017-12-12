@@ -48,6 +48,16 @@ const SpellingPoem = (resolve) => {
     resolve(module);
   });
 };
+const Punctuation = (resolve) => {
+  import('components/questions/chinese/punctuation/punctuation').then((module) => {
+    resolve(module);
+  });
+};
+const Composition = (resolve) => {
+  import('components/questions/chinese/composition/composition').then((module) => {
+    resolve(module);
+  });
+};
 
 Vue.use(Router);
 
@@ -96,6 +106,10 @@ export default new Router({
         {
           path: '/general/subjective',
           component: Subjective
+        },
+        {
+          path: '/general/composition',
+          component: Composition
         }
       ]
     },
@@ -132,6 +146,10 @@ export default new Router({
         {
           path: '/chinese/spelling-poem',
           component: SpellingPoem
+        },
+        {
+          path: '/chinese/punctuation',
+          component: Punctuation
         }
       ]
     }

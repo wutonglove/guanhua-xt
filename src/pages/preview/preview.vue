@@ -63,7 +63,7 @@
       },
       bindUnfoldEvent() {
         let _self = this;
-        $(this.$refs.content).find('.img_wrap').on('click', function () {
+        $('.img_wrap').on('click', function () {
           let src = $(this).children('img')[0].src;
           _self.unfold(src);
         });

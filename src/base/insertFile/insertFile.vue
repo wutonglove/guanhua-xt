@@ -68,7 +68,7 @@
             $(this.targetDom).html(html);
             this.setTargetDom(null);
           }
-          document.execCommand('insertHTML', false, `&nbsp;${html}&nbsp;`);
+          document.execCommand('insertHTML', false, `&zwnj;${html}&zwnj;`);
         });
       },
       unfold(file) {

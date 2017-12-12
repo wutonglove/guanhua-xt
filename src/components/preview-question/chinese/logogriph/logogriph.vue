@@ -4,14 +4,6 @@
       <div class="grid_bd">
         <div class="grid_tr" v-for="(tr,r) in table">
           <div class="grid_box" v-for="(td,c) in tr">
-            <!--<num-tag-->
-            <!--class="tag"-->
-            <!--v-for="(tag,index) in td.tags"-->
-            <!--:key="'tag'+index"-->
-            <!--v-if="tag.show"-->
-            <!--:text="tag.code+''"-->
-            <!--:ori="tag.ori"-->
-            <!--&gt;</num-tag>-->
             <div class="tag"
                  :class="{tag_x:tag.ori==='right',tag_y:tag.ori === 'down'}"
                  v-for="(tag,index) in td.tags"

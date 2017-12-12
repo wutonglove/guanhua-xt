@@ -247,6 +247,8 @@
               font-size: 14px
               white-space: normal
               overflow-y: auto
+              > li
+                margin: 4px 0
           .pop_foot
             .close_btn
               width: 100px

@@ -77,4 +77,59 @@ audio.unfold_file {
   vertical-align: middle;
 }
 
+.content_wrapper .img_wrap {
+  position: relative;
+  display: inline-block;
+  cursor: pointer
+}
 
+.content_wrapper .img_wrap > .shade {
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  width: calc(100% - 8px);
+  line-height: 36px;
+  font-size: 16px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, .5);
+  color: #fff;
+}
+
+/*标点题 标点符号 样式 start*/
+.punctuation_wrapper .textarea > div {
+  display: inline-block;
+}
+
+.punctuation_wrapper .textarea .symbol {
+  display: inline;
+  margin: 0 1px;
+  padding: 2px;
+  line-height: 22px;
+  background-color: #CBA065;
+  position: relative;
+  text-align: center;
+}
+
+.punctuation_wrapper .textarea .active {
+  border: 1px solid #66D37B;
+  background: none;
+}
+
+/* 答题页面*/
+.view_wrapper .punctuation_wrap .textarea .empty_pun {
+  display: inline-block;
+  min-width: 22px;
+  height: 26px;
+  border: 2px solid #643602;
+  cursor: pointer;
+  padding: 2px;
+  line-height: 17px;
+  vertical-align: text-bottom;
+  text-align: center;
+}
+
+.view_wrapper .punctuation_wrap .textarea .active {
+  border-color: #66D37B
+}
+
+/*标点题 标点符号 样式 end*/

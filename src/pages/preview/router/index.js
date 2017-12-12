@@ -14,6 +14,7 @@ import VerticalCalc from 'components/preview-question/math/vertical-calc/vertica
 import RubikBox from 'components/preview-question/chinese/rubik-box/rubik-box';
 import Logogriph from 'components/preview-question/chinese/logogriph/logogriph';
 import SpellingPoem from 'components/preview-question/chinese/spelling-poem/spelling-poem';
+import Punctuation from 'components/preview-question/chinese/punctuation/punctuation';
 
 Vue.use(Router);
 
@@ -54,6 +55,10 @@ export default new Router({
         {
           path: '/interest/spelling-poem',
           component: SpellingPoem
+        },
+        {
+          path: '/interest/punctuation',
+          component: Punctuation
         }
       ]
     }

@@ -42,32 +42,23 @@
     box-shadow: 0 0 0 1px #E2CCAA
     border-radius: 10px
     background-color: $background-pre
+    display: flex
+    flex-direction: column
     .title
+      flex: 0 0 56px
       height: 56px
       line-height: 56px
       padding-left: 43px
       font-size: 34px
       border-bottom: 1px solid #ABABAB
     .content
+      flex: 1
       margin-top: 3px
       overflow: auto
       border-top: 1px solid #ababab
       padding: 20px 43px;
       position: relative
       box-sizing: border-box
-      .img_wrap
-        position: relative
-        display: inline-block
-        .shade
-          position: absolute
-          left: 4px
-          bottom: 10px
-          width: calc(100% - 8px)
-          line-height: 36px
-          font-size: 16px
-          text-align: center
-          background-color: rgba(0, 0, 0, .5)
-          color: #fff
       .topic
         width: 100%
         margin-bottom: 30px

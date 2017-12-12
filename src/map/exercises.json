@@ -274,6 +274,41 @@
           }
         ]
       }
+    },
+    {
+      "type": "punctuation",
+      "name": "标点题",
+      "href": "edit.html#/chinese/punctuation",
+      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "desc": {
+        "descPic": [
+          "/static/images/punctuation.jpg",
+          "/static/images/punctuation.gif"
+        ],
+        "descText": [
+          "本题型适用于语文学科，主要应用于学生对于标点符号的学习。",
+          "本题型自动识别文本中的标点符号，用户可将需要考察学生的标点符号设为选项，也可一键将所有标点符号设为选项。",
+          "本题型支持添加干扰项，选项及干扰项皆不限制数量。",
+          "学生答题时，可将正确选项拖动到文本中的对应位置或在文本的标点位置点选正确的选项完成答题。"
+        ]
+      },
+      "config": {
+        "footBtns": [
+          "disprtion",
+          "timeset",
+          "preview",
+          "save"
+        ],
+        "mboard": {
+          "title": "请填入正确的标点符号"
+        }
+      }
+    },
+    {
+      "type": "composition",
+      "name": "作文题",
+      "href": "edit.html#/general/composition",
+      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png"
     }
   ]
 }

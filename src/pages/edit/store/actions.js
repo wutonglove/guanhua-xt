@@ -25,7 +25,7 @@ export const resetSelection = function ({state}) {
   if (!state.currentRange) {
     return;
   }
-  console.log(state.currentRange);
+  // console.log(state.currentRange);
   return new Promise((resolve) => {
     let selection = document.getSelection();
     selection.removeAllRanges();
