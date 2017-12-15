@@ -1,7 +1,7 @@
 <template>
   <div class="hint">
     <cnt-module name="提示">
-      <div class="div_input"
+      <div class="div_input cl_rg_hook"
            contenteditable="true"
            ref="hintDOM"
            @blur="blur"

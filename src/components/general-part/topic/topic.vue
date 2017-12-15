@@ -1,7 +1,7 @@
 <template>
   <div class="topic">
     <cnt-module name="题干" :isMandatory="true">
-      <div class="div_input"
+      <div class="div_input cl_rg_hook"
            data-duty="topic"
            contenteditable="true"
            spellcheck="false" ref="topicDom"

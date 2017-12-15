@@ -67,7 +67,6 @@
     mounted() {
       this.$nextTick(() => {
         this._initTable();
-//        console.log(this.table);
       });
     },
     computed: {

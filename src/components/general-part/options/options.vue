@@ -5,7 +5,7 @@
         <div class="option" v-for="(option,index) in options">
           <span class="code">{{option.icon}}</span>
           <!-- tag div -->
-          <div class="text div_input"
+          <div class="text div_input cl_rg_hook"
                contenteditable="true"
                ref="selectDOM"
                @input.lazy="setOption(index,$event)"
@@ -14,7 +14,7 @@
           ></div>
 
           <!-- tag input -->
-          <input type="text" class="text div_input"
+          <input type="text" class="text div_input cl_rg_hook"
                  v-else-if="tag==='input'"
                  ref="selectDOM"
                  @input.lazy="setOption(index,$event)"

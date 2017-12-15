@@ -145,6 +145,25 @@
       });
     },
     methods: {
+      languageVail() {
+        let str = '';
+        for (let r = 0; r < this.table.length; r++) {
+          let tr = this.table[r];
+          for (let c = 0; c < tr.length; c++) {
+            str += tr[c].text;
+          }
+        }
+
+        let reg1 = /[\u4e00-\u9fa5]/;
+        let reg2 = /[a-zA-Z]/;
+        if (reg1.test(str) && reg2.test(str)) {
+          Notice.warning({
+            desc: '不支持同时输入两种语言'
+          });
+          return false;
+        }
+        return true;
+      },
       calcTagColor(ori) {
         switch (ori) {
           case 'right':
@@ -170,6 +189,7 @@
         for (let i = 0; i < str.length; i++) {
           tr[c + i].text = str[i];
         }
+        this.languageVail();
       },
       keydown(r, c) {
         if (r === this.table.length - 1) {

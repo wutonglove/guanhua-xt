@@ -43,6 +43,10 @@
           this.preTitle = item.name;
         }
       });
+      if (this.type === 'composition') {
+        document.title = '作文题';
+        this.preTitle = '作文题';
+      }
     },
     data() {
       return {
@@ -90,7 +94,7 @@
       clearRange(e) {
         let parents = $(e.target).parents();
         let curr = $(e.target);
-        if (parents.hasClass('div_input') || curr.hasClass('div_input')) return;
+        if (parents.hasClass('cl_rg_hook') || curr.hasClass('cl_rg_hook')) return;
         this.clearSelection();
       },
       ...mapMutations({

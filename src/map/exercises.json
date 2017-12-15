@@ -97,6 +97,35 @@
       "name": "连字成诗",
       "href": "interest/jointPoem.html",
       "thumbUrl": "3b4e8493-e55c-4cd3-sb56-ec1e7031c67b.png"
+    },
+    {
+      "type": "blank-cloze",
+      "name": "选词填空",
+      "href": "edit.html#/interaction/blank-cloze",
+      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "desc": {
+        "descPic": [
+          "/static/images/blank_cloze.jpg",
+          "/static/images/blank_cloze.gif"
+        ],
+        "descText": [
+          "本题型为多学科通用的新题型，主要考察学生对于重点单词及核心词汇理解和应用情况；",
+          "支持添加正确答案的数量为1~10个，干扰项的数量为0~10个；",
+          "本题型主要采取点击拖放的答题操作形式。"
+        ]
+      },
+      "config": {
+        "footBtns": [
+          "disprtion",
+          "timeset",
+          "preview",
+          "save"
+        ],
+        "mboard": {
+          "title": "请将选项中的词语填入对应的横线内",
+          "titleLength": 70
+        }
+      }
     }
   ],
   "数学题型": [
@@ -309,6 +338,67 @@
       "name": "作文题",
       "href": "edit.html#/general/composition",
       "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png"
+    }
+  ],
+  "英语题型": [
+    {
+      "type": "rubik-box",
+      "name": "魔方盒游戏",
+      "href": "edit.html#/english/rubik-box",
+      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "desc": {
+        "descPic": [
+          "/static/images/rubik_box_desc.jpg",
+          "/static/images/rubik_box_desc.gif"
+        ],
+        "descText": [
+          "本题型适合于考察学生对语文学科的成语、诗句以及英语单词理解和记忆；",
+          "最少支持5*5，最多支持10*10的单元格矩阵，每个单元格内只能输入一个字母或汉字；",
+          "本题型支持方向键和鼠标点击两种表格输入方式。"
+        ]
+      },
+      "config": {
+        "footBtns": [
+          "disprtion",
+          "timeset",
+          "preview",
+          "save"
+        ],
+        "mboard": {
+          "title": "请根据右侧提示在格子中找出对应的单词/词语",
+          "titleLength": 70
+        }
+      }
+    },
+    {
+      "type": "logogriph",
+      "name": "字谜游戏",
+      "href": "edit.html#/english/logogriph",
+      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "desc": {
+        "descPic": [
+          "/static/images/logogriph_desc.jpg",
+          "/static/images/logogriph_desc.gif"
+        ],
+        "descText": [
+          "本题型适用于考察多科目的词汇、名词、诗句的理解与记忆。",
+          "最少支持5*5、最多支持10*10的单元格矩阵，每个单元格内只能输入一个字符。",
+          "单元格内的字符内容支持中文和英文，但不支持同时输入两种文字。",
+          "本题型支持方向键和鼠标两种内容输入操作，选择单元格后单击【Enter】改变文字输入方向。"
+        ]
+      },
+      "config": {
+        "footBtns": [
+          "disprtion",
+          "timeset",
+          "preview",
+          "save"
+        ],
+        "mboard": {
+          "title": "请根据右侧提示在格子中找出合适的词语",
+          "titleLength": 70
+        }
+      }
     }
   ]
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="question_context">
-    <div class="topic" v-html="questionData.topic"></div>
+    <div class="topic" v-html="questionData.topic" v-if="questionData.topic"></div>
 
     <div :is="componentsName" :questionData="questionData" ref="contentModule"></div>
 
@@ -16,6 +16,8 @@
   import Jigsaw from 'components/preview-question/general/jigsaw/jigsaw';
   import Comprehensive from 'components/preview-question/general/comprehensive/comprehensive';
   import Subjective from 'components/preview-question/general/subjective/subjective';
+
+  import Composition from 'components/preview-question/chinese/composition/composition';
 
   export default {
     props: {
@@ -52,7 +54,8 @@
       Sort,
       Jigsaw,
       Comprehensive,
-      Subjective
+      Subjective,
+      Composition
     }
   };
 </script>

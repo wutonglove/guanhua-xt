@@ -1,7 +1,7 @@
 <template>
   <div class="explanation">
     <cnt-module name="解析">
-      <div class="div_input"
+      <div class="div_input cl_rg_hook"
            contenteditable="true"
            ref="explanationDOM"
            @blur="blur"

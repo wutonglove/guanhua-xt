@@ -6,7 +6,7 @@ import Router from 'vue-router';
 
 import Index from 'components/index-main/index-main';
 import General from 'components/general-main/general-main';
-import Interest from 'components/template1-main/template1-main';
+import Interaction from 'components/template1-main/template1-main';
 
 import Radio from 'components/questions/general/radio';
 import Judge from 'components/questions/general/judge';
@@ -55,6 +55,11 @@ const Punctuation = (resolve) => {
 };
 const Composition = (resolve) => {
   import('components/questions/chinese/composition/composition').then((module) => {
+    resolve(module);
+  });
+};
+const BlankCloze = (resolve) => {
+  import('components/questions/interaction/blank-cloze/blank-cloze').then((module) => {
     resolve(module);
   });
 };
@@ -115,7 +120,7 @@ export default new Router({
     },
     {
       path: '/math',
-      component: Interest,
+      component: Interaction,
       children: [
         {
           path: '/math/compare',
@@ -133,7 +138,7 @@ export default new Router({
     },
     {
       path: '/chinese',
-      component: Interest,
+      component: Interaction,
       children: [
         {
           path: '/chinese/rubik-box',
@@ -150,6 +155,30 @@ export default new Router({
         {
           path: '/chinese/punctuation',
           component: Punctuation
+        }
+      ]
+    },
+    {
+      path: '/english',
+      component: Interaction,
+      children: [
+        {
+          path: '/english/rubik-box',
+          component: RubikBox
+        },
+        {
+          path: '/english/logogriph',
+          component: Logogriph
+        }
+      ]
+    },
+    {
+      path: '/interaction',
+      component: Interaction,
+      children: [
+        {
+          path: '/interaction/blank-cloze',
+          component: BlankCloze
         }
       ]
     }
