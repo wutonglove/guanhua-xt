@@ -33,7 +33,6 @@
   import ITabs from 'iview/src/components/tabs';
   import ITabPane from 'iview/src/components/tabs/pane';
 
-  import $ from 'expose-loader?$!jquery';
   import {mapGetters, mapMutations, mapActions} from 'vuex';
 
   export default {
@@ -65,7 +64,7 @@
         if (!html) return;
         this.resetSelection().then(() => {
           if (this.targetDom) {
-            $(this.targetDom).html(html);
+            this.targetDom.innerHTML = html;
             this.setTargetDom(null);
           }
           document.execCommand('insertHTML', false, `&zwnj;${html}&zwnj;`);
@@ -74,7 +73,7 @@
       unfold(file) {
         let isShow = true;
         let content = '';
-        console.log(file.type);
+//        console.log(file.type);
         switch (file.type.split('/')[0]) {
           case 'image':
             content = `<img src="${file.objURL}" class="unfold_file"/>`;

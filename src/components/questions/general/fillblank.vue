@@ -39,13 +39,13 @@
 
   import {replaceSrc} from 'utils/utilities';
   import {mapActions, mapGetters} from 'vuex';
-  import $ from 'expose-loader?$!jquery';
 
   // ui 组件
   import IButton from 'iview/src/components/button';
   // 三方 功能 组件
   import domtoimage from 'dom-to-image';
   import {verifyMixin} from 'common/js/mixin';
+  const $ = window.$;
 
   export default {
     mixins: [verifyMixin],
@@ -85,12 +85,12 @@
         let blankDOM = $('img.blankDOM_hook');
         if (this.blanks.length > blankDOM.length) {
           let start = this.getInsertIndexStart(this.currentRange);
-          let end = this.getInsertIndexEnd(this.currentRange);
-          console.log(start);
-          console.log(end);
-          console.log(end - start - 1);
+//          let end = this.getInsertIndexEnd(this.currentRange);
+//          console.log(start);
+//          console.log(end);
+//          console.log(end - start - 1);
           this.$refs.optionsDOM.removeOption(start, true);
-          console.log(this.blanks);
+//          console.log(this.blanks);
         }
         this.upBlankCode();
       },
@@ -102,12 +102,12 @@
         });
       },
       getInsertIndexStart: function (range) {
-        console.log(range);
+//        console.log(range);
         if (range.commonAncestorContainer.nodeName !== '#text') {
         }
         let prev = range.commonAncestorContainer.previousElementSibling;
         let next = range.commonAncestorContainer.nextElementSibling;
-        console.log($(prev).prev('img.blankDOM_hook'));
+//        console.log($(prev).prev('img.blankDOM_hook'));
         let code = 0;
         if (prev) {
           code = $(prev).attr('data-code') * 1;
@@ -116,7 +116,7 @@
         } else {
           code = 0;
         }
-        console.log('code:' + code);
+//        console.log('code:' + code);
         return code;
       },
       getInsertIndexEnd: function (range) {
@@ -181,6 +181,7 @@
       },
       getQuestionData: function (urlSnippet) {
         let _topic = this.$refs.topicDOM.topic;
+        _topic = this.v_replaceBlank(_topic);
         let _options = this.$refs.optionsDOM.options;
         let _hint = this.$refs.hintDOM.hint;
         let _explanation = this.$refs.explanationDOM.explanation;
@@ -227,6 +228,12 @@
           this.$refs.topicDOM.isPass,
           this.$refs.optionsDOM.isPass
         ];
+      },
+      v_replaceBlank(str) {
+        let reg = /<img class="blankDOM_hook".*?>/g;
+        return str.replace(reg, (item) => {
+          return '<blank/>';
+        });
       },
       ...mapActions({
         saveCurrentRange: 'saveCurrentRange'

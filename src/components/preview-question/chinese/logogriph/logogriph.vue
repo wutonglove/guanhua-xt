@@ -66,7 +66,7 @@
     },
     mounted() {
       this.$nextTick(() => {
-        this._initTable();
+        this.initTable();
       });
     },
     computed: {
@@ -119,7 +119,7 @@
         }
         return 1;
       },
-      _initTable() {
+      initTable() {
         this.questionData.grids.forEach((item, index) => {
           this.table.push([]);
           item.forEach((td, c) => {

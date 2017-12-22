@@ -6,7 +6,7 @@
              width="880"
     >
       <div class="header" slot="header">{{title}}</div>
-      <div class="content">
+      <div class="content" id="preview_content">
         <iframe name="previewDialog" :src="pageSrc" frameborder="0" ref="previewDialog"></iframe>
       </div>
       <div slot="footer"></div>

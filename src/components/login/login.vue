@@ -33,7 +33,7 @@
 
   export default {
     mounted() {
-      this._initFromData();
+      this.initFromData();
     },
     data() {
       return {
@@ -182,7 +182,7 @@
         else if (state === 0) return 'close-circled';
         else if (state === 1) return 'checkmark-circled';
       },
-      _initFromData() {
+      initFromData() {
         let formValidate = {};
         let ruleValidate = {};
         this.formOptions.forEach((item) => {

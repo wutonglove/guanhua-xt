@@ -53,13 +53,13 @@
       };
     },
     mounted() {
-      this._initOriPoem();
-      this._initRC();
+      this.initOriPoem();
+      this.initRC();
       console.log(this.poemR, this.poemC);
       this.regroupPoem();
       this.$nextTick(() => {
         this.$refs.poemTitle.style.backgroundImage = `url(${titleBG})`;
-//        this._initPoemWrap();
+//        this.initPoemWrap();
       });
       /*
        *  测试
@@ -346,7 +346,7 @@
         }
         return true;
       },
-      _initOriPoem() {
+      initOriPoem() {
         let arr = [];
         let poem = '';
         this.questionData.poem.verses.forEach((item) => {
@@ -357,7 +357,7 @@
         });
         this.oriPoem = arr;
       },
-      _initRC() {
+      initRC() {
         let l = this.oriPoem.length;
         for (let r = 4; r <= 10; r++) {
           for (let c = 5; c <= 10; c++) {
@@ -369,7 +369,7 @@
           }
         }
       },
-      _initPoemWrap() {
+      initPoemWrap() {
         let ht = Math.max(this.poemR * 28.7, 196);
         let wt = Math.max(this.poemC * 60, 456);
         this.$refs.poemList.style.height = `${ht}px`;

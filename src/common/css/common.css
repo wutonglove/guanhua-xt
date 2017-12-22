@@ -115,21 +115,13 @@ audio.unfold_file {
   background: none;
 }
 
-/* 答题页面*/
-.view_wrapper .punctuation_wrap .textarea .empty_pun {
-  display: inline-block;
-  min-width: 22px;
-  height: 26px;
-  border: 2px solid #643602;
-  cursor: pointer;
-  padding: 2px;
-  line-height: 17px;
-  vertical-align: text-bottom;
-  text-align: center;
-}
-
-.view_wrapper .punctuation_wrap .textarea .active {
-  border-color: #66D37B
-}
 
 /*标点题 标点符号 样式 end*/
+
+/* 选词填空 start */
+.blankcloze .textarea blank {
+  background-color: #858585;
+  color: #fff;
+}
+
+/* 选词填空 end */

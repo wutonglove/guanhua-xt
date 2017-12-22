@@ -25,7 +25,7 @@
               <i-select v-model="fontSize" v-else-if="btn.role === 'FontSize'" size="small" @on-change="ecFsz">
                 <i-option :value="index+1" v-for="(size, index) in btn.content" :key="index">{{ size }}</i-option>
               </i-select>
-              <span :class="_btnSpanCls(btn)" v-else @click.stop.prevent="execute(btn.role,btn.type)"></span>
+              <span :class="btnSpanCls(btn)" v-else @click.stop.prevent="execute(btn.role,btn.type)"></span>
             </i-tooltip>
           </li>
         </ul>
@@ -55,7 +55,8 @@
   import ITooltip from 'iview/src/components/tooltip/tooltip';
 
   import {mapActions, mapMutations} from 'vuex';
-  import $ from 'expose-loader?$!jquery';
+  //  import $ from 'expose-loader?$!jquery';
+  const $ = window.$;
 
   export default {
     data() {
@@ -70,7 +71,7 @@
     created() {
       $(document).on('mouseup', () => {
         setTimeout(() => {
-          this._initTxtBtnState();
+          this.initTxtBtnState();
         }, 20);
       });
     },
@@ -123,10 +124,10 @@
       showFormula() {
         this.setFormula(true);
       },
-      _btnSpanCls(btn) {
+      btnSpanCls(btn) {
         return `${btn.icon} ${btn.state === 'on' ? 'active' : ''}`;
       },
-      _initTxtBtnState() {
+      initTxtBtnState() {
         for (let j = 0; j < this.txtBtns[0].list.length; j++) {
           let btn = this.txtBtns[0].list[j];
           if (document.queryCommandState(btn.role)) {

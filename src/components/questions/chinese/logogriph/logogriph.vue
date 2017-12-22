@@ -5,11 +5,8 @@
         <grid ref="grid" @op-change="setOptions"></grid>
       </div>
       <div class="side_box">
-        <div class="cro_guidance guidance">
-          <div class="header">
-            <div class="title">横向提示</div>
-          </div>
-          <div class="content">
+        <div class="cro_guidance">
+          <notepad class="content" title="横向提示" align="center" color="#fff">
             <ul class="guidance_list">
               <li class="guidance_item"
                   v-for="(item,index) in croGuidList"
@@ -25,13 +22,10 @@
                 </div>
               </li>
             </ul>
-          </div>
+          </notepad>
         </div>
-        <div class="len_guidance guidance">
-          <div class="header">
-            <div class="title">纵向提示</div>
-          </div>
-          <div class="content">
+        <div class="len_guidance">
+          <notepad class="content" title="纵向提示" align="center" color="#fff">
             <ul class="guidance_list">
               <li class="guidance_item"
                   v-for="(item,index) in lenGuidList"
@@ -47,7 +41,7 @@
                 </div>
               </li>
             </ul>
-          </div>
+          </notepad>
         </div>
       </div>
     </div>
@@ -56,6 +50,7 @@
 
 <script>
   import Mboard from 'components/template1-part/mboard/mboard';
+  import Notepad from 'components/template1-part/notepad/notepad';
 
   import Grid from 'components/template1-part/grid/grid';
   import Notice from 'iview/src/components/notice';
@@ -131,7 +126,7 @@
           }
         }
       },
-      _getTable() {
+      getTable() {
         let table = [];
         this.$refs.grid.table.forEach((item, index) => {
           table.push([]);
@@ -146,7 +141,7 @@
         return table;
       },
       getQuestionData() {
-        let grids = this._getTable();
+        let grids = this.getTable();
         let synops = {
           cro: this.croGuidList,
           len: this.lenGuidList
@@ -202,7 +197,8 @@
     },
     components: {
       Grid,
-      Mboard
+      Mboard,
+      Notepad
     }
   };
 </script>
@@ -218,70 +214,54 @@
     .side_box
       flex: 1
       display: flex
-      .guidance
+      .cro_guidance, .len_guidance
         flex: 1
         margin: 15px
-        border-radius: 5px
+        border-radius: 8px
         box-shadow: 1.5px 2.6px 19px 0 rgba(75, 40, 0, .75);
         overflow: hidden
-        position: relative
-        z-index: 1
-        display: flex
-        flex-direction: column
-        .header
-          flex: 0 0 30px
-          height: 30px
-          line-height: 30px
-          background: linear-gradient(to top, #BE8844, #DCAF6C)
-          border-bottom: 1px solid #75604C
-          box-shadow: 0 1px 0 0 rgba(0, 0, 0, .2)
-          .title
-            height: 100%
-            border-bottom: 1px dashed rgba(255, 255, 255, .5)
-            color: #fff
-            text-align: center
         .content
-          flex: 1
-          background: url("/static/images/graphPaper.jpg")
+          width: 100%
+          height: 100%
           .guidance_list
             padding: 12px
-          .guidance_item
-            margin: 6px 0
-            display: flex
-            height: 24px
-            font-size: 12px
-            padding: 0 5px
-            &:hover
-              background-color: #F1E3C7
+            .guidance_item
+              margin: 6px 0
+              display: flex
+              height: 24px
+              font-size: 12px
+              padding: 0 5px
+              &:hover
+                background-color: #F1E3C7
+                .input_wrap
+                  .input
+                    border: 1px solid #BDAC96
+                    background-color: #fff
+              .answer_wrap
+                flex: 0 0 10px
+                line-height: 24px
               .input_wrap
+                flex: 1
+                padding: 2px 5px
                 .input
-                  border: 1px solid #BDAC96
-                  background-color: #fff
-            .answer_wrap
-              flex: 0 0 10px
-              line-height: 24px
-            .input_wrap
-              flex: 1
-              padding: 2px 5px
-              .input
-                height: 100%
-                width: 100%
-                border-radius: 3px
-                border: none
-                background: none
-                padding: 0 5px
-                &:focus
-                  border: 1px solid #BDAC96
-                  background-color: #fff
-                  box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .2) inset
-            .btn_wrap
-              flex: 0 0 24px
-              padding-top: 2px
-              .del_btn
-                display: block
-                width: 20px
-                height: 20px
-                background: url("/static/images/hint_del.png")
-                background-size: contain
+                  height: 100%
+                  width: 100%
+                  border-radius: 3px
+                  border: none
+                  background: none
+                  padding: 0 5px
+                  &:focus
+                    border: 1px solid #BDAC96
+                    background-color: #fff
+                    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .2) inset
+              .btn_wrap
+                flex: 0 0 24px
+                padding-top: 2px
+                .del_btn
+                  display: block
+                  width: 20px
+                  height: 20px
+                  background: url("/static/images/hint_del.png")
+                  background-size: contain
 
 </style>

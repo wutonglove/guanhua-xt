@@ -38,8 +38,9 @@
         </div>
       </div>
     </div>
-    <pre-dia :pageSrc="'./preview.html#/interest'"></pre-dia>
+    <pre-dia pageSrc="./preview.html#/interaction/"></pre-dia>
     <hint-dia :hints="hints" @setHint="setHint" ref="hintDia"></hint-dia>
+    <up-progress @interrupt="interrupt"></up-progress>
   </div>
 </template>
 
@@ -50,9 +51,11 @@
 
   import PreDia from 'base/pre-dialog/pre-dialog';
   import HintDia from 'components/template1-part/hint-dialog/hint-dialog';
+  import UpProgress from 'base/progress/progress';
 
   import {LOCALSTORAGEKEY} from 'common/js/config';
-  import {mapMutations, mapGetters} from 'vuex';
+  import {mapMutations, mapGetters, mapActions} from 'vuex';
+  import {createQuestionId} from 'utils/utilities';
   import exercises from 'map/exercises.json';
 
   const QUESTION_NAME = {
@@ -67,25 +70,8 @@
       this.type = this.$route.path.trim().split('/')[2];
       let sub = this.$route.path.trim().split('/')[1];
       let key = QUESTION_NAME[sub];
-      console.log(key);
-//      switch (sub) {
-//        case 'chinese':
-//          key = chinese;
-//          break;
-//        case 'math':
-//          key = math;
-//          break;
-//        case 'english':
-//          key = english;
-//          break;
-//        case 'interaction':
-//          key = interaction;
-//          break;
-//        default:
-//          key = 'general';
-//      }
+
       exercises[key].forEach((item, index) => {
-        console.log(item.type, this.type);
         if (item.type === this.type) {
           document.title = item.name;
           this.preTitle = item.name;
@@ -132,6 +118,24 @@
         this.setPreDialog({isShow: true, title: this.preTitle});
       },
       save() {
+        if (!this.questionId) {
+          this.questionId = createQuestionId();
+        }
+        this.setProgressDia({isShow: true, progress: 0});
+
+        this.upload(this.questionId)
+          .then((urlSnippet) => {
+            let data = this.$refs.mainDOM.getQuestionData(urlSnippet).questionData;
+            this.saveToRemote({data, questionId: this.questionId})
+              .then(this.setProgressDia({progress: 100}));
+          })
+          .catch((code) => {
+            alert('错误编码：' + code);
+          });
+      },
+      interrupt() {
+        this.interruptSave();
+        this.setProgressDia({isShow: false});
       },
       setTimeHandle(times) {
         let minute = 0;
@@ -154,7 +158,13 @@
       },
       ...mapMutations({
         setPreDialog: 'SET_PREDIALOG',
-        setTimes: 'SET_TIMES'
+        setTimes: 'SET_TIMES',
+        setProgressDia: 'SET_PROGRESSDIA'
+      }),
+      ...mapActions({
+        saveToRemote: 'saveToRemote',
+        upload: 'uploadToRemote',
+        interruptSave: 'interruptSave'
       })
     },
     components: {
@@ -162,7 +172,8 @@
       IIcon,
       Modal,
       PreDia,
-      HintDia
+      HintDia,
+      UpProgress
     }
   };
 </script>

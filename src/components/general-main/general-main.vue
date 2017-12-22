@@ -12,7 +12,7 @@
     <insert-file-dialog></insert-file-dialog>
     <insert-formula-dialog></insert-formula-dialog>
     <unfold></unfold>
-    <pre-dia :pageSrc="'./preview.html'"></pre-dia>
+    <pre-dia :pageSrc="'./preview.html'" ref="previewDOM"></pre-dia>
     <up-progress @interrupt="interrupt"></up-progress>
   </div>
 </template>
@@ -28,11 +28,13 @@
   import UpProgress from 'base/progress/progress';
   import Modal from 'iview/src/components/modal';
 
-  import $ from 'expose-loader?$!jquery';
   import {mapMutations, mapActions} from 'vuex';
   import {createQuestionId} from 'utils/utilities';
   import {LOCALSTORAGEKEY} from 'common/js/config';
   import exercises from 'map/exercises.json';
+  //  import domtoimage from 'dom-to-image';
+
+  const $ = window.$;
 
   export default {
     created() {
@@ -55,6 +57,24 @@
       };
     },
     methods: {
+      screenshot() {
+        return new Promise((resolve, reject) => {
+          this.preview();
+          this.$nextTick(() => {
+            $('.dialog_wrapper').css('opacity', '0');
+            this.$nextTick(() => {
+              window.frames['previewDialog'].onload = function () {
+                this.screenshot()
+                  .then((dataURL) => {
+                    $('.dialog_wrapper').css('opacity', '0');
+                    this.setPreDialog({isShow: true});
+                    resolve(dataURL);
+                  });
+              };
+            });
+          });
+        });
+      },
       showDia() {
         Modal.confirm({
           title: '',
@@ -69,22 +89,29 @@
           this.questionId = createQuestionId();
         }
         this.setProgressDia({isShow: true, progress: 0});
-        this.upload(this.questionId)
-          .then((urlSnippet) => {
-            let data = this.$refs.mainDOM.getQuestionData(urlSnippet).questionData;
-            console.log(data);
-            this.saveToRemote({data, questionId: this.questionId})
-              .then(this.setProgressDia({progress: 100}));
-          })
-          .catch((code) => {
-            alert('错误编码：' + code);
+
+        this.screenshot()
+          .then((dataURL) => {
+            console.log(dataURL);
+            this.upload(this.questionId)
+              .then((_url) => {
+                let data = this.$refs.mainDOM.getQuestionData(_url).questionData;
+                console.log(data);
+                this.saveToRemote({data, questionId: this.questionId})
+                  .then(() => {
+                    this.setProgressDia({progress: 100});
+                  });
+              })
+              .catch((code) => {
+                alert('错误编码：' + code);
+              });
           });
       },
       preview() {
         let data = this.$refs.mainDOM.getQuestionData().localData;
         console.log(data);
         localStorage.setItem(LOCALSTORAGEKEY, JSON.stringify(data));
-        console.log(this.preTitle);
+//        console.log(this.preTitle);
         this.setPreDialog({isShow: true, title: this.preTitle});
       },
       interrupt() {

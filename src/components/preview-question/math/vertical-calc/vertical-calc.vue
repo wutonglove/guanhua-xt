@@ -167,7 +167,8 @@
   import NumBtn from 'components/template1-part/num-btn/num-btn';
   import divisionSign from './division_sign.png';
   import {submitMixin} from 'common/js/mixin';
-  import $ from 'expose-loader?$!jquery';
+//  import $ from 'expose-loader?$!jquery';
+  const $ = window.$;
 
   export default {
     mixins: [submitMixin],

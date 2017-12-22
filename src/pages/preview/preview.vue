@@ -1,5 +1,5 @@
 <template>
-  <div class="view_wrapper">
+  <div class="view_wrapper" id="preview_box">
     <div class="timer">
       <span class="text">答题时间</span>
       <span class="time">
@@ -12,6 +12,7 @@
         ref="content"
         :questionData="questionData"
         :isDisabled="isDisabled"
+        @load="test"
       >
       </router-view>
       <i-spin size="large" fix v-else></i-spin>
@@ -31,8 +32,9 @@
   import {mapMutations} from 'vuex';
   import {getQuestionData} from 'api/getQuestionData';
   import {urlSearch} from 'utils/utilities';
-  import $ from 'expose-loader?$!jquery';
   import {timerMixin} from 'common/js/mixin';
+
+  const $ = window.$;
 
   export default {
     mixins: [timerMixin],
@@ -44,7 +46,7 @@
       };
     },
     mounted() {
-      this._init();
+      this.init();
     },
     methods: {
       getQuestion() {
@@ -91,14 +93,17 @@
       refresh() {
         window.location.reload();
       },
-      _initContentHeight() {
+      initContentHeight() {
         this.$refs.contentWrap.style = `height:${window.innerHeight - 130}px`;
       },
-      _init() {
+      test() {
+        alert('wancheng');
+      },
+      init() {
         this.getQuestion()
           .then(() => {
             this.$nextTick(() => {
-              this._initContentHeight();
+              this.initContentHeight();
               this.bindUnfoldEvent();
               this.clock();
             });

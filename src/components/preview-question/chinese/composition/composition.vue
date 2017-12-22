@@ -193,7 +193,7 @@
       plusPage() {
         this.canvases.push({});
         this.currPage = this.pageTotal;
-        this._initCanvas(this.currPage - 1);
+        this.initCanvas(this.currPage - 1);
       },
       delCurPage() {
         this.canvases.splice(this.currPage - 1, 1);
@@ -358,11 +358,11 @@
       initWrite() {
         // 设置 canvas 宽高
         console.log(this.pageTotal, this.canvases);
-        this._initCanvas(this.currPage - 1);
+        this.initCanvas(this.currPage - 1);
         // 计算 canvas 对于body的偏移量
         this.$nextTick(() => {
           let canvas = this.$refs.canvas[this.currPage - 1];
-          this.offset = this._clcalOffset(canvas);
+          this.offset = this.clcalOffset(canvas);
           // 引入 画笔和橡皮 icon
           this.$refs.brush.style.backgroundImage = `url(${brush})`;
           this.$refs.eraser.style.backgroundImage = `url(${eraser})`;
@@ -375,7 +375,7 @@
           this.$refs.eraserBtn.style.backgroundImage = `url(${eraserBtn})`;
         });
       },
-      _clcalOffset(dom) {
+      clcalOffset(dom) {
         let x = 0;
         let y = 0;
         let n = 0;
@@ -392,7 +392,7 @@
         y = y - 100;
         return {x, y};
       },
-      _initCanvas(index) {
+      initCanvas(index) {
         let totalH = this.$refs.write.offsetHeight;
         let totalW = this.$refs.write.offsetWidth - 60;
         let titleH = this.$refs.title.clientHeight;

@@ -2,7 +2,7 @@
   <div>
     <topic ref="topicDOM" @verify="verify"></topic>
     <cnt-module name="答案" :isMandatory="true">
-      <div class="div_input"
+      <div class="div_input cl_rg_hook"
            contenteditable="true"
            spellcheck="false" ref="answerDom"
            @blur="verify"

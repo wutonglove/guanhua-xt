@@ -5,8 +5,9 @@
 </template>
 
 <script>
-  import $ from 'expose-loader?$!jquery';
   import {submitMixin} from 'common/js/mixin';
+
+  const $ = window.$;
 
   export default {
     mixins: [submitMixin],
@@ -37,8 +38,9 @@
             _self.answer = arr;
           });
         // 将空格图片换成input元素
-        $('.topic').find('img.blankDOM_hook').each((index, item) => {
-          $(item).replaceWith('<input class="blank" type="text" />');
+
+        $('.topic').find('blank').each((index, item) => {
+          $(item).replaceWith('<input class="blank" type="text"/>');
         });
       }, 20);
     },

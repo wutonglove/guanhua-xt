@@ -41,7 +41,6 @@ const mutations = {
   },
   [types.SET_PROGRESSDIA](state, {isShow, progress}) {
     if (typeof isShow === 'boolean') state.progressDia.isShow = isShow;
-    console.log(progress);
     if (typeof progress === 'number') state.progressDia.progress = progress;
   }
 };

@@ -27,7 +27,7 @@
       }
     },
     mounted() {
-      this.$router.push({path: `/interest/${this.questionData.questionType}`});
+      this.$router.push({path: `/interaction/${this.questionData.questionType}`});
     },
     computed: {
       hasTitle() {

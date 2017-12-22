@@ -18,26 +18,41 @@
         <div class="grid_box">
           <grid @op-change="setOptions" ref="grid" :language="zh"></grid>
         </div>
-        <div class="side_box">
-          <div class="guidance">
-            <div class="header">
-              <div class="title">提示</div>
-            </div>
-            <div class="content">
-              <ul class="guidance_list">
-                <li class="guidance_item" v-for="(item,index) in guidList">
-                  <div class="answer_wrap">{{`${index + 1}. ${item.answer}`}}</div>
-                  <div class="input_wrap">
-                    <input type="text" class="input" v-model="item.desc" placeholder="请输入提示内容">
-                  </div>
-                  <div class="btn_wrap">
-                    <span class="del_btn" @click="delGuid(index)"></span>
-                  </div>
-                </li>
-              </ul>
-            </div>
+
+        <notepad class="side_box" title="提示" color="#fff" align="center">
+          <ul class="guidance_list">
+            <li class="guidance_item" v-for="(item,index) in guidList">
+              <div class="answer_wrap">{{`${index + 1}. ${item.answer}`}}</div>
+              <div class="input_wrap">
+                <input type="text" class="input" v-model="item.desc" placeholder="请输入提示内容">
+              </div>
+              <div class="btn_wrap">
+                <span class="del_btn" @click="delGuid(index)"></span>
+              </div>
+            </li>
+          </ul>
+        </notepad>
+        <!--
+        <div class="guidance">
+          <div class="header">
+            <div class="title">提示</div>
+          </div>
+          <div class="content">
+            <ul class="guidance_list">
+              <li class="guidance_item" v-for="(item,index) in guidList">
+                <div class="answer_wrap">{{`${index + 1}. ${item.answer}`}}</div>
+                <div class="input_wrap">
+                  <input type="text" class="input" v-model="item.desc" placeholder="请输入提示内容">
+                </div>
+                <div class="btn_wrap">
+                  <span class="del_btn" @click="delGuid(index)"></span>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
+        -->
+
       </li>
     </transition-group>
   </mboard>
@@ -45,6 +60,7 @@
 
 <script>
   import Mboard from 'components/template1-part/mboard/mboard';
+  import Notepad from 'components/template1-part/notepad/notepad';
 
   import Grid from 'components/template1-part/grid/grid';
   import Notice from 'iview/src/components/notice';
@@ -126,7 +142,8 @@
     },
     components: {
       Grid,
-      Mboard
+      Mboard,
+      Notepad
     }
   };
 </script>
@@ -184,72 +201,48 @@
           position: relative
         .side_box
           flex: 1
-          display: flex
-          .guidance
-            flex: 1
-            margin: 15px
-            border-radius: 5px
-            box-shadow: 1.5px 2.6px 19px 0 rgba(75, 40, 0, .75);
-            overflow: hidden
-            position: relative
-            z-index: 1
+          margin: 16px
+          box-shadow: 1.5px 2.6px 19px 0 rgba(75, 40, 0, .75);
+          .guidance_list
+            padding: 12px
+          .guidance_item
+            margin: 6px 0
             display: flex
-            flex-direction: column
-            .header
-              flex: 0 0 30px
-              height: 30px
-              line-height: 30px
-              background: linear-gradient(to top, #BE8844, #DCAF6C)
-              border-bottom: 1px solid #75604C
-              box-shadow: 0 1px 0 0 rgba(0, 0, 0, .2)
-              .title
-                height: 100%
-                border-bottom: 1px dashed rgba(255, 255, 255, .5)
-                color: #fff
-                text-align: center
-            .content
+            height: 24px
+            font-size: 12px
+            padding: 0 5px
+            &:hover
+              background-color: #F1E3C7
+              .input_wrap
+                .input
+                  border: 1px solid #BDAC96
+                  background-color: #fff
+            .answer_wrap
+              flex: 0 0 135px
+              line-height: 24px
+            .input_wrap
               flex: 1
-              background: url("/static/images/graphPaper.jpg")
-              .guidance_list
-                padding: 12px
-              .guidance_item
-                margin: 6px 0
-                display: flex
-                height: 24px
-                font-size: 12px
+              padding: 2px 5px
+              .input
+                height: 100%
+                width: 100%
+                border-radius: 3px
+                border: none
+                background: none
                 padding: 0 5px
-                &:hover
-                  background-color: #F1E3C7
-                  .input_wrap
-                    .input
-                      border: 1px solid #BDAC96
-                      background-color: #fff
-                .answer_wrap
-                  flex: 0 0 135px
-                  line-height: 24px
-                .input_wrap
-                  flex: 1
-                  padding: 2px 5px
-                  .input
-                    height: 100%
-                    width: 100%
-                    border-radius: 3px
-                    border: none
-                    background: none
-                    padding: 0 5px
-                    &:focus
-                      border: 1px solid #BDAC96
-                      background-color: #fff
-                      box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .2) inset
-                .btn_wrap
-                  flex: 0 0 24px
-                  padding-top: 2px
-                  .del_btn
-                    display: block
-                    width: 20px
-                    height: 20px
-                    background: url("/static/images/hint_del.png")
-                    background-size: contain
+                &:focus
+                  border: 1px solid #BDAC96
+                  background-color: #fff
+                  box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .2) inset
+            .btn_wrap
+              flex: 0 0 24px
+              padding-top: 2px
+              .del_btn
+                display: block
+                width: 20px
+                height: 20px
+                background: url("/static/images/hint_del.png")
+                background-size: contain
 
   .slide-enter-active, .slide-leave-active
     transition: all 1s

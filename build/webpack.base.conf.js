@@ -31,16 +31,16 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: require.resolve('jquery'),
-        use: [{
-          loader: 'expose-loader',
-          options: 'jQuery'
-        }, {
-          loader: 'expose-loader',
-          options: '$'
-        }]
-      },
+      // {
+      //   test: require.resolve('jquery'),
+      //   use: [{
+      //     loader: 'expose-loader',
+      //     options: 'jQuery'
+      //   }, {
+      //     loader: 'expose-loader',
+      //     options: '$'
+      //   }]
+      // },
       {
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
@@ -58,7 +58,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test')]
+        include: [resolve('src'), resolve('node_modules/iview'), resolve('test')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

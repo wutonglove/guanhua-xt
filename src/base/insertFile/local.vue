@@ -104,7 +104,7 @@
           }
         }).then(() => {
           // 默认选中filelist最后一个file
-          console.log(this.list);
+//          console.log(this.list);
           this.selectFile(this.list[this.list.length - 1]);
         });
       },

@@ -29,9 +29,11 @@
 </template>
 
 <script>
-  import $ from 'expose-loader?$!jquery';
+  //  import $ from 'expose-loader?$!jquery';
   import {createRandomArr} from 'utils/utilities';
   import {submitMixin} from 'common/js/mixin';
+
+  const $ = window.$;
 
   export default {
     mixins: [submitMixin],
@@ -168,7 +170,7 @@
       },
       initDrag: function () {
         this.$nextTick(() => {
-          $.getScript('/static/script/jquery-ui.min.js', () => {
+          $.getScript('http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js', () => {
             $.getScript('/static/script/jquery.ui.touch-punch.min.js', () => {
               this.drop();
             });
@@ -209,6 +211,11 @@
 
   .jigsaw
     .jigsaw_wrapper
+      padding: 20px 0 0 10px
+      position: absolute
+      width: 100%
+      left: 0
+      text-align: center
       display: inline-block
       &:after
         content: ''
@@ -261,13 +268,4 @@
         max-width: 430px
         max-height: none
 </style>
-
-
-01212
-34512
-67812
-
-02  2*w  0
-12  2*w  1*h
-04  4*w  0
 

@@ -9,11 +9,14 @@
           </div>
           <a class="symbol">
             <i-poptip placement="top" trigger="hover">
-              <div class="symbol_nul" v-if="!item.symbol">
+              <tem1-btn class="symbol_nul" v-if="!item.symbol">
                 <i-icon type="android-add" size="20"></i-icon>
                 <span class="text">添加关系符号</span>
-              </div>
-              <div class="symbol_res" v-else>{{item.symbol}}</div>
+              </tem1-btn>
+
+              <tem1-btn class="symbol_res" v-else>
+                <span class="text">{{item.symbol}}</span>
+              </tem1-btn>
 
               <ul class="symbol_list" slot="content">
                 <li class="symbol_item" v-for="symbol in symbolList" @click="selectSymbol(index, symbol)">{{symbol}}
@@ -26,14 +29,14 @@
             <span class="text">{{item.num2.length}}/10</span>
           </div>
         </div>
-        <a class="add_btn handle_btn" @click="addItem" v-if="index === options.length-1 && options.length<5">
-          <i-icon type="android-add"></i-icon>
-          <span class="text">增加题目</span>
-        </a>
-        <a class="del_btn handle_btn" @click="deleteItem(index)" v-else>
-          <i-icon type="trash-a"></i-icon>
-          <span class="text">删除题目</span>
-        </a>
+        <tem1-btn class="add_btn" icon="plus-round" @click="addItem"
+                  v-if="index === options.length-1 && options.length<5">
+          增加题目
+        </tem1-btn>
+        <tem1-btn class="del_btn" icon="trash-a" @click="deleteItem"
+                  v-else>
+          删除题目
+        </tem1-btn>
       </li>
     </ul>
   </mboard>
@@ -41,6 +44,7 @@
 
 <script>
   import Mboard from 'components/template1-part/mboard/mboard';
+  import Tem1Btn from 'components/template1-part/template1-btn/template1-btn';
 
   import IIcon from 'iview/src/components/icon';
   import IPoptip from 'iview/src/components/poptip';
@@ -119,7 +123,8 @@
     components: {
       Mboard,
       IIcon,
-      IPoptip
+      IPoptip,
+      Tem1Btn
     }
   };
 </script>
@@ -158,20 +163,19 @@
             font-size: 12px
         .symbol
           position: relative
-          flex: 0 0 74px
+          flex: 0 0 78px
           height: 42px
           margin: 0 10px
-          font-size: 12px
-          border: 1px solid $template1-botton-bd
-          border-radius: 4px
-          color: #9D7231
-          background: linear-gradient(to bottom, #FCE3BA, #D2B281)
+          color: #825112
           .symbol_nul
             height: 100%
+            padding: 5px 2px
             .text
               display: block
           .symbol_res
-            height: 100%
+            width: 78px
+            height: 42px
+            padding: 0
             line-height: 40px
             font-size: 20px
           .symbol_list
@@ -187,19 +191,10 @@
               &:hover
                 box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3)
 
-  .handle_btn
-    width: 82px
-    height: 22px
-    line-height: 22px
+  .add_btn, .del_btn
     position: absolute
-    right: 18px
+    right: 14px
     top: 10px
-    background: linear-gradient(to bottom, #FCE3BA, #D2B281)
-    border: 1px solid $template1-botton-bd
-    border-radius: 4px
-    font-size: 12px
-    &.add_btn
-      color: #9D7231
     &.del_btn
       color: #FA805B
 </style>

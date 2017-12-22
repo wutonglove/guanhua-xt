@@ -22,7 +22,7 @@ export class IVideo {
   constructor({file}) {
     this.name = GUID() + getSuffix(file.name);
     this.icon = videoThumb;
-    this.src = insertVideo;
+    this.objURL = insertVideo;
     this.resource = window.URL.createObjectURL(file);
     this.original = file;
     this.type = file.type;
@@ -34,7 +34,7 @@ export class IAudio {
   constructor({file}) {
     this.name = GUID() + getSuffix(file.name);
     this.icon = videoThumb;
-    this.src = insertVideo;
+    this.objURL = insertVideo;
     this.resource = window.URL.createObjectURL(file);
     this.original = file;
     this.type = file.type;

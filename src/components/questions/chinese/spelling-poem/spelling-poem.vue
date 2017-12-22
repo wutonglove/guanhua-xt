@@ -34,7 +34,7 @@
         </div>
         <line1></line1>
         <div class="poem_clear">
-          <a href="javascript:void(0)" class="clear_btn" @click="clear">一键清除</a>
+          <tem1-btn class="clear_btn" @click="clear">一键清除</tem1-btn>
         </div>
       </div>
     </mboard>
@@ -61,6 +61,7 @@
   import IIcon from 'iview/src/components/icon';
   import IModal from 'iview/src/components/modal';
   import Notice from 'iview/src/components/notice';
+  import Tem1Btn from 'components/template1-part/template1-btn/template1-btn';
 
   export default {
     props: {
@@ -179,7 +180,8 @@
     components: {
       Mboard,
       Line1,
-      IIcon
+      IIcon,
+      Tem1Btn
     }
   };
 </script>
@@ -250,15 +252,12 @@
               display: block
               width: 110px
               height: 30px
+              padding: 0
               margin: 0 auto
               line-height: 30px
               border: 1px solid #8f5211;
-              border-radius: 4px
               font-size: 14px
               text-align: center
-              text-shadow: 0.5px 0.87px 0 hsla(0, 0%, 100%, .51)
-              color: #825318
-              background: linear-gradient(to top, #DAA35C, #F2C07E);
       .poem_show_wrap
         height: 100%
         text-align: center

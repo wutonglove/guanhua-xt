@@ -24,7 +24,7 @@
       </div>
       <div slot="footer">
         <i-button type="error" @click="cancel" :disabled="!isComplete">取消</i-button>
-        <i-button type="primary" @click="close" :disabled="isComplete">确定</i-button>
+        <i-button type="primary" @click="reload" :disabled="isComplete">确定</i-button>
       </div>
     </i-modal>
   </div>
@@ -82,6 +82,9 @@
       },
       close() {
         this.setProgressDia({isShow: false});
+      },
+      reload() {
+        location.reload();
       },
       ...mapMutations({
         setProgressDia: 'SET_PROGRESSDIA'

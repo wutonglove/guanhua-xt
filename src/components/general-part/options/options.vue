@@ -40,7 +40,8 @@
 
   import IButton from 'iview/src/components/button';
   import IIcon from 'iview/src/components/icon';
-  import $ from 'expose-loader?$!jquery';
+//  import $ from 'expose-loader?$!jquery';
+  const $ = window.$;
 
   import {mapActions} from 'vuex';
 

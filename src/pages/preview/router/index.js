@@ -15,6 +15,7 @@ import RubikBox from 'components/preview-question/chinese/rubik-box/rubik-box';
 import Logogriph from 'components/preview-question/chinese/logogriph/logogriph';
 import SpellingPoem from 'components/preview-question/chinese/spelling-poem/spelling-poem';
 import Punctuation from 'components/preview-question/chinese/punctuation/punctuation';
+import BlankCloze from 'components/preview-question/interaction/blank-cloze/blank-cloze';
 
 Vue.use(Router);
 
@@ -29,36 +30,40 @@ export default new Router({
       component: Preview
     },
     {
-      path: '/interest',
+      path: '/interaction',
       component: Template1,
       children: [
         {
-          path: '/interest/compare',
+          path: '/interaction/compare',
           component: Compare
         },
         {
-          path: '/interest/fractional-calc',
+          path: '/interaction/fractional-calc',
           component: FractionalCalc
         },
         {
-          path: '/interest/vertical-calc',
+          path: '/interaction/vertical-calc',
           component: VerticalCalc
         },
         {
-          path: '/interest/rubik-box',
+          path: '/interaction/rubik-box',
           component: RubikBox
         },
         {
-          path: '/interest/logogriph',
+          path: '/interaction/logogriph',
           component: Logogriph
         },
         {
-          path: '/interest/spelling-poem',
+          path: '/interaction/spelling-poem',
           component: SpellingPoem
         },
         {
-          path: '/interest/punctuation',
+          path: '/interaction/punctuation',
           component: Punctuation
+        },
+        {
+          path: '/interaction/blank-cloze',
+          component: BlankCloze
         }
       ]
     }

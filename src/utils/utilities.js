@@ -1,7 +1,6 @@
 /**
  * Created by ww on 2017/7/26.
  */
-// 替换插入资源的路径 false 为本地
 export function replaceSrc(htmlstr, url) {
   return htmlstr.replace(/<img[^>]*src="[^>]*"[^>]*data-name="[^(>")]*"[^>]*>/g, (str) => {
     str.match(/data-name="([^"]*)"[^>]*data-type="([^"]*)"[^>]*data-src="([^"]*)"/g);
@@ -23,6 +22,15 @@ export function replaceSrc(htmlstr, url) {
     return str.trim();
   });
 }
+
+/**
+ * 将img video audio 替换 减小串长度
+ */
+// let resourceCode = 0;
+export function replaceResource(htmlstr) {
+  return htmlstr.replace();
+}
+
 // 解析地址
 export function urlSearch() {
   let parameters = {};
@@ -44,6 +52,7 @@ export function urlSearch() {
   }
   return parameters;
 }
+
 // 生成 n-m 的 length=l 的随机数组 闭区间
 export function createRandomArr(l, n, m) {
   let arr = [];
@@ -55,6 +64,7 @@ export function createRandomArr(l, n, m) {
   }
   return arr;
 }
+
 // GUID
 export function GUID() {
   function S4() {
@@ -63,6 +73,7 @@ export function GUID() {
 
   return (S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + S4() + S4() + S4());
 }
+
 // question_id
 export function createQuestionId() {
   // 0220170804110738662

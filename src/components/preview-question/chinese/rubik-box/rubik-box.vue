@@ -39,8 +39,8 @@
       };
     },
     mounted() {
-      this._initTableData();
-      this._initAnswer();
+      this.v_initTableData();
+      this.v_initAnswer();
     },
     methods: {
       getResult() {
@@ -63,13 +63,13 @@
           return 1;
         }
       },
-      _initAnswer() {
+      v_initAnswer() {
         /* eslint-disable no-unused-vars */
         for (let [index, item] of this.questionData.answer.entries()) {
           this.answerDescs.push(item.desc);
         }
       },
-      _initTableData() {
+      v_initTableData() {
         this.questionData.grids.forEach((item, r) => {
           this.tableData.push([]);
           item.forEach((grid, c) => {
@@ -120,7 +120,7 @@
             text-align: center
         .content
           flex: 1
-          background: url("/static/images/graphPaper.jpg")
+          background: url("/src/components/template1-part/notepad/graphPaper.jpg")
           .guidance_list
             padding: 12px
           .guidance_item

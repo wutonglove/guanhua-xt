@@ -14,7 +14,7 @@
             </li>
           </ul>
         </div>
-        <a class="step_btn" @click="next">下一步</a>
+        <tem1-btn class="step_btn" @click="next">下一步</tem1-btn>
       </li>
       <li class="calc_step_2" key="step2" v-show="curIndex === 1">
         <div class="vertical_show_box" v-if="curIndex ===1">
@@ -171,7 +171,7 @@
             </div>
           </div>
         </div>
-        <a class="step_btn" @click="prev">上一步</a>
+        <tem1-btn class="step_btn" @click="prev">上一步</tem1-btn>
       </li>
     </transition-group>
   </mboard>
@@ -179,11 +179,13 @@
 
 <script>
   import Mboard from 'components/template1-part/mboard/mboard';
+  import Tem1Btn from 'components/template1-part/template1-btn/template1-btn';
 
   import Notice from 'iview/src/components/notice';
   import divisionSign from './division_sign.png';
-  import $ from 'expose-loader?$!jquery';
   import NumBtn from 'components/template1-part/num-btn/num-btn';
+
+  const $ = window.$;
 
   class NumKey {
     constructor({key, hasDot, isVirtual, dotIsShow}) {
@@ -310,7 +312,7 @@
           return;
         }
         this.curIndex = 1;
-        this._initVertical();
+        this.initVertical();
       },
       prev() {
         this.curIndex = 0;
@@ -416,7 +418,7 @@
           }
         }
       },
-      _initVertical(index) {
+      initVertical(index) {
         this.$nextTick(() => {
           if (this.symbol === '÷') {
             this.$refs.divisionBox.style.backgroundImage = `url(${divisionSign})`;
@@ -427,7 +429,7 @@
           this.setResultArr();
         });
       },
-      _divisionClac(num1, num2) {
+      divisionClac(num1, num2) {
         let arr = [];
         let numStr2 = num2.toString();
         // 先判断 num2 是否是小数
@@ -521,7 +523,7 @@
         this.mulCalcStep = ret;
       },
       setDivCalcStep() {
-        this.divCalcStep = this._divisionClac(this.num1, this.num2);
+        this.divCalcStep = this.divisionClac(this.num1, this.num2);
       },
       setResultArr() {
         this.resultArr = this.numToArr(this.resultNum);
@@ -631,7 +633,8 @@
     },
     components: {
       NumBtn,
-      Mboard
+      Mboard,
+      Tem1Btn
     }
   }
   ;
@@ -647,17 +650,13 @@
       height: 100%
       .step_btn
         position: absolute
+        z-index: 1
         text-align: center
         width: 100px
         height: 30px
+        padding: 0
         line-height: 30px
-        border-radius: 3px
-        color: #825318
         font-size: 14px
-        background: linear-gradient(to top, #DAA35C, #F3C384)
-        box-shadow: 0 1px 3.07px 0 rgba(164, 115, 38, .75), inset 0.5px 0.87px 0 0 rgba(255, 243, 228, .5)
-        &:hover
-          background: linear-gradient(to top, #E9B46E, #FACF96)
       .title
         width: 100%
         margin-bottom: 25px

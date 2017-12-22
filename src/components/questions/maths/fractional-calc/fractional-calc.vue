@@ -17,7 +17,7 @@
             </li>
           </ul>
         </div>
-        <a class="step_btn" @click="next">下一步</a>
+        <tem1-btn class="step_btn" @click="next">下一步</tem1-btn>
       </li>
       <li class="calc_step calc_step_2" key="step2" v-show="curIndex === 1">
         <div class="equation_box" v-if="curIndex ===1">
@@ -46,7 +46,7 @@
             </div>
           </div>
         </div>
-        <a class="step_btn" @click="prev">上一步</a>
+        <tem1-btn class="step_btn" @click="prev">上一步</tem1-btn>
         <div class="calc_config">
           <i-checkbox v-model="isMinMultiple" style="font-size: 15px;">只允许最小公倍数通分</i-checkbox>
           <i-checkbox v-model="isReduction" style="font-size: 15px;">计算结果自动约分</i-checkbox>
@@ -58,12 +58,13 @@
 
 <script>
   import Mboard from 'components/template1-part/mboard/mboard';
+  import Tem1Btn from 'components/template1-part/template1-btn/template1-btn';
 
   import IIcon from 'iview/src/components/icon';
   import ICheckbox from 'iview/src/components/checkbox';
   import Notice from 'iview/src/components/notice';
   import {gcd} from 'utils/utilities';
-  import $ from 'expose-loader?$!jquery';
+  const $ = window.$;
 
   export default {
     props: {
@@ -313,7 +314,8 @@
     components: {
       Mboard,
       IIcon,
-      ICheckbox
+      ICheckbox,
+      Tem1Btn
     }
   }
   ;
@@ -333,14 +335,9 @@
         text-align: center
         width: 100px
         height: 30px
+        padding: 0
         line-height: 30px
-        border-radius: 3px
-        color: #825318
         font-size: 14px
-        background: linear-gradient(to top, #DAA35C, #F3C384)
-        box-shadow: 0 1px 3.07px 0 rgba(164, 115, 38, .75), inset 0.5px 0.87px 0 0 rgba(255, 243, 228, .5)
-        &:hover
-          background: linear-gradient(to top, #E9B46E, #FACF96)
       .title
         width: 100%
         margin-bottom: 25px

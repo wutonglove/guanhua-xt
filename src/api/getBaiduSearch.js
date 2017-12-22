@@ -9,7 +9,7 @@ export default function (keyword, pn, rn) {
     axios.post('/api/xiti/v1/resource/query_baidu_image_by_keyword', {keyword, pn, rn})
       .then(function (response) {
         let data = response.data;
-        console.log(typeof data);
+        // console.log(typeof data);
         if (typeof data === 'string') {
           data = JSON.stringify(data);
           data = JSON.parse(data);

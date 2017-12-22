@@ -63,7 +63,6 @@
   import NumTag from 'components/template1-part/num-tag/num-tag';
   import Notice from 'iview/src/components/notice';
   import {createGrid} from 'common/js/class';
-  //  import $ from 'expose-loader?$!jquery';
 
   const NO_CN = /[^\u4E00-\u9FA5]/g;
   const NO_EN = /[^A-Za-z]/g;
@@ -140,7 +139,7 @@
         if (this.mode === 'show') {
           this.table = this.tableData;
         } else {
-          this._initTable();
+          this.initTable();
         }
       });
     },
@@ -388,7 +387,7 @@
         });
       },
       delItem(code) {
-        let delCode = this._getCode(code);
+        let delCode = this.getCode(code);
         this.optionsObj[code].forEach((item, index) => {
           if (index === 0) {
             for (let i = 0; i < item.tags.length; i++) {
@@ -494,7 +493,7 @@
       getRandom() {
         return String.fromCharCode(Math.round(Math.random() * 20901) + 19968);
       },
-      _getCode(index) {
+      getCode(index) {
         // 获取当前要删除的 项的 共同 code
         let grids = this.optionsObj[index];
         for (let i = 0; i < grids.length; i++) {
@@ -507,7 +506,7 @@
           }
         }
       },
-      _initTable(rn = this.config.r, cn = this.config.c) {
+      initTable(rn = this.config.r, cn = this.config.c) {
         for (let r = 0; r < rn; r++) {
           this.table.push([]);
           for (let c = 0; c < cn; c++) {
@@ -515,14 +514,14 @@
           }
         }
       },
-      _calcWidth() {
+      calcWidth() {
         if (this.table.length < 1) return;
         let width = this.config.maxWidth / this.table[0].length;
         let height = this.config.maxHeight / this.table.length;
         width = Math.max(30, Math.min(width, height, 50));
         this.tdWidth = width;
       },
-      _initGird() {
+      initGird() {
         this.$nextTick(() => {
           this.$refs.td.forEach((item, index) => {
             item.style.width = `${this.tdWidth}px`;
@@ -548,8 +547,8 @@
       table: {
         deep: true,
         handler(newVal) {
-          this._calcWidth();
-          this._initGird();
+          this.calcWidth();
+          this.initGird();
         }
       }
     },

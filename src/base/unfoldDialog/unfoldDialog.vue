@@ -18,7 +18,8 @@
   import IIcon from 'iview/src/components/icon';
 
   import {mapGetters, mapMutations} from 'vuex';
-  import $ from 'expose-loader?$!jquery';
+  //  import $ from 'expose-loader?$!jquery';
+  const $ = window.$;
 
   export default {
     data() {
@@ -64,8 +65,11 @@
           // 当屏幕小于800 时 展开的内容 自适应屏幕
           this.$nextTick(() => {
             if (window.screen.width <= 800) {
-              let unfold = this.$refs.content.getElementsByClassName('unfold_file')[0];
-              unfold.setAttribute('style', `max-height:${window.screen.height - 20}px;max-width:${window.screen.width - 20}px`);
+              let $unfold = $(this.$refs.content).find('.unfold_file');
+              $unfold.css({
+                'max-height': `${window.screen.height - 20}px`,
+                'max-width': `${window.screen.width - 20}px`
+              });
             }
           });
         }

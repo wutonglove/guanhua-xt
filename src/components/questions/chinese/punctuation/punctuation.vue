@@ -30,16 +30,19 @@
         </div>
         <div class="control">
           <div class="btn_wrapper">
-            <a href="javascript:void(0)"
-               class="control_btn"
-               :class="{disable:allBtnState}"
-               @click="setAll"
-            >一键设为选项</a>
-            <a href="javascript:void(0)"
-               class="control_btn"
-               :class="{disable:resBtnState}"
-               @click="restoreAll"
-            >一键还原</a>
+            <tem1-btn class="control_btn"
+                      :disable="allBtnState"
+                      @click="setAll"
+            >
+              一键设为选项
+            </tem1-btn>
+
+            <tem1-btn class="control_btn"
+                      :disable="resBtnState"
+                      @click="restoreAll"
+            >
+              一键还原
+            </tem1-btn>
           </div>
           <div class="size_wrapper">{{}}/200</div>
         </div>
@@ -61,10 +64,9 @@
         </div>
         <div class="btn_wrapper">
           <i-poptip placement="top-end" :width="popWidth" ref="punPanel" v-show="options.length>0">
-            <a href="javascript:void(0)" class="add_disturbance_btn">
-              <i-icon type="plus"></i-icon>
-              <span>添加干扰项</span>
-            </a>
+            <tem1-btn class="add_disturbance_btn" icon="plus">
+              添加干扰项
+            </tem1-btn>
             <div class="punctuation_list" slot="content">
               <ul class="pun_btn_list">
                 <li class="pun_btn" :class="{active: pun.active}"
@@ -75,7 +77,7 @@
                 </li>
               </ul>
               <div class="close_wrap">
-                <a href="javascript:void(0)" class="close_btn" @click="closePunPanel">关闭</a>
+                <tem1-btn class="close_btn" @click="closePunPanel">关闭</tem1-btn>
               </div>
             </div>
           </i-poptip>
@@ -90,10 +92,11 @@
   import IIcon from 'iview/src/components/icon';
   import IPoptip from 'iview/src/components/poptip';
   import Notice from 'iview/src/components/notice';
+  import Tem1Btn from 'components/template1-part/template1-btn/template1-btn';
 
-  import $ from 'expose-loader?$!jquery';
   import textBG from './iocn_pun_bg.png';
 
+  const $ = window.$;
   const PUNLIST_CN = ['，', '。', '、', '？', '！', '：', '；', '…', '……', '·', '-', '——', '“', '”', '‘', '’', '《', '》', '<', '>', '（', '）', '【', '】', '[', ']'];
   const PUNLIST_EN = [',', '.', '、', '?', '!', ':', ';', '…', '……', '`', '-', '_', '"', '"', '\'', '\'', '《', '》', '<', '>', '(', ')', '【', '】', '[', ']'];
   const PUNLIST_NAME = [
@@ -155,7 +158,7 @@
       };
     },
     mounted() {
-      this._createReg();
+      this.createReg();
       this.$nextTick(() => {
         console.log(this.punList);
         this.$refs.textarea.style.backgroundImage = `url(${textBG})`;
@@ -202,7 +205,7 @@
             e.preventDefault();
             key = PUNLIST_CN[_index];
 //            console.log('中文：', key);
-            let str = this._createPunHtml(key);
+            let str = this.createPunHtml(key);
             document.execCommand('insertHTML', false, str);
             setTimeout(() => {
               document.execCommand('Delete', false, null);
@@ -212,7 +215,7 @@
           // 英文
           key = PUNLIST_CN[index];
 //          console.log('英文：', key);
-          let str = this._createPunHtml(key);
+          let str = this.createPunHtml(key);
           document.execCommand('insertHTML', false, str);
           e.preventDefault();
         }
@@ -322,7 +325,7 @@
       closePunPanel() {
         this.$refs.punPanel.handleClose();
       },
-      _createReg() {
+      createReg() {
         let regStr = this.punList.join('');
 //        console.log(regStr);
         regStr = regStr.replace(/[()[\]]/g, (str) => {
@@ -331,7 +334,7 @@
 //        console.log(regStr);
         this.regexp = new RegExp('[' + regStr + ']', 'g');
       },
-      _changeArticle() {
+      changeArticle() {
         let reg1 = /<span class="symbol active" contenteditable="false">(.*?)<\/span>/g;
         let reg2 = /<span class="symbol" contenteditable="false">(.*?)<\/span>/g;
         this.answers = [];
@@ -347,7 +350,7 @@
         });
         console.log(this.answers, this.article);
       },
-      _createPunHtml(key) {
+      createPunHtml(key) {
         return `&zwj;<span class="symbol" contenteditable="false">${key}</span>&zwj;`;
       },
       getQuestionData() {
@@ -366,7 +369,7 @@
         };
       },
       verifyHandle() {
-        this._changeArticle();
+        this.changeArticle();
         if (this.article.trim() === '') return -1;
         if (this.options.length < 1) return -2;
         return 1;
@@ -391,7 +394,8 @@
     components: {
       Mboard,
       IIcon,
-      IPoptip
+      IPoptip,
+      Tem1Btn
     }
   };
 </script>
@@ -458,19 +462,7 @@
           padding-top: 6px
           .control_btn
             padding: 4px 12px
-            color: #8A5F23
-            border-radius: 4px
-            font-size: 12px
             margin-left: 20px
-            background: linear-gradient(to top, #D49F5B, #F3C283)
-            &:hover
-              background: linear-gradient(to top, #E9B46E, #F9CC92)
-            &:active
-              background: linear-gradient(to top, #F3C283, #D49F5B)
-            &.disable
-              text-shadow: 0.5px 0.866px 0 rgba(255, 255, 255, 0.51);
-              box-shadow: 0 1px 4.0783px 0 rgba(164, 115, 38, 0.75), inset 0.5px 0.866px 0px 0px rgba(255, 243, 228, 0.5);
-              background: linear-gradient(to top, #DFAC68, #D39D58)
         .size_wrapper
           flex: 0 0 40px;
           color: #643809
@@ -523,15 +515,9 @@
         font-size: 0
         line-height: 72px
         .add_disturbance_btn
+          line-height: 20px
           padding: 2px 6px
-          color: #8A5F23
-          border-radius: 4px
           font-size: 12px
-          background: linear-gradient(to top, #D49F5B, #F3C283)
-          &:hover
-            background: linear-gradient(to top, #E9B46E, #F9CC92)
-          &:active
-            background: linear-gradient(to top, #F3C283, #D49F5B)
         .punctuation_list
           display: flex
           background-color: rgba(202, 175, 124, .9)
@@ -565,13 +551,8 @@
             line-height: 115px
             border-left: 2px solid #fff
             .close_btn
-              display: inline-block;
               width: 75px;
               height: 26px;
+              padding: 0
               line-height: 26px;
-              color: #5d390d;
-              border-radius: 5px
-              font-size: 12px
-              background: url('/static/images/poem_word_bg.png') no-repeat center
-              background-color: #CBB07C
 </style>
