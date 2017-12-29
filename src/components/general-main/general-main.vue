@@ -4,7 +4,7 @@
 
     <div class="content_wrapper" @click="clearRange">
       <div class="content">
-        <router-view ref="mainDOM"></router-view>
+        <router-view ref="questionDOM"></router-view>
       </div>
     </div>
 
@@ -29,14 +29,13 @@
   import Modal from 'iview/src/components/modal';
 
   import {mapMutations, mapActions} from 'vuex';
-  import {createQuestionId} from 'utils/utilities';
-  import {LOCALSTORAGEKEY} from 'common/js/config';
   import exercises from 'map/exercises.json';
-  //  import domtoimage from 'dom-to-image';
+  import {actionMixin} from 'common/js/mixin';
 
   const $ = window.$;
 
   export default {
+    mixins: [actionMixin],
     created() {
       this.type = this.$route.path.trim().split('/')[2];
       exercises['基础题型'].forEach((item, index) => {
@@ -57,66 +56,8 @@
       };
     },
     methods: {
-      screenshot() {
-        return new Promise((resolve, reject) => {
-          this.preview();
-          this.$nextTick(() => {
-            $('.dialog_wrapper').css('opacity', '0');
-            this.$nextTick(() => {
-              window.frames['previewDialog'].onload = function () {
-                this.screenshot()
-                  .then((dataURL) => {
-                    $('.dialog_wrapper').css('opacity', '0');
-                    this.setPreDialog({isShow: true});
-                    resolve(dataURL);
-                  });
-              };
-            });
-          });
-        });
-      },
-      showDia() {
-        Modal.confirm({
-          title: '',
-          content: '<p class="text">确认保存该试题么？</p>',
-          onOk: () => {
-            this.save();
-          }
-        });
-      },
-      save() {
-        if (!this.questionId) {
-          this.questionId = createQuestionId();
-        }
-        this.setProgressDia({isShow: true, progress: 0});
-
-        this.screenshot()
-          .then((dataURL) => {
-            console.log(dataURL);
-            this.upload(this.questionId)
-              .then((_url) => {
-                let data = this.$refs.mainDOM.getQuestionData(_url).questionData;
-                console.log(data);
-                this.saveToRemote({data, questionId: this.questionId})
-                  .then(() => {
-                    this.setProgressDia({progress: 100});
-                  });
-              })
-              .catch((code) => {
-                alert('错误编码：' + code);
-              });
-          });
-      },
-      preview() {
-        let data = this.$refs.mainDOM.getQuestionData().localData;
-        console.log(data);
-        localStorage.setItem(LOCALSTORAGEKEY, JSON.stringify(data));
-//        console.log(this.preTitle);
-        this.setPreDialog({isShow: true, title: this.preTitle});
-      },
-      interrupt() {
-        this.interruptSave();
-        this.setProgressDia({isShow: false});
+      getdata(url) {
+        return this.$refs.questionDOM.getQuestionData(url);
       },
       clearRange(e) {
         let parents = $(e.target).parents();

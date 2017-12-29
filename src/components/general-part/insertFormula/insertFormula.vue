@@ -31,10 +31,8 @@
       status() {
         return this.formulaDialog;
       },
-      currentRange() {
-        return this.currentRange;
-      },
       ...mapGetters([
+        'currentRange',
         'formulaDialog'
       ])
     },

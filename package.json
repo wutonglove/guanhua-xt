@@ -13,11 +13,12 @@
   "dependencies": {
     "axios": "^0.16.2",
     "dom-to-image": "^2.5.2",
+    "highcharts": "^6.0.4",
     "iview": "^2.7.4",
     "jquery-ui": "^1.12.1",
     "vue": "^2.5.11",
     "vue-router": "^3.0.1",
-    "vuedraggable": "^2.14.1",
+    "vuedraggable": "^2.15.0",
     "vuex": "^2.3.1"
   },
   "devDependencies": {

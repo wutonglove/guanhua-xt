@@ -3,6 +3,10 @@
  */
 import Modal from 'iview/src/components/modal';
 import {mapActions, mapGetters, mapMutations} from 'vuex';
+import {LOCALSTORAGEKEY} from 'common/js/config';
+import {createQuestionId} from 'utils/utilities';
+
+const $ = window.$;
 
 export const submitMixin = {
   props: {
@@ -32,6 +36,11 @@ export const submitMixin = {
             content: `<p>太棒了，您答对了！</p>`
           });
           break;
+      }
+      if (window.androidjs) {
+        window.androidjs.showInfoFromJs(result);
+      } else {
+        alert('no androidjs');
       }
     },
     getResult() {
@@ -83,5 +92,70 @@ export const timerMixin = {
     ...mapMutations({
       setTimes: 'SET_TIMES'
     })
+  }
+};
+
+export const actionMixin = {
+  methods: {
+    screenshot() {
+      let _self = this;
+      return new Promise((resolve, reject) => {
+        this.preview();
+        this.$nextTick(() => {
+          $('.dialog_wrapper').css('opacity', '0');
+          this.$nextTick(() => {
+            window.frames['previewDialog'].onload = function () {
+              this.screenshot()
+                .then((dataURL) => {
+                  $('.dialog_wrapper').css('opacity', '0');
+                  _self.setPreDialog({isShow: true});
+                  resolve(dataURL);
+                });
+            };
+          });
+        });
+      });
+    },
+    save() {
+      if (!this.questionId) {
+        this.questionId = createQuestionId();
+      }
+      this.setProgressDia({isShow: true, progress: 0});
+
+      this.screenshot()
+        .then((dataURL) => {
+          console.log(dataURL);
+          this.upload(this.questionId)
+            .then((_url) => {
+              let data = this.getdata(_url).questionData;
+              console.log(data);
+              this.saveToRemote({data, questionId: this.questionId})
+                .then(() => {
+                  this.setProgressDia({progress: 100});
+                });
+            })
+            .catch((code) => {
+              alert('错误编码：' + code);
+            });
+        });
+    },
+    preview() {
+      let data = this.getdata().localData;
+      localStorage.setItem(LOCALSTORAGEKEY, JSON.stringify(data));
+      this.setPreDialog({isShow: true, title: this.preTitle});
+    },
+    interrupt() {
+      this.interruptSave();
+      this.setProgressDia({isShow: false});
+    },
+    showDia() {
+      Modal.confirm({
+        title: '',
+        content: '<p class="text">确认保存该试题么？</p>',
+        onOk: () => {
+          this.save();
+        }
+      });
+    }
   }
 };

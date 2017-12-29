@@ -18,7 +18,7 @@
           </a>
         </div>
         <div class="box_content">
-          <router-view ref="mainDOM" :mboard="mboard"></router-view>
+          <router-view ref="questionDOM" :mboard="mboard"></router-view>
         </div>
         <div class="hint_box">
           <a class="hint_btn" @click="showHintDia"></a>
@@ -53,10 +53,9 @@
   import HintDia from 'components/template1-part/hint-dialog/hint-dialog';
   import UpProgress from 'base/progress/progress';
 
-  import {LOCALSTORAGEKEY} from 'common/js/config';
   import {mapMutations, mapGetters, mapActions} from 'vuex';
-  import {createQuestionId} from 'utils/utilities';
   import exercises from 'map/exercises.json';
+  import {actionMixin} from 'common/js/mixin';
 
   const QUESTION_NAME = {
     chinese: '语文题型',
@@ -66,6 +65,7 @@
   };
 
   export default {
+    mixins: [actionMixin],
     created() {
       this.type = this.$route.path.trim().split('/')[2];
       let sub = this.$route.path.trim().split('/')[1];
@@ -99,43 +99,15 @@
       filterDoubleDigit(num) {
         return num.toString().length < 2 ? '0' + num : num;
       },
-      showDia() {
-        Modal.confirm({
-          title: '',
-          content: '<p class="text">确认保存该试题么？</p>',
-          onOk: () => {
-            this.save();
-          }
-        });
-      },
-      preview() {
-        if (!this.verify()) return;
-        let data = this.$refs.mainDOM.getQuestionData().localData;
-        data['mboardTitle'] = this.mboard.title;
-        data['hints'] = this.hints; // set
-        console.log(data);
-        localStorage.setItem(LOCALSTORAGEKEY, JSON.stringify(data));
-        this.setPreDialog({isShow: true, title: this.preTitle});
-      },
-      save() {
-        if (!this.questionId) {
-          this.questionId = createQuestionId();
-        }
-        this.setProgressDia({isShow: true, progress: 0});
-
-        this.upload(this.questionId)
-          .then((urlSnippet) => {
-            let data = this.$refs.mainDOM.getQuestionData(urlSnippet).questionData;
-            this.saveToRemote({data, questionId: this.questionId})
-              .then(this.setProgressDia({progress: 100}));
-          })
-          .catch((code) => {
-            alert('错误编码：' + code);
+      getdata(key) {
+        let data = this.$refs.questionDOM.getQuestionData();
+        for (let key in data) {
+          data[key] = Object.assign({}, data[key], {
+            mboardTitle: this.mboard.title,
+            hints: this.hints
           });
-      },
-      interrupt() {
-        this.interruptSave();
-        this.setProgressDia({isShow: false});
+        }
+        return data;
       },
       setTimeHandle(times) {
         let minute = 0;

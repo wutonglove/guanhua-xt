@@ -42,6 +42,9 @@
         $('.topic').find('blank').each((index, item) => {
           $(item).replaceWith('<input class="blank" type="text"/>');
         });
+        $('.topic').find('.blankDOM_hook').each((index, item) => {
+          $(item).replaceWith('<input class="blank" type="text"/>');
+        });
       }, 20);
     },
     methods: {

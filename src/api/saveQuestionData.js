@@ -90,7 +90,7 @@ class Save {
    * @returns {Promise}
    */
   saveData(data) {
-    let xtclass = getXTClass(data.questionType);
+    let xtclass = Save.getXTClass(data.questionType);
     let xttype = xttypeList[data.questionType];
     data = {
       questionid: this.questionId, // 习题ID
@@ -131,6 +131,9 @@ class Save {
     this.source.cancel('Operation canceled by the user.');
   }
 
+  /**
+   * 获取地址栏参数
+   */
   getParam() {
     let params = urlSearch();
 
@@ -139,16 +142,21 @@ class Save {
     this.subject = params.subject || 1;
     this.creator = params.creator || 0;
   }
-}
 
-function getXTClass(type) {
-  for (let key in Map) {
-    let questions = Map[key];
-    for (let i = 0; i < questions.length; i++) {
-      // console.log(questions[i].type, type);
-      if (questions[i].type === type) {
-        // console.log(key);
-        return xtclassList[key];
+  /**
+   * 获取习题大类
+   * @param {String} type 习题大类
+   * @return 习题大类标识
+   */
+  static getXTClass(type) {
+    for (let key in Map) {
+      let questions = Map[key];
+      for (let i = 0; i < questions.length; i++) {
+        // console.log(questions[i].type, type);
+        if (questions[i].type === type) {
+          // console.log(key);
+          return xtclassList[key];
+        }
       }
     }
   }
