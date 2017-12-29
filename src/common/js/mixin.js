@@ -5,6 +5,7 @@ import Modal from 'iview/src/components/modal';
 import {mapActions, mapGetters, mapMutations} from 'vuex';
 import {LOCALSTORAGEKEY} from 'common/js/config';
 import {createQuestionId} from 'utils/utilities';
+import upScreenshot from 'api/upScreenshot';
 
 const $ = window.$;
 
@@ -121,22 +122,27 @@ export const actionMixin = {
         this.questionId = createQuestionId();
       }
       this.setProgressDia({isShow: true, progress: 0});
-
+      let _dataURL = '';
       this.screenshot()
         .then((dataURL) => {
           console.log(dataURL);
-          this.upload(this.questionId)
-            .then((_url) => {
-              let data = this.getdata(_url).questionData;
-              console.log(data);
-              this.saveToRemote({data, questionId: this.questionId})
-                .then(() => {
-                  this.setProgressDia({progress: 100});
-                });
-            })
-            .catch((code) => {
-              alert('错误编码：' + code);
-            });
+          _dataURL = dataURL;
+          return this.upload(this.questionId);
+        })
+        .then((_url) => {
+          let data = this.getdata(_url).questionData;
+          console.log(data);
+          return this.saveToRemote({data, questionId: this.questionId});
+        })
+        .then(() => {
+          // 保存截图
+          return upScreenshot(this.questionId, _dataURL);
+        })
+        .then(() => {
+          this.setProgressDia({progress: 100});
+        })
+        .catch((code) => {
+          alert('错误编码：' + code);
         });
     },
     preview() {

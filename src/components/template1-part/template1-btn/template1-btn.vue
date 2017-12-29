@@ -1,8 +1,8 @@
 <template>
-  <div class="btn_wrap" :class="{disable:disable}" @click="handleClick">
+  <a class="btn_wrap" :class="{disable:disable}" @click="handleClick">
     <i-icon :type="icon" v-if="icon!==''"></i-icon>
     <slot></slot>
-  </div>
+  </a>
 </template>
 
 <script>
