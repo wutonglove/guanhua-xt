@@ -28,7 +28,7 @@
   import UpProgress from 'base/progress/progress';
   import Modal from 'iview/src/components/modal';
 
-  import {mapMutations, mapActions} from 'vuex';
+  import {mapActions} from 'vuex';
   import exercises from 'map/exercises.json';
   import {actionMixin} from 'common/js/mixin';
 
@@ -65,16 +65,8 @@
         if (parents.hasClass('cl_rg_hook') || curr.hasClass('cl_rg_hook')) return;
         this.clearSelection();
       },
-      ...mapMutations({
-        setCurrentRange: 'SET_CURRENTRANGE',
-        setPreDialog: 'SET_PREDIALOG',
-        setProgressDia: 'SET_PROGRESSDIA'
-      }),
       ...mapActions({
-        clearSelection: 'clearSelection',
-        saveToRemote: 'saveToRemote',
-        upload: 'uploadToRemote',
-        interruptSave: 'interruptSave'
+        clearSelection: 'clearSelection'
       })
     },
     components: {

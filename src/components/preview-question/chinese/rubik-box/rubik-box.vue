@@ -1,7 +1,7 @@
 <template>
   <div class="rubik_wrap">
     <div class="grid_box">
-      <grid ref="grid" :tableData="tableData" mode="show"></grid>
+      <v-grid ref="grid" :tableData="tableData" mode="show"></v-grid>
     </div>
     <div class="side_box">
       <div class="guidance">
@@ -21,9 +21,9 @@
 </template>
 
 <script>
-  import Grid from 'components/template1-part/grid/grid';
+  import VGrid from 'components/template1-part/grid/grid';
   import {submitMixin} from 'common/js/mixin';
-  import {createGrid} from 'common/js/class';
+  import {Grid} from 'common/js/class';
 
   export default {
     mixins: [submitMixin],
@@ -74,13 +74,13 @@
           this.tableData.push([]);
           item.forEach((grid, c) => {
             let text = grid.text;
-            this.tableData[r].push(createGrid(text));
+            this.tableData[r].push(new Grid(text));
           });
         });
       }
     },
     components: {
-      Grid
+      VGrid
     }
   };
 </script>

@@ -25,5 +25,6 @@
   "punctuation": 23,
   "composition": 24,
   "rubik-box": 25,
-  "logogriph": 26
+  "logogriph": 26,
+  "textselect": 27
 }

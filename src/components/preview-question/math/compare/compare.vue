@@ -16,8 +16,9 @@
 </template>
 
 <script>
-  import {compareSymbolList} from 'common/js/config';
   import {submitMixin} from 'common/js/mixin';
+
+  const compareSymbolList = ['<', '>', '≤', '≥', '=', '≈'];
 
   export default {
     mixins: [submitMixin],

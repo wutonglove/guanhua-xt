@@ -31,8 +31,8 @@
             :btns="footBtns"
             :desc="desc"
             :questionName="preTitle"
-            @on-save="showDia"
-            @on-preview="preview"
+            @on-save="saveHandler"
+            @on-preview="preHandler"
             @set-times="setTimeHandle"
           ></footer-btns>
         </div>
@@ -53,7 +53,7 @@
   import HintDia from 'components/template1-part/hint-dialog/hint-dialog';
   import UpProgress from 'base/progress/progress';
 
-  import {mapMutations, mapGetters, mapActions} from 'vuex';
+  import {mapMutations, mapGetters} from 'vuex';
   import exercises from 'map/exercises.json';
   import {actionMixin} from 'common/js/mixin';
 
@@ -85,8 +85,6 @@
       return {
         footBtns: [],
         mboard: {},
-        preTitle: '',
-        desc: '',
         hints: []
       };
     },
@@ -99,7 +97,11 @@
       filterDoubleDigit(num) {
         return num.toString().length < 2 ? '0' + num : num;
       },
-      getdata(key) {
+      /**
+       * 从页面获取编辑完成的习题数据
+       * @return [Object]
+       */
+      getdata() {
         let data = this.$refs.questionDOM.getQuestionData();
         for (let key in data) {
           data[key] = Object.assign({}, data[key], {
@@ -124,19 +126,20 @@
       setHint(hints) {
         this.hints = hints;
       },
-      verify(cb) {
-        let question = this.$refs.mainDOM;
+      verify() {
+        let question = this.$refs.questionDOM;
         return question.showMessage();
       },
+      saveHandler() {
+        if (!this.verify()) return;
+        this.showDia();
+      },
+      preHandler() {
+        if (!this.verify()) return;
+        this.preview();
+      },
       ...mapMutations({
-        setPreDialog: 'SET_PREDIALOG',
-        setTimes: 'SET_TIMES',
-        setProgressDia: 'SET_PROGRESSDIA'
-      }),
-      ...mapActions({
-        saveToRemote: 'saveToRemote',
-        upload: 'uploadToRemote',
-        interruptSave: 'interruptSave'
+        setTimes: 'SET_TIMES'
       })
     },
     components: {
@@ -264,4 +267,7 @@
         .btns_foot_wrapper
           width: 100%
           height: 100%
+
+    ::-webkit-scrollbar-thumb
+      background-color: #B6834B
 </style>

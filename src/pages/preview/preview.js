@@ -20,10 +20,11 @@ new Vue({
 window.screenshot = function () {
   return new Promise((resolve, reject) => {
     let dom = window.document.body;
-    setTimeout(() => {
+    let timer = setTimeout(() => {
       domtoimage
         .toJpeg(dom)
         .then((dataUrl) => {
+          clearTimeout(timer);
           resolve(dataUrl);
         });
     }, 3000);

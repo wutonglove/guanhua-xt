@@ -32,12 +32,8 @@
       </div>
       <div class="file_wrapper">
         <div class="file_btn" v-for="btn in fileBtns">
-          <div class="file_btn_content" v-if="btn.role!=='formula'" @click="showFileDialog(btn)">
-            <span class="icon" :class="btn.icon"></span>
-            <span class="name">{{btn.name}}</span>
-          </div>
-          <div class="file_btn_content" v-else @click="showFormula">
-            <span class="icon" :class="btn.icon"></span>
+          <div class="file_btn_content" @click="showInDialog(btn)">
+            <i-icon class="icon" :type="btn.icon"></i-icon>
             <span class="name">{{btn.name}}</span>
           </div>
         </div>
@@ -48,21 +44,21 @@
 
 <script>
   import ColorPicker from 'components/general-part/colorPicker/colorPicker';
-  import TextBtns from 'common/json/text_tool.json';
-  import FileBtns from 'common/json/insert_file_btn.json';
   import ISelect from 'iview/src/components/select/select';
   import IOption from 'iview/src/components/select/option';
   import ITooltip from 'iview/src/components/tooltip/tooltip';
+  import IIcon from 'iview/src/components/icon';
 
+  import {EDIT_TEXT_BTNS, IN_FILE_BTNS} from 'common/js/config';
   import {mapActions, mapMutations} from 'vuex';
-  //  import $ from 'expose-loader?$!jquery';
+
   const $ = window.$;
 
   export default {
     data() {
       return {
-        txtBtns: TextBtns,
-        fileBtns: FileBtns,
+        txtBtns: EDIT_TEXT_BTNS,
+        fileBtns: IN_FILE_BTNS,
         fontSize: 3,
         bgColor: 'white',
         fontColor: 'black'
@@ -100,7 +96,7 @@
           this.fontSize = 3;
         });
       },
-      showFileDialog: function (btn) {
+      showInDialog: function (btn) {
         let name;
         let type = btn.role;
         let status = true;
@@ -114,15 +110,15 @@
           case 'audio':
             name = '插入音频';
             break;
+          case 'formula':
+            this.setFormula(status);
+            return;
         }
         this.setFileDia({
           name,
           type,
           status
         });
-      },
-      showFormula() {
-        this.setFormula(true);
       },
       btnSpanCls(btn) {
         return `${btn.icon} ${btn.state === 'on' ? 'active' : ''}`;
@@ -149,7 +145,8 @@
       ColorPicker,
       ISelect,
       IOption,
-      ITooltip
+      ITooltip,
+      IIcon
     }
   };
 </script>
@@ -228,10 +225,20 @@
           font-size: 16px
           border-right: 1px solid #ccc
           text-align: center
-          .icon
-            display: block
-            width: 100%
-            font-size: 35px
-            color: $background-blue-d
-            margin-bottom: 10px
+          .file_btn_content
+            margin: 0 10px
+            padding: 10px 0
+            margin-top: -10px
+            cursor: pointer
+            &:hover
+              background-color: #6CBAE4
+              border-radius: 4px
+              .icon, .name
+                color: #fff
+            .icon
+              display: block
+              width: 100%
+              font-size: 35px
+              color: $background-blue-d
+              margin-bottom: 10px
 </style>

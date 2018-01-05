@@ -96,13 +96,13 @@
       "type": "jointpoem",
       "name": "连字成诗",
       "href": "interest/jointPoem.html",
-      "thumbUrl": "3b4e8493-e55c-4cd3-sb56-ec1e7031c67b.png"
+      "thumbUrl": "spelling-poem-icon.jpg"
     },
     {
       "type": "blank-cloze",
       "name": "选词填空",
       "href": "edit.html#/interaction/blank-cloze",
-      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "thumbUrl": "blank-cloze.jpg",
       "desc": {
         "descPic": [
           "/static/images/blank_cloze.jpg",
@@ -126,6 +126,36 @@
           "titleLength": 70
         }
       }
+    },
+    {
+      "type": "textselect",
+      "name": "文本选择",
+      "href": "edit.html#/interaction/textselect",
+      "thumbUrl": "textselect-icon.jpg",
+      "desc": {
+        "descPic": [
+          "/static/images/textselect.jpg",
+          "/static/images/textselect.gif"
+        ],
+        "descText": [
+          "本题型适用于多个学科。如英语，老师可输入多个英文单词，由学生将其中含义相似的单词选择出来；如历史课中，老师输入有关某事件的多个描述，正确的或错误的，由学生进行正确答案的选择；",
+          "本题型的编辑方式为：输入文字—选择文字—将文字设置为选项；",
+          "选项可设置为正确答案和干扰项，正确答案为必选项，干扰项为选填项；",
+          "可设置多个正确答案或干扰项。"
+        ]
+      },
+      "config": {
+        "footBtns": [
+          "disprtion",
+          "timeset",
+          "preview",
+          "save"
+        ],
+        "mboard": {
+          "title": "请在下列文字中选出符合题意的选项",
+          "titleLength": 70
+        }
+      }
     }
   ],
   "数学题型": [
@@ -133,7 +163,7 @@
       "type": "compare",
       "name": "比较大小",
       "href": "edit.html#/math/compare",
-      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "thumbUrl": "compare-icon.jpg",
       "desc": {
         "descPic": [
           "/static/images/compare_desc.jpg",
@@ -161,7 +191,7 @@
       "type": "fractional-calc",
       "name": "分式加减",
       "href": "edit.html#/math/fractional-calc",
-      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "thumbUrl": "fractional-calc-icon.jpg",
       "desc": {
         "descPic": [
           "/static/images/fractional-calc.jpg",
@@ -188,7 +218,7 @@
       "type": "vertical-calc",
       "name": "竖式计算",
       "href": "edit.html#/math/vertical-calc",
-      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "thumbUrl": "vertical-calc-icon.jpg",
       "desc": {
         "descPic": [
           "/static/images/vertical-calc.jpg",
@@ -216,7 +246,7 @@
       "type": "rubik-box",
       "name": "魔方盒游戏",
       "href": "edit.html#/chinese/rubik-box",
-      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "thumbUrl": "rubik-box.jpg",
       "desc": {
         "descPic": [
           "/static/images/rubik_box_desc.jpg",
@@ -245,7 +275,7 @@
       "type": "logogriph",
       "name": "字谜游戏",
       "href": "edit.html#/chinese/logogriph",
-      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "thumbUrl": "logogriph-icon.jpg",
       "desc": {
         "descPic": [
           "/static/images/logogriph_desc.jpg",
@@ -266,16 +296,15 @@
           "save"
         ],
         "mboard": {
-          "title": "请根据右侧提示在格子中找出合适的词语",
-          "titleLength": 70
+          "title": "请根据右侧提示在格子中找出合适的词语"
         }
       }
     },
     {
       "type": "spelling-poem",
       "name": "连字拼诗",
-      "href": "edit.html#/chinese/spelling-poem",
-      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "href": "edit.html#/",
+      "thumbUrl": "spelling-poem-icon.jpg",
       "desc": {
         "descPic": [
           "/static/images/spelling_poem_desc_1.jpg",
@@ -308,7 +337,7 @@
       "type": "punctuation",
       "name": "标点题",
       "href": "edit.html#/chinese/punctuation",
-      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "thumbUrl": "punctuation-icon.jpg",
       "desc": {
         "descPic": [
           "/static/images/punctuation.jpg",
@@ -345,7 +374,7 @@
       "type": "rubik-box",
       "name": "魔方盒游戏",
       "href": "edit.html#/english/rubik-box",
-      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "thumbUrl": "rubik-box.jpg",
       "desc": {
         "descPic": [
           "/static/images/rubik_box_desc.jpg",
@@ -374,7 +403,7 @@
       "type": "logogriph",
       "name": "字谜游戏",
       "href": "edit.html#/english/logogriph",
-      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png",
+      "thumbUrl": "logogriph-icon.jpg",
       "desc": {
         "descPic": [
           "/static/images/logogriph_desc.jpg",

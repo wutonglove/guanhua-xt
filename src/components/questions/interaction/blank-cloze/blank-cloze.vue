@@ -53,13 +53,11 @@
   import IIcon from 'iview/src/components/icon';
 
   import {mapActions} from 'vuex';
-  import {verifyMixin} from 'common/js/mixin';
   import Notice from 'iview/src/components/notice';
 
   const $ = window.$;
 
   export default {
-    mixins: [verifyMixin],
     props: {
       mboard: {
         type: Object
@@ -82,9 +80,9 @@
     },
     methods: {
       mouseUp(e) {
-        let selection = document.getSelection();
-        let text = selection.toString();
         setTimeout(() => {
+          let selection = document.getSelection();
+          let text = selection.toString();
           if (text !== '') {
             this.curSelectText = selection;
             this.showAddBtn(e.x, e.y);

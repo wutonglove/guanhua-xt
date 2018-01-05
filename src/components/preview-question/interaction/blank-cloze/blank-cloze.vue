@@ -152,6 +152,18 @@
             });
           }
         });
+      },
+      getResult() {
+        let $blanks = $(this.$refs.articleWrap).find('blank');
+        let str = '';
+        for (let i = 0; i < $blanks.length; i++) {
+          let text = $blanks.eq(i).html().trim();
+          str += (text === '?' ? '' : text);
+          if (text !== this.questionData.answers[i]) return 0;
+        }
+        console.log('jieguo', str);
+        if (str === '') return -1;
+        return 1;
       }
     },
     components: {

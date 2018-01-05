@@ -65,68 +65,6 @@ export const uploadToRemote = function ({commit, state}, questionId) {
         reject(code);
       });
   });
-  // return new Promise((resolve, reject) => {
-  //   let urlSnippet;
-  //   let $insertFileDoms = $('.content_wrapper').find('.insertFile_hook');
-  //   if ($insertFileDoms.length < 1) {
-  //     urlSnippet = '/';
-  //     resolve(urlSnippet);
-  //     return;
-  //   }
-  //   let formData = new FormData();
-  //   let fileNameList = [];
-  //   let fileOriNameList = [];
-  //   let uploadfilelist = [];
-  //
-  //   $insertFileDoms.each((index, item) => {
-  //     let name = $(item).attr('data-name');
-  //     if (fileNameList.indexOf(name) === -1) {
-  //       fileNameList.push(name);
-  //     }
-  //   });
-  //
-  //   fileNameList.forEach((item, index) => {
-  //     // console.log(state.fileList);
-  //     state.fileList.forEach((file) => {
-  //       if (file.name === item) {
-  //         uploadfilelist.push(file.original);
-  //         formData.append(file.original.name, file.original);
-  //         fileOriNameList.push(file.original.name);
-  //       }
-  //     });
-  //   });
-  //
-  //   formData.append('filelistori', fileOriNameList.join('|'));
-  //   formData.append('filelistnew', fileNameList.join('|'));
-  //   formData.append('questionid', questionId);
-  //
-  //   axios({
-  //     method: 'post',
-  //     url: '/api/xiti/v1/resource/uploadxitifiles',
-  //     data: formData,
-  //     cancelToken: source.token,
-  //     headers: {
-  //       'Content-Type': 'multipart/form-data'
-  //     },
-  //     onUploadProgress(progressEvent) {
-  //       console.log(progressEvent);
-  //       let proportion = (progressEvent.loaded / progressEvent.total).toFixed(2);
-  //       let progress = (proportion * 100 - 1) || 0;
-  //       commit('SET_PROGRESSDIA', {progress});
-  //     }
-  //   })
-  //     .then((res) => {
-  //       if (res.data.code === '0') {
-  //         urlSnippet = '/' + res.data.data;
-  //         resolve(urlSnippet);
-  //       } else {
-  //         reject(res.data.code);
-  //       }
-  //     })
-  //     .catch((res) => {
-  //       reject(res.data.code);
-  //     });
-  // });
 };
 // 保存
 export const saveToRemote = function ({commit, state}, {data}) {
@@ -139,39 +77,11 @@ export const saveToRemote = function ({commit, state}, {data}) {
         reject(code);
       });
   });
-
-  // let xtclass = getXTClass(data.questionType);
-  // data = {
-  //   questionid: questionId, // 习题ID
-  //   courseid: '111', // 课程编号
-  //   maincontent: JSON.stringify(data), // 习题内容
-  //   xtclass, // 习题大类  number
-  //   xttype: xttypeList[data.questionType], // 小类  number
-  //   ispublic: 1, // 公开 私有
-  //   creator: 0 // 用户ID
-  // };
-  // return new Promise((resolve, reject) => {
-  //   axios({
-  //     method: 'post',
-  //     url: '/api/xiti/v1/resource/createxiti',
-  //     cancelToken: source.token,
-  //     data: JSON.stringify(data)
-  //   })
-  //     .then((res) => {
-  //       if (res.data.code === '0') {
-  //         resolve();
-  //       } else {
-  //         reject(res.data.code);
-  //       }
-  //     })
-  //     .catch((res) => {
-  //       reject('服务器超时');
-  //     });
-  // });
 };
 
 // 中断保存
 export const interruptSave = function ({commit}) {
-  // source.cancel('Operation canceled by the user.');
-  save.interruptSave();
+  if (save) {
+    save.interruptSave();
+  }
 };

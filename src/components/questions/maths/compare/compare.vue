@@ -50,7 +50,7 @@
   import IPoptip from 'iview/src/components/poptip';
   import Notice from 'iview/src/components/notice';
 
-  import {compareSymbolList} from 'common/js/config';
+  const compareSymbolList = ['<', '>', '≤', '≥', '=', '≈'];
 
   export default {
     props: {

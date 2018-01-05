@@ -98,23 +98,41 @@ export const timerMixin = {
 
 export const actionMixin = {
   methods: {
+    /**
+     * 截图
+     * @returns {Promise}
+     */
     screenshot() {
       let _self = this;
       return new Promise((resolve, reject) => {
         this.preview();
         this.$nextTick(() => {
           $('.dialog_wrapper').css('opacity', '0');
-          this.$nextTick(() => {
+          try {
             window.frames['previewDialog'].onload = function () {
               this.screenshot()
                 .then((dataURL) => {
-                  $('.dialog_wrapper').css('opacity', '0');
-                  _self.setPreDialog({isShow: true});
+                  $('.dialog_wrapper').css('opacity', '1');
+                  _self.setPreDialog({isShow: false});
                   resolve(dataURL);
                 });
             };
-          });
+          } catch (err) {
+            reject(6000);
+          }
         });
+      });
+    },
+    /**
+     * 保存提示
+     */
+    showDia() {
+      Modal.confirm({
+        title: '',
+        content: '<p class="text">确认保存该试题么？</p>',
+        onOk: () => {
+          this.save();
+        }
       });
     },
     save() {
@@ -151,17 +169,19 @@ export const actionMixin = {
       this.setPreDialog({isShow: true, title: this.preTitle});
     },
     interrupt() {
+      console.log('interrupt', this.interruptSave);
+      this.setPreDialog({isShow: false});
       this.interruptSave();
       this.setProgressDia({isShow: false});
     },
-    showDia() {
-      Modal.confirm({
-        title: '',
-        content: '<p class="text">确认保存该试题么？</p>',
-        onOk: () => {
-          this.save();
-        }
-      });
-    }
+    ...mapMutations({
+      setPreDialog: 'SET_PREDIALOG',
+      setProgressDia: 'SET_PROGRESSDIA'
+    }),
+    ...mapActions({
+      saveToRemote: 'saveToRemote',
+      upload: 'uploadToRemote',
+      interruptSave: 'interruptSave'
+    })
   }
 };

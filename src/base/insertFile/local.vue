@@ -30,15 +30,15 @@
 </template>
 
 <script>
-  import types from 'common/json/file-type.json';
+  import {FILE_CONFIG} from 'common/js/config';
 
   import IIcon from 'iview/src/components/icon';
   import IMessage from 'iview/src/components/message';
-  import {IAmage, IVideo, IAudio} from 'common/js/fileObject';
+  import {IAmage, IVideo, IAudio} from 'common/js/class';
   import {mapGetters, mapMutations} from 'vuex';
 
-  const FileType = types.fileType;
-  const FileSize = types.fileSize;
+  const FileType = FILE_CONFIG.fileType;
+  const FileSize = FILE_CONFIG.fileSize;
 
   export default {
     data() {
@@ -153,9 +153,9 @@
           });
           return true;// 不通过
         }
-        if (file.size > FileSize) {
+        if (file.size > FileSize * 1024 * 1024) {
           IMessage.error({
-            content: '插入文件不能大于15M！',
+            content: `插入文件不能大于${FileSize}M！`,
             duration: 3
           });
           return true;// 不通过

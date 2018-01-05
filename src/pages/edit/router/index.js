@@ -63,6 +63,11 @@ const BlankCloze = (resolve) => {
     resolve(module);
   });
 };
+const TextSelect = (resolve) => {
+  import('components/questions/interaction/textselect/textselect').then((module) => {
+    resolve(module);
+  });
+};
 
 Vue.use(Router);
 
@@ -179,6 +184,10 @@ export default new Router({
         {
           path: '/interaction/blank-cloze',
           component: BlankCloze
+        },
+        {
+          path: '/interaction/textselect',
+          component: TextSelect
         }
       ]
     }

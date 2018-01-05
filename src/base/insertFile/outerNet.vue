@@ -45,7 +45,7 @@
   import IInput from 'iview/src/components/input';
   import IButton from 'iview/src/components/button';
 
-  import {IAmage} from 'common/js/fileObject';
+  import {IAmage} from 'common/js/class';
 
   import {mapMutations} from 'vuex';
 

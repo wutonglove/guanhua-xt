@@ -17,6 +17,12 @@ import SpellingPoem from 'components/preview-question/chinese/spelling-poem/spel
 import Punctuation from 'components/preview-question/chinese/punctuation/punctuation';
 import BlankCloze from 'components/preview-question/interaction/blank-cloze/blank-cloze';
 
+const Textselect = (resolve) => {
+  import('components/preview-question/interaction/textselect/textselect').then((module) => {
+    resolve(module);
+  });
+};
+
 Vue.use(Router);
 
 export default new Router({
@@ -64,6 +70,10 @@ export default new Router({
         {
           path: '/interaction/blank-cloze',
           component: BlankCloze
+        },
+        {
+          path: '/interaction/textselect',
+          component: Textselect
         }
       ]
     }
