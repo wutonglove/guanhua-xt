@@ -18,7 +18,7 @@
   import IIcon from 'iview/src/components/icon';
 
   import {mapGetters, mapMutations} from 'vuex';
-  //  import $ from 'expose-loader?$!jquery';
+
   const $ = window.$;
 
   export default {

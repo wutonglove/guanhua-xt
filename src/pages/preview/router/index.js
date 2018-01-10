@@ -22,6 +22,11 @@ const Textselect = (resolve) => {
     resolve(module);
   });
 };
+const Order = (resolve) => {
+  import('components/preview-question/interaction/order/order').then((module) => {
+    resolve(module);
+  });
+};
 
 Vue.use(Router);
 
@@ -74,6 +79,10 @@ export default new Router({
         {
           path: '/interaction/textselect',
           component: Textselect
+        },
+        {
+          path: '/interaction/order',
+          component: Order
         }
       ]
     }

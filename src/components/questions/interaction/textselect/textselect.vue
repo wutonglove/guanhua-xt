@@ -24,7 +24,7 @@
 </template>
 
 <script>
-  import Mboard from 'components/template1-part/mboard/mboard';
+  import {tem1ComMixin} from 'common/js/mixin';
   import IIcon from 'iview/src/components/icon';
   import Notice from 'iview/src/components/notice';
 
@@ -32,11 +32,7 @@
 
   const $ = window.$;
   export default {
-    props: {
-      mboard: {
-        type: Object
-      }
-    },
+    mixins: [tem1ComMixin],
     data() {
       return {
         placeholder: '请输入800字符以内的文本...',
@@ -201,7 +197,6 @@
       })
     },
     components: {
-      Mboard,
       IIcon
     }
   };

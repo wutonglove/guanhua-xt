@@ -69,6 +69,12 @@ const TextSelect = (resolve) => {
   });
 };
 
+const Order = (resolve) => {
+  import('components/questions/interaction/order/order').then((module) => {
+    resolve(module);
+  });
+};
+
 Vue.use(Router);
 
 export default new Router({
@@ -188,6 +194,10 @@ export default new Router({
         {
           path: '/interaction/textselect',
           component: TextSelect
+        },
+        {
+          path: '/interaction/order',
+          component: Order
         }
       ]
     }

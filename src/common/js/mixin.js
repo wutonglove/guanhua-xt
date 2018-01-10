@@ -7,6 +7,8 @@ import {LOCALSTORAGEKEY} from 'common/js/config';
 import {createQuestionId} from 'utils/utilities';
 import upScreenshot from 'api/upScreenshot';
 
+import Mboard from 'components/template1-part/mboard/mboard';
+
 const $ = window.$;
 
 export const submitMixin = {
@@ -183,5 +185,16 @@ export const actionMixin = {
       upload: 'uploadToRemote',
       interruptSave: 'interruptSave'
     })
+  }
+};
+
+export const tem1ComMixin = {
+  props: {
+    mboard: {
+      type: Object
+    }
+  },
+  components: {
+    Mboard
   }
 };

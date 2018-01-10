@@ -138,9 +138,9 @@ class Save {
     let params = urlSearch();
 
     this.courseid = params.courseid || 'test';
-    this.grade = params.grade || 1;
-    this.subject = params.subject || 1;
-    this.creator = params.creator || 0;
+    this.grade = +params.grade || 1;
+    this.subject = +params.subject || 1;
+    this.creator = +params.creator || 0;
   }
 
   /**

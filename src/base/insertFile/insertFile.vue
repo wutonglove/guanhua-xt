@@ -14,7 +14,8 @@
           <i-tab-pane :label="`本地${title.substr(2,2)}库`" name="0">
             <local @ok="ok" @unfold="unfold" ref="local"></local>
           </i-tab-pane>
-          <i-tab-pane :label="`百度${title.substr(2,2)}库`" name="1" v-if="dialogType==='image'">
+          <i-tab-pane :label="`百度${title.substr(2,2)}库`" name="1"
+                      v-if="dialogType==='image'">
             <outer @ok="ok" @unfold="unfold" ref="outer"></outer>
           </i-tab-pane>
         </i-tabs>
@@ -47,6 +48,9 @@
       },
       dialogType() {
         return this.fileDialogInfo.type;
+      },
+      currIndex() {
+        return this.$refs.tabs.activeKey;
       },
       ...mapGetters([
         'fileDialogInfo',
@@ -98,9 +102,11 @@
         return '';
       },
       clearSelectFile() {
-        this.$refs.outer.clearSelectFile();
-        this.$refs.local.clearSelectFile();
-        this.setSelectFile(null);
+        this.$nextTick(() => {
+          this.$refs.outer.clearSelectFile();
+          this.$refs.local.clearSelectFile();
+          this.setSelectFile(null);
+        });
       },
       ...mapMutations({
         setFileDiaSta: 'SET_FILEDIALOGINFO',

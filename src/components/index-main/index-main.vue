@@ -6,7 +6,7 @@
         <span class="text">{{list.title}}</span>
       </div>
       <div class="q_item_wrap">
-        <a class="q_item" v-for="item in list.content" :href="item.href">
+        <a class="q_item" v-for="item in list.content" :href="`${item.href}?${params}`">
           <div class="thumb" :style="`background-image:url(/static/images/${item.thumbUrl})`"></div>
           <div class="name">{{item.name}}</div>
         </a>
@@ -32,6 +32,11 @@
           });
         }
         return list;
+      },
+      params() {
+        let href = window.location.href;
+        let index = href.indexOf('?');
+        return index === -1 ? '' : href.slice(index);
       }
     },
     methods: {
@@ -58,7 +63,7 @@
     .q_list
       width: 100%
       border: 1px solid $bdcolor-blue
-      margin-top:20px
+      margin-top: 20px
       .title
         font-size: 16px
         background-color: $background-blue
@@ -84,11 +89,11 @@
           .name
             line-height: 28px
             font-size: 16px
-            margin-top:5px
-            color:$font-color-normal
+            margin-top: 5px
+            color: $font-color-normal
           &:hover
             .name
-              color:$font-color-blue-d
+              color: $font-color-blue-d
             .thumb
-              background-position-y:-140px
+              background-position-y: -140px
 </style>

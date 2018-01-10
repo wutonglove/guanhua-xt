@@ -156,6 +156,33 @@
           "titleLength": 70
         }
       }
+    },
+    {
+      "type": "order",
+      "name": "排序题",
+      "href": "edit.html#/interaction/order",
+      "thumbUrl": "order-icon.jpg",
+      "desc": {
+        "descPic": [
+          "/static/images/order.jpg",
+          "/static/images/order.gif"
+        ],
+        "descText": [
+          "【-行值+】: 点击“-”或“+”按钮，可以减少或增加选项的个数;",
+          "选项编辑: 请按照正确答案的顺序编辑选项，当学生练习时，系统会将选项自动打乱。"
+        ]
+      },
+      "config": {
+        "footBtns": [
+          "disprtion",
+          "timeset",
+          "preview",
+          "save"
+        ],
+        "mboard": {
+          "hasTitle": false
+        }
+      }
     }
   ],
   "数学题型": [
