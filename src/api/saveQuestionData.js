@@ -11,10 +11,10 @@ import {urlSearch} from 'utils/utilities';
 
 class Save {
   constructor(questionId) {
+    this.getParam();
     let CancelToken = axios.CancelToken;
     this.source = CancelToken.source();
     this.questionId = questionId;
-    this.getParam();
   }
 
   /**
@@ -136,7 +136,6 @@ class Save {
    */
   getParam() {
     let params = urlSearch();
-
     this.courseid = params.courseid || 'test';
     this.grade = +params.grade || 1;
     this.subject = +params.subject || 1;
@@ -152,9 +151,7 @@ class Save {
     for (let key in Map) {
       let questions = Map[key];
       for (let i = 0; i < questions.length; i++) {
-        // console.log(questions[i].type, type);
         if (questions[i].type === type) {
-          // console.log(key);
           return xtclassList[key];
         }
       }

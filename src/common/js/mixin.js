@@ -146,7 +146,7 @@ export const actionMixin = {
       this.screenshot()
         .then((dataURL) => {
           console.log(dataURL);
-          _dataURL = dataURL;
+          _dataURL = dataURL.trim().replace('data:image/jpeg;base64,', '');
           return this.upload(this.questionId);
         })
         .then((_url) => {
