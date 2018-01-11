@@ -64,7 +64,7 @@
   import ICheckbox from 'iview/src/components/checkbox';
   import Notice from 'iview/src/components/notice';
   import {gcd} from 'utils/utilities';
-  const $ = window.$;
+  import $ from 'jquery';
 
   export default {
     props: {

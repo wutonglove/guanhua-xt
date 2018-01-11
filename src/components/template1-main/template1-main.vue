@@ -54,22 +54,19 @@
   import UpProgress from 'base/progress/progress';
 
   import {mapMutations, mapGetters} from 'vuex';
-  import exercises from 'map/exercises.json';
   import {actionMixin} from 'common/js/mixin';
-
-  const QUESTION_NAME = {
-    chinese: '语文题型',
-    math: '数学题型',
-    english: '英语题型',
-    interaction: '趣味题型'
-  };
+  import exercises from 'map/exercises.json';
+  import xtclass from 'map/xtclass-list.json';
 
   export default {
     mixins: [actionMixin],
     created() {
       this.type = this.$route.path.trim().split('/')[2];
       let sub = this.$route.path.trim().split('/')[1];
-      let key = QUESTION_NAME[sub];
+      let index = xtclass.findIndex((item) => {
+        return item.en_name === sub;
+      });
+      let key = xtclass[index].cn_name;
 
       exercises[key].forEach((item, index) => {
         if (item.type === this.type) {

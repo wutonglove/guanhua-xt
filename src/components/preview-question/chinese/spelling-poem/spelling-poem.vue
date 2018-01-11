@@ -27,7 +27,6 @@
 <script>
   import {submitMixin} from 'common/js/mixin';
   import titleBG from './poem_title_bg.png';
-  //  import {createRandomArr} from 'utils/utilities';
 
   class PoemWord {
     constructor(text = '') {

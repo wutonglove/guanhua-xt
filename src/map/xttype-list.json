@@ -13,7 +13,7 @@
   "classifytab": 11,
   "linkgame": 12,
   "classify": 13,
-  "mind": 14,
+  "mindmap": 14,
   "jointpoem": 15,
   "blank-cloze": 16,
   "compare": 17,
@@ -26,5 +26,6 @@
   "composition": 24,
   "rubik-box": 25,
   "logogriph": 26,
-  "textselect": 27
+  "textselect": 27,
+  "order": 28
 }

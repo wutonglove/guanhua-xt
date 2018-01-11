@@ -29,10 +29,6 @@
           </li>
         </ul>
         <div class="action_btn_box" v-if="!disabled">
-          <!--<a class="add_item_btn" @click="addItem">-->
-          <!--<i-icon type="android-add"></i-icon>-->
-          <!--<span class="text">增加提示</span>-->
-          <!--</a>-->
           <tem1-btn class="add_item_btn" icon="android-add" @click="addItem">增加提示</tem1-btn>
 
         </div>
@@ -52,8 +48,7 @@
   import Message from 'iview/src/components/message';
   import Notepad from 'components/template1-part/notepad/notepad';
   import Tem1Btn from 'components/template1-part/template1-btn/template1-btn';
-
-  const $ = window.$;
+  import $ from 'jquery';
 
   export default {
     props: {

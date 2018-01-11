@@ -54,8 +54,7 @@
 
   import {mapActions} from 'vuex';
   import Notice from 'iview/src/components/notice';
-
-  const $ = window.$;
+  import $ from 'jquery';
 
   export default {
     props: {

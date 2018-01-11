@@ -183,6 +183,12 @@
           "hasTitle": false
         }
       }
+    },
+    {
+      "type": "mind-map",
+      "name": "思维导图",
+      "href": "edit.html#/other/mind-map",
+      "thumbUrl": "mindmap-icon.jpg"
     }
   ],
   "数学题型": [

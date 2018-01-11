@@ -7,6 +7,7 @@ import Router from 'vue-router';
 import Index from 'components/index-main/index-main';
 import General from 'components/general-main/general-main';
 import Interaction from 'components/template1-main/template1-main';
+import Empty from 'components/empty/empty';
 
 import Radio from 'components/questions/general/radio';
 import Judge from 'components/questions/general/judge';
@@ -68,9 +69,13 @@ const TextSelect = (resolve) => {
     resolve(module);
   });
 };
-
 const Order = (resolve) => {
   import('components/questions/interaction/order/order').then((module) => {
+    resolve(module);
+  });
+};
+const MindMap = (resolve) => {
+  import('components/questions/interaction/mind-map/mind-map').then((module) => {
     resolve(module);
   });
 };
@@ -198,6 +203,16 @@ export default new Router({
         {
           path: '/interaction/order',
           component: Order
+        }
+      ]
+    },
+    {
+      path: '/other',
+      component: Empty,
+      children: [
+        {
+          path: '/other/mind-map',
+          component: MindMap
         }
       ]
     }

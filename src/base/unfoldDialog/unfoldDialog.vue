@@ -16,10 +16,9 @@
 <script>
   import IModal from 'iview/src/components/modal';
   import IIcon from 'iview/src/components/icon';
+  import $ from 'jquery';
 
   import {mapGetters, mapMutations} from 'vuex';
-
-  const $ = window.$;
 
   export default {
     data() {
@@ -44,7 +43,6 @@
         return this.unfold.width;
       },
       unfold() {
-        console.log(this.unfold.content);
         return this.unfold;
       },
       ...mapGetters([

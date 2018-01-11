@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div>
     <router-view></router-view>
     <textarea class="clipboard" ref="clipboard"></textarea>
   </div>
@@ -7,8 +7,7 @@
 
 <script>
   import {mapMutations, mapGetters, mapActions} from 'vuex';
-
-  const $ = window.$;
+  import $ from 'jquery';
 
   export default {
     mounted() {
@@ -72,4 +71,5 @@
     width: 0
     height: 0
     opacity: 0
+    border: none
 </style>

@@ -64,8 +64,7 @@
 </template>
 
 <script>
-//  import $ from 'expose-loader?$!jquery';
-  const $ = window.$;
+  import $ from 'jquery';
 
   export default {
     props: {

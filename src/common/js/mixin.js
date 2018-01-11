@@ -6,10 +6,9 @@ import {mapActions, mapGetters, mapMutations} from 'vuex';
 import {LOCALSTORAGEKEY} from 'common/js/config';
 import {createQuestionId} from 'utils/utilities';
 import upScreenshot from 'api/upScreenshot';
+import $ from 'jquery';
 
 import Mboard from 'components/template1-part/mboard/mboard';
-
-const $ = window.$;
 
 export const submitMixin = {
   props: {

@@ -31,8 +31,7 @@
 
 <script>
   import {submitMixin} from 'common/js/mixin';
-  //  import $ from 'expose-loader?$!jquery';
-  const $ = window.$;
+  import $ from 'jquery';
 
   export default {
     mixins: [submitMixin],

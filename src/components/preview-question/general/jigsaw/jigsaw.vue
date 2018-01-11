@@ -29,11 +29,16 @@
 </template>
 
 <script>
-  //  import $ from 'expose-loader?$!jquery';
+  import $ from 'jquery';
+  window.jQuery = $;
+  import 'jquery-ui/ui/core.js';
+  import 'jquery-ui/ui/widgets/draggable';
+  import 'jquery-ui/ui/widgets/droppable';
+  import 'jquery-ui/ui/widgets/sortable';
+  import 'jquery-ui-touch-punch';
+
   import {createRandomArr} from 'utils/utilities';
   import {submitMixin} from 'common/js/mixin';
-
-  const $ = window.$;
 
   export default {
     mixins: [submitMixin],
@@ -141,13 +146,15 @@
               // 2 在 show 中拖动  交换 $(event.target).hasClass('debris_td') && _self.showList[tr][td].code===-1
               // 3 从resource中向 show中拖 判断 目标dom有有没有debris  【没有：放入】【有：】 $(event.toElement).parent('.debris_td').length < 1
               // 4 从show中向外托 push进resource中 $(event.target).hasClass('debris_td')
-
               if ($(event.toElement).parent('.debris_td').length > 0) {
+                if (tr < 0 || curtr < 0) return;
                 let tem = _self.showList[tr][td];
                 _self.showList[tr][td] = _self.showList[curtr][curtd];
                 _self.showList[curtr][curtd] = tem;
                 _self.refreshShow();
               } else {
+                if (tr < 0) return;
+
                 if (_self.showList[tr][td].code !== -1) return;
                 let index = $(event.toElement).parents('.debris_wrapper').index();
 
@@ -170,13 +177,7 @@
       },
       initDrag: function () {
         this.$nextTick(() => {
-          $.getScript('http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js', () => {
-            $.getScript('/static/script/jquery.ui.touch-punch.min.js', () => {
-              this.drop();
-            });
-          }, () => {
-            console.log('dragsort load fail');
-          });
+          this.drop();
         });
       },
       refreshShow: function () {

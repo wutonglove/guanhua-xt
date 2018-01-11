@@ -45,7 +45,7 @@
   // 三方 功能 组件
   import domtoimage from 'dom-to-image';
   import {verifyMixin} from 'common/js/mixin';
-  const $ = window.$;
+  import $ from 'jquery';
 
   export default {
     mixins: [verifyMixin],

@@ -3,25 +3,20 @@
     <div class="grid_box">
       <v-grid ref="grid" :tableData="tableData" mode="show"></v-grid>
     </div>
-    <div class="side_box">
-      <div class="guidance">
-        <div class="header">
-          <div class="title">提示</div>
-        </div>
-        <div class="content">
-          <ul class="guidance_list">
-            <li class="guidance_item" v-for="(item,index) in answerDescs">
-              <div class="text">{{`${index + 1}. ${item}`}}</div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <notepad class="side_box" title="提示" color="#fff" align="center">
+      <ul class="guidance_list">
+        <li class="guidance_item" v-for="(item,index) in answerDescs">
+          <div class="text">{{`${index + 1}. ${item}`}}</div>
+        </li>
+      </ul>
+    </notepad>
   </div>
 </template>
 
 <script>
   import VGrid from 'components/template1-part/grid/grid';
+  import Notepad from 'components/template1-part/notepad/notepad';
+
   import {submitMixin} from 'common/js/mixin';
   import {Grid} from 'common/js/class';
 
@@ -80,7 +75,8 @@
       }
     },
     components: {
-      VGrid
+      VGrid,
+      Notepad
     }
   };
 </script>
@@ -95,44 +91,16 @@
       position: relative
     .side_box
       flex: 1
-      display: flex
-      .guidance
-        flex: 1
-        margin: 15px
-        border-radius: 5px
-        box-shadow: 1.5px 2.6px 19px 0 rgba(75, 40, 0, .75);
-        overflow: hidden
-        position: relative
-        z-index: 1
+      .guidance_list
+        padding: 12px
+      .guidance_item
+        margin: 6px 0
         display: flex
-        flex-direction: column
-        .header
-          flex: 0 0 30px
-          height: 30px
-          line-height: 30px
-          background: linear-gradient(to top, #BE8844, #DCAF6C)
-          border-bottom: 1px solid #75604C
-          box-shadow: 0 1px 0 0 rgba(0, 0, 0, .2)
-          .title
-            height: 100%
-            border-bottom: 1px dashed rgba(255, 255, 255, .5)
-            color: #fff
-            text-align: center
-        .content
-          flex: 1
-          background: url("/src/components/template1-part/notepad/graphPaper.jpg")
-          .guidance_list
-            padding: 12px
-          .guidance_item
-            margin: 6px 0
-            display: flex
-            height: 30px
-            line-height: 30px
-            padding: 0 5px
-            &:hover
-              background-color: #F1E3C7
-            .text
-              font-size: 18px
-
-
+        height: 30px
+        line-height: 30px
+        padding: 0 5px
+        &:hover
+          background-color: #F1E3C7
+        .text
+          font-size: 18px
 </style>

@@ -34,7 +34,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: Preview
+      component: Preview,
+      redirect: '/general'
     },
     {
       path: '/general',

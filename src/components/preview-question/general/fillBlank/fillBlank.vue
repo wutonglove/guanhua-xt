@@ -6,8 +6,7 @@
 
 <script>
   import {submitMixin} from 'common/js/mixin';
-
-  const $ = window.$;
+  import $ from 'jquery';
 
   export default {
     mixins: [submitMixin],

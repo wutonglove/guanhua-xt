@@ -184,8 +184,7 @@
   import Notice from 'iview/src/components/notice';
   import divisionSign from './division_sign.png';
   import NumBtn from 'components/template1-part/num-btn/num-btn';
-
-  const $ = window.$;
+  import $ from 'jquery';
 
   class NumKey {
     constructor({key, hasDot, isVirtual, dotIsShow}) {

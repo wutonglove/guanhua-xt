@@ -14,7 +14,9 @@
             <div class="resource" v-if="!resource">
               <img src="" alt="" ref="defaultImg">
             </div>
-            <div class="resource" v-else-if="resource.type === 'image'"></div>
+            <div class="resource" v-else-if="resource.type === 'image'">
+              <img :src="resource.src" :style="{transform:resource.cssStyle}" alt="">
+            </div>
             <div class="resource" v-else-if="resource.type === 'video'">
               <video :src="resource.src" ref="video" @click="showVdCtrl" @touch="showVdCtrl"></video>
             </div>
@@ -45,14 +47,11 @@
   import LucencyBoard from 'components/template1-part/lucency-board/lucency-board';
   import {submitMixin} from 'common/js/mixin';
   import {createRandomArr} from 'utils/utilities';
-  //  import Notepad from 'components/template1-part/notepad/notepad';
   import draggable from 'vuedraggable';
 
   import IIcon from 'iview/src/components/icon';
 
   import defaultImg from './bg.jpg';
-
-  //  const $ = window.$;
 
   export default {
     mixins: [submitMixin],

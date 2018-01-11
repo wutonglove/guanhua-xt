@@ -28,12 +28,10 @@
 
 <script>
   import IIcon from 'iview/src/components/icon';
-//  import $ from 'expose-loader?$!jquery';
 
   import textBG from './iocn_pun_bg.png';
   import {submitMixin} from 'common/js/mixin';
-
-  const $ = window.$;
+  import $ from 'jquery';
 
   export default {
     mixins: [submitMixin],

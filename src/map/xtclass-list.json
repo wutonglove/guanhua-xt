@@ -1,7 +1,27 @@
-{
-  "基础题型": 0,
-  "趣味题型": 1,
-  "数学题型": 2,
-  "语文题型": 3,
-  "英语题型": 4
-}
+[
+  {
+    "code": 0,
+    "en_name": "general",
+    "cn_name": "基础题型"
+  },
+  {
+    "code": 1,
+    "en_name": "interaction",
+    "cn_name": "趣味题型"
+  },
+  {
+    "code": 2,
+    "en_name": "math",
+    "cn_name": "数学题型"
+  },
+  {
+    "code": 3,
+    "en_name": "chinese",
+    "cn_name": "语文题型"
+  },
+  {
+    "code": 4,
+    "en_name": "english",
+    "cn_name": "英语题型"
+  }
+]

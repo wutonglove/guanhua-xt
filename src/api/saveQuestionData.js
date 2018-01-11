@@ -152,7 +152,10 @@ class Save {
       let questions = Map[key];
       for (let i = 0; i < questions.length; i++) {
         if (questions[i].type === type) {
-          return xtclassList[key];
+          let index = xtclassList.findIndex((item) => {
+            return item.cn_name === key;
+          });
+          return xtclassList[index].code;
         }
       }
     }

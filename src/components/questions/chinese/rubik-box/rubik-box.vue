@@ -32,27 +32,6 @@
             </li>
           </ul>
         </notepad>
-        <!--
-        <div class="guidance">
-          <div class="header">
-            <div class="title">提示</div>
-          </div>
-          <div class="content">
-            <ul class="guidance_list">
-              <li class="guidance_item" v-for="(item,index) in guidList">
-                <div class="answer_wrap">{{`${index + 1}. ${item.answer}`}}</div>
-                <div class="input_wrap">
-                  <input type="text" class="input" v-model="item.desc" placeholder="请输入提示内容">
-                </div>
-                <div class="btn_wrap">
-                  <span class="del_btn" @click="delGuid(index)"></span>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-        -->
-
       </li>
     </transition-group>
   </mboard>
@@ -84,15 +63,26 @@
         this.curIndex = 1;
       },
       setOptions(optionsObj) {
+//        let oriList = this.guidList;
+        let oriDescList = [];
+        this.guidList.forEach((item) => {
+          oriDescList.push(item);
+        });
         this.guidList = [];
-        optionsObj.forEach((options, i) => {
+        optionsObj.forEach((gridsRow) => {
           let text = '';
-          options.forEach((item, index) => {
-            text += item.text;
+          gridsRow.forEach((word) => {
+            text += word.text;
+          });
+          let index = oriDescList.findIndex((item) => {
+            if (item.answer === text) {
+              return true;
+            }
+            return false;
           });
           this.guidList.push({
             answer: text,
-            desc: ''
+            desc: index === -1 ? '' : oriDescList[index].desc
           });
         });
       },

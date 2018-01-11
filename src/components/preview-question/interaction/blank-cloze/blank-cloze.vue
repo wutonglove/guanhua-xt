@@ -19,8 +19,15 @@
 <script>
   import {submitMixin} from 'common/js/mixin';
   import Notepad from 'components/template1-part/notepad/notepad';
-
-  const $ = window.$;
+  import $ from 'jquery';
+  window.jQuery = $;
+  window.$ = $;
+  import 'jquery-ui/ui/core.js';
+  import 'jquery-ui/ui/disable-selection';
+  import 'jquery-ui/ui/widgets/draggable';
+  import 'jquery-ui/ui/widgets/droppable';
+  import 'jquery-ui/ui/widgets/sortable';
+  import 'jquery-ui-touch-punch';
 
   export default {
     mixins: [submitMixin],
@@ -36,18 +43,14 @@
       };
     },
     mounted() {
-      $.getScript('http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js', () => {
-        $.getScript('/static/script/jquery.ui.touch-punch.min.js', () => {
-          this.initOpDrag();
-          this.initBkDrop();
-          this.initBkDrag();
-          this.initOpDrop();
-          $('#bc_options, #bc_article').disableSelection();
-        });
-      }, () => {
-        console.log('dragsort load fail');
-      });
       this.options = this.questionData.options;
+      this.$nextTick(() => {
+        this.initOpDrag();
+        this.initBkDrop();
+        this.initBkDrag();
+        this.initOpDrop();
+        $('#bc_options, #bc_article').disableSelection();
+      });
     },
     computed: {
       article() {

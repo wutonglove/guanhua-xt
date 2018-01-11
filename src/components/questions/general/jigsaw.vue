@@ -42,12 +42,10 @@
   import IInput from 'iview/src/components/input';
   import IIcon from 'iview/src/components/icon';
 
-  //  import $ from 'expose-loader?$!jquery';
   import {replaceSrc} from 'utils/utilities';
   import {verifyMixin} from 'common/js/mixin';
   import {mapMutations} from 'vuex';
-
-  const $ = window.$;
+  import $ from 'jquery';
 
   export default {
     mixins: [verifyMixin],

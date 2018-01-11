@@ -95,8 +95,8 @@
   import Tem1Btn from 'components/template1-part/template1-btn/template1-btn';
 
   import textBG from './iocn_pun_bg.png';
+  import $ from 'jquery';
 
-  const $ = window.$;
   const PUNLIST_CN = ['，', '。', '、', '？', '！', '：', '；', '…', '……', '·', '-', '——', '“', '”', '‘', '’', '《', '》', '<', '>', '（', '）', '【', '】', '[', ']'];
   const PUNLIST_EN = [',', '.', '、', '?', '!', ':', ';', '…', '……', '`', '-', '_', '"', '"', '\'', '\'', '《', '》', '<', '>', '(', ')', '【', '】', '[', ']'];
   const PUNLIST_NAME = [

@@ -79,8 +79,7 @@
   import Notice from 'iview/src/components/notice';
 
   import {mapMutations, mapGetters} from 'vuex';
-
-  const $ = window.$;
+  import $ from 'jquery';
 
   export default {
     mixins: [tem1ComMixin],
@@ -211,7 +210,7 @@
         if ($resourceDOM.length > 0) {
           resource = {
             type: $resourceDOM.data('type'),
-            cssStyle: $resourceDOM.attr('style'),
+            cssStyle: $resourceDOM.css('transform') || '',
             src: urlSnippet + $resourceDOM.data('name')
           };
           _resource = Object.assign({}, resource, {

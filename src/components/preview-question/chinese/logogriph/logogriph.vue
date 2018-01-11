@@ -25,8 +25,7 @@
       </div>
     </div>
     <div class="side_box">
-      <div class="cro_guidance guidance">
-        <div class="title">横向提示</div>
+      <notepad class="guidance" title="横向提示" align="center" color="#fff">
         <ul class="guidance_list">
           <li class="guidance_item"
               v-for="(item,index) in croGuidList"
@@ -34,9 +33,8 @@
             <span class="text">{{`${item.index + 1}. ${item.desc}`}}</span>
           </li>
         </ul>
-      </div>
-      <div class="len_guidance guidance">
-        <div class="title">纵向提示</div>
+      </notepad>
+      <notepad class="guidance" title="纵向提示" align="center" color="#fff">
         <ul class="guidance_list">
           <li class="guidance_item"
               v-for="(item,index) in lenGuidList"
@@ -44,12 +42,14 @@
             <span class="text">{{`${item.index + 1}. ${item.desc}`}}</span>
           </li>
         </ul>
-      </div>
+      </notepad>
     </div>
   </div>
 </template>
 
 <script>
+  import Notepad from 'components/template1-part/notepad/notepad';
+
   import {submitMixin} from 'common/js/mixin';
 
   export default {
@@ -133,6 +133,9 @@
           });
         });
       }
+    },
+    components: {
+      Notepad
     }
   };
 </script>
@@ -201,13 +204,6 @@
         z-index: 1
         display: flex
         flex-direction: column
-        .title
-          flex: 0 0 40px
-          line-height: 40px
-          color: #824F06
-          font-weight: 800
-          font-size: 18px
-          padding-left: 10px
         .guidance_list
           padding: 0 8px
           overflow-y: auto

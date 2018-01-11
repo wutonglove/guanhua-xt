@@ -12,7 +12,6 @@
         ref="content"
         :questionData="questionData"
         :isDisabled="isDisabled"
-        @load="test"
       >
       </router-view>
       <i-spin size="large" fix v-else></i-spin>
@@ -33,8 +32,8 @@
   import {getQuestionData} from 'api/getQuestionData';
   import {urlSearch} from 'utils/utilities';
   import {timerMixin} from 'common/js/mixin';
-
-  const $ = window.$;
+  import $ from 'jquery';
+  window.jQuery = $;
 
   export default {
     mixins: [timerMixin],
@@ -96,9 +95,6 @@
       initContentHeight() {
         this.$refs.contentWrap.style = `height:${window.innerHeight - 130}px`;
       },
-      test() {
-        alert('wancheng');
-      },
       init() {
         this.getQuestion()
           .then(() => {
@@ -112,6 +108,14 @@
       ...mapMutations({
         setUnfold: 'SET_UNFOLD'
       })
+    },
+    watch: {
+      $route: {
+        deep: true,
+        handler() {
+          this.init();
+        }
+      }
     },
     components: {
       UnfoldModel,

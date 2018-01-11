@@ -162,15 +162,20 @@
       verifyHandle() {
         if (this.croGuidList.length < 1) return -1;
         if (this.lenGuidList.length < 1) return -2;
-        let table = this.$refs.grid.table;
-        for (let i = 0; i < table.lenglth; i++) {
-          if (table[i].code.length < 1) return -3;
-        }
+
         for (let i = 0; i < this.croGuidList.length; i++) {
           if (this.croGuidList[i].desc.trim() === '') return -4;
         }
         for (let i = 0; i < this.lenGuidList.length; i++) {
           if (this.lenGuidList[i].desc.trim() === '') return -4;
+        }
+        // 判断是否有没有设置的方格
+        let table = this.$refs.grid.table;
+        for (let r = 0; r < table.length; r++) {
+          for (let c = 0; c < table.length; c++) {
+            let grid = table[r][c];
+            if (grid.code.length < 1 && grid.text !== '') return -3;
+          }
         }
         return 1;
       },
@@ -182,7 +187,7 @@
         } else if (res === -1) {
           desc = '请至少编辑一条横向提示';
         } else if (res === -2) {
-          desc = '请至少编辑一条横向提示';
+          desc = '请至少编辑一条纵向提示';
         } else if (res === -3) {
           desc = '提示数量和题干不符，请检查';
         } else if (res === -4) {

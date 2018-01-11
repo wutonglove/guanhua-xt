@@ -31,8 +31,7 @@
   import {mapActions} from 'vuex';
   import exercises from 'map/exercises.json';
   import {actionMixin} from 'common/js/mixin';
-
-  const $ = window.$;
+  import $ from 'jquery';
 
   export default {
     mixins: [actionMixin],

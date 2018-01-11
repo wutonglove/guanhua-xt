@@ -29,8 +29,8 @@
   import Notice from 'iview/src/components/notice';
 
   import {mapActions} from 'vuex';
+  import $ from 'jquery';
 
-  const $ = window.$;
   export default {
     mixins: [tem1ComMixin],
     data() {

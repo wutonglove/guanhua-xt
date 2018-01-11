@@ -45,7 +45,6 @@
 
   import questionMap from 'map/comprehensive-menu.json';
   import {replaceSrc} from 'utils/utilities';
-  //  import $ from 'expose-loader?$!jquery';
   import {verifyMixin} from 'common/js/mixin';
   import Topic from 'components/general-part/topic/topic';
 
@@ -56,8 +55,7 @@
   import Vote from 'components/questions/general/vote';
   import Jigsaw from 'components/questions/general/jigsaw';
   import Sort from 'components/questions/general/sort';
-
-  const $ = window.$;
+  import $ from 'jquery';
 
   export default {
     mixins: [verifyMixin],
