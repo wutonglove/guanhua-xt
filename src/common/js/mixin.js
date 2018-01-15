@@ -81,6 +81,9 @@ export const timerMixin = {
       return num.toString().length < 2 ? '0' + num : num;
     },
     clock() {
+      if (this.timer) {
+        clearInterval(this.timer);
+      }
       this.timer = setInterval(() => {
         let second = this.times.second + 1;
         let minute = this.times.minute;

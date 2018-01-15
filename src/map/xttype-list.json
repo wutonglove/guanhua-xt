@@ -11,7 +11,7 @@
   "write": 9,
   "linkgame": 10,
   "classifytab": 11,
-  "linkgame": 12,
+  "memorycard": 12,
   "classify": 13,
   "mindmap": 14,
   "jointpoem": 15,
@@ -24,8 +24,6 @@
   "spelling-poem": 22,
   "punctuation": 23,
   "composition": 24,
-  "rubik-box": 25,
-  "logogriph": 26,
-  "textselect": 27,
-  "order": 28
+  "textselect": 25,
+  "order": 26
 }

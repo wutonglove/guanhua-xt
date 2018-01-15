@@ -8,6 +8,12 @@ import Router from 'vue-router';
 import Preview from 'components/preview-part/general-pre-main/general-pre-main';
 import Template1 from 'components/preview-part/template1-pre-main/template1-pre-main';
 
+const Empty = (resolve) => {
+  import('components/preview-part/empty-pre-main/empty-pre-main').then((module) => {
+    resolve(module);
+  });
+};
+
 import Compare from 'components/preview-question/math/compare/compare';
 import FractionalCalc from 'components/preview-question/math/fractional-calc/fractional-calc';
 import VerticalCalc from 'components/preview-question/math/vertical-calc/vertical-calc';
@@ -24,6 +30,11 @@ const Textselect = (resolve) => {
 };
 const Order = (resolve) => {
   import('components/preview-question/interaction/order/order').then((module) => {
+    resolve(module);
+  });
+};
+const MindMap = (resolve) => {
+  import('components/preview-question/interaction/mind-map/mind-map').then((module) => {
     resolve(module);
   });
 };
@@ -84,6 +95,16 @@ export default new Router({
         {
           path: '/interaction/order',
           component: Order
+        }
+      ]
+    },
+    {
+      path: '/other',
+      component: Empty,
+      children: [
+        {
+          path: '/other/mind-map',
+          component: MindMap
         }
       ]
     }

@@ -1,6 +1,6 @@
 <template>
   <div class="view_wrapper" id="preview_box">
-    <div class="timer">
+    <div id="timer">
       <span class="text">答题时间</span>
       <span class="time">
         {{filterDoubleDigit(times.minute)}} 分 {{filterDoubleDigit(times.second)}} 秒
@@ -17,7 +17,15 @@
       <i-spin size="large" fix v-else></i-spin>
     </div>
     <i-button v-if="isSubmited" class="refresh" type="primary" shape="circle" @click="refresh">重新作答</i-button>
-    <i-button v-else type="primary" class="submit" shape="circle" @click="submit">提交</i-button>
+    <i-button
+      v-show="!hasSubmitBtn"
+      v-else type="primary"
+      class="submit"
+      shape="circle"
+      @click="submit"
+    >
+      提交
+    </i-button>
     <unfold-model></unfold-model>
   </div>
 </template>
@@ -33,7 +41,6 @@
   import {urlSearch} from 'utils/utilities';
   import {timerMixin} from 'common/js/mixin';
   import $ from 'jquery';
-  window.jQuery = $;
 
   export default {
     mixins: [timerMixin],
@@ -41,7 +48,8 @@
       return {
         isSubmited: false,
         isDisabled: false,
-        questionData: null
+        questionData: null,
+        hasSubmitBtn: true
       };
     },
     mounted() {
@@ -102,6 +110,7 @@
               this.initContentHeight();
               this.bindUnfoldEvent();
               this.clock();
+              this.hasSubmitBtn = this.$route.path.split('/')[1] === 'other';
             });
           });
       },
@@ -135,7 +144,7 @@
     height: 100%
     background: url('/static/images/pre_bg.jpg') repeat
     padding: 0 10px
-    .timer
+    #timer
       $fixedWidth()
       margin: 0 auto
       text-align: center
