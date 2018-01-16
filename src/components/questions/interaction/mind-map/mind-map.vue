@@ -41,6 +41,8 @@
       </div>
       <mind-ctrl class="float_ctrl_box" @on-zoom="zoomed" :mindId="mindId"></mind-ctrl>
     </div>
+    <insert-file-dialog @on-insert="insert"></insert-file-dialog>
+    <unfold></unfold>
   </div>
 </template>
 
@@ -59,6 +61,9 @@
   import IOption from 'iview/src/components/select/option';
 
   import MindCtrl from 'components/empty-part/mind-ctrl/mind-ctrl';
+  import InsertFileDialog from 'base/insertFile/insertFile';
+  import Unfold from 'base/unfoldDialog/unfoldDialog';
+  import {mapMutations} from 'vuex';
 
   const MindConfig = {
     container: 'map_cnt',
@@ -229,14 +234,17 @@
         this.jm.select_node(nodeid);
         this.openEdit();
       },
-      addImgNode() {
-        let input = document.createElement('input');
-        input.type = 'file';
-        input.focus();
-        input.click();
-        this.v_chooseImg(input)
+      showInsert() {
+        this.setFileDia({
+          name: '插入图片',
+          type: 'image',
+          status: true
+        });
+      },
+      insert(file) {
+        this.getBase64(file.original)
           .then((url) => {
-            return this.v_getImgSize(url);
+            return this.getImgSize(url);
           })
           .then((img) => {
             let ratio = img.w / img.h;
@@ -252,6 +260,9 @@
             this.jm.add_node(this.selectNode, nodeid, topic, data);
             this.jm.select_node(nodeid);
           });
+      },
+      addImgNode() {
+        this.showInsert();
       },
       moveToFirst() {
         let selectedId = this.selectNode.id;
@@ -305,22 +316,19 @@
       save() {
         this.$emit('on-save');
       },
-      v_chooseImg(input) {
+      getBase64(file) {
         return new Promise((resolve, reject) => {
-          input.addEventListener('change', function (event) {
-            let reader = new FileReader();
-            reader.onloadend = function () {
-              resolve(reader.result);
-            };
+          let reader = new FileReader();
+          reader.onloadend = function () {
+            resolve(reader.result);
+          };
 
-            let file = input.files[0];
-            if (file) {
-              reader.readAsDataURL(file);
-            }
-          }, false);
+          if (file) {
+            reader.readAsDataURL(file);
+          }
         });
       },
-      v_getImgSize(url) {
+      getImgSize(url) {
         return new Promise((resolve, reject) => {
           let img = document.createElement('img');
           img.src = url;
@@ -342,7 +350,10 @@
           questionData,
           localData
         };
-      }
+      },
+      ...mapMutations({
+        setFileDia: 'SET_FILEDIALOGINFO'
+      })
     },
     components: {
       IButton,
@@ -352,7 +363,9 @@
       IMenuGroup,
       ISelect,
       IOption,
-      MindCtrl
+      MindCtrl,
+      InsertFileDialog,
+      Unfold
     }
   };
 </script>
