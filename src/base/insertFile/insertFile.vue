@@ -34,7 +34,7 @@
   import ITabs from 'iview/src/components/tabs';
   import ITabPane from 'iview/src/components/tabs/pane';
 
-  import {mapGetters, mapMutations, mapActions} from 'vuex';
+  import {mapGetters, mapMutations} from 'vuex';
 
   export default {
     data() {
@@ -54,8 +54,7 @@
       },
       ...mapGetters([
         'fileDialogInfo',
-        'selectedFile',
-        'targetDom'
+        'selectedFile'
       ])
     },
     methods: {
@@ -63,16 +62,7 @@
         this.$refs.dialogDOM.ok();
       },
       onOk: function () {
-        let html;
-        html = this.createImgHtml(this.selectedFile);
-        if (!html) return;
-        this.resetSelection().then(() => {
-          if (this.targetDom) {
-            this.targetDom.innerHTML = html;
-            this.setTargetDom(null);
-          }
-          document.execCommand('insertHTML', false, `&zwnj;${html}&zwnj;`);
-        });
+        this.$emit('on-insert', this.selectedFile);
       },
       unfold(file) {
         let isShow = true;
@@ -91,16 +81,6 @@
         }
         this.setUnfold({isShow, content});
       },
-      createImgHtml(file) {
-        let src = file.objURL;
-        let type = file.type.split('/')[0];
-        let name = file.name;
-        let resource = file.resource;
-        if (src) {
-          return `<img src="${src}" data-name="${name}" data-type="${type}" data-src="${resource}" class="insertFile insertFile_hook"/>`;
-        }
-        return '';
-      },
       clearSelectFile() {
         this.$nextTick(() => {
           this.$refs.outer.clearSelectFile();
@@ -111,11 +91,7 @@
       ...mapMutations({
         setFileDiaSta: 'SET_FILEDIALOGINFO',
         setUnfold: 'SET_UNFOLD',
-        setTargetDom: 'SET_TARGETDOM',
         setSelectFile: 'SET_SELECTEDFILE'
-      }),
-      ...mapActions({
-        resetSelection: 'resetSelection'
       })
     },
     watch: {

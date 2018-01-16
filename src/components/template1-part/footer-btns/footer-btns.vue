@@ -11,7 +11,7 @@
         <div slot="content" class="desc_box pop_box">
           <div class="pop_title">{{questionName}}题型描述</div>
           <div class="pop_content">
-            <div class="desc_pic">
+            <div class="desc_pic" v-if="desc.descPic">
               <i-carousel v-model="picIndex" style="width:360px">
                 <i-carousel-item v-for="(item,index) in desc.descPic" class="carousel_item" :key="'item'+index">
                   <div class="tag_wrapper">
@@ -227,7 +227,6 @@
             cursor: pointer
         &.desc_box
           width: 385px
-          height: 485px
           .pop_content
             .desc_pic
               width: 100%
@@ -252,6 +251,7 @@
           .pop_foot
             .close_btn
               width: 100px
+              margin-bottom: 15px
               background: linear-gradient(to top, #DCA55E, #F3CB97)
         &.set_time_box
           width: 335px

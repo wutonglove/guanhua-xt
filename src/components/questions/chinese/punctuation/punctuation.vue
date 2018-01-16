@@ -8,7 +8,6 @@
                spellcheck="false"
                @keydown="keyInput"
                @keydown.enter="ketEnter"
-               @paste="paste"
                ref="textarea"
           ></div>
           <div class="add_btn"
@@ -160,7 +159,6 @@
     mounted() {
       this.createReg();
       this.$nextTick(() => {
-        console.log(this.punList);
         this.$refs.textarea.style.backgroundImage = `url(${textBG})`;
         this.bindHover();
         this.popWidth = $(this.$refs.textareaWrap).width();
@@ -224,12 +222,6 @@
       ketEnter(e) {
         document.execCommand('insertHTML', false, '\n');
         e.preventDefault();
-      },
-      paste(e) {
-        console.log('paste', e, e.clipboardData.getData('text'));
-        let clipboard = e.getBrowserEvent().clipboardData;
-        let text = clipboard.getData('text/plain');
-        console.log(text);
       },
       bindHover() {
         let diffX = $('.box-inner').offset().left + 33;

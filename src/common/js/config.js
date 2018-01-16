@@ -18,7 +18,8 @@ export const FILE_CONFIG = {
       'x-flv'
     ],
     audio: [
-      'mp3'
+      'mp3',
+      'x-m4a'
     ]
   },
   fileSize: 15

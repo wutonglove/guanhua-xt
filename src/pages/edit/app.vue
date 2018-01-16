@@ -27,9 +27,11 @@
           clipboard.focus();
           setTimeout(() => {
             let text = clipboard.value;
-            this.resetRange();
-            document.execCommand('insertText', false, text);
-            clipboard.value = '';
+            this.resetRange()
+              .then(() => {
+                document.execCommand('insertText', false, text);
+                clipboard.value = '';
+              });
           }, 20);
         });
     },

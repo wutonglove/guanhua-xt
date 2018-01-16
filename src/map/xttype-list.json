@@ -25,5 +25,6 @@
   "punctuation": 23,
   "composition": 24,
   "textselect": 25,
-  "order": 26
+  "order": 26,
+  "en-pronounce": 27
 }

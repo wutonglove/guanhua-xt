@@ -9,11 +9,11 @@
     </div>
 
     <p-footer @on-save="showDia" @on-preview="preview"></p-footer>
-    <insert-file-dialog></insert-file-dialog>
+    <insert-file-dialog @on-insert="insert"></insert-file-dialog>
     <insert-formula-dialog></insert-formula-dialog>
     <unfold></unfold>
     <pre-dia :pageSrc="'./preview.html'" ref="previewDOM"></pre-dia>
-    <up-progress @interrupt="interrupt"></up-progress>
+    <up-progress></up-progress>
   </div>
 </template>
 
@@ -28,7 +28,7 @@
   import UpProgress from 'base/progress/progress';
   import Modal from 'iview/src/components/modal';
 
-  import {mapActions} from 'vuex';
+  import {mapActions, mapMutations, mapGetters} from 'vuex';
   import exercises from 'map/exercises.json';
   import {actionMixin} from 'common/js/mixin';
   import $ from 'jquery';
@@ -54,7 +54,36 @@
         type: ''
       };
     },
+    computed: {
+      ...mapGetters([
+        'targetDom'
+      ])
+    },
     methods: {
+      insert(file) {
+        let html;
+        html = this.createImgHtml(file);
+        if (!html) return;
+        this.resetSelection()
+          .then(() => {
+            if (this.targetDom) {
+              this.targetDom.innerHTML = html;
+              this.setTargetDom(null);
+              return;
+            }
+            document.execCommand('insertHTML', false, `&zwnj;${html}&zwnj;`);
+          });
+      },
+      createImgHtml(file) {
+        let src = file.objURL;
+        let type = file.type.split('/')[0];
+        let name = file.name;
+        let resource = file.resource;
+        if (src) {
+          return `<img src="${src}" data-name="${name}" data-type="${type}" data-src="${resource}" class="insertFile insertFile_hook"/>`;
+        }
+        return '';
+      },
       getdata(url) {
         return this.$refs.questionDOM.getQuestionData(url);
       },
@@ -65,7 +94,11 @@
         this.clearSelection();
       },
       ...mapActions({
-        clearSelection: 'clearSelection'
+        clearSelection: 'clearSelection',
+        resetSelection: 'resetSelection'
+      }),
+      ...mapMutations({
+        setTargetDom: 'SET_TARGETDOM'
       })
     },
     components: {

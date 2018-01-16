@@ -79,6 +79,11 @@ const MindMap = (resolve) => {
     resolve(module);
   });
 };
+const EnPronounce = (resolve) => {
+  import('components/questions/english/en-pronounce/en-pronounce').then((module) => {
+    resolve(module);
+  });
+};
 
 Vue.use(Router);
 
@@ -185,6 +190,10 @@ export default new Router({
         {
           path: '/english/logogriph',
           component: Logogriph
+        },
+        {
+          path: '/english/en-pronounce',
+          component: EnPronounce
         }
       ]
     },

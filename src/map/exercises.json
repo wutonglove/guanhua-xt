@@ -455,6 +455,29 @@
           "titleLength": 70
         }
       }
+    },
+    {
+      "type": "en-pronounce",
+      "name": "英语篇章发音评测",
+      "href": "edit.html#/english/en-pronounce",
+      "thumbUrl": "en-pronounce-icon.jpg",
+      "desc": {
+        "descText": [
+          "本题型为所有英语学科特有的新题型，主要考察学生对英文篇章发音的掌握情况；",
+          "本题型主要采取语音（口语）输入的答题操作形式。"
+        ]
+      },
+      "config": {
+        "footBtns": [
+          "disprtion",
+          "preview",
+          "save"
+        ],
+        "mboard": {
+          "title": "请按要求对以下内容进行朗读评测。",
+          "titleLength": 70
+        }
+      }
     }
   ]
 }

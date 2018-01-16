@@ -6,6 +6,7 @@
              v-for="file in list"
              :class="{'selected': file.selected}"
              @click="selectFile(file)"
+             :title="file.original.name"
         >
           <div class="thumbnail">
             <img :src="file.icon" alt="">
@@ -146,6 +147,7 @@
         if (!file) return true;
         let typeKey = this.dialogType;
         let typeVal = file.type.split('/')[1];
+        console.log(typeVal);
         if (FileType[typeKey].indexOf(typeVal) === -1) {
           IMessage.error({
             content: `不支持该文件类型,请选择 ${FileType[typeKey].join('，')}`,

@@ -18,7 +18,7 @@
             </div>
             <div class="resource_wrap" v-show="!isEmpty">
               <div class="resource" ref="resTgt"></div>
-              <div class="res_ctrl" v-show="resCtrlShow" v-if="resourceType==='image'">
+              <div class="res_ctrl" v-show="resCtrlShow" v-if="resource && resource.type.split('/')[0]==='image'">
                 <a href="javascript:void(0)" @click="rotateImg">
                   <i-icon type="forward"></i-icon>
                 </a>
@@ -37,7 +37,7 @@
                   <i-icon type="ios-trash"></i-icon>
                 </a>
               </div>
-              <div class="res_ctrl" v-show="resCtrlShow" v-else>
+              <div class="res_ctrl" v-show="resCtrlShow" v-else-if="resource">
                 <a href="javascript:void(0)" @click="delImg">
                   <i-icon type="ios-trash"></i-icon>
                 </a>
@@ -62,7 +62,7 @@
         </div>
       </div>
     </div>
-    <insert-file-dialog></insert-file-dialog>
+    <insert-file-dialog @on-insert="insert"></insert-file-dialog>
     <unfold></unfold>
   </mboard>
 </template>
@@ -143,12 +143,12 @@
         ],
         isEmpty: true,
         resCtrlShow: false,
-        resourceType: 'image'
+        resource: null
       };
     },
     computed: {
       ...mapGetters([
-        'fileDialogInfo'
+        'targetDom'
       ])
     },
     methods: {
@@ -198,6 +198,25 @@
         $img.remove();
         this.isEmpty = true;
       },
+      insert(file) {
+        this.resource = file;
+        let html = this.createImgHtml(file);
+        if (this.targetDom) {
+          this.targetDom.innerHTML = html;
+          this.setTargetDom(null);
+          this.isEmpty = false;
+        }
+      },
+      createImgHtml(file) {
+        let src = file.objURL;
+        let type = file.type.split('/')[0];
+        let name = file.name;
+        let resource = file.resource;
+        if (src) {
+          return `<img src="${src}" data-name="${name}" data-type="${type}" data-src="${resource}" class="insertFile insertFile_hook"/>`;
+        }
+        return '';
+      },
       getQuestionData(urlSnippet) {
         let options = [];
 
@@ -209,12 +228,12 @@
         let _resource = null;
         if ($resourceDOM.length > 0) {
           resource = {
-            type: $resourceDOM.data('type'),
+            type: this.resource.type.split('/')[0],
             cssStyle: $resourceDOM.css('transform') || '',
-            src: urlSnippet + $resourceDOM.data('name')
+            src: urlSnippet + this.resource.name
           };
           _resource = Object.assign({}, resource, {
-            src: $resourceDOM.data('src')
+            src: this.resource.resource
           });
         }
 
@@ -262,15 +281,6 @@
       })
     },
     watch: {
-      fileDialogInfo: {
-        deep: true,
-        handler(newVal) {
-          this.isEmpty = $(this.$refs.resTgt).children().length === 0;
-          if (!this.isEmpty) {
-            this.resourceType = $(this.$refs.resTgt).children('img').data('type');
-          }
-        }
-      },
       orderDes(newVal) {
         if (newVal === '') {
           this.orderDes = '请根据所给的信息对下列选项进行排序';

@@ -38,6 +38,11 @@ const MindMap = (resolve) => {
     resolve(module);
   });
 };
+const EnPronounce = (resolve) => {
+  import('components/preview-question/english/en-pronounce/en-pronounce').then((module) => {
+    resolve(module);
+  });
+};
 
 Vue.use(Router);
 
@@ -95,6 +100,10 @@ export default new Router({
         {
           path: '/interaction/order',
           component: Order
+        },
+        {
+          path: '/interaction/en-pronounce ',
+          component: EnPronounce
         }
       ]
     },
