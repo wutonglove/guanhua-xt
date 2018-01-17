@@ -26,5 +26,6 @@
   "composition": 24,
   "textselect": 25,
   "order": 26,
-  "en-pronounce": 27
+  "en-pronounce": 27,
+  "interval": 28
 }

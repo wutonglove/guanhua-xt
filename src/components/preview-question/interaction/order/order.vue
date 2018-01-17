@@ -62,7 +62,6 @@
     },
     mounted() {
       this.initOpt();
-      console.log(this.options);
       this.$nextTick(() => {
         if (!this.resource) this.$refs.defaultImg.src = defaultImg;
       });

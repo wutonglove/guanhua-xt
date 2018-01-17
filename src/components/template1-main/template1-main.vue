@@ -1,7 +1,6 @@
 <template>
   <div class="wrapper_bg">
     <div class="main_layout">
-
       <div class="top_lay">
         <div class="box_header">
           <div class="time_box">
@@ -66,9 +65,9 @@
       let index = xtclass.findIndex((item) => {
         return item.en_name === sub;
       });
-      let key = xtclass[index].cn_name;
+      this.xtclass = xtclass[index].cn_name;
 
-      exercises[key].forEach((item, index) => {
+      exercises[this.xtclass].forEach((item, index) => {
         if (item.type === this.type) {
           document.title = item.name;
           this.preTitle = item.name;
@@ -103,7 +102,8 @@
         for (let key in data) {
           data[key] = Object.assign({}, data[key], {
             mboardTitle: this.mboard.title,
-            hints: this.hints
+            hints: this.hints,
+            xtclass: this.xtclass
           });
         }
         return data;

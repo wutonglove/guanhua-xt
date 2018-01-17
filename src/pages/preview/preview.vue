@@ -16,16 +16,18 @@
       </router-view>
       <i-spin size="large" fix v-else></i-spin>
     </div>
-    <i-button v-if="isSubmited" class="refresh" type="primary" shape="circle" @click="refresh">重新作答</i-button>
-    <i-button
-      v-show="!hasSubmitBtn"
-      v-else type="primary"
-      class="submit"
-      shape="circle"
-      @click="submit"
-    >
-      提交
-    </i-button>
+    <div class="submit_wrap">
+      <i-button v-if="isSubmited" class="refresh" type="primary" shape="circle" @click="refresh">重新作答</i-button>
+      <i-button
+        v-show="!nosubmit"
+        v-else type="primary"
+        class="submit"
+        shape="circle"
+        @click="submit"
+      >
+        提交
+      </i-button>
+    </div>
     <unfold-model></unfold-model>
   </div>
 </template>
@@ -36,10 +38,13 @@
   import ISpin from 'iview/src/components/spin';
   import Modal from 'iview/src/components/modal';
 
+  import exercises from 'map/exercises.json';
+
   import {mapMutations} from 'vuex';
   import {getQuestionData} from 'api/getQuestionData';
   import {urlSearch} from 'utils/utilities';
   import {timerMixin} from 'common/js/mixin';
+
   import $ from 'jquery';
 
   export default {
@@ -49,7 +54,7 @@
         isSubmited: false,
         isDisabled: false,
         questionData: null,
-        hasSubmitBtn: true
+        nosubmit: true
       };
     },
     mounted() {
@@ -103,6 +108,16 @@
       initContentHeight() {
         this.$refs.contentWrap.style = `height:${window.innerHeight - 130}px`;
       },
+      initSubmit() {
+        let type = this.$route.path.trim().split('/')[2];
+        for (let key in exercises) {
+          exercises[key].forEach((item, index) => {
+            if (item.type === type) {
+              this.nosubmit = item.config.nosubmit;
+            }
+          });
+        }
+      },
       init() {
         this.getQuestion()
           .then(() => {
@@ -110,7 +125,7 @@
               this.initContentHeight();
               this.bindUnfoldEvent();
               this.clock();
-              this.hasSubmitBtn = this.$route.path.split('/')[1] === 'other';
+              this.initSubmit();
             });
           });
       },
@@ -151,13 +166,13 @@
       padding-top: 10px
       line-height: 50px
       font-size: 20px
-    .submit, .refresh
-      position: relative
-      left: 50%
-      top: 10px
-      transform: translateX(-50%)
-      font-size: 16px
-      line-height: 1
+    .submit_wrap
+      text-align: center
+      margin-top: 10px
+      .submit, .refresh
+        height: 35px
+        line-height: 20px
+        font-size: 16px
 
   .v-transfer-dom
     .ivu-modal-body

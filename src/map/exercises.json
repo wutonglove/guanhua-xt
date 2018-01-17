@@ -476,7 +476,8 @@
         "mboard": {
           "title": "请按要求对以下内容进行朗读评测。",
           "titleLength": 70
-        }
+        },
+        "nosubmit": true
       }
     }
   ]

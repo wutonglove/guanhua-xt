@@ -102,7 +102,7 @@ export default new Router({
           component: Order
         },
         {
-          path: '/interaction/en-pronounce ',
+          path: '/interaction/en-pronounce',
           component: EnPronounce
         }
       ]

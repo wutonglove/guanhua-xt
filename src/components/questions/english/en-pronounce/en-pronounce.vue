@@ -83,7 +83,7 @@
           questionType: 'en-pronounce'
         };
         let localData = Object.assign({}, questionData, {
-          source: _resource
+          resource: _resource
         });
         return {
           questionData,
