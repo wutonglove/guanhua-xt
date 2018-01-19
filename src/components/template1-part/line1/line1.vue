@@ -9,7 +9,7 @@
 <style scoped lang="stylus">
   .line
     width: 100%;
-    height: 1px;
-    background: #ad7f3f;
-    border-bottom: 1px solid #d4b27d;
+    height: 2px;
+    background: #8e4d00;
+    border-bottom: 1px solid #CAA66E;
 </style>

@@ -266,6 +266,30 @@
           "titleLength": 70
         }
       }
+    },
+    {
+      "type": "interval",
+      "name": "区间题",
+      "href": "edit.html#/math/interval",
+      "thumbUrl": "interval-icon.jpg",
+      "desc": {
+        "descText": [
+          "区间题考查方式为老师编辑好区间运算式后，学生根据区间运算式在坐标轴上画出相应的图示。",
+          "编题时请注意，老师输入的参数应在-20-20之间并为整数，编辑完成后可以点击数轴预览来查看图示结果。"
+        ]
+      },
+      "config": {
+        "footBtns": [
+          "disprtion",
+          "timeset",
+          "preview",
+          "save"
+        ],
+        "mboard": {
+          "title": "根据题干，在数轴上标出区间",
+          "titleLength": 70
+        }
+      }
     }
   ],
   "语文题型": [

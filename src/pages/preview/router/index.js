@@ -43,6 +43,11 @@ const EnPronounce = (resolve) => {
     resolve(module);
   });
 };
+const Interval = (resolve) => {
+  import('components/preview-question/math/interval/interval').then((module) => {
+    resolve(module);
+  });
+};
 
 Vue.use(Router);
 
@@ -104,6 +109,10 @@ export default new Router({
         {
           path: '/interaction/en-pronounce',
           component: EnPronounce
+        },
+        {
+          path: '/interaction/interval',
+          component: Interval
         }
       ]
     },

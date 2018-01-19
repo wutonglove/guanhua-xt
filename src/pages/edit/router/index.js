@@ -34,6 +34,11 @@ const VerticalCalc = (resolve) => {
     resolve(module);
   });
 };
+const Interval = (resolve) => {
+  import('components/questions/maths/interval/interval').then((module) => {
+    resolve(module);
+  });
+};
 const RubikBox = (resolve) => {
   import('components/questions/chinese/rubik-box/rubik-box').then((module) => {
     resolve(module);
@@ -154,6 +159,10 @@ export default new Router({
         {
           path: '/math/vertical-calc',
           component: VerticalCalc
+        },
+        {
+          path: '/math/interval',
+          component: Interval
         }
       ]
     },

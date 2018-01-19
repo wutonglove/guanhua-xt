@@ -43,21 +43,17 @@
 </template>
 
 <script>
-  import Mboard from 'components/template1-part/mboard/mboard';
   import Tem1Btn from 'components/template1-part/template1-btn/template1-btn';
 
   import IIcon from 'iview/src/components/icon';
   import IPoptip from 'iview/src/components/poptip';
   import Notice from 'iview/src/components/notice';
+  import {tem1ComMixin} from 'common/js/mixin';
 
   const compareSymbolList = ['<', '>', '≤', '≥', '=', '≈'];
 
   export default {
-    props: {
-      mboard: {
-        type: Object
-      }
-    },
+    mixins: [tem1ComMixin],
     data() {
       return {
         symbolList: compareSymbolList,
@@ -121,7 +117,6 @@
       }
     },
     components: {
-      Mboard,
       IIcon,
       IPoptip,
       Tem1Btn
