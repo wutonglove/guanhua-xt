@@ -59,8 +59,8 @@
     {
       "type": "write",
       "name": "手写题",
-      "href": "interest/handwrite.html",
-      "thumbUrl": "a1c411b5-1aa0-434f-9726-18ef0e176311.png"
+      "href": "edit.html#/general/handwrite",
+      "thumbUrl": "handwrite-icon.jpg"
     },
     {
       "type": "linkgame",

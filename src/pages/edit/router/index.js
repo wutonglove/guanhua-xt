@@ -94,6 +94,11 @@ const WordGuess = (resolve) => {
     resolve(module);
   });
 };
+const Handwrite = (resolve) => {
+  import('components/questions/interaction/handwrite/handwrite').then((module) => {
+    resolve(module);
+  });
+};
 
 Vue.use(Router);
 
@@ -146,6 +151,10 @@ export default new Router({
         {
           path: '/general/composition',
           component: Composition
+        },
+        {
+          path: '/general/handwrite',
+          component: Handwrite
         }
       ]
     },
