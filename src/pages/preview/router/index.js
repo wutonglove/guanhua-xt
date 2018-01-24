@@ -53,6 +53,11 @@ const WordGuess = (resolve) => {
     resolve(module);
   });
 };
+const Handwrite = (resolve) => {
+  import('components/preview-question/interaction/handwrite/handwrite').then((module) => {
+    resolve(module);
+  });
+};
 Vue.use(Router);
 
 export default new Router({
@@ -64,7 +69,13 @@ export default new Router({
     },
     {
       path: '/general',
-      component: Preview
+      component: Preview,
+      children: [
+        {
+          path: '/general/handwrite',
+          component: Handwrite
+        }
+      ]
     },
     {
       path: '/interaction',

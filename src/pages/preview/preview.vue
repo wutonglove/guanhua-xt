@@ -121,12 +121,10 @@
       init() {
         this.getQuestion()
           .then(() => {
-            this.$nextTick(() => {
-              this.initContentHeight();
-              this.bindUnfoldEvent();
-              this.clock();
-              this.initSubmit();
-            });
+            this.initContentHeight();
+            this.bindUnfoldEvent();
+            this.clock();
+            this.initSubmit();
           });
       },
       ...mapMutations({

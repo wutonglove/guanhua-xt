@@ -129,6 +129,7 @@
         });
       },
       calcProportion() {
+        if (!this.$refs.insertImgBOX.firstElementChild) return null;
         let w = this.bdcss.maxW;
         let h = this.bdcss.maxH;
         let _w = parseInt(this.$refs.board.style.width) || this.$refs.board.offsetWidth;
@@ -146,23 +147,28 @@
         let _topic = this.$refs.topicDOM.topic;
         let img = this.$refs.insertImgBOX.firstElementChild;
         let pos = this.calcProportion();
+        let handwrite, _handwrite;
+        if (img) {
+          handwrite = {
+            src: urlSnippet + img.getAttribute('data-name'),
+            pos
+          };
+          _handwrite = {
+            src: img.getAttribute('data-name'),
+            pos
+          };
+        }
 
         let questionData = {
           title: document.title,
           topic: replaceSrc(_topic, urlSnippet),
-          handwrite: {
-            src: urlSnippet + img.getAttribute('data-name'),
-            pos
-          },
+          handwrite,
           questionType: 'handwrite'
         };
 
         let localData = Object.assign({}, questionData, {
           topic: replaceSrc(_topic),
-          handwrite: {
-            src: img.getAttribute('data-src'),
-            pos
-          }
+          handwrite: _handwrite
         });
         return {
           questionData,
