@@ -91,25 +91,30 @@
         this.options.forEach((item) => {
           options.push(item.text);
         });
-        let resource = this.$refs.descRes.getResource();
+        let res = this.$refs.descRes.getResource();
+        let resource, _resource;
+        if (res) {
+          resource = {
+            type: resource.type,
+            cssStyle: resource.cssStyle,
+            src: urlSnippet + resource.name
+          };
+          _resource = {
+            type: resource.type,
+            cssStyle: resource.cssStyle,
+            src: resource.src
+          };
+        }
 
         let questionData = {
           title: document.title,
           orderDes: this.orderDes,
           options,
-          resource: {
-            type: resource.type,
-            cssStyle: resource.cssStyle,
-            src: urlSnippet + resource.name
-          },
+          resource,
           questionType: 'order'
         };
         let localData = Object.assign({}, questionData, {
-          resource: {
-            type: resource.type,
-            cssStyle: resource.cssStyle,
-            src: resource.src
-          }
+          resource: _resource
         });
         return {
           questionData,
