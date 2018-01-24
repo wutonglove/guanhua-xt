@@ -132,10 +132,12 @@
       })
     },
     watch: {
-      $route: {
+      '$route.query.id': {
         deep: true,
-        handler() {
-          this.init();
+        handler(val, oldVal) {
+          if (val && (val !== oldVal)) {
+            this.init();
+          }
         }
       }
     },
