@@ -54,37 +54,35 @@
 
   import {mapMutations, mapGetters} from 'vuex';
   import {actionMixin} from 'common/js/mixin';
-  import exercises from 'map/exercises.json';
-  import xtclass from 'map/xtclass-list.json';
 
   export default {
     mixins: [actionMixin],
-    created() {
-      this.type = this.$route.path.trim().split('/')[2];
-      let sub = this.$route.path.trim().split('/')[1];
-      let index = xtclass.findIndex((item) => {
-        return item.en_name === sub;
-      });
-      this.xtclass = xtclass[index].cn_name;
-
-      exercises[this.xtclass].forEach((item, index) => {
-        if (item.type === this.type) {
-          document.title = item.name;
-          this.preTitle = item.name;
-          this.desc = item.desc;
-          this.footBtns = item.config.footBtns;
-          this.mboard = item.config.mboard;
-        }
-      });
+    props: {
+      info: {
+        type: Object
+      }
     },
     data() {
       return {
-        footBtns: [],
-        mboard: {},
         hints: []
       };
     },
     computed: {
+      preTitle() {
+        return this.info.preTitle;
+      },
+      desc() {
+        return this.info.desc;
+      },
+      footBtns() {
+        return this.info.footBtns;
+      },
+      mboard() {
+        return this.info.mboard;
+      },
+      type() {
+        return this.info.type;
+      },
       ...mapGetters([
         'times'
       ])
