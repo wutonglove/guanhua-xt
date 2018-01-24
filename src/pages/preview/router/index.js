@@ -48,7 +48,11 @@ const Interval = (resolve) => {
     resolve(module);
   });
 };
-
+const WordGuess = (resolve) => {
+  import('components/preview-question/interaction/word-guess/word-guess').then((module) => {
+    resolve(module);
+  });
+};
 Vue.use(Router);
 
 export default new Router({
@@ -113,6 +117,10 @@ export default new Router({
         {
           path: '/interaction/interval',
           component: Interval
+        },
+        {
+          path: '/interaction/word-guess',
+          component: WordGuess
         }
       ]
     },

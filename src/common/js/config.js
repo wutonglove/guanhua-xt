@@ -163,3 +163,18 @@ export const EDIT_TEXT_BTNS = [
     ]
   }
 ];
+// 汉字编码范围
+export const CHINESE_CODE = [19968, 40869];
+// regexp
+export const REGEXPS = {
+  // 匹配汉字之外
+  no_cn: /[^\u4E00-\u9FA5]/g,
+  // 匹配字母之外
+  no_en: /[^A-Za-z]/g,
+  // 匹配字母和汉字之外
+  no_symbol: /[^\u4E00-\u9FA5^A-Za-z]/g,
+  // 匹配中文
+  cn: /[\u4E00-\u9FA5]/g,
+  // 匹配字母
+  en: /[A-Za-z]/g
+};

@@ -6,44 +6,12 @@
           <lucency-board class="desc_text">
             <input type="text" class="text_input" v-model="orderDes">
           </lucency-board>
-          <lucency-board class="desc_resource">
-            <div class="btns_wrap" v-show="isEmpty">
-              <a href="javascript:void(0)"
-                 class="insert_btn"
-                 v-for="btn in insertBtns"
-                 @click="showInsert(btn.role)"
-              >
-                <i-icon :type="btn.icon"></i-icon>
-              </a>
-            </div>
-            <div class="resource_wrap" v-show="!isEmpty">
-              <div class="resource" ref="resTgt"></div>
-              <div class="res_ctrl" v-show="resCtrlShow" v-if="resource && resource.type.split('/')[0]==='image'">
-                <a href="javascript:void(0)" @click="rotateImg">
-                  <i-icon type="forward"></i-icon>
-                </a>
-                <a href="javascript:void(0)" @click="refreshImg">
-                  <i-icon type="android-refresh"></i-icon>
-                </a>
-                <a href="javascript:void(0)">
-                  <i-icon type="qr-scanner">
-                    <i-icon type="android-share"></i-icon>
-                  </i-icon>
-                </a>
-                <a href="javascript:void(0)">
-                  <i-icon type="qr-scanner">|</i-icon>
-                </a>
-                <a href="javascript:void(0)" @click="delImg">
-                  <i-icon type="ios-trash"></i-icon>
-                </a>
-              </div>
-              <div class="res_ctrl" v-show="resCtrlShow" v-else-if="resource">
-                <a href="javascript:void(0)" @click="delImg">
-                  <i-icon type="ios-trash"></i-icon>
-                </a>
-              </div>
-            </div>
-          </lucency-board>
+          <res-btns class="desc_resource"
+                    ref="descRes"
+                    :resource="resource"
+                    @on-insert="insert"
+                    @on-del="delResource()"
+          ></res-btns>
         </div>
       </notepad>
       <div class="options_wrap">
@@ -62,8 +30,8 @@
         </div>
       </div>
     </div>
-    <insert-file-dialog @on-insert="insert"></insert-file-dialog>
     <unfold></unfold>
+    <insert-file-dialog @on-insert="insert"></insert-file-dialog>
   </mboard>
 </template>
 
@@ -74,62 +42,16 @@
   import TemBtn from 'components/template1-part/template1-btn/template1-btn';
   import InsertFileDialog from 'base/insertFile/insertFile';
   import Unfold from 'base/unfoldDialog/unfoldDialog';
+  import ResBtns from 'components/template1-part/resource-btns/resource-btns';
 
   import IIcon from 'iview/src/components/icon';
   import Notice from 'iview/src/components/notice';
 
-  import {mapMutations, mapGetters} from 'vuex';
-  import $ from 'jquery';
-
   export default {
     mixins: [tem1ComMixin],
-    mounted() {
-      let _self = this;
-      $(document)
-        .on('click', '.resource>img', function () {
-          if ($(this).data('type') !== 'image') return;
-          if ($(this).hasClass('active')) {
-            $(this).removeClass('active');
-            _self.resCtrlShow = false;
-            _self.showCtrl = false;
-          } else {
-            $(this).addClass('active');
-            _self.resCtrlShow = true;
-            _self.showCtrl = true;
-          }
-        })
-        .on('mousewheel', '.resource', function (e) {
-          let $this = $('.resource>img.active').eq(0);
-          if ($this.length < 1) return;
-          let _transform = $this.css('transform') === 'none' ? '' : $this.css('transform');
-          if (e.originalEvent.wheelDelta > 0) {
-            $this.css({
-              transform: `${_transform} scale(1.1)`
-            });
-          } else {
-            $this.css({
-              transform: `${_transform} scale(0.9)`
-            });
-          }
-        });
-    },
     data() {
       return {
         orderDes: '请根据所给的信息对下列选项进行排序',
-        insertBtns: [
-          {
-            role: 'image',
-            icon: 'images'
-          },
-          {
-            role: 'video',
-            icon: 'android-film'
-          },
-          {
-            role: 'audio',
-            icon: 'ios-mic'
-          }
-        ],
         options: [
           {
             text: ''
@@ -141,37 +63,10 @@
             text: ''
           }
         ],
-        isEmpty: true,
-        resCtrlShow: false,
         resource: null
       };
     },
-    computed: {
-      ...mapGetters([
-        'targetDom'
-      ])
-    },
     methods: {
-      showInsert(role) {
-        this.setTargetDom(this.$refs.resTgt);
-        let name;
-        switch (role) {
-          case 'image':
-            name = '插入图片';
-            break;
-          case 'video':
-            name = '插入视频';
-            break;
-          case 'audio':
-            name = '插入音频';
-            break;
-        }
-        this.setFileDia({
-          name,
-          type: role,
-          status: true
-        });
-      },
       addOption() {
         this.options.push({
           text: ''
@@ -184,38 +79,11 @@
       delOption(index) {
         this.options.splice(index, 1);
       },
-      rotateImg() {
-        let $img = $('.resource>img');
-        let _style = $img.css('transform') === 'none' ? '' : $img.css('transform');
-        $img.css({transform: `${_style} rotate(90deg)`});
-      },
-      refreshImg() {
-        let $img = $('.resource>img');
-        $img.css('transform', 'none');
-      },
-      delImg() {
-        let $img = $('.resource>img');
-        $img.remove();
-        this.isEmpty = true;
-      },
       insert(file) {
         this.resource = file;
-        let html = this.createImgHtml(file);
-        if (this.targetDom) {
-          this.targetDom.innerHTML = html;
-          this.setTargetDom(null);
-          this.isEmpty = false;
-        }
       },
-      createImgHtml(file) {
-        let src = file.objURL;
-        let type = file.type.split('/')[0];
-        let name = file.name;
-        let resource = file.resource;
-        if (src) {
-          return `<img src="${src}" data-name="${name}" data-type="${type}" data-src="${resource}" class="insertFile insertFile_hook"/>`;
-        }
-        return '';
+      delResource() {
+        this.resource = null;
       },
       getQuestionData(urlSnippet) {
         let options = [];
@@ -223,29 +91,25 @@
         this.options.forEach((item) => {
           options.push(item.text);
         });
-        let $resourceDOM = $(this.$refs.resTgt).find('img');
-        let resource = null;
-        let _resource = null;
-        if ($resourceDOM.length > 0) {
-          resource = {
-            type: this.resource.type.split('/')[0],
-            cssStyle: $resourceDOM.css('transform') || '',
-            src: urlSnippet + this.resource.name
-          };
-          _resource = Object.assign({}, resource, {
-            src: this.resource.resource
-          });
-        }
+        let resource = this.$refs.descRes.getResource();
 
         let questionData = {
           title: document.title,
           orderDes: this.orderDes,
           options,
-          resource,
+          resource: {
+            type: resource.type,
+            cssStyle: resource.cssStyle,
+            src: urlSnippet + resource.name
+          },
           questionType: 'order'
         };
         let localData = Object.assign({}, questionData, {
-          resource: _resource
+          resource: {
+            type: resource.type,
+            cssStyle: resource.cssStyle,
+            src: resource.src
+          }
         });
         return {
           questionData,
@@ -274,11 +138,7 @@
           desc
         });
         return 0;
-      },
-      ...mapMutations({
-        setFileDia: 'SET_FILEDIALOGINFO',
-        setTargetDom: 'SET_TARGETDOM'
-      })
+      }
     },
     watch: {
       orderDes(newVal) {
@@ -293,7 +153,8 @@
       IIcon,
       TemBtn,
       InsertFileDialog,
-      Unfold
+      Unfold,
+      ResBtns
     }
   };
 </script>
@@ -328,50 +189,6 @@
           flex: 1
           overflow: hidden
           padding: 1px
-          .btns_wrap
-            width: 100%
-            display: flex
-            text-align: center
-            justify-content: center
-            padding-top: 110px
-            .insert_btn
-              flex: 0 0 100px
-              font-size: 50px
-              color: #979799
-              &:hover
-                color: #898989
-          .resource_wrap
-            width: 100%
-            height: 100%
-            position: relative
-            .resource
-              width: 100%
-              height: 100%
-              text-align: center
-              vertical-align: middle
-              overflow: hidden
-              img
-                max-width: 100%
-                max-height: 100%
-                border: 2px solid transparent
-                &.active
-                  border-color: #FF6F3E
-            .res_ctrl
-              position: absolute
-              right: 10px
-              top: 10px
-              font-size: 25px
-              text-align: center
-              width: 35px
-              border-radius: 10px
-              background-color: #fff
-              padding: 2px 0
-              box-shadow: 0 0 5px 0 rgba(0, 0, 0, .3)
-              a
-                display: block
-                color: #979799
-                &:hover
-                  color: #BCBCBC
     .options_wrap
       flex: 1
       background-color: rgba(255, 255, 255, .15)

@@ -63,10 +63,11 @@
   import NumTag from 'components/template1-part/num-tag/num-tag';
   import Notice from 'iview/src/components/notice';
   import {Grid} from 'common/js/class';
+  import {CHINESE_CODE, REGEXPS} from 'common/js/config';
 
-  const NO_CN = /[^\u4E00-\u9FA5]/g;
-  const NO_EN = /[^A-Za-z]/g;
-  const NO_SYMBOL = /[^\u4E00-\u9FA5^A-Za-z]/g;
+  const NO_CN = REGEXPS.no_cn;
+  const NO_EN = REGEXPS.no_en;
+  const NO_SYMBOL = REGEXPS.no_symbol;
 
   export default {
     props: {
@@ -185,9 +186,15 @@
           this.addC(n);
         }
         tr[c].text = str[0] || ''; // 极限：没有一个中文时
+        let _c = c;
         for (let i = 0; i < str.length; i++) {
-          tr[c + i].text = str[i];
+          if (tr[c + i]) {
+            tr[c + i].text = str[i];
+          }
+          _c += i;
         }
+        let idName = `gridInput-${r}-${_c}`;
+        if (document.getElementById(idName)) document.getElementById(idName).focus();
         this.languageVail();
       },
       keydown(r, c) {
@@ -491,7 +498,9 @@
         });
       },
       getRandom() {
-        return String.fromCharCode(Math.round(Math.random() * 20901) + 19968);
+        return this.language === 'cn'
+          ? String.fromCharCode(Math.round(Math.random() * (CHINESE_CODE[1] - CHINESE_CODE[0])) + CHINESE_CODE[0])
+          : String.fromCharCode(Math.round(Math.random() * (122 - 97)) + 97);
       },
       getCode(index) {
         // 获取当前要删除的 项的 共同 code

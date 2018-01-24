@@ -183,6 +183,34 @@
       "name": "思维导图",
       "href": "edit.html#/other/mind-map",
       "thumbUrl": "mindmap-icon.jpg"
+    },
+    {
+      "type": "word-guess",
+      "name": "猜词游戏",
+      "href": "edit.html#/interaction/word-guess",
+      "thumbUrl": "word-guess-icon.jpg",
+      "desc": {
+        "descPic": [
+          "/static/images/word-guess.jpg",
+          "/static/images/word-guess.gif"
+        ],
+        "descText": [
+          "猜词游戏题型灵感来源于在手机上非常流行的“疯狂猜XX”系列APP，适用于语文、英语、历史、地理等文科学科。",
+          "依靠该题型可以强化学生对所学内容的记忆，同时锻炼学生的观察和反应能力。",
+          "在题目内容方面，本题型支持图片、音频、视频等多种多媒体素材文件，使得题目的内容丰富多样，同时游戏化的交互操作学生们都非常熟悉并且易于上手，这些都能有效地提高学生答题的兴趣和专注度，最终达到更好的学习效果。"
+        ]
+      },
+      "config": {
+        "footBtns": [
+          "disprtion",
+          "timeset",
+          "preview",
+          "save"
+        ],
+        "mboard": {
+          "title": "请根据所给的信息猜单词/词语"
+        }
+      }
     }
   ],
   "数学题型": [

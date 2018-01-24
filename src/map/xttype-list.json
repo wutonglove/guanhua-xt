@@ -27,5 +27,6 @@
   "textselect": 25,
   "order": 26,
   "en-pronounce": 27,
-  "interval": 28
+  "interval": 28,
+  "word-guess": 29
 }

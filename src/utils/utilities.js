@@ -53,7 +53,13 @@ export function urlSearch() {
   return parameters;
 }
 
-// 生成 n-m 的 length=l 的随机数组 闭区间
+/**
+ * 生成 n-m 的 length=l 的随机数组 闭区间
+ * @param l 数组长度
+ * @param n 最小值
+ * @param m 最大值
+ * @return {Array}
+ */
 export function createRandomArr(l, n, m) {
   let arr = [];
   while (arr.length < l) {

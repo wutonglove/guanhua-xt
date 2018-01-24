@@ -89,6 +89,11 @@ const EnPronounce = (resolve) => {
     resolve(module);
   });
 };
+const WordGuess = (resolve) => {
+  import('components/questions/interaction/word-guess/word-guess').then((module) => {
+    resolve(module);
+  });
+};
 
 Vue.use(Router);
 
@@ -221,6 +226,10 @@ export default new Router({
         {
           path: '/interaction/order',
           component: Order
+        },
+        {
+          path: '/interaction/word-guess',
+          component: WordGuess
         }
       ]
     },
