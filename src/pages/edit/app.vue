@@ -1,12 +1,14 @@
 <template>
   <div>
-    <router-view></router-view>
+    <router-view :info="info"></router-view>
     <textarea class="clipboard" ref="clipboard"></textarea>
   </div>
 </template>
 
 <script>
   import {mapMutations, mapGetters, mapActions} from 'vuex';
+  import exercises from 'map/exercises.json';
+
   import $ from 'jquery';
 
   export default {
@@ -40,6 +42,11 @@
         'fileList'
       ])
     },
+    data() {
+      return {
+        info: {}
+      };
+    },
     methods: {
       unfold(file) {
         let isShow = true;
@@ -64,6 +71,33 @@
         saveRange: 'saveCurrentRange',
         resetRange: 'resetSelection'
       })
+    },
+    watch: {
+      '$route.path': {
+        deep: true,
+        handler() {
+          let info = null;
+          let type = this.$route.path.trim().split('/')[2];
+
+          for (let key in exercises) {
+            if (info) break;
+            for (let i = 0; i < exercises[key].length; i++) {
+              let item = exercises[key][i];
+              if (item.type === type) {
+                info = {};
+                document.title = item.name;
+                info.preTitle = item.name;
+                info.desc = item.desc;
+                info.footBtns = item.config && item.config.footBtns;
+                info.mboard = item.config && item.config.mboard;
+                info.type = type;
+                break;
+              }
+            }
+          }
+          this.info = info;
+        }
+      }
     }
   };
 </script>

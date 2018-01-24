@@ -29,32 +29,23 @@
   import Modal from 'iview/src/components/modal';
 
   import {mapActions, mapMutations, mapGetters} from 'vuex';
-  import exercises from 'map/exercises.json';
   import {actionMixin} from 'common/js/mixin';
   import $ from 'jquery';
 
   export default {
     mixins: [actionMixin],
-    created() {
-      this.type = this.$route.path.trim().split('/')[2];
-      exercises['基础题型'].forEach((item, index) => {
-        if (item.type === this.type) {
-          document.title = item.name;
-          this.preTitle = item.name;
-        }
-      });
-      if (this.type === 'composition') {
-        document.title = '作文题';
-        this.preTitle = '作文题';
+    props: {
+      info: {
+        type: Object
       }
     },
-    data() {
-      return {
-        preTitle: '',
-        type: ''
-      };
-    },
     computed: {
+      preTitle() {
+        return this.info.preTitle || '';
+      },
+      type() {
+        return this.info.type || '';
+      },
       ...mapGetters([
         'targetDom'
       ])

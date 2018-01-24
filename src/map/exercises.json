@@ -57,7 +57,7 @@
   ],
   "趣味题型": [
     {
-      "type": "write",
+      "type": "handwrite",
       "name": "手写题",
       "href": "edit.html#/general/handwrite",
       "thumbUrl": "handwrite-icon.jpg"
