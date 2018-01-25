@@ -64,8 +64,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: Preview,
-      redirect: '/general'
+      component: Preview
     },
     {
       path: '/general',

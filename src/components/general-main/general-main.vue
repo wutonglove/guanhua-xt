@@ -41,10 +41,10 @@
     },
     computed: {
       preTitle() {
-        return this.info.preTitle || '';
+        return this.info.preTitle;
       },
       type() {
-        return this.info.type || '';
+        return this.info.type;
       },
       ...mapGetters([
         'targetDom'

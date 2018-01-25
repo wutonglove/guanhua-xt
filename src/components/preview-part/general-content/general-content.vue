@@ -2,7 +2,7 @@
   <div class="question_context">
     <div class="topic" v-html="questionData.topic" v-if="questionData.topic"></div>
 
-    <div :is="componentsName" :questionData="questionData" ref="contentModule"></div>
+    <div v-if="componentsName" :is="componentsName" :questionData="questionData" ref="contentModule"></div>
 
   </div>
 </template>
@@ -30,8 +30,23 @@
     },
     computed: {
       componentsName() {
-        return this.questionData.questionType === 'radio' || this.questionData.questionType === 'checkbox' ? 'choice' : this.questionData.questionType;
+        let name = '';
+        switch (this.questionData.questionType) {
+          case 'radio':
+          case 'checkbox':
+            name = 'choice';
+            break;
+          default :
+            name = this.questionData.questionType;
+        }
+        if (this.quslist.indexOf(name) === -1) return '';
+        return name;
       }
+    },
+    data() {
+      return {
+        quslist: ['radio', 'checkbox', 'fillblank', 'judge', 'vote', 'sort', 'jigsaw', 'subjective', 'comprehensive', 'composition']
+      };
     },
     methods: {
       submit() {

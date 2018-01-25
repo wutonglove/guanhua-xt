@@ -8,9 +8,6 @@
       questionData: {
         type: Object
       }
-    },
-    mounted() {
-      this.$router.push({path: `/other/${this.questionData.questionType}`});
     }
   };
 </script>

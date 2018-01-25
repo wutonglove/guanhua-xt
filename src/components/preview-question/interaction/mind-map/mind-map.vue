@@ -5,6 +5,9 @@
          @mousedown="dragstart"
          @mouseup="dragend"
          @mousemove="dragin"
+         @touchstart="dragstart"
+         @touchmove="dragin"
+         @touchend="dragend"
          ref="mind"
     ></div>
     <mind-ctrl class="float_ctrl_box" @on-zoom="zoomed" :mindId="mindId"></mind-ctrl>
@@ -57,18 +60,22 @@
         this.jm.show(this.mindData);
       },
       dragstart(e) {
-        if (e.which === 3) {
-          this.dragstate = true;
-          this.startX = e.x;
-          this.startY = e.y;
-          let _style = $(this.$refs.mind).find('canvas').css('transform');
-          this.oriStyle = _style === 'none' ? '' : _style;
+        if (e.type === 'touchstart') {
+          e = e.touches[0];
         }
+        this.dragstate = true;
+        this.startX = e.clientX;
+        this.startY = e.clientY;
+        let _style = $(this.$refs.mind).find('canvas').css('transform');
+        this.oriStyle = _style === 'none' ? '' : _style;
       },
       dragin(e) {
         if (this.dragstate) {
-          let offsetX = e.x - this.startX;
-          let offsetY = e.y - this.startY;
+          if (e.type === 'touchmove') {
+            e = e.touches[0];
+          }
+          let offsetX = e.clientX - this.startX;
+          let offsetY = e.clientY - this.startY;
           let _style = {
             transform: `${this.oriStyle} translate(${offsetX}px,${offsetY}px)`
           };
@@ -112,4 +119,7 @@
       bottom: 10px
       left: 20px
       z-index: 1000
+
+  body
+    overflow: hidden
 </style>

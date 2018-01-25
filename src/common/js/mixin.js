@@ -101,6 +101,7 @@ export const timerMixin = {
 };
 
 export const actionMixin = {
+  computed: {},
   methods: {
     /**
      * 截图
@@ -153,6 +154,10 @@ export const actionMixin = {
         })
         .then((_url) => {
           let data = this.getdata(_url).questionData;
+          data = Object.assign({}, data, {
+            xttype: this.info.code,
+            xtclass: this.info.parent.code
+          });
           console.log(data);
           return this.saveToRemote({data, questionId: this.questionId});
         })

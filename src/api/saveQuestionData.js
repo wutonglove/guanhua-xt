@@ -4,9 +4,6 @@
 'use strict';
 import axios from 'axios';
 
-import Map from 'map/exercises.json';
-import xtclassList from 'map/xtclass-list';
-import xttypeList from 'map/xttype-list';
 import {urlSearch} from 'utils/utilities';
 
 class Save {
@@ -90,26 +87,23 @@ class Save {
    * @returns {Promise}
    */
   saveData(data) {
-    let xtclass = Save.getXTClass(data.questionType);
-    let xttype = xttypeList[data.questionType];
-    data = {
+    let _data = {
       questionid: this.questionId, // 习题ID
       maincontent: JSON.stringify(data), // 习题内容
-      xttype, // 小类  number
-      xtclass, // 习题大类  number
+      xttype: data.xttype, // 小类  number
+      xtclass: data.xtclass, // 习题大类  number
       grade: this.grade, // 学阶
       subject: this.subject, // 科目
       courseid: this.courseid, // 课程编号
       ispublic: 1, // 公开 私有
       creator: this.creator // 用户ID
     };
-    // console.log(data);
     return new Promise((resolve, reject) => {
       axios({
         method: 'post',
         url: '/api/xiti/v1/resource/createxiti',
         cancelToken: this.source.token,
-        data: JSON.stringify(data)
+        data: JSON.stringify(_data)
       })
         .then((res) => {
           if (res.data.code === '0') {
@@ -140,25 +134,6 @@ class Save {
     this.grade = +params.grade || 1;
     this.subject = +params.subject || 1;
     this.creator = +params.creator || 0;
-  }
-
-  /**
-   * 获取习题大类
-   * @param {String} type 习题大类
-   * @return 习题大类标识
-   */
-  static getXTClass(type) {
-    for (let key in Map) {
-      let questions = Map[key];
-      for (let i = 0; i < questions.length; i++) {
-        if (questions[i].type === type) {
-          let index = xtclassList.findIndex((item) => {
-            return item.cn_name === key;
-          });
-          return xtclassList[index].code;
-        }
-      }
-    }
   }
 }
 

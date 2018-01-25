@@ -10,20 +10,21 @@
   import PreDia from 'base/pre-dialog/pre-dialog';
   import UpProgress from 'base/progress/progress';
 
-  import exercises from 'map/exercises.json';
   import {actionMixin} from 'common/js/mixin';
 
   export default {
     mixins: [actionMixin],
-    created() {
-      this.type = this.$route.path.trim().split('/')[2];
-      for (let key in exercises) {
-        exercises[key].forEach((item, index) => {
-          if (item.type === this.type) {
-            document.title = item.name;
-            this.preTitle = item.name;
-          }
-        });
+    props: {
+      info: {
+        type: Object
+      }
+    },
+    computed: {
+      preTitle() {
+        return this.info.preTitle;
+      },
+      type() {
+        return this.info.type;
       }
     },
     methods: {

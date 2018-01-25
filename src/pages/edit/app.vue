@@ -7,12 +7,13 @@
 
 <script>
   import {mapMutations, mapGetters, mapActions} from 'vuex';
-  import exercises from 'map/exercises.json';
+  import qulist from 'map/question-list.json';
 
   import $ from 'jquery';
 
   export default {
     mounted() {
+      this.init();
       $(document).on('dblclick', '.insertFile_hook', (e) => {
         let name = $(e.target).attr('data-name');
         for (let i = 0; i < this.fileList.length; i++) {
@@ -48,6 +49,18 @@
       };
     },
     methods: {
+      init() {
+        let type = this.$route.path.trim().split('/')[2];
+        if (!type) return;
+        let item = qulist[type];
+        document.title = item.name;
+        this.info.preTitle = item.name;
+        this.info.desc = item.config.edit.desc;
+        this.info.footBtns = item.config.edit.footBtns;
+        this.info.mboard = item.config.edit.mboard;
+        this.info.type = type;
+        this.info.desc = item;
+      },
       unfold(file) {
         let isShow = true;
         let content = '';
@@ -76,26 +89,7 @@
       '$route.path': {
         deep: true,
         handler() {
-          let info = null;
-          let type = this.$route.path.trim().split('/')[2];
-
-          for (let key in exercises) {
-            if (info) break;
-            for (let i = 0; i < exercises[key].length; i++) {
-              let item = exercises[key][i];
-              if (item.type === type) {
-                info = {};
-                document.title = item.name;
-                info.preTitle = item.name;
-                info.desc = item.desc;
-                info.footBtns = item.config && item.config.footBtns;
-                info.mboard = item.config && item.config.mboard;
-                info.type = type;
-                break;
-              }
-            }
-          }
-          this.info = info;
+          this.init();
         }
       }
     }

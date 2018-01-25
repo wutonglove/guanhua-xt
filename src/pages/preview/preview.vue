@@ -1,29 +1,29 @@
 <template>
-  <div class="view_wrapper" id="preview_box">
-    <div id="timer">
-      <span class="text">答题时间</span>
-      <span class="time">
+  <div class='view_wrapper' id='preview_box'>
+    <div id='timer'>
+      <span class='text'>答题时间</span>
+      <span class='time'>
         {{filterDoubleDigit(times.minute)}} 分 {{filterDoubleDigit(times.second)}} 秒
       </span>
     </div>
-    <div class="content_wrapper" ref="contentWrap">
+    <div class='content_wrapper' ref='contentWrap'>
       <router-view
-        v-if="questionData"
-        ref="content"
-        :questionData="questionData"
-        :isDisabled="isDisabled"
+        v-if='questionData'
+        ref='content'
+        :questionData='questionData'
+        :isDisabled='isDisabled'
       >
       </router-view>
-      <i-spin size="large" fix v-else></i-spin>
+      <i-spin size='large' fix v-else></i-spin>
     </div>
-    <div class="submit_wrap">
-      <i-button v-if="isSubmited" class="refresh" type="primary" shape="circle" @click="refresh">重新作答</i-button>
+    <div class='submit_wrap'>
+      <i-button v-if='isSubmited' class='refresh' type='primary' shape='circle' @click='refresh'>重新作答</i-button>
       <i-button
-        v-show="!nosubmit"
-        v-else type="primary"
-        class="submit"
-        shape="circle"
-        @click="submit"
+        v-show='!nosubmit'
+        v-else type='primary'
+        class='submit'
+        shape='circle'
+        @click='submit'
       >
         提交
       </i-button>
@@ -38,7 +38,7 @@
   import ISpin from 'iview/src/components/spin';
   import Modal from 'iview/src/components/modal';
 
-  import exercises from 'map/exercises.json';
+  import qulist from 'map/question-list.json';
 
   import {mapMutations} from 'vuex';
   import {getQuestionData} from 'api/getQuestionData';
@@ -84,7 +84,7 @@
       },
       unfold(src) {
         let isShow = true;
-        let content = `<img src="${src}" class="unfold_file"/>`;
+        let content = `<img src='${src}' class='unfold_file'/>`;
         this.setUnfold({isShow, content});
       },
       submit () {
@@ -108,23 +108,22 @@
       initContentHeight() {
         this.$refs.contentWrap.style = `height:${window.innerHeight - 130}px`;
       },
-      initSubmit() {
-        let type = this.$route.path.trim().split('/')[2];
-        for (let key in exercises) {
-          exercises[key].forEach((item, index) => {
-            if (item.type === type) {
-              this.nosubmit = item.config.nosubmit;
-            }
-          });
+      initRoute() {
+        let type = this.questionData.questionType;
+        let _type = this.$route.path.trim().split('/')[2];
+        let item = qulist[type];
+        if (type !== _type) {
+          this.$router.push(item.show);
         }
+        this.nosubmit = item.config.show.nosubmit;
       },
       init() {
         this.getQuestion()
           .then(() => {
+            this.initRoute();
             this.initContentHeight();
             this.bindUnfoldEvent();
             this.clock();
-            this.initSubmit();
           });
       },
       ...mapMutations({
@@ -150,7 +149,7 @@
   };
 </script>
 
-<style lang="stylus">
+<style lang='stylus'>
   @import '../../common/stylus/mixin.styl'
   @import '../../common/stylus/variable.styl'
 
