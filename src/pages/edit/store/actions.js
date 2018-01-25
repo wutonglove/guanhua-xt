@@ -5,7 +5,7 @@ import * as types from './mutation-types';
 import {UNFINISHED, FINISHED} from 'common/js/config';
 import Save from 'api/saveQuestionData';
 
-const $ = window.$;
+import $ from 'jquery';
 
 // 保存选区
 export const saveCurrentRange = function ({commit}) {

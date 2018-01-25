@@ -16,20 +16,30 @@
 </template>
 
 <script>
-  import Exe from 'map/exercises.json';
+  import ques from 'map/question-list.json';
   import Icon from 'iview/src/components/icon';
 
   export default {
     computed: {
       questionList() {
         let list = [];
-        for (let key in Exe) {
-          let icon = this.listIcon(key);
-          list.push({
-            title: key,
-            icon: icon,
-            content: Exe[key]
+        for (let key in ques) {
+          let index = list.findIndex(item => {
+            return item.title === ques[key].parent.cname;
           });
+          let item = {
+            thumbUrl: ques[key].icon,
+            name: ques[key].name,
+            href: '/edit.html#' + ques[key].edit
+          };
+          if (index === -1) {
+            list.push({
+              title: ques[key].parent.cname,
+              content: [item]
+            });
+          } else {
+            list[index].content.push(item);
+          }
         }
         return list;
       },

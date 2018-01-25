@@ -144,21 +144,22 @@ export const actionMixin = {
       if (!this.questionId) {
         this.questionId = createQuestionId();
       }
+      console.log(this.questionId);
       this.setProgressDia({isShow: true, progress: 0});
       let _dataURL = '';
       this.screenshot()
         .then((dataURL) => {
-          console.log(dataURL);
+          // console.log(dataURL);
           _dataURL = dataURL.trim().replace('data:image/jpeg;base64,', '');
           return this.upload(this.questionId);
         })
         .then((_url) => {
           let data = this.getdata(_url).questionData;
           data = Object.assign({}, data, {
-            xttype: this.info.code,
-            xtclass: this.info.parent.code
+            xttype: this.info.all.code,
+            xtclass: this.info.all.parent.code
           });
-          console.log(data);
+          console.log('save:', data);
           return this.saveToRemote({data, questionId: this.questionId});
         })
         .then(() => {

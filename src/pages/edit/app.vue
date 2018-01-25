@@ -59,7 +59,7 @@
         this.info.footBtns = item.config.edit.footBtns;
         this.info.mboard = item.config.edit.mboard;
         this.info.type = type;
-        this.info.desc = item;
+        this.info.all = item;
       },
       unfold(file) {
         let isShow = true;

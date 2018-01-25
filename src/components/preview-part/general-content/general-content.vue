@@ -45,7 +45,7 @@
     },
     data() {
       return {
-        quslist: ['radio', 'checkbox', 'fillblank', 'judge', 'vote', 'sort', 'jigsaw', 'subjective', 'comprehensive', 'composition']
+        quslist: ['choice', 'fillblank', 'judge', 'vote', 'sort', 'jigsaw', 'subjective', 'comprehensive', 'composition']
       };
     },
     methods: {

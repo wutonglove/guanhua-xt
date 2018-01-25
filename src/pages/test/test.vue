@@ -14,8 +14,6 @@
   import VConsole from 'vconsole';
   /* eslint-disable no-new */
   new VConsole();
-  import exercises from 'map/exercises.json';
-  import xtclass from 'map/xtclass-list.json';
 
   export default {
     mounted() {
@@ -53,43 +51,6 @@
           // 把canvas图像转为img图片
           img.src = canvas.toDataURL('image/png');
         });
-      },
-      questionlist() {
-        let obj = {};
-        let code = 0;
-
-        for (let key in exercises) {
-          for (let i = 0; i < exercises[key].length; i++) {
-            let item = exercises[key][i];
-            let index = xtclass.findIndex((a) => {
-              return a.cn_name === key;
-            });
-            obj[item.type] = {
-              'code': code,
-              'name': item.name,
-              'edit': item.href.replace('edit.html#', ''),
-              'show': xtclass[index].en_name === 'general' ? '/general' : '/interaction/' + item.type,
-              'icon': item.type + '-icon.jpg',
-              'parent': {
-                'code': index,
-                'ename': xtclass[index].en_name,
-                'cname': xtclass[index].cn_name
-              },
-              'config': {
-                'edit': {
-                  desc: item.desc,
-                  footBtns: item.config && item.config.footBtns,
-                  mboard: item.config && item.config.mboard
-                },
-                'show': {
-                  'nosubmit': (item.config && item.config.nosubmit) || false
-                }
-              }
-            };
-            code++;
-          }
-        }
-        console.log(obj, JSON.stringify(obj));
       }
     }
   };

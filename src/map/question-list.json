@@ -74,7 +74,7 @@
   "vote": {
     "code": 4,
     "name": "投票题",
-    "edit": "/general/vote",
+      "edit": "/general/vote",
     "show": "/general",
     "icon": "vote-icon.jpg",
     "parent": {
@@ -179,12 +179,12 @@
       }
     }
   },
-  "linkgame": {
+  "memory-card": {
     "code": 12,
     "name": "记忆卡片",
     "edit": "interest/memoryCard.html",
-    "show": "/interaction/linkgame",
-    "icon": "linkgame-icon.jpg",
+    "show": "/interaction/memory-card",
+    "icon": "memory-card-icon.jpg",
     "parent": {
       "code": 1,
       "ename": "interaction",
@@ -197,12 +197,12 @@
       }
     }
   },
-  "classifytab": {
+  "classify-tab": {
     "code": 11,
     "name": "分类表格",
     "edit": "interest/classifyTab.html",
-    "show": "/interaction/classifytab",
-    "icon": "classifytab-icon.jpg",
+    "show": "/interaction/classify-tab",
+    "icon": "classify-tab-icon.jpg",
     "parent": {
       "code": 1,
       "ename": "interaction",
@@ -790,6 +790,24 @@
       },
       "show": {
         "nosubmit": true
+      }
+    }
+  },
+  "link-game": {
+    "code": 32,
+    "name": "连连看",
+    "edit": "interest/LinkGame.html",
+    "show": "/interaction/link-game",
+    "icon": "link-game-icon.jpg",
+    "parent": {
+      "code": 1,
+      "ename": "interaction",
+      "cname": "趣味题型"
+    },
+    "config": {
+      "edit": {},
+      "show": {
+        "nosubmit": false
       }
     }
   }

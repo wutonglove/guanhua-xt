@@ -37,7 +37,7 @@
         </div>
       </div>
     </div>
-    <pre-dia pageSrc="./preview.html#/interaction/"></pre-dia>
+    <pre-dia pageSrc="./preview.html#/"></pre-dia>
     <hint-dia :hints="hints" @setHint="setHint" ref="hintDia"></hint-dia>
     <up-progress @interrupt="interrupt"></up-progress>
   </div>
