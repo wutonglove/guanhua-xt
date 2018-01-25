@@ -40,48 +40,7 @@
                     v-for="(page,index) in canvases"
                     v-show="index+1 === currPage"
             ></canvas>
-            <div class="ctrl_wrap">
-              <div class="brush_ctrl">
-                <i-poptip placement="left" ref="brushCtrl">
-                  <span class="ctrl_btn" ref="brush" @click="writeState = 'write'"></span>
-                  <div class="brush_set_wrap" slot="content">
-                    <ul class="brush_set_w">
-                      <li class="item"
-                          :class="{active: widthIndex===item-1}"
-                          v-for="item in 3"
-                          ref="brushWidth"
-                          @click="changeBrushW(item)">
-                        <i-icon type="checkmark-circled icon"></i-icon>
-                      </li>
-                    </ul>
-                    <ul class="brush_set_c">
-                      <li class="item"
-                          :class="{active: colorIndex===item-1}"
-                          v-for="item in 3"
-                          ref="brushColor"
-                          @click="changeBrushC(item)">
-                        <i-icon type="checkmark-circled icon"></i-icon>
-                      </li>
-                    </ul>
-                  </div>
-                </i-poptip>
-              </div>
-              <div class="eraser_ctrl">
-                <i-poptip placement="left" ref="eraserCtrl">
-                  <span class="ctrl_btn" ref="eraser"></span>
-                  <div class="eraser_set_wrap" slot="content">
-                    <div class="eraser_clear" @click="clearClick">
-                      <span class="icon" ref="clear"></span>
-                      <span class="text">一键清除</span>
-                    </div>
-                    <div class="eraser" @click="enterEraser">
-                      <span class="icon" ref="eraserBtn"></span>
-                      <span class="text">橡皮</span>
-                    </div>
-                  </div>
-                </i-poptip>
-              </div>
-            </div>
+            <draw-tool @on-clear="clearClick" @on-change="change" ref="drawTool"></draw-tool>
           </div>
           <div class="other">
             <i-icon type="minus-circled" class="minus" @click.native="delCurPage"></i-icon>
@@ -111,20 +70,13 @@
   import IIcon from 'iview/src/components/icon';
   import Modal from 'iview/src/components/modal';
   import {submitMixin} from 'common/js/mixin';
+  import DrawTool from 'components/template1-part/draw-tool/draw-tool';
 
   // 图
   import MI from './page_mi.png';
   import TIAN from './page_tian.png';
   import FANG from './page_fang.png';
   import LINE from './page_line.png';
-  import brush from './brush.png';
-  import eraser from './eraser.png';
-  import brushW1 from './brush_w_1.png';
-  import brushW2 from './brush_w_2.png';
-  import brushW3 from './brush_w_3.png';
-  import eraserClear from './eraser_clear.png';
-  import eraserBtn from './eraser_btn.png';
-  import eraserMouse from './eraser_mouse.png';
 
   export default {
     mixins: [submitMixin],
@@ -137,10 +89,8 @@
           x: 0,
           y: 0
         },
-        colors: ['#333', '#e1e1e1', '#FF4A32'],
-        widths: [1, 3, 6],
-        colorIndex: 0,
-        widthIndex: 0,
+        linecolor: '',
+        linewidth: 0,
         writeState: 'write',
         mouseState: false,
         singlepageWords: 45,
@@ -151,8 +101,8 @@
     computed: {
       brush() {
         return {
-          color: this.colors[this.colorIndex],
-          width: this.widths[this.widthIndex]
+          color: this.linecolor,
+          width: this.linewidth
         };
       },
       comTitle() {
@@ -186,6 +136,12 @@
         return imgBG;
       }
     },
+    mounted() {
+      document.body.onmouseup = () => {
+        this.mouseState = false;
+        this.end();
+      };
+    },
     methods: {
       changePage(page) {
         this.currPage = page;
@@ -202,14 +158,6 @@
       changeMenuName(name) {
         this.menuName = name;
       },
-      changeBrushW(index) {
-        this.widthIndex = index - 1;
-        this.$refs.brushCtrl.handleClose();
-      },
-      changeBrushC(index) {
-        this.colorIndex = index - 1;
-        this.$refs.brushCtrl.handleClose();
-      },
       start(x, y) {
         let _offset = this.$refs.content.scrollTop;
         this.lastX = x - this.offset.x;
@@ -222,8 +170,7 @@
           this.moveEraser(x, y);
           this.clearCir(x, y + _offset);
         }
-        this.$refs.eraserCtrl.handleClose();
-        this.$refs.brushCtrl.handleClose();
+        this.$refs.drawTool.close();
       },
       move(x, y) {
         let _offset = this.$refs.content.scrollTop;
@@ -269,7 +216,6 @@
         this.start(e.touches[0].clientX, e.touches[0].clientY);
       },
       clearClick() {
-        this.$refs.eraserCtrl.handleClose();
         Modal.confirm({
           content: '该操作将清空已写的全部内容，你确定要清空页面吗？',
           onOk: () => {
@@ -277,34 +223,10 @@
           }
         });
       },
-      enterEraser() {
-        this.writeState = 'eraser';
-        this.$refs.eraserCtrl.handleClose();
-        this.initEraser();
-      },
-      initEraser() {
-        let span = document.getElementById('eraser_mouse');
-        if (!span) {
-          span = document.createElement('span');
-          span.id = 'eraser_mouse';
-          Object.assign(span.style, {
-            display: 'none',
-            width: `60px`,
-            height: `60px`,
-            backgroundImage: `url(${eraserMouse})`,
-            backgroundSize: '100%',
-            backgroundPosition: 'no-repeat',
-            position: 'absolute',
-            zIndex: '1000',
-            left: 0,
-            top: 0
-          });
-          document.body.onmouseup = () => {
-            this.mouseState = false;
-            this.end();
-          };
-          document.body.appendChild(span);
-        }
+      change(draw) {
+        this.linecolor = draw.color;
+        this.linewidth = draw.width;
+        this.writeState = draw.state;
       },
       moveEraser(x, y) {
         let span = document.getElementById('eraser_mouse');
@@ -358,22 +280,12 @@
       },
       initWrite() {
         // 设置 canvas 宽高
-        console.log(this.pageTotal, this.canvases);
+//        console.log(this.pageTotal, this.canvases);
         this.initCanvas(this.currPage - 1);
         // 计算 canvas 对于body的偏移量
         this.$nextTick(() => {
           let canvas = this.$refs.canvas[this.currPage - 1];
           this.offset = this.clcalOffset(canvas);
-          // 引入 画笔和橡皮 icon
-          this.$refs.brush.style.backgroundImage = `url(${brush})`;
-          this.$refs.eraser.style.backgroundImage = `url(${eraser})`;
-          let ws = [brushW1, brushW2, brushW3];
-          this.$refs.brushWidth.forEach((item, index) => {
-            item.style.backgroundImage = `url(${ws[index]})`;
-          });
-          // 橡皮
-          this.$refs.clear.style.backgroundImage = `url(${eraserClear})`;
-          this.$refs.eraserBtn.style.backgroundImage = `url(${eraserBtn})`;
         });
       },
       clcalOffset(dom) {
@@ -431,7 +343,8 @@
       ITabPane,
       IPage,
       IPoptip,
-      IIcon
+      IIcon,
+      DrawTool
     }
   };
 </script>
