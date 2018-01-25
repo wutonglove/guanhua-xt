@@ -9,11 +9,11 @@
         <router-view :questionData="questionData" ref="content"></router-view>
       </div>
     </div>
-    <div class="hint_box" v-if="questionData.hints.length>0">
+    <div class="hint_box" v-if="questionData.hints&&questionData.hints.length>0">
       <a class="hint_btn" @click="showHintDia"></a>
       <span class="num_icon">{{questionData.hints.length}}</span>
     </div>
-    <hint-dia :hints="questionData.hints" ref="hintDia" :disabled="true"></hint-dia>
+    <hint-dia v-if="questionData.hints" :hints="questionData.hints" ref="hintDia" :disabled="true"></hint-dia>
   </div>
 </template>
 
@@ -25,9 +25,6 @@
       questionData: {
         type: Object
       }
-    },
-    mounted() {
-      this.$router.push({path: `/interaction/${this.questionData.questionType}`});
     },
     computed: {
       hasTitle() {

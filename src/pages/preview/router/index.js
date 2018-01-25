@@ -58,6 +58,11 @@ const Handwrite = (resolve) => {
     resolve(module);
   });
 };
+const Composition = (resolve) => {
+  import('components/preview-question/chinese/composition/composition').then((module) => {
+    resolve(module);
+  });
+};
 Vue.use(Router);
 
 export default new Router({
@@ -68,13 +73,7 @@ export default new Router({
     },
     {
       path: '/general',
-      component: Preview,
-      children: [
-        {
-          path: '/general/handwrite',
-          component: Handwrite
-        }
-      ]
+      component: Preview
     },
     {
       path: '/interaction',
@@ -131,6 +130,14 @@ export default new Router({
         {
           path: '/interaction/word-guess',
           component: WordGuess
+        },
+        {
+          path: '/interaction/handwrite',
+          component: Handwrite
+        },
+        {
+          path: '/interaction/composition',
+          component: Composition
         }
       ]
     },

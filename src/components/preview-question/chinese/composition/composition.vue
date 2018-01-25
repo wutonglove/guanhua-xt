@@ -197,6 +197,7 @@
       },
       delCurPage() {
         this.canvases.splice(this.currPage - 1, 1);
+        this.currPage = Math.min(this.currPage, this.pageTotal);
       },
       changeMenuName(name) {
         this.menuName = name;
@@ -450,6 +451,7 @@
     .menu_content
       flex: 1
       overflow-y: auto
+      background-color: #fff
       .question
         width: 100%
         padding: 0 10px

@@ -1,11 +1,20 @@
 <template>
-  <div class="">
+  <div class="handwrite">
 
   </div>
 </template>
 
 <script>
-  export default {};
+  import {submitMixin} from 'common/js/mixin';
+
+  export default {
+    mixins: [submitMixin],
+    props: {
+      questionData: {
+        type: Object
+      }
+    }
+  };
 </script>
 
 <style scoped lang="stylus">
