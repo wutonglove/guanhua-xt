@@ -10,6 +10,7 @@
               :isBlank="cell.isBlank"
               :className="cell.className"
               :desc="cell.desc"
+              :isShow="isShow"
               @click="cellClick(row, col)"
         >
         </cell>
@@ -28,6 +29,10 @@
     props: {
       pairs: {
         type: Array
+      },
+      isShow: {
+        type: Boolean,
+        default: true
       }
     },
     data () {
@@ -38,7 +43,7 @@
         config: {
           col: 6,
           row: 4,
-          lineDelay: 200
+          lineDelay: 500
         }
       };
     },
@@ -128,6 +133,7 @@
       },
       // 选择方块
       selectCell (currCell) {
+        currCell.isSelected = true;
         if (!this.currentSelect) {
           // 如果没有选中任何方块那么就直接设置选中
           currCell.isSelected = true;
@@ -164,6 +170,7 @@
         } else {
           // 如果获取到连接线
           // 先绘制连接线
+          currCell.isSelected = true;
           this.drawLine(result)
             .then(() => {
               // 再那么将两个方块设置为空白方块
@@ -382,6 +389,12 @@
 </script>
 
 <style>
+  .linkgame_bd {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
   .game {
     margin: 0 auto;
     border-spacing: 0;
@@ -389,6 +402,10 @@
     user-select: none;
     text-align: center;
     border-spacing: 2px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
   }
 
   /* theme linkgame_bd line */

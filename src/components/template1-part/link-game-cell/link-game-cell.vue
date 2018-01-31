@@ -6,13 +6,14 @@
       <div v-else-if="desc&&desc.type==='text'" class="text_wrap">
         {{desc.cnt}}
       </div>
+      <div class="cover" v-if="!isShow" v-show="!isSelected"></div>
     </div>
   </td>
 </template>
 <script>
   export default {
     name: 'cell',
-    props: ['isSelected', 'isBlank', 'className', 'lineClass', 'isLine', 'desc'],
+    props: ['isSelected', 'isBlank', 'className', 'lineClass', 'isLine', 'desc', 'isShow'],
     computed: {
       classNames () {
         return {
@@ -24,6 +25,9 @@
     methods: {
       clickHandler () {
         this.$emit('click');
+      },
+      show() {
+        this.$emit('show');
       }
     }
   };
@@ -66,4 +70,11 @@
         overflow: hidden
         text-overflow: ellipsis
         word-break: break-all
+      .cover
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        background-color: #DBAD5F
 </style>

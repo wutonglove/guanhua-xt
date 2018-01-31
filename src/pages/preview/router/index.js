@@ -68,6 +68,11 @@ const Linkgame = (resolve) => {
     resolve(module);
   });
 };
+const MemoryCard = (resolve) => {
+  import('components/preview-question/interaction/memory-card/memory-card').then((module) => {
+    resolve(module);
+  });
+};
 Vue.use(Router);
 
 export default new Router({
@@ -147,6 +152,10 @@ export default new Router({
         {
           path: '/interaction/link-game',
           component: Linkgame
+        },
+        {
+          path: '/interaction/memory-card',
+          component: MemoryCard
         }
       ]
     },
