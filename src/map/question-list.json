@@ -182,7 +182,7 @@
   "memory-card": {
     "code": 12,
     "name": "记忆卡片",
-    "edit": "interest/memoryCard.html",
+    "edit": "/interaction/memory-card",
     "show": "/interaction/memory-card",
     "icon": "memory-card-icon.jpg",
     "parent": {
@@ -191,7 +191,25 @@
       "cname": "趣味题型"
     },
     "config": {
-      "edit": {},
+      "edit": {
+        "desc": {
+          "descText": [
+            "请按照正确答案的顺序编辑素材，可点击“预览”查看学生界面排列方式；",
+            "当学生练习时，系统将这些“素材”的顺序自动随机打乱。",
+            "所有组合避免插入重复素材。"
+          ]
+        },
+        "footBtns": [
+          "disprtion",
+          "timeset",
+          "preview",
+          "save"
+        ],
+        "mboard": {
+          "title": "请将对应的两张图片连起来",
+          "titleLength": 70
+        }
+      },
       "show": {
         "nosubmit": false
       }

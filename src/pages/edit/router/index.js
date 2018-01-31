@@ -248,6 +248,10 @@ export default new Router({
         {
           path: '/interaction/link-game',
           component: LinkGame
+        },
+        {
+          path: '/interaction/memory-card',
+          component: LinkGame
         }
       ]
     },

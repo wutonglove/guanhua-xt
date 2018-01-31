@@ -187,7 +187,7 @@
         let localData = {
           title: document.title,
           pairs,
-          questionType: 'link-game'
+          questionType: this.$route.path.split('/')[2]
         };
         let _pairs = [];
         pairs.forEach((item, index) => {
