@@ -63,6 +63,11 @@ const Composition = (resolve) => {
     resolve(module);
   });
 };
+const Linkgame = (resolve) => {
+  import('components/preview-question/interaction/link-game/link-game').then((module) => {
+    resolve(module);
+  });
+};
 Vue.use(Router);
 
 export default new Router({
@@ -138,6 +143,10 @@ export default new Router({
         {
           path: '/interaction/composition',
           component: Composition
+        },
+        {
+          path: '/interaction/link-game',
+          component: Linkgame
         }
       ]
     },

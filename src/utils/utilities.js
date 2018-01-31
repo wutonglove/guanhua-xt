@@ -108,6 +108,51 @@ export function gcd(x, y) {
   return min;
 }
 
+/*
+ * Wrap a dyadic array by fill
+ * @params arr     the source arr
+ * @params fill    which to wrap source arr
+ *
+ *               0 0 0 0 0
+ *   1 1 1       0 1 1 1 0
+ *   1 1 1   =>  0 1 1 1 0
+ *   1 1 1       0 1 1 1 0
+ *               0 0 0 0 0
+ */
+export function dyadicArrayWrap(arr, fill) {
+  let firstRowLength = 0;
+  let lastRowLength = 0;
+  arr.forEach(function (row, index) {
+    if (index === 0) {
+      firstRowLength = row.length + 2;
+    } else if (index === arr.length - 1) {
+      lastRowLength = row.length + 2;
+    }
+    row.splice(0, 0, Object.assign({}, fill).valueOf());
+    row.splice(row.length, 0, Object.assign({}, fill).valueOf());
+  });
+  arr.splice(0, 0, Array(firstRowLength).fill(0).map(e => Object.assign({}, fill).valueOf()));
+  arr.splice(arr.length, 0, Array(lastRowLength).fill(0).map(e => Object.assign({}, fill).valueOf()));
+  return arr;
+}
+
+/**
+ * 将一维数组根据col转换为二维数组
+ * @param arr
+ * @param col
+ * @return {Array}
+ */
+export function arrayToDyadic(arr, col) {
+  let result = [];
+  arr.forEach((e, i) => {
+    let index = ~~(i / col);
+    let mod = i % col;
+    result[index] || (result[index] = []);
+    result[index][mod] = e;
+  });
+  return result;
+}
+
 // 对Date的扩展，将 Date 转化为指定格式的String
 // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
 // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)

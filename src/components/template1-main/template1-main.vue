@@ -16,7 +16,7 @@
             <span class="text">范例</span>
           </a>
         </div>
-        <div class="box_content">
+        <div class="content_wrapper">
           <router-view ref="questionDOM" :mboard="mboard"></router-view>
         </div>
         <div class="hint_box">
@@ -238,7 +238,7 @@
                 color: #fff
                 font-size: 40px
                 line-height: 48px
-        .box_content
+        .content_wrapper
           width: 100%
           height: 485px
           padding: 0 10px

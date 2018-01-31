@@ -99,6 +99,11 @@ const Handwrite = (resolve) => {
     resolve(module);
   });
 };
+const LinkGame = (resolve) => {
+  import('components/questions/interaction/link-game/link-game').then((module) => {
+    resolve(module);
+  });
+};
 
 Vue.use(Router);
 
@@ -239,6 +244,10 @@ export default new Router({
         {
           path: '/interaction/word-guess',
           component: WordGuess
+        },
+        {
+          path: '/interaction/link-game',
+          component: LinkGame
         }
       ]
     },

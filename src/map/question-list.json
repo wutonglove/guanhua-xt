@@ -74,7 +74,7 @@
   "vote": {
     "code": 4,
     "name": "投票题",
-      "edit": "/general/vote",
+    "edit": "/general/vote",
     "show": "/general",
     "icon": "vote-icon.jpg",
     "parent": {
@@ -796,7 +796,7 @@
   "link-game": {
     "code": 32,
     "name": "连连看",
-    "edit": "interest/LinkGame.html",
+    "edit": "/interaction/link-game",
     "show": "/interaction/link-game",
     "icon": "link-game-icon.jpg",
     "parent": {
@@ -805,7 +805,25 @@
       "cname": "趣味题型"
     },
     "config": {
-      "edit": {},
+      "edit": {
+        "desc": {
+          "descText": [
+            "请按照正确答案的顺序编辑素材，可点击“预览”查看学生界面排列方式；",
+            "当学生练习时，系统将这些“素材”的顺序自动随机打乱。",
+            "所有组合避免插入重复素材。"
+          ]
+        },
+        "footBtns": [
+          "disprtion",
+          "timeset",
+          "preview",
+          "save"
+        ],
+        "mboard": {
+          "title": "请将对应的两张图片连起来",
+          "titleLength": 70
+        }
+      },
       "show": {
         "nosubmit": false
       }
