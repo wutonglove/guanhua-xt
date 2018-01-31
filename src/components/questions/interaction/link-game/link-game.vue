@@ -152,7 +152,9 @@
         if (this.options[i][subi].type === 'text') {
           this.toActive(i, subi);
           this.$nextTick(() => {
-            let n = (i * this.curType.match(/t/g).length + subi) - 1;
+            let n = this.curType.match(/t/g).length === 1
+              ? i + subi - 1
+              : i * 2 + subi;
             this.$refs.textarea[n].focus();
           });
         } else {
