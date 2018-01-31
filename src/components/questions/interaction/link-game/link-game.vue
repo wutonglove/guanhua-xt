@@ -2,7 +2,7 @@
   <mboard :mboard="mboard">
     <div id="link-game">
       <ul class="nav" v-show="curIndex === 0">
-        <li class="nav_item" v-for="btn in choice">
+        <li class="nav_item" v-for="(btn,index) in choice" @click="changeType(index)">
           <span class="icon_wrap">
             <img class="icon" :src="btn.icon" alt="">
           </span>
@@ -75,8 +75,8 @@
     mixins: [tem1ComMixin],
     data() {
       return {
-        curIndex: 1,
-        curType: 'i-t',
+        curIndex: 0,
+        curType: '',
         choice: [
           {
             icon: II,
@@ -95,12 +95,23 @@
         options: ['add']
       };
     },
-    mounted() {
-      this.$nextTick(() => {
-        this.initOptions();
-      });
-    },
     methods: {
+      changeType(index) {
+        switch (index) {
+          case 0:
+            this.curType = 'i-i';
+            break;
+          case 1:
+            this.curType = 'i-t';
+            break;
+          case 2:
+            this.curType = 't-t';
+            break;
+        }
+        this.curIndex = 1;
+        this.options = ['add'];
+        this.initOptions();
+      },
       initOptions() {
         for (let i = 0; i < 3; i++) {
           this.addOption();
