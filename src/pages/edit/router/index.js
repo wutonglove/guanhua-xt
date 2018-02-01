@@ -104,6 +104,11 @@ const LinkGame = (resolve) => {
     resolve(module);
   });
 };
+const Classify = (resolve) => {
+  import('components/questions/interaction/classify/classify').then((module) => {
+    resolve(module);
+  });
+};
 
 Vue.use(Router);
 
@@ -252,6 +257,10 @@ export default new Router({
         {
           path: '/interaction/memory-card',
           component: LinkGame
+        },
+        {
+          path: '/interaction/classify',
+          component: Classify
         }
       ]
     },
