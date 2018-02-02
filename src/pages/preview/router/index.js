@@ -73,6 +73,11 @@ const MemoryCard = (resolve) => {
     resolve(module);
   });
 };
+const Classify = (resolve) => {
+  import('components/preview-question/interaction/classify/classify').then((module) => {
+    resolve(module);
+  });
+};
 Vue.use(Router);
 
 export default new Router({
@@ -156,6 +161,10 @@ export default new Router({
         {
           path: '/interaction/memory-card',
           component: MemoryCard
+        },
+        {
+          path: '/interaction/classify',
+          component: Classify
         }
       ]
     },
