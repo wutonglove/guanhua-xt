@@ -36,6 +36,7 @@
     <btn class="add_category" :style="{'border-color':'#8f541a'}" icon="plus-round" v-show="categories.length<4"
          @click="addCategory"></btn>
     <insert-file-dialog @on-insert="insert"></insert-file-dialog>
+    <unfold></unfold>
   </mboard>
 </template>
 
@@ -44,6 +45,7 @@
   import Btn from 'components/template1-part/template1-btn/template1-btn';
   import InsertFileDialog from 'base/insertFile/insertFile';
   import Notice from 'iview/src/components/notice';
+  import Unfold from 'base/unfoldDialog/unfoldDialog';
 
   import {mapMutations} from 'vuex';
   import {tem1ComMixin} from 'common/js/mixin';
@@ -175,7 +177,8 @@
     components: {
       IIcon,
       Btn,
-      InsertFileDialog
+      InsertFileDialog,
+      Unfold
     }
   };
 </script>

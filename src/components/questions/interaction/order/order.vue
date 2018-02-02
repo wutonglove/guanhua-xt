@@ -1,19 +1,13 @@
 <template>
   <mboard :mboard="mboard">
     <div id="order">
-      <notepad class="topic_wrap">
-        <div class="desc_box">
-          <lucency-board class="desc_text">
-            <input type="text" class="text_input" v-model="orderDes">
-          </lucency-board>
-          <res-btns class="desc_resource"
-                    ref="descRes"
-                    :resource="resource"
-                    @on-insert="insert"
-                    @on-del="delResource()"
-          ></res-btns>
-        </div>
-      </notepad>
+      <side-bd class="topic_wrap"
+               :resource="file"
+               :desc="orderDes"
+               @change-desc="changeDesc"
+               @change-resource="changeResource"
+               @del-resource="delResource"
+      ></side-bd>
       <div class="options_wrap">
         <div class="btn_wrap">
           <tem-btn icon="plus" class="add" @click="addOption" v-show="options.length<8">添加一行</tem-btn>
@@ -37,12 +31,11 @@
 
 <script>
   import {tem1ComMixin} from 'common/js/mixin';
-  import Notepad from 'components/template1-part/notepad/notepad';
-  import LucencyBoard from 'components/template1-part/lucency-board/lucency-board';
   import TemBtn from 'components/template1-part/template1-btn/template1-btn';
   import InsertFileDialog from 'base/insertFile/insertFile';
   import Unfold from 'base/unfoldDialog/unfoldDialog';
-  import ResBtns from 'components/template1-part/resource-btns/resource-btns';
+
+  import SideBd from 'components/template1-part/side-bd/side-bd';
 
   import IIcon from 'iview/src/components/icon';
   import Notice from 'iview/src/components/notice';
@@ -63,10 +56,24 @@
             text: ''
           }
         ],
+        file: null,
         resource: null
       };
     },
     methods: {
+      changeResource(val) {
+        console.log(val);
+        this.resource = val;
+      },
+      changeDesc(val) {
+        this.orderDes = val;
+      },
+      insert(file) {
+        this.file = file;
+      },
+      delResource() {
+        this.file = null;
+      },
       addOption() {
         this.options.push({
           text: ''
@@ -79,30 +86,24 @@
       delOption(index) {
         this.options.splice(index, 1);
       },
-      insert(file) {
-        this.resource = file;
-      },
-      delResource() {
-        this.resource = null;
-      },
       getQuestionData(urlSnippet) {
         let options = [];
 
         this.options.forEach((item) => {
           options.push(item.text);
         });
-        let res = this.$refs.descRes.getResource();
+
         let resource, _resource;
-        if (res) {
+        if (this.resource) {
           resource = {
-            type: resource.type,
-            cssStyle: resource.cssStyle,
-            src: urlSnippet + resource.name
+            type: this.resource.type,
+            cssStyle: this.resource.cssStyle,
+            src: urlSnippet + this.resource.name
           };
           _resource = {
-            type: resource.type,
-            cssStyle: resource.cssStyle,
-            src: resource.src
+            type: this.resource.type,
+            cssStyle: this.resource.cssStyle,
+            src: this.resource.src
           };
         }
 
@@ -153,13 +154,11 @@
       }
     },
     components: {
-      Notepad,
-      LucencyBoard,
       IIcon,
       TemBtn,
       InsertFileDialog,
       Unfold,
-      ResBtns
+      SideBd
     }
   };
 </script>
@@ -173,27 +172,29 @@
     .topic_wrap
       flex: 1
       margin-right: 20px
-      .desc_box
-        width: 100%
-        height: 100%
-        display: flex
-        flex-direction: column
-        padding: 10px
-        .desc_text
-          flex: 0 0 110px
-          margin-bottom: 10px
-          max-height: 110px
-          .text_input
-            background: none
-            border: none
-            outline: none
-            line-height: 110px
-            width: 100%
-            padding: 0 15px
-        .desc_resource
-          flex: 1
-          overflow: hidden
-          padding: 1px
+    /*
+    .desc_box
+      width: 100%
+      height: 100%
+      display: flex
+      flex-direction: column
+      padding: 10px
+      .desc_text
+        flex: 0 0 110px
+        margin-bottom: 10px
+        max-height: 110px
+        .text_input
+          background: none
+          border: none
+          outline: none
+          line-height: 110px
+          width: 100%
+          padding: 0 15px
+      .desc_resource
+        flex: 1
+        overflow: hidden
+        padding: 1px
+        */
     .options_wrap
       flex: 1
       background-color: rgba(255, 255, 255, .15)

@@ -132,12 +132,12 @@
         let $img = $(this.$refs.resTgt).find('img').eq(0);
         let _style = $img.css('transform') === 'none' ? '' : $img.css('transform');
         $img.css({transform: `${_style} rotate(90deg)`});
-        this.$emit('on-changecss');
+        this.change();
       },
       refreshImg() {
         let $img = $(this.$refs.resTgt).find('img').eq(0);
         $img.css('transform', 'none');
-        this.$emit('on-changecss');
+        this.change();
       },
       delImg() {
         this.$emit('on-del');
@@ -159,20 +159,31 @@
             transform: `${_transform} scale(0.9)`
           });
         }
+        this.change();
       },
-      getResource() {
+      change() {
+        let resource = null;
         if (this.resource) {
-          return {
+          resource = {
             type: this.resource.type.split('/')[0],
             cssStyle: $(this.$refs.resourceImg).css('transform') || '',
             src: this.resource.resource,
             name: this.resource.name
           };
         }
+        this.$emit('on-changecss', resource);
       },
       ...mapMutations({
         setFileDia: 'SET_FILEDIALOGINFO'
       })
+    },
+    watch: {
+      resource: {
+        deep: true,
+        handler() {
+          this.change();
+        }
+      }
     },
     components: {
       LucencyBoard,

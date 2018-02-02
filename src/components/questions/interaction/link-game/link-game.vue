@@ -40,6 +40,7 @@
       </div>
     </div>
     <insert-file-dialog @on-insert="insert"></insert-file-dialog>
+    <unfold></unfold>
   </mboard>
 </template>
 
@@ -48,6 +49,7 @@
   import IIcon from 'iview/src/components/icon';
   import InsertFileDialog from 'base/insertFile/insertFile';
   import Notice from 'iview/src/components/notice';
+  import Unfold from 'base/unfoldDialog/unfoldDialog';
 
   import {tem1ComMixin} from 'common/js/mixin';
   import {mapMutations} from 'vuex';
@@ -262,7 +264,8 @@
     components: {
       Notepad,
       IIcon,
-      InsertFileDialog
+      InsertFileDialog,
+      Unfold
     }
   };
 </script>

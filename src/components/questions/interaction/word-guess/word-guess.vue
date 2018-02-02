@@ -86,6 +86,7 @@
       </div>
     </div>
     <insert-file-dialog @on-insert="insert"></insert-file-dialog>
+    <unfold></unfold>
   </mboard>
 </template>
 
@@ -95,6 +96,7 @@
   import Btn1 from 'components/template1-part/template1-btn/template1-btn';
   import ResBtns from 'components/template1-part/resource-btns/resource-btns';
   import InsertFileDialog from 'base/insertFile/insertFile';
+  import Unfold from 'base/unfoldDialog/unfoldDialog';
 
   import IIcon from 'iview/src/components/icon';
   import Notice from 'iview/src/components/notice';
@@ -231,7 +233,8 @@
       Btn1,
       ResBtns,
       InsertFileDialog,
-      Notice
+      Notice,
+      Unfold
     }
   };
 </script>

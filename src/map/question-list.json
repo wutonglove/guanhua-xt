@@ -218,7 +218,7 @@
   "classify-tab": {
     "code": 11,
     "name": "分类表格",
-    "edit": "interest/classifyTab.html",
+    "edit": "/interaction/classify-tab",
     "show": "/interaction/classify-tab",
     "icon": "classify-tab-icon.jpg",
     "parent": {
@@ -227,7 +227,30 @@
       "cname": "趣味题型"
     },
     "config": {
-      "edit": {},
+      "edit": {
+        "desc": {
+          "descPic": [
+            "/static/images/classify-tab.jpg",
+            "/static/images/classify-tab.gif"
+          ],
+          "descText": [
+            "适用于需要对内容进行多维度分类的题型。/n（如，将自然数进行分类，横向维度为整数、小数，纵向维度为正负数，同学们可将设置好的数字拖动至表格中进行答题。)",
+            "表格行列数可通过增减行按钮进行设置，最多支持5行5列。",
+            "如编辑题目时未插入多媒体，则默认显示系统内置图片。",
+            "可通过【设置时间】按钮设置学生做题的计时模式。"
+          ]
+        },
+        "footBtns": [
+          "disprtion",
+          "timeset",
+          "preview",
+          "save"
+        ],
+        "mboard": {
+          "hasTitle": false,
+          "hasHeader": false
+        }
+      },
       "show": {
         "nosubmit": false
       }
@@ -727,14 +750,10 @@
           "preview",
           "save"
         ],
-        "mboard": [
-          {
-            "hasTitle": false
-          },
-          {
-            "hasHeader": false
-          }
-        ]
+        "mboard": {
+          "hasTitle": false,
+          "hasHeader": false
+        }
       },
       "show": {
         "nosubmit": false
