@@ -78,6 +78,11 @@ const Classify = (resolve) => {
     resolve(module);
   });
 };
+const ClassifyTab = (resolve) => {
+  import('components/preview-question/interaction/classify-tab/classify-tab').then((module) => {
+    resolve(module);
+  });
+};
 Vue.use(Router);
 
 export default new Router({
@@ -165,6 +170,10 @@ export default new Router({
         {
           path: '/interaction/classify',
           component: Classify
+        },
+        {
+          path: '/interaction/classify-tab',
+          component: ClassifyTab
         }
       ]
     },

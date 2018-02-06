@@ -1,35 +1,6 @@
 <template>
   <div id="order">
-    <notepad class="topic_wrap">
-      <div class="desc_box">
-        <lucency-board class="desc_text">
-          <div class="text_box">
-            <div class="text_wrap">
-              <span class="text" v-text="orderDes"></span>
-            </div>
-          </div>
-        </lucency-board>
-        <div class="desc_resource">
-          <div class="resource_wrap">
-            <div class="resource" v-if="!resource">
-              <img src="" alt="" ref="defaultImg">
-            </div>
-            <div class="resource" v-else-if="resource.type === 'image'">
-              <img :src="resource.src" :style="{transform:resource.cssStyle}" alt="">
-            </div>
-            <div class="resource" v-else-if="resource.type === 'video'">
-              <video :src="resource.src" ref="video" @click="showVdCtrl" @touch="showVdCtrl"></video>
-            </div>
-            <lucency-board class="resource" v-else-if="resource.type === 'audio'">
-              <i-icon type="mic-a" class="icon"></i-icon>
-              <audio :src="resource.src" controls>
-                您的浏览器不支持 audio 标签。
-              </audio>
-            </lucency-board>
-          </div>
-        </div>
-      </div>
-    </notepad>
+    <show-side class="topic_wrap" :data="desc"></show-side>
     <draggable v-model="options" class="options_wrap" :options="dragOption" element="ul" @end="draggableEnd">
       <transition-group class="options_list" type="transition" name="list-move">
         <li class="option_wrap" v-for="(option,index) in options" :key="index">
@@ -43,15 +14,12 @@
 </template>
 
 <script>
-  import Notepad from 'components/template1-part/notepad/notepad';
-  import LucencyBoard from 'components/template1-part/lucency-board/lucency-board';
+  import ShowSide from 'components/template1-part/show-side-bd/show-side-bd';
   import {submitMixin} from 'common/js/mixin';
   import {createRandomArr} from 'utils/utilities';
   import draggable from 'vuedraggable';
 
   import IIcon from 'iview/src/components/icon';
-
-  import defaultImg from './bg.jpg';
 
   export default {
     mixins: [submitMixin],
@@ -62,9 +30,6 @@
     },
     mounted() {
       this.initOpt();
-      this.$nextTick(() => {
-        if (!this.resource) this.$refs.defaultImg.src = defaultImg;
-      });
     },
     data() {
       return {
@@ -77,11 +42,11 @@
       };
     },
     computed: {
-      orderDes() {
-        return this.questionData.orderDes;
-      },
-      resource() {
-        return this.questionData.resource;
+      desc() {
+        return {
+          text: this.questionData.orderDes,
+          resource: this.questionData.resource
+        };
       }
     },
     methods: {
@@ -114,10 +79,9 @@
       }
     },
     components: {
-      Notepad,
-      LucencyBoard,
       IIcon,
-      draggable
+      draggable,
+      ShowSide
     }
   };
 </script>
