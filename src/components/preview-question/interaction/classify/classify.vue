@@ -67,7 +67,8 @@
           category.cnt.forEach((option, i) => {
             arr.push({
               type: option.type,
-              cnt: typeof option.desc === 'string' ? option.desc : option.desc.src
+              cnt: typeof option.desc === 'string' ? option.desc : option.desc.src,
+              pos: index
             });
           });
         });
@@ -75,6 +76,16 @@
       },
       end() {
         this.$forceUpdate();
+      },
+      getResult() {
+        if (this.options.length > 0) return 0;
+        for (let c = 0; c < this.categories.length; c++) {
+          for (let index = 0; index < this.categories[c].cnt.length; index++) {
+            let option = this.categories[c].cnt[index];
+            if (option.pos !== c) return 0;
+          }
+        }
+        return 1;
       }
     },
     components: {
