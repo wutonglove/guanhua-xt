@@ -5,13 +5,13 @@
       <div class="right_box">
         <ul class="tds_title">
           <li class="td_title" v-for="(td,index) in tdsTitle">
-            <input type="text" maxlength="10" v-model="td.content">
+            <div class="text">{{td.content}}</div>
           </li>
         </ul>
         <div class="content">
           <ul class="trs_title">
             <li class="tr_title" v-for="(tr,index) in trsTitle">
-              <textarea maxlength="5" v-model="tr.content"></textarea>
+              <div class="text">{{tr.content}}</div>
             </li>
           </ul>
           <ul class="table">
@@ -39,23 +39,15 @@
       <draggable element="div" v-model="options" :options="dragOptions" class="options">
         <transition-group class="options_wrap" tag="ul">
           <li v-for="(option,index) in options" :key="'op'+ index">
-            <div class="option empty" v-if="option.type===''">
-              <input type="text" v-model="option.text" @change="changeText(index)">
-              <a href="javascript:void(0)" @click="showInsert(index)">
-                <i-icon class="icon" type="images"></i-icon>
-              </a>
-            </div>
-            <div class="option img_option" v-else-if="option.type==='image'">
+            <div class="option img_option" v-if="option.type==='image'">
               <img :src="option.src" alt="">
             </div>
             <div class="option text_option" v-else-if="option.type='text'">
               <textarea v-model="option.text"></textarea>
             </div>
-            <i-icon class="del" type="trash-a" @click.native="delOption(index)"></i-icon>
           </li>
         </transition-group>
       </draggable>
-      <i-icon class="add_icon" type="plus-round" @click.native="addOption"></i-icon>
     </div>
   </div>
 </template>
@@ -88,12 +80,30 @@
         return this.questionData.trsTitle;
       },
       r() {
-        return this.questionData;
+        return this.questionData.table.r;
+      },
+      c() {
+        return this.questionData.table.c;
+      },
+      chgOptions: {
+        get() {
+          return this.options;
+        },
+        set(val) {
+          this.options = val;
+        }
       }
+    },
+    mounted() {
+      this.$nextTick(() => {
+        this.initTable();
+        this.chgOptions = this.questionData.options.slice();
+      });
     },
     data() {
       return {
         table: [],
+        options: [],
         dragOptions: {
           animation: 0,
           group: 'description',
@@ -109,10 +119,27 @@
       initTable() {
         for (let r = 0; r < this.r; r++) {
           this.table.push([]);
+          for (let c = 0; c < this.c; c++) {
+            this.table[r].push({
+              options: []
+            });
+          }
         }
-        for (let c = 0; c < this.c; c++) {
-          this.addTd();
+      },
+      getResult() {
+        let len = this.options.length;
+        if (len === this.questionData.options.length) return -1;
+        else if (len > 0) return 0;
+        for (let r = 0; r < this.table.length; r++) {
+          for (let c = 0; c < this.table[r].length; c++) {
+            let options = this.table[r][c].options;
+            for (let index = 0; index < options.length; index++) {
+              let item = options[index];
+              if (item.pos.r !== r || item.pos.c !== c) return 0;
+            }
+          }
         }
+        return 1;
       }
     },
     components: {
@@ -146,6 +173,8 @@
         flex-direction: column
         font-size: 12px
         color: #5D3B12
+        border-radius: 8px
+        overflow: hidden
         .tds_title
           flex: 0 0 36px
           height: 36px
@@ -157,7 +186,7 @@
           .td_title
             flex: 1
             position: relative
-            input
+            .text
               width: 75px
               height: 30px
               line-height: 30px
@@ -213,7 +242,7 @@
               position: relative
               &:first-child
                 margin-top: 10px
-              textarea
+              .text
                 width: 100%
                 height: 35px
                 box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .4) inset

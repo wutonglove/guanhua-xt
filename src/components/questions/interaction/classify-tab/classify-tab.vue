@@ -188,7 +188,7 @@
         this.resource = val;
       },
       changeDesc(val) {
-        this.orderDes = val;
+        this.desc = val;
       },
       insert(file) {
         if (this.curIndex !== -1) {
@@ -224,7 +224,7 @@
       },
       getQuestionData(urlSnippet) {
         let r = this.table.length;
-        let c = this.table[0][0].options.length;
+        let c = this.table[0].length;
         let options = [];
         let _options = [];
         let resource = null;
@@ -247,20 +247,36 @@
               if (option.type === 'image') {
                 options.push({
                   type: 'image',
-                  src: option.src
+                  src: option.src,
+                  pos: {
+                    r: trn,
+                    c: tdn
+                  }
                 });
                 _options.push({
                   type: 'image',
-                  src: urlSnippet + option.name
+                  src: urlSnippet + option.name,
+                  pos: {
+                    r: trn,
+                    c: tdn
+                  }
                 });
               } else {
                 options.push({
                   type: 'text',
-                  text: option.text
+                  text: option.text,
+                  pos: {
+                    r: trn,
+                    c: tdn
+                  }
                 });
                 _options.push({
                   type: 'text',
-                  text: option.text
+                  text: option.text,
+                  pos: {
+                    r: trn,
+                    c: tdn
+                  }
                 });
               }
             });
@@ -282,7 +298,7 @@
           options,
           desc: {
             text: this.desc,
-            _resource
+            resource: _resource
           }
         });
         return {
