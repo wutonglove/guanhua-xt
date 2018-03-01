@@ -175,4 +175,3 @@ window.Date.prototype.Format = function (fmt) {
   }
   return fmt;
 };
-

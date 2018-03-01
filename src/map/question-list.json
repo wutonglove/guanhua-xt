@@ -296,24 +296,6 @@
       }
     }
   },
-  "jointpoem": {
-    "code": 14,
-    "name": "连字成诗",
-    "edit": "interest/jointPoem.html",
-    "show": "/interaction/jointpoem",
-    "icon": "jointpoem-icon.jpg",
-    "parent": {
-      "code": 1,
-      "ename": "interaction",
-      "cname": "趣味题型"
-    },
-    "config": {
-      "edit": {},
-      "show": {
-        "nosubmit": false
-      }
-    }
-  },
   "blank-cloze": {
     "code": 15,
     "name": "选词填空",
@@ -722,7 +704,7 @@
   },
   "spelling-poem": {
     "code": 26,
-    "name": "连字拼诗",
+    "name": "连字成诗",
     "edit": "/",
     "show": "/interaction/spelling-poem",
     "icon": "spelling-poem-icon.jpg",

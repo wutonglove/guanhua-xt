@@ -55,9 +55,6 @@
         <canvas class="show_box" ref="canvasBox" :width="canvas.w" :height="canvas.h"></canvas>
       </footer>
     </div>
-    <!--<button typ="button" @click="test"-->
-    style="position:absolute;top:200px;left:200px;width:100px;font-size:20px;z-index:10000">test
-    </button>
   </mboard>
 </template>
 

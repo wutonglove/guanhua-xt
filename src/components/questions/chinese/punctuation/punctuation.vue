@@ -43,7 +43,7 @@
               一键还原
             </tem1-btn>
           </div>
-          <div class="size_wrapper">{{}}/200</div>
+          <div class="size_wrapper">{{article.length}}/200</div>
         </div>
       </div>
       <div class="options_wrapper">
