@@ -92,12 +92,13 @@ class Save {
       maincontent: JSON.stringify(data), // 习题内容
       xttype: data.xttype, // 小类  number
       xtclass: data.xtclass, // 习题大类  number
-      grade: this.grade, // 学阶
-      subject: this.subject, // 科目
-      courseid: this.courseid, // 课程编号
-      ispublic: 1, // 公开 私有
-      creator: this.creator // 用户ID
+      grade: this.grade || '01', // 学阶
+      subject: this.subject || '01', // 科目
+      courseid: this.courseid || 'test', // 课程编号
+      ispublic: this.ispublic || 1, // 公开 私有
+      creator: this.creator || '0'// 用户ID
     };
+    alert(this.questionId);
     return new Promise((resolve, reject) => {
       axios({
         method: 'post',
@@ -130,10 +131,18 @@ class Save {
    */
   getParam() {
     let params = urlSearch();
-    this.courseid = params.courseid || 'test';
-    this.grade = +params.grade || 1;
-    this.subject = +params.subject || 1;
-    this.creator = +params.creator || 0;
+    // this.courseid = params.courseid ? params.courseid.toString() : 'test';
+    // this.grade = params.grade ? params.grade.toString() : '01';
+    // this.subject = params.subject ? params.subject.toString() : '01';
+    // this.creator = params.creator ? params.creator.toString() : '0';
+    for (var key in params) {
+      if (key === 'ispublic') {
+        this.ispublic = isNaN(params.ispublic * 1) ? params.ispublic * 1 : 1;
+      }
+      if (params[key]) {
+        this[key] = params[key].toString();
+      }
+    }
   }
 }
 

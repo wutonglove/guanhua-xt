@@ -36,7 +36,7 @@ export function urlSearch() {
   let parameters = {};
   let name;
   let value;
-  let str = location.href; // 取得整个地址栏
+  let str = decodeURIComponent(location.href); // 取得整个地址栏
   let num = str.indexOf('?');
 
   str = str.substr(num + 1); // 取得所有参数

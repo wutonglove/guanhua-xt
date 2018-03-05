@@ -14,6 +14,7 @@
   import Answer from 'components/general-part/answer/answer';
   import Hint from 'components/general-part/hint/hint';
   import Explanation from 'components/general-part/explanation/explanation';
+  import {OPTIONS} from 'common/js/config';
 
   import {replaceSrc} from 'utils/utilities';
   import {verifyMixin} from 'common/js/mixin';
@@ -22,18 +23,7 @@
     mixins: [verifyMixin],
     data() {
       return {
-        options: [
-          {
-            icon: 'A',
-            text: '',
-            id: 0
-          },
-          {
-            icon: 'B',
-            text: '',
-            id: 1
-          }
-        ],
+        options: OPTIONS,
         answer: [],
         isPass: false
       };
