@@ -3,9 +3,11 @@
     <p-header></p-header>
 
     <div class="content_wrapper" @click="clearRange">
-      <div class="content">
-        <router-view ref="questionDOM"></router-view>
-      </div>
+      <form>
+        <div class="content">
+          <router-view ref="questionDOM"></router-view>
+        </div>
+      </form>
     </div>
 
     <p-footer @on-save="showDia" @on-preview="preview"></p-footer>

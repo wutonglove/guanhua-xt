@@ -13,7 +13,6 @@
       :options="blanks"
       :hasAdd="false"
       name="答案"
-      tag="input"
       v-if="blanks.length>0"
       ref="optionsDOM"
       @delete="removeOption"
@@ -232,7 +231,7 @@
       v_replaceBlank(str) {
         let reg = /<img class="blankDOM_hook".*?>/g;
         return str.replace(reg, (item) => {
-          return '<blank/>';
+          return '<blank></blank>';
         });
       },
       ...mapActions({

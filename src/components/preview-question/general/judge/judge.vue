@@ -26,7 +26,7 @@
         if (this.answer === -1) {
           return -1;
         } else {
-          return this.answer === '是' ? 1 : 0;
+          return this.answer === this.questionData.answer ? 1 : 0;
         }
       }
     },

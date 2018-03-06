@@ -127,14 +127,12 @@
       refresh() {
         this.updateOptionIcon();
         this.refreshOption();
+        this.$forceUpdate();
+        this.verify();
       },
       setIsPass() {
-        for (let i = 0; i < this.$refs.selectDOM.length; i++) {
-          if (this.tag === 'div') {
-            if (this.$refs.selectDOM[i].innerHTML.trim() === '') return false;
-          } else {
-            if (this.$refs.selectDOM[i].value.trim() === '') return false;
-          }
+        for (let i = 0; i < this.options.length; i++) {
+          if (this.options[i].text.trim() === '') return false;
         }
         return true;
       },

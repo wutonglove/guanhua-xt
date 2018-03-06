@@ -64,24 +64,6 @@ audio.unfold_file {
   vertical-align: middle;
 }
 
-.content_wrapper .img_wrap {
-  position: relative;
-  display: inline-block;
-  cursor: pointer
-}
-
-.content_wrapper .img_wrap > .shade {
-  position: absolute;
-  left: 4px;
-  bottom: 4px;
-  width: calc(100% - 8px);
-  line-height: 36px;
-  font-size: 16px;
-  text-align: center;
-  background-color: rgba(0, 0, 0, .5);
-  color: #fff;
-}
-
 /*标点题 标点符号 样式 start*/
 .punctuation_wrapper .textarea > div {
   display: inline-block;
