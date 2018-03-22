@@ -95,8 +95,8 @@
        * 从页面获取编辑完成的习题数据
        * @return [Object]
        */
-      getdata() {
-        let data = this.$refs.questionDOM.getQuestionData();
+      getdata(url) {
+        let data = this.$refs.questionDOM.getQuestionData(url);
         for (let key in data) {
           data[key] = Object.assign({}, data[key], {
             mboardTitle: this.mboard.title,

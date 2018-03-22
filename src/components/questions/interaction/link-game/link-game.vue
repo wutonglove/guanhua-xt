@@ -209,7 +209,6 @@
             }
           }
         });
-        console.log(_pairs);
         let questionData = Object.assign({}, localData, {pairs: _pairs});
         console.log(localData, questionData);
         return {

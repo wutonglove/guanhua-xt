@@ -51,8 +51,8 @@
       filterDoubleDigit(num) {
         return num.toString().length < 2 ? '0' + num : num;
       },
-      getQuestionData() {
-        return this.$refs.mainDOM.getQuestionData();
+      getQuestionData(url) {
+        return this.$refs.mainDOM.getQuestionData(url);
       }
     }
   };

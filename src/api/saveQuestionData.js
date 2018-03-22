@@ -98,7 +98,7 @@ class Save {
       ispublic: this.ispublic || 1, // 公开 私有
       creator: this.creator || '0'// 用户ID
     };
-    alert(this.questionId);
+    // alert(this.questionId);
     return new Promise((resolve, reject) => {
       axios({
         method: 'post',

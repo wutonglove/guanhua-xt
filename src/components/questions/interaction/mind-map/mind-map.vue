@@ -337,7 +337,7 @@
           };
         });
       },
-      getQuestionData() {
+      getQuestionData(urlSnippet) {
         var mindData = this.jm.get_data('node_array');
         var mindString = JsMind.util.json.json2string(mindData);
         let questionData = {

@@ -37,7 +37,7 @@
                     <transition-group tag="div" class="options_wrap">
                       <div class="option" v-for="(option,index) in td.options" :key="'1op'+index">
                         <div class="img_option" v-if="option.type==='image'">
-                          <img :src="option.src" alt="">
+                          <img :src="option.src" alt="" class="insertFile_hook" :data-name="option.name">
                         </div>
                         <div class="text_option" v-else-if="option.type='text'">
                           <div>{{option.text}}</div>
@@ -62,7 +62,7 @@
                 </a>
               </div>
               <div class="option img_option" v-else-if="option.type==='image'">
-                <img :src="option.src" alt="">
+                <img :src="option.src" alt="" class="insertFile_hook" :data-name="option.name">
               </div>
               <div class="option text_option" v-else-if="option.type='text'">
                 <textarea v-model="option.text"></textarea>

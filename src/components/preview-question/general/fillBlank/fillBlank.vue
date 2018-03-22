@@ -48,11 +48,18 @@
     },
     methods: {
       getResult() {
-        if (this.questionData.answer.length !== this.answer.length) {
+        let oriAnswers = this.questionData.answer.map((item, index) => {
+          if (typeof item === 'string') {
+            return item.split('|');
+          } else {
+            return item;
+          }
+        });
+        if (oriAnswers.length !== this.answer.length) {
           return 0;
         } else {
           for (let i = 0; i < this.answer.length; i++) {
-            if (this.answer[i] !== this.questionData.answer[i]) return 0;
+            if (oriAnswers[i].indexOf(this.answer[i]) === -1) return 0;
           }
           return 1;
         }
