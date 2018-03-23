@@ -42,7 +42,7 @@
 
   import {mapMutations} from 'vuex';
   import {getQuestionData} from 'api/getQuestionData';
-  import {urlSearch} from 'utils/utilities';
+  //  import {urlSearch} from 'utils/utilities';
   import {timerMixin} from 'common/js/mixin';
 
   import $ from 'jquery';
@@ -54,20 +54,29 @@
         isSubmited: false,
         isDisabled: false,
         questionData: null,
-        nosubmit: true
+        nosubmit: true,
+        questionId: ''
       };
     },
     mounted() {
-      this.init();
+      this.getQuestion()
+        .then(() => {
+          this.init();
+        });
     },
     methods: {
       getQuestion() {
-        let questionId = urlSearch().id;
+//        let questionId = urlSearch().id;
+        const paramsId = this.$route.params.questionId;
+        if (/^[0-9]{19}$/.test(paramsId)) {
+          this.questionId = paramsId;
+        } else {
+          this.questionId = 0;
+        }
         return new Promise((resolve, reject) => {
-          getQuestionData(questionId)
+          getQuestionData(this.questionId)
             .then((data) => {
               this.questionData = data;
-              console.log(this.questionData);
               resolve();
             })
             .catch((code) => {
@@ -113,30 +122,40 @@
         let _type = this.$route.path.trim().split('/')[2];
         let item = qulist[type];
         if (type !== _type) {
-          this.$router.push(item.show);
+          this.$router.push(`/${this.questionId + item.show}`);
         }
         this.nosubmit = item.config.show.nosubmit;
       },
       init() {
-        this.getQuestion()
-          .then(() => {
-            this.initRoute();
-            this.initContentHeight();
-            this.bindUnfoldEvent();
-            this.clock();
-          });
+        this.$nextTick(() => {
+          this.initRoute();
+          this.initContentHeight();
+          this.bindUnfoldEvent();
+          this.clock();
+        });
       },
       ...mapMutations({
         setUnfold: 'SET_UNFOLD'
       })
     },
     watch: {
-      '$route.query.id': {
+      '$route.params.questionId': {
         deep: true,
         handler(val, oldVal) {
+//          console.log('id变化：' + val, oldVal);
           if (val && (val !== oldVal)) {
-            this.init();
+            this.getQuestion()
+              .then(() => {
+                this.init();
+              });
           }
+        }
+      },
+      questionData: {
+        deep: true,
+        handler(newVal, oldVal) {
+          console.log(newVal);
+          this.init();
         }
       }
     },

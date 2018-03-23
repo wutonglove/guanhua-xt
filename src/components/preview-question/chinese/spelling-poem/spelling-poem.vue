@@ -54,7 +54,7 @@
     mounted() {
       this.initOriPoem();
       this.initRC();
-      console.log(this.poemR, this.poemC);
+//      console.log(this.poemR, this.poemC);
       this.regroupPoem();
       this.$nextTick(() => {
         this.$refs.poemTitle.style.backgroundImage = `url(${titleBG})`;
@@ -215,7 +215,7 @@
             }
           }
         }
-        console.log(matrix);
+//        console.log(matrix);
       },
       toTop(matrix, curR, curC) {
         let nextR = curR - 1;
@@ -227,7 +227,6 @@
               curC: nextC
             };
           } else {
-            // || (!matrix[nextR - 1] || (matrix[nextR - 1][nextC + 1] < 0 || matrix[nextR - 1][nextC - 1] < 0))
             if ((matrix[nextR][nextC - 1] !== -1) || (matrix[nextR][nextC + 1] !== -1)) {
               curR = nextR;
               curC = nextC;

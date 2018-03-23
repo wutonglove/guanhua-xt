@@ -5,7 +5,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Preview from 'components/preview-part/general-pre-main/general-pre-main';
+import Preview from '../preview';
+import General from 'components/preview-part/general-pre-main/general-pre-main';
 import Template1 from 'components/preview-part/template1-pre-main/template1-pre-main';
 
 const Empty = (resolve) => {
@@ -92,97 +93,101 @@ export default new Router({
       component: Preview
     },
     {
-      path: '/general',
+      path: '/:questionId',
       component: Preview
     },
     {
-      path: '/interaction',
+      path: '/*/general',
+      component: General
+    },
+    {
+      path: '/*/interaction',
       component: Template1,
       children: [
         {
-          path: '/interaction/compare',
+          path: '/*/interaction/compare',
           component: Compare
         },
         {
-          path: '/interaction/fractional-calc',
+          path: '/*/interaction/fractional-calc',
           component: FractionalCalc
         },
         {
-          path: '/interaction/vertical-calc',
+          path: '/*/interaction/vertical-calc',
           component: VerticalCalc
         },
         {
-          path: '/interaction/rubik-box',
+          path: '/*/interaction/rubik-box',
           component: RubikBox
         },
         {
-          path: '/interaction/logogriph',
+          path: '/*/interaction/logogriph',
           component: Logogriph
         },
         {
-          path: '/interaction/spelling-poem',
+          path: '/*/interaction/spelling-poem',
           component: SpellingPoem
         },
         {
-          path: '/interaction/punctuation',
+          path: '/*/interaction/punctuation',
           component: Punctuation
         },
         {
-          path: '/interaction/blank-cloze',
+          path: '/*/interaction/blank-cloze',
           component: BlankCloze
         },
         {
-          path: '/interaction/textselect',
+          path: '/*/interaction/textselect',
           component: Textselect
         },
         {
-          path: '/interaction/order',
+          path: '/*/interaction/order',
           component: Order
         },
         {
-          path: '/interaction/en-pronounce',
+          path: '/*/interaction/en-pronounce',
           component: EnPronounce
         },
         {
-          path: '/interaction/interval',
+          path: '/*/interaction/interval',
           component: Interval
         },
         {
-          path: '/interaction/word-guess',
+          path: '/*/interaction/word-guess',
           component: WordGuess
         },
         {
-          path: '/interaction/handwrite',
+          path: '/*/interaction/handwrite',
           component: Handwrite
         },
         {
-          path: '/interaction/composition',
+          path: '/*/interaction/composition',
           component: Composition
         },
         {
-          path: '/interaction/link-game',
+          path: '/*/interaction/link-game',
           component: Linkgame
         },
         {
-          path: '/interaction/memory-card',
+          path: '/*/interaction/memory-card',
           component: MemoryCard
         },
         {
-          path: '/interaction/classify',
+          path: '/*/interaction/classify',
           component: Classify
         },
         {
-          path: '/interaction/classify-tab',
+          path: '/*/interaction/classify-tab',
           component: ClassifyTab
         }
       ]
     },
     {
-      path: '/other',
+      path: '/*/other',
       component: Empty,
       children: [
         {
-          path: '/other/mind-map',
+          path: '/*/other/mind-map',
           component: MindMap
         }
       ]

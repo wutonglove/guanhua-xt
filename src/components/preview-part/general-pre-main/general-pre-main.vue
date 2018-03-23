@@ -19,6 +19,9 @@
         type: Boolean
       }
     },
+    mounted() {
+      console.log(this.questionData);
+    },
     methods: {
       submit() {
         this.$refs.contextDOM.submit();

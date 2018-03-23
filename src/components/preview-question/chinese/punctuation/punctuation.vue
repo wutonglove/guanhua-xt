@@ -83,7 +83,6 @@
       },
       bingClick() {
         $(document).on('click', '.textarea .empty_pun', (e) => {
-          console.log(e);
           let $this = $(e.target);
           if ($this.hasClass('active')) {
 

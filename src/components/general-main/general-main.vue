@@ -14,7 +14,7 @@
     <insert-file-dialog @on-insert="insert"></insert-file-dialog>
     <insert-formula-dialog></insert-formula-dialog>
     <unfold></unfold>
-    <pre-dia :pageSrc="'./preview.html#/'" ref="previewDOM"></pre-dia>
+    <pre-dia :pageSrc="'./preview.html#/0'" ref="previewDOM"></pre-dia>
     <up-progress></up-progress>
   </div>
 </template>

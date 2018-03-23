@@ -62,7 +62,6 @@
     },
     methods: {
       changeResource(val) {
-        console.log(val);
         this.resource = val;
       },
       changeDesc(val) {
