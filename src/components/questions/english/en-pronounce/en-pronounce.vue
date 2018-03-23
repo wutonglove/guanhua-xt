@@ -11,7 +11,7 @@
           <tem1-btn class="btn" @click="delResource">删除</tem1-btn>
         </div>
         <div class="resource" style="display:none">
-          <audio :src="resource?resource.resource:''" ref="resource">您的浏览器不支持audio</audio>
+          <audio :src="resource?resource.resource:''" class="insertFile_hook" :data-name="resource?resource.name:''" ref="resource">您的浏览器不支持audio</audio>
         </div>
       </div>
     </div>

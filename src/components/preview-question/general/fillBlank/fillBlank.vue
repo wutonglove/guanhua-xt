@@ -6,6 +6,7 @@
 
 <script>
   import {submitMixin} from 'common/js/mixin';
+  import {escape2Html} from 'utils/utilities';
   import $ from 'jquery';
 
   export default {
@@ -50,9 +51,11 @@
       getResult() {
         let oriAnswers = this.questionData.answer.map((item, index) => {
           if (typeof item === 'string') {
-            return item.split('|');
+            return escape2Html(item).split('|').map((item) => {
+              return item.trim();
+            });
           } else {
-            return item;
+            return escape2Html(item).trim();
           }
         });
         if (oriAnswers.length !== this.answer.length) {
