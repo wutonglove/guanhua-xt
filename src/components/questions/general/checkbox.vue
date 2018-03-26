@@ -1,7 +1,7 @@
 <template>
   <div>
     <topic ref="topicDOM" @verify="verify"></topic>
-    <options :options="options" ref="optionsDOM" @verify="verify"></options>
+    <options v-model="options" ref="optionsDOM" @verify="verify"></options>
     <answer :options="options" inputType="checkbox" ref="answerDOM" @verify="verify"></answer>
     <hint ref="hintDOM"></hint>
     <explanation ref="explanationDOM"></explanation>

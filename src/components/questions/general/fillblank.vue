@@ -5,10 +5,11 @@
       type="primary"
       shape="circle"
       @click.stop="addBlank"
+      :disabled="addBlankSt"
     >
       插入填空横线
     </i-button>
-    <topic ref="topicDOM" @key-delete="backspace" @verify="verify"></topic>
+    <topic ref="topicDOM" @key-delete="backspace" @verify="verify" @keydown.native="keyinput"></topic>
     <options
       :options="blanks"
       :hasAdd="false"
@@ -17,6 +18,8 @@
       ref="optionsDOM"
       @delete="removeOption"
       @verify="verify"
+      @change-options="optionsCH"
+      tag="input"
     ></options>
     <div class="init_answer" v-else>
       <div class="name">
@@ -51,7 +54,9 @@
     data() {
       return {
         blanks: [],
-        blankImgs: []
+        blankImgs: [],
+        addBlankSt: false,
+        icodes_cc: []
       };
     },
     computed: {
@@ -60,38 +65,64 @@
       ])
     },
     methods: {
-      addBlank: function () {
+      keyinput() {
+        let len = $('img.blankDOM_hook').length;
+        if (len === this.blanks.length) return;
+      },
+      optionsCH(index, val) {
+        this.blanks[index].text = val;
+      },
+      addBlank: function (e) {
         let parent = this.getFocusDiv(this.currentRange);
         if (!parent) return;
         let duty = parent.data('duty');
         if (duty === 'topic') {
+          this.addBlankSt = true;
           let index = this.getInsertIndexStart(this.currentRange);
-          console.log(index);
-          this.blanks.splice(index, 0, {
-            icon: 1,
-            text: ''
-          });
-          // 创建空格图片 并插入div_input中
-          this.createBlank()
-            .then(() => {
-              this.$refs.optionsDOM.refresh();
-              this.insertBlank();
+          if (index >= 0) {
+            this.blanks.splice(index, 0, {
+              icon: 1,
+              text: ''
             });
+            // 创建空格图片 并插入div_input中
+            this.createBlank()
+              .then(() => {
+                this.insertBlank();
+                this.addBlankSt = false;
+              });
+          } else {
+            this.addBlankSt = false;
+          }
         }
       },
       backspace: function () {
         this.saveCurrentRange();
-        let blankDOM = $('img.blankDOM_hook');
-        if (this.blanks.length > blankDOM.length) {
-          let start = this.getInsertIndexStart(this.currentRange);
-//          let end = this.getInsertIndexEnd(this.currentRange);
-//          console.log(start);
-//          console.log(end);
-//          console.log(end - start - 1);
-          this.$refs.optionsDOM.removeOption(start, true);
-//          console.log(this.blanks);
+        let $blankDOM = $('img.blankDOM_hook');
+        if ($blankDOM.length === 0) this.blanks = [];
+        if (this.blanks.length > $blankDOM.length) {
+          let codes = this.getDeleteCode();
+          codes.forEach((item) => {
+            this.blanks[item - 1] = '';
+          });
+          this.blanks = this.blanks.filter(item => {
+            return item !== '';
+          });
         }
         this.upBlankCode();
+      },
+      // 获取删除空格编号
+      getDeleteCode() {
+        let $blankDOM = $('img.blankDOM_hook');
+        let max = this.blanks.length;
+        let arr = (new Array(max)).fill(1).map((item, index) => {
+          return index + 1;
+        });
+        let set1 = new Set(arr);
+        let set2 = new Set();
+        $blankDOM.each((index, item) => {
+          set2.add($(item).attr('data-code') * 1);
+        });
+        return [...new Set([...set1].filter(x => !set2.has(x)))];
       },
       // 更新div_input中的空格的编号
       upBlankCode: function () {
@@ -101,34 +132,13 @@
         });
       },
       getInsertIndexStart: function (range) {
-//        console.log(range);
-        if (range.commonAncestorContainer.nodeName !== '#text') {
-        }
         let prev = range.commonAncestorContainer.previousElementSibling;
         let next = range.commonAncestorContainer.nextElementSibling;
-//        console.log($(prev).prev('img.blankDOM_hook'));
         let code = 0;
         if (prev) {
-          code = $(prev).attr('data-code') * 1;
+          code = $(prev).hasClass('blankDOM_hook') ? $(prev).attr('data-code') * 1 : this.blanks.length - 1;
         } else if (next) {
-          code = $(next).attr('data-code') * 1 - 1;
-        } else {
-          code = 0;
-        }
-//        console.log('code:' + code);
-        return code;
-      },
-      getInsertIndexEnd: function (range) {
-        let l = $('img.blankDOM_hook').length;
-        let prev = range.commonAncestorContainer.previousElementSibling;
-        let next = range.commonAncestorContainer.nextElementSibling;
-        let code = l;
-        if (prev) {
-          code = $(prev).attr('data-code') * 1 + 1;
-        } else if (next) {
-          code = $(next).attr('data-code') * 1;
-        } else {
-          code = l;
+          code = $(next).hasClass('blankDOM_hook') ? $(next).attr('data-code') * 1 - 1 : this.blanks.length - 1;
         }
         return code;
       },
@@ -172,7 +182,7 @@
         let html = `&nbsp;<img class="blankDOM_hook" data-code="0" style="margin:0 -1px;vertical-align:bottom;"/>&nbsp;`;
         document.execCommand('insertHTML', false, html);
         this.upBlankCode();
-        this.$refs.optionsDOM.refresh();
+//        this.$refs.optionsDOM.refresh();
       },
       removeOption: function (index) {
         $('img.blankDOM_hook').eq(index).remove();
@@ -237,6 +247,13 @@
       ...mapActions({
         saveCurrentRange: 'saveCurrentRange'
       })
+    },
+    watch: {
+      blanks: {
+        deep: true,
+        handler(newVal, oldVal) {
+        }
+      }
     },
     components: {
       Topic,

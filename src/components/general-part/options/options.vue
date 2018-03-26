@@ -1,24 +1,34 @@
 <template>
-  <div class="options_wrapper">
+  <div class="options_wrapper" @keydown="verify" @mousedown="verify" @mouseup="verify">
     <cnt-module :name="name" :desc="desc" :isMandatory="true">
       <div class="options" ref="optionsDOM">
         <div class="option" v-for="(option,index) in options">
           <span class="code">{{option.icon}}</span>
           <!-- tag div -->
-          <div class="text div_input cl_rg_hook"
-               contenteditable="true"
-               ref="selectDOM"
-               @input.lazy="setOption(index,$event)"
-               @blur="blur"
-               v-if="tag==='div'"
-          ></div>
+          <!--<div class="text div_input cl_rg_hook"-->
+          <!--contenteditable="true"-->
+          <!--ref="selectDOM"-->
+          <!--@input.lazy="inputHandler(index,$event)"-->
+          <!--@blur="blur"-->
+          <!--v-if="tag==='div'"-->
+          <!--&gt;</div>-->
+          <div-input
+            class="text"
+            ref="selectDOM"
+            v-model="option.text"
+            @blur="blur"
+            @change="editText"
+            v-if="tag==='div'"
+          ></div-input>
 
           <!-- tag input -->
           <input type="text" class="text div_input cl_rg_hook"
                  v-else-if="tag==='input'"
                  ref="selectDOM"
-                 @input.lazy="setOption(index,$event)"
+                 :data-icode="option.icode"
+                 v-model="option.text"
                  @blur="blur"
+                 @paste.stop.prevent="paste(index, $event)"
           >
 
           <button type="button" class="icon" @click="removeOption(index)"
@@ -37,6 +47,7 @@
 
 <script>
   import CntModule from 'components/general-part/cnt-module/cnt-module';
+  import DivInput from 'components/general-part/div-input/div-input';
 
   import IButton from 'iview/src/components/button';
   import IIcon from 'iview/src/components/icon';
@@ -45,6 +56,10 @@
   import {mapActions} from 'vuex';
 
   export default {
+    model: {
+      prop: 'options',
+      event: 'change'
+    },
     props: {
       hasAdd: {
         type: Boolean,
@@ -71,64 +86,56 @@
         isPass: false
       };
     },
-    mounted() {
-      setTimeout(() => {
-        this.refreshOption();
-      }, 20);
-    },
     methods: {
+      editText() {
+        this.$emit('chang', this.options);
+      },
       updateOptionIcon() {
         if (this.options.length < 1) return;
         let iconType = this.options[0].icon;
-        if (!isNaN(iconType * 1)) {
-          this.options.forEach((item, index) => {
+        this.options.forEach((item, index) => {
+          if (!isNaN(iconType * 1)) {
             item.icon = index + 1;
             item.id = index;
-          });
-        } else {
-          this.options.forEach((item, index) => {
+          } else {
             let code = 'A';
             code = index + code.charCodeAt(0);
             item.icon = String.fromCharCode(code);
             item.id = index;
-          });
-        }
+          }
+        });
       },
       addOption() {
         this.options.push({
-          icon: 'A',
+          icon: '',
           text: '',
           id: 0
         });
-        this.updateOptionIcon();
+        this.refresh();
       },
-//      按index 下标删除
-      removeOption(index, isPropagate) {
+      removeOption(index) {
         this.options.splice(index, 1);
         this.refresh();
-        if (!isPropagate) {
-          this.$emit('delete', index);
-        }
+        this.$emit('delete', index);
       },
-      setOption(index, event) {
-        let optionHtml = this.tag === 'div' ? event.srcElement.innerHTML : event.srcElement.value;
-        this.options[index].text = optionHtml;
-        this.verify();
+//      inputHandler(index, e) {
+//        let input = this.$refs.selectDOM[index];
+//        let optionHtml = this.tag === 'div' ? input.innerHtml : input.value;
+//        this.setOption(index, optionHtml);
+//      },
+      paste(index, e) {
+        document.execCommand('insertText', false, e.clipboardData.getData('text/plain'));
+        let $input = $(e.srcElement);
+        let optionHtml = this.tag === 'div' ? $input.html() : $input.text();
+        this.setOption(index, optionHtml);
       },
-      refreshOption() {
-        this.$nextTick(() => {
-          $(this.$refs.optionsDOM).children('.option').each((index, item) => {
-            $(item).children('.text').is('input')
-              ? $(item).children('.text').val(this.options[index].text)
-              : $(item).children('.text').html(this.options[index].text);
-          });
-        });
+      setOption(index, val) {
+        this.options[index].text = val;
+        this.$emit('chang', this.options);
       },
       refresh() {
         this.updateOptionIcon();
-        this.refreshOption();
-        this.$forceUpdate();
-        this.verify();
+        this.$emit('chang', this.options);
       },
       setIsPass() {
         for (let i = 0; i < this.options.length; i++) {
@@ -148,10 +155,21 @@
         saveCurrentRange: 'saveCurrentRange'
       })
     },
+    watch: {
+      'options.length': {
+        deep: true,
+        handler(newVal, oldVal) {
+          this.$nextTick(() => {
+            this.refresh();
+          });
+        }
+      }
+    },
     components: {
       CntModule,
       IButton,
-      IIcon
+      IIcon,
+      DivInput
     }
   };
 </script>
