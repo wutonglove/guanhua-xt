@@ -3,6 +3,7 @@
        contenteditable="true"
        ref="input"
        @blur="blur"
+       @input="input"
        v-html="text"
   >
   </div>
@@ -24,6 +25,9 @@
       blur() {
         this.$emit('blur');
         this.$emit('change', this.$refs.input.innerHTML);
+      },
+      input() {
+        this.$emit('input');
       }
     }
   };

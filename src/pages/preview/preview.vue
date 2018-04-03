@@ -66,8 +66,7 @@
     },
     methods: {
       getQuestion() {
-//        let questionId = urlSearch().id;
-        const paramsId = this.$route.params.questionId;
+        const paramsId = this.$route.params.questionId || this.$route.params[0];
         if (/^[0-9]{19}$/.test(paramsId)) {
           this.questionId = paramsId;
         } else {
@@ -112,6 +111,7 @@
         });
       },
       refresh() {
+        window.sessionStorage.setItem('__101questionID__', this.questionId);
         window.location.reload();
       },
       initContentHeight() {
@@ -143,6 +143,17 @@
         deep: true,
         handler(val, oldVal) {
 //          console.log('id变化：' + val, oldVal);
+          if (val && (val !== oldVal)) {
+            this.getQuestion()
+              .then(() => {
+                this.init();
+              });
+          }
+        }
+      },
+      '$route.params.0': {
+        deep: true,
+        handler(val, oldVal) {
           if (val && (val !== oldVal)) {
             this.getQuestion()
               .then(() => {

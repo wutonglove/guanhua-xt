@@ -89,10 +89,6 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
-      path: '/',
-      component: Preview
-    },
-    {
       path: '/:questionId',
       component: Preview
     },

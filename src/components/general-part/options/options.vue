@@ -1,22 +1,16 @@
 <template>
-  <div class="options_wrapper" @keydown="verify" @mousedown="verify" @mouseup="verify">
+  <div class="options_wrapper">
     <cnt-module :name="name" :desc="desc" :isMandatory="true">
       <div class="options" ref="optionsDOM">
         <div class="option" v-for="(option,index) in options">
           <span class="code">{{option.icon}}</span>
           <!-- tag div -->
-          <!--<div class="text div_input cl_rg_hook"-->
-          <!--contenteditable="true"-->
-          <!--ref="selectDOM"-->
-          <!--@input.lazy="inputHandler(index,$event)"-->
-          <!--@blur="blur"-->
-          <!--v-if="tag==='div'"-->
-          <!--&gt;</div>-->
           <div-input
             class="text"
             ref="selectDOM"
             v-model="option.text"
             @blur="blur"
+            @input="verify"
             @change="editText"
             v-if="tag==='div'"
           ></div-input>
@@ -28,6 +22,7 @@
                  :data-icode="option.icode"
                  v-model="option.text"
                  @blur="blur"
+                 @input="verify"
                  @paste.stop.prevent="paste(index, $event)"
           >
 
@@ -116,17 +111,13 @@
       removeOption(index) {
         this.options.splice(index, 1);
         this.refresh();
+        this.verify();
         this.$emit('delete', index);
       },
-//      inputHandler(index, e) {
-//        let input = this.$refs.selectDOM[index];
-//        let optionHtml = this.tag === 'div' ? input.innerHtml : input.value;
-//        this.setOption(index, optionHtml);
-//      },
       paste(index, e) {
         document.execCommand('insertText', false, e.clipboardData.getData('text/plain'));
         let $input = $(e.srcElement);
-        let optionHtml = this.tag === 'div' ? $input.html() : $input.text();
+        let optionHtml = this.tag === 'div' ? $input.html() : $input.val();
         this.setOption(index, optionHtml);
       },
       setOption(index, val) {
@@ -148,8 +139,10 @@
         this.verify();
       },
       verify: function () {
-        this.isPass = this.setIsPass();
-        this.$emit('verify');
+        this.$nextTick(() => {
+          this.isPass = this.setIsPass();
+          this.$emit('verify');
+        });
       },
       ...mapActions({
         saveCurrentRange: 'saveCurrentRange'

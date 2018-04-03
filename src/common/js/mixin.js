@@ -42,7 +42,7 @@ export const submitMixin = {
       if (window.androidjs) {
         window.androidjs.showInfoFromJs(result);
       } else {
-        alert('no androidjs');
+        // alert('no androidjs');
       }
     },
     getResult() {
