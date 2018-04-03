@@ -24,13 +24,13 @@
 
   import {replaceSrc} from 'utils/utilities';
   import {verifyMixin} from 'common/js/mixin';
-  import {OPTIONS} from 'common/js/config';
+  import {OptionsData} from 'common/js/class';
 
   export default {
     mixins: [verifyMixin],
     data() {
       return {
-        options: OPTIONS,
+        options: new OptionsData().data,
         voteType: 'multiple',
         questionData: {},
         localData: {}

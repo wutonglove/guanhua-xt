@@ -98,3 +98,30 @@ export class Grid {
     }
   }
 }
+
+export class OptionsData {
+  constructor() {
+    this.data = [
+      {
+        icon: 'A',
+        text: '',
+        id: 0
+      },
+      {
+        icon: 'B',
+        text: '',
+        id: 1
+      },
+      {
+        icon: 'C',
+        text: '',
+        id: 2
+      },
+      {
+        icon: 'D',
+        text: '',
+        id: 3
+      }
+    ];
+  }
+}

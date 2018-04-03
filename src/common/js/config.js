@@ -178,26 +178,3 @@ export const REGEXPS = {
   // 匹配字母
   en: /[A-Za-z]/g
 };
-// 选项
-export const OPTIONS = [
-  {
-    icon: 'A',
-    text: '',
-    id: 0
-  },
-  {
-    icon: 'B',
-    text: '',
-    id: 1
-  },
-  {
-    icon: 'C',
-    text: '',
-    id: 2
-  },
-  {
-    icon: 'D',
-    text: '',
-    id: 3
-  }
-];
