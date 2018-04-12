@@ -127,7 +127,7 @@
   },
   "subjective": {
     "code": 7,
-    "name": "主观题",
+    "name": "问答题",
     "edit": "/general/subjective",
     "show": "/general",
     "icon": "subjective-icon.jpg",
