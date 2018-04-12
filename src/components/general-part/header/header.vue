@@ -25,6 +25,8 @@
               <i-select v-model="fontSize" v-else-if="btn.role === 'FontSize'" size="small" @on-change="ecFsz">
                 <i-option :value="index+1" v-for="(size, index) in btn.content" :key="index">{{ size }}</i-option>
               </i-select>
+              <span :class="btnSpanCls(btn)" v-else-if="btn.role === 'insertTable'"
+                    @click.stop.prevent="exInsertTb"></span>
               <span :class="btnSpanCls(btn)" v-else @click.stop.prevent="execute(btn.role,btn.type)"></span>
             </i-tooltip>
           </li>
@@ -39,6 +41,18 @@
         </div>
       </div>
     </div>
+    <i-modal
+      v-model="tableInserting"
+      title="插入表格"
+      @on-ok="insertTable"
+      class="insert_tb_md"
+    >
+      <div slot="header" class="title">插入表格</div>
+      <span class="tab_op">
+        行： <i-input-number :max="10" :min=1 v-model="table.r"></i-input-number>
+        列： <i-input-number :max="10" :min=1 v-model="table.c"></i-input-number>
+      </span>
+    </i-modal>
   </div>
 </template>
 
@@ -48,6 +62,8 @@
   import IOption from 'iview/src/components/select/option';
   import ITooltip from 'iview/src/components/tooltip/tooltip';
   import IIcon from 'iview/src/components/icon';
+  import IModal from 'iview/src/components/modal';
+  import IInputNumber from 'iview/src/components/input-number';
 
   import {EDIT_TEXT_BTNS, IN_FILE_BTNS} from 'common/js/config';
   import {mapActions, mapMutations} from 'vuex';
@@ -60,7 +76,12 @@
         fileBtns: IN_FILE_BTNS,
         fontSize: 3,
         bgColor: 'white',
-        fontColor: 'black'
+        fontColor: 'black',
+        tableInserting: false,
+        table: {
+          r: 3,
+          c: 2
+        }
       };
     },
     created() {
@@ -94,6 +115,23 @@
           document.execCommand('FontSize', false, this.fontSize);
           this.fontSize = 3;
         });
+      },
+      exInsertTb() {
+        this.tableInserting = true;
+      },
+      insertTable() {
+        let html = '<table contenteditable="false">';
+
+        for (let i = 0; i < this.table.r; i++) {
+          html += '<tr>';
+          for (let j = 0; j < this.table.r; j++) {
+            html += '<td contenteditable="true" style="text-align:center;vertical-align:middle;min-width:100px;height:30px;border:1px solid #ccc;outline:none"></td>';
+          }
+          html += '</tr>';
+        }
+        html += '</table>';
+
+        document.execCommand('InsertHTML', false, html);
       },
       showInDialog: function (btn) {
         let name;
@@ -145,7 +183,9 @@
       ISelect,
       IOption,
       ITooltip,
-      IIcon
+      IIcon,
+      IModal,
+      IInputNumber
     }
   };
 </script>
@@ -240,4 +280,8 @@
               font-size: 35px
               color: $background-blue-d
               margin-bottom: 10px
+
+  .insert_tb_md
+    .title
+      padding: 15px 0 15px 20px
 </style>

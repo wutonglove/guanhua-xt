@@ -141,8 +141,14 @@ export const EDIT_TEXT_BTNS = [
     'type': 'paragraph',
     'list': [
       {
-        'name': '插入横线',
+        'name': '插入表格',
         'icon': 'icon-table',
+        'role': 'insertTable',
+        'type': 'advanced'
+      },
+      {
+        'name': '插入横线',
+        'icon': 'icon-minus',
         'role': 'InsertHorizontalRule'
       }
     ]
