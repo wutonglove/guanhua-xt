@@ -52,6 +52,10 @@ body {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  display: none;
+}
+.content_wrapper .img_wrap:hover .shade{
+  display: block;
 }
 
 /* 标点题 start*/
