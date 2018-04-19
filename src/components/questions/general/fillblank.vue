@@ -26,7 +26,7 @@
         <span class="text">答案</span>
         <div class="sign">*</div>
       </div>
-      <div class="desc">请在题干中插入填空横线</div>
+      <div class="desc">请在题干中插入填空横线，建议先编辑题干再编辑选项。</div>
     </div>
     <hint ref="hintDOM"></hint>
     <explanation ref="explanationDOM"></explanation>
@@ -79,6 +79,7 @@
         if (duty === 'topic') {
           this.addBlankSt = true;
           let index = this.getInsertIndexStart(this.currentRange);
+          console.log(index);
           if (index >= 0) {
             this.blanks.splice(index, 0, {
               icon: 1,
@@ -134,6 +135,9 @@
       getInsertIndexStart: function (range) {
         let prev = range.commonAncestorContainer.previousElementSibling;
         let next = range.commonAncestorContainer.nextElementSibling;
+        if ($('.blankDOM_hook').length === 0) {
+          return 1;
+        }
         let code = 0;
         if (prev) {
           code = $(prev).hasClass('blankDOM_hook') ? $(prev).attr('data-code') * 1 : this.blanks.length - 1;
