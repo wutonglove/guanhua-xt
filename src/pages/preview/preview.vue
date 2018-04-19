@@ -132,6 +132,7 @@
           this.initContentHeight();
           this.bindUnfoldEvent();
           this.clock();
+          $('td').attr('contenteditable', 'false');
         });
       },
       ...mapMutations({

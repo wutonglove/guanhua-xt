@@ -124,8 +124,8 @@
 
         for (let i = 0; i < this.table.r; i++) {
           html += '<tr>';
-          for (let j = 0; j < this.table.r; j++) {
-            html += '<td contenteditable="true" style="text-align:center;vertical-align:middle;min-width:100px;height:30px;border:1px solid #ccc;outline:none"></td>';
+          for (let j = 0; j < this.table.c; j++) {
+            html += '<td contenteditable="true" style="text-align:center;vertical-align:middle;min-width:100px;height:30px;border:1px solid #ccc;"></td>';
           }
           html += '</tr>';
         }
