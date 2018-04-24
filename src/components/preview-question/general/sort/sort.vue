@@ -4,7 +4,7 @@
     <draggable v-model="options" class="options_wrapper" @end="setAnswer">
       <transition-group>
         <div class="div option" v-for="(option,index) in options" :key="index">
-          <span class="text">{{option.text}}</span>
+          <span class="text" v-html="option.text"></span>
         </div>
       </transition-group>
     </draggable>
@@ -95,4 +95,11 @@
           width: 100%
           height: 100%
           vertical-align: middle
+          & > span.img_wrap
+            max-width: 100%
+            max-height: 100%
+            overflow: hidden
+            & > img
+              max-width: 100%
+              max-height: 100%
 </style>

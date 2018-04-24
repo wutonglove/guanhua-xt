@@ -86,7 +86,6 @@
       bindUnfoldEvent() {
         let _self = this;
         $(document).on('click', '.img_wrap', function () {
-          console.log(1);
           let src = $(this).children('img')[0].src;
           _self.unfold(src);
         });
