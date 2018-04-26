@@ -38,4 +38,5 @@
     display: block;
     width: 100%;
     outline: none;
+    line-height: 25px
 </style>

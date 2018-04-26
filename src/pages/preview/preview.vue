@@ -42,7 +42,6 @@
 
   import {mapMutations} from 'vuex';
   import {getQuestionData} from 'api/getQuestionData';
-  //  import {urlSearch} from 'utils/utilities';
   import {timerMixin} from 'common/js/mixin';
 
   import $ from 'jquery';

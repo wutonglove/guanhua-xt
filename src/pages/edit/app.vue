@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @dblclick="imgUnfold" @paste="paste">
     <router-view :info="info"></router-view>
     <textarea class="clipboard" ref="clipboard"></textarea>
   </div>
@@ -7,36 +7,12 @@
 
 <script>
   import {mapMutations, mapGetters, mapActions} from 'vuex';
-  import qulist from 'map/question-list.json';
 
-  import $ from 'jquery';
+  import qulist from 'map/question-list.json';
 
   export default {
     mounted() {
       this.init();
-      $(document).on('dblclick', '.insertFile_hook', (e) => {
-        let name = $(e.target).attr('data-name');
-        for (let i = 0; i < this.fileList.length; i++) {
-          let file = this.fileList[i];
-          if (file.name === name) {
-            this.unfold(file);
-          }
-        }
-      })
-      // 粘贴 纯文本
-        .on('paste', () => {
-          let clipboard = this.$refs.clipboard;
-          this.saveRange();
-          clipboard.focus();
-          setTimeout(() => {
-            let text = clipboard.value;
-            this.resetRange()
-              .then(() => {
-                document.execCommand('insertText', false, text);
-                clipboard.value = '';
-              });
-          }, 20);
-        });
     },
     computed: {
       ...mapGetters([
@@ -50,7 +26,7 @@
     },
     methods: {
       init() {
-        let type = this.$route.path.trim().split('/')[2];
+        let type = this.$route.path.trim().split('/')[3];
         if (!type) return;
         let item = qulist[type];
         document.title = item.name;
@@ -76,6 +52,30 @@
             break;
         }
         this.setUnfold({isShow, content});
+      },
+      imgUnfold(e) {
+        if (/\binsertFile_hook\b/.test(e.target.className)) {
+          let name = e.target.getAttribute('data-name');
+          for (let i = 0; i < this.fileList.length; i++) {
+            let file = this.fileList[i];
+            if (file.name === name) {
+              this.unfold(file);
+            }
+          }
+        }
+      },
+      paste() {
+        let clipboard = this.$refs.clipboard;
+        this.saveRange();
+        clipboard.focus();
+        setTimeout(() => {
+          let text = clipboard.value;
+          this.resetRange()
+            .then(() => {
+              document.execCommand('insertText', false, text);
+              clipboard.value = '';
+            });
+        }, 20);
       },
       ...mapMutations({
         setUnfold: 'SET_UNFOLD'

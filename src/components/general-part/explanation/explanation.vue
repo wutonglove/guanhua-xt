@@ -40,5 +40,6 @@
 </script>
 
 <style scoped lang="stylus">
-
+  .div_input
+    line-height: 25px
 </style>

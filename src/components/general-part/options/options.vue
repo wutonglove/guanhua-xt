@@ -195,7 +195,6 @@
         .text
           flex: 1
           border: 1px solid #ccc
-          line-height: 40px
           padding: 0 10px;
         .icon
           flex: 0 0 40px

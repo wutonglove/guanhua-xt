@@ -66,4 +66,5 @@
   .topic
     .div_input
       min-height: 60px
+      line-height: 25px
 </style>
