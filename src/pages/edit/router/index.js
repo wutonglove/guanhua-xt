@@ -3,117 +3,7 @@
  */
 import Vue from 'vue';
 import Router from 'vue-router';
-
-import Index from 'components/index-main/index-main';
-import General from 'components/general-main/general-main';
-import Interaction from 'components/template1-main/template1-main';
-import Empty from 'components/empty/empty';
-
-import Radio from 'components/questions/general/radio';
-import Judge from 'components/questions/general/judge';
-import Checkbox from 'components/questions/general/checkbox';
-import Fillblank from 'components/questions/general/fillblank';
-import Vote from 'components/questions/general/vote';
-import Sort from 'components/questions/general/sort';
-import Jigsaw from 'components/questions/general/jigsaw';
-import Comprehensive from 'components/questions/general/comprehensive';
-import Subjective from 'components/questions/general/subjective';
-
-const Compare = (resolve) => {
-  import('components/questions/maths/compare/compare').then((module) => {
-    resolve(module);
-  });
-};
-const FractionalCalc = (resolve) => {
-  import('components/questions/maths/fractional-calc/fractional-calc').then((module) => {
-    resolve(module);
-  });
-};
-const VerticalCalc = (resolve) => {
-  import('components/questions/maths/vertical-calc/vertical-calc').then((module) => {
-    resolve(module);
-  });
-};
-const Interval = (resolve) => {
-  import('components/questions/maths/interval/interval').then((module) => {
-    resolve(module);
-  });
-};
-const RubikBox = (resolve) => {
-  import('components/questions/chinese/rubik-box/rubik-box').then((module) => {
-    resolve(module);
-  });
-};
-const Logogriph = (resolve) => {
-  import('components/questions/chinese/logogriph/logogriph').then((module) => {
-    resolve(module);
-  });
-};
-const SpellingPoem = (resolve) => {
-  import('components/questions/chinese/spelling-poem/spelling-poem').then((module) => {
-    resolve(module);
-  });
-};
-const Punctuation = (resolve) => {
-  import('components/questions/chinese/punctuation/punctuation').then((module) => {
-    resolve(module);
-  });
-};
-const Composition = (resolve) => {
-  import('components/questions/chinese/composition/composition').then((module) => {
-    resolve(module);
-  });
-};
-const BlankCloze = (resolve) => {
-  import('components/questions/interaction/blank-cloze/blank-cloze').then((module) => {
-    resolve(module);
-  });
-};
-const TextSelect = (resolve) => {
-  import('components/questions/interaction/textselect/textselect').then((module) => {
-    resolve(module);
-  });
-};
-const Order = (resolve) => {
-  import('components/questions/interaction/order/order').then((module) => {
-    resolve(module);
-  });
-};
-const MindMap = (resolve) => {
-  import('components/questions/interaction/mind-map/mind-map').then((module) => {
-    resolve(module);
-  });
-};
-const EnPronounce = (resolve) => {
-  import('components/questions/english/en-pronounce/en-pronounce').then((module) => {
-    resolve(module);
-  });
-};
-const WordGuess = (resolve) => {
-  import('components/questions/interaction/word-guess/word-guess').then((module) => {
-    resolve(module);
-  });
-};
-const Handwrite = (resolve) => {
-  import('components/questions/interaction/handwrite/handwrite').then((module) => {
-    resolve(module);
-  });
-};
-const LinkGame = (resolve) => {
-  import('components/questions/interaction/link-game/link-game').then((module) => {
-    resolve(module);
-  });
-};
-const Classify = (resolve) => {
-  import('components/questions/interaction/classify/classify').then((module) => {
-    resolve(module);
-  });
-};
-const ClassifyTab = (resolve) => {
-  import('components/questions/interaction/classify-tab/classify-tab').then((module) => {
-    resolve(module);
-  });
-};
+import cp from './cp-list';
 
 Vue.use(Router);
 
@@ -121,165 +11,341 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: Index
+      redirect: '/new/home'
     },
     {
-      path: '/general',
-      component: General,
+      path: '/new/',
+      component: cp.Index,
       children: [
         {
-          path: '/general/radio',
-          component: Radio
+          path: '/new/home',
+          component: cp.Home
         },
         {
-          path: '/general/checkbox',
-          component: Checkbox
+          path: '/new/general',
+          component: cp.General,
+          children: [
+            {
+              path: '/new/general/radio',
+              component: cp.Radio
+            },
+            {
+              path: '/new/general/checkbox',
+              component: cp.Checkbox
+            },
+            {
+              path: '/new/general/fillblank',
+              component: cp.Fillblank
+            },
+            {
+              path: '/new/general/vote',
+              component: cp.Vote
+            },
+            {
+              path: '/new/general/judge',
+              component: cp.Judge
+            },
+            {
+              path: '/new/general/sort',
+              component: cp.Sort
+            },
+            {
+              path: '/new/general/jigsaw',
+              component: cp.Jigsaw
+            },
+            {
+              path: '/new/general/comprehensive',
+              component: cp.Comprehensive
+            },
+            {
+              path: '/new/general/subjective',
+              component: cp.Subjective
+            },
+            {
+              path: '/new/general/composition',
+              component: cp.Composition
+            },
+            {
+              path: '/new/general/handwrite',
+              component: cp.Handwrite
+            }
+          ]
         },
         {
-          path: '/general/fillblank',
-          component: Fillblank
+          path: '/new/math',
+          component: cp.Interaction,
+          children: [
+            {
+              path: '/new/math/compare',
+              component: cp.Compare
+            },
+            {
+              path: '/new/math/fractional-calc',
+              component: cp.FractionalCalc
+            },
+            {
+              path: '/new/math/vertical-calc',
+              component: cp.VerticalCalc
+            },
+            {
+              path: '/new/math/interval',
+              component: cp.Interval
+            }
+          ]
         },
         {
-          path: '/general/vote',
-          component: Vote
+          path: '/new/chinese',
+          component: cp.Interaction,
+          children: [
+            {
+              path: '/new/chinese/rubik-box',
+              component: cp.RubikBox
+            },
+            {
+              path: '/new/chinese/logogriph',
+              component: cp.Logogriph
+            },
+            {
+              path: '/new/chinese/spelling-poem',
+              component: cp.SpellingPoem
+            },
+            {
+              path: '/new/chinese/punctuation',
+              component: cp.Punctuation
+            }
+          ]
         },
         {
-          path: '/general/judge',
-          component: Judge
+          path: '/new/english',
+          component: cp.Interaction,
+          children: [
+            {
+              path: '/new/english/rubik-box',
+              component: cp.RubikBox
+            },
+            {
+              path: '/new/english/logogriph',
+              component: cp.Logogriph
+            },
+            {
+              path: '/new/english/en-pronounce',
+              component: cp.EnPronounce
+            }
+          ]
         },
         {
-          path: '/general/sort',
-          component: Sort
+          path: '/new/interaction',
+          component: cp.Interaction,
+          children: [
+            {
+              path: '/new/interaction/blank-cloze',
+              component: cp.BlankCloze
+            },
+            {
+              path: '/new/interaction/textselect',
+              component: cp.TextSelect
+            },
+            {
+              path: '/new/interaction/order',
+              component: cp.Order
+            },
+            {
+              path: '/new/interaction/word-guess',
+              component: cp.WordGuess
+            },
+            {
+              path: '/new/interaction/link-game',
+              component: cp.LinkGame
+            },
+            {
+              path: '/new/interaction/memory-card',
+              component: cp.LinkGame
+            },
+            {
+              path: '/new/interaction/classify',
+              component: cp.Classify
+            },
+            {
+              path: '/new/interaction/classify-tab',
+              component: cp.ClassifyTab
+            }
+          ]
         },
         {
-          path: '/general/jigsaw',
-          component: Jigsaw
-        },
-        {
-          path: '/general/comprehensive',
-          component: Comprehensive
-        },
-        {
-          path: '/general/subjective',
-          component: Subjective
-        },
-        {
-          path: '/general/composition',
-          component: Composition
-        },
-        {
-          path: '/general/handwrite',
-          component: Handwrite
+          path: '/new/other',
+          component: cp.Empty,
+          children: [
+            {
+              path: '/new/other/mind-map',
+              component: cp.MindMap
+            }
+          ]
         }
       ]
     },
     {
-      path: '/math',
-      component: Interaction,
+      path: '/:id',
+      component: cp.Edit,
       children: [
         {
-          path: '/math/compare',
-          component: Compare
+          path: '/:id/general',
+          component: cp.General,
+          children: [
+            {
+              path: '/:id/general/radio',
+              component: cp.Radio
+            },
+            {
+              path: '/:id/general/checkbox',
+              component: cp.Checkbox
+            },
+            {
+              path: '/:id/general/fillblank',
+              component: cp.Fillblank
+            },
+            {
+              path: '/:id/general/vote',
+              component: cp.Vote
+            },
+            {
+              path: '/:id/general/judge',
+              component: cp.Judge
+            },
+            {
+              path: '/:id/general/sort',
+              component: cp.Sort
+            },
+            {
+              path: '/:id/general/jigsaw',
+              component: cp.Jigsaw
+            },
+            {
+              path: '/:id/general/comprehensive',
+              component: cp.Comprehensive
+            },
+            {
+              path: '/:id/general/subjective',
+              component: cp.Subjective
+            },
+            {
+              path: '/:id/general/composition',
+              component: cp.Composition
+            },
+            {
+              path: '/:id/general/handwrite',
+              component: cp.Handwrite
+            }
+          ]
         },
         {
-          path: '/math/fractional-calc',
-          component: FractionalCalc
+          path: '/:id/math',
+          component: cp.Interaction,
+          children: [
+            {
+              path: '/:id/math/compare',
+              component: cp.Compare
+            },
+            {
+              path: '/:id/math/fractional-calc',
+              component: cp.FractionalCalc
+            },
+            {
+              path: '/:id/math/vertical-calc',
+              component: cp.VerticalCalc
+            },
+            {
+              path: '/:id/math/interval',
+              component: cp.Interval
+            }
+          ]
         },
         {
-          path: '/math/vertical-calc',
-          component: VerticalCalc
+          path: '/:id/chinese',
+          component: cp.Interaction,
+          children: [
+            {
+              path: '/:id/chinese/rubik-box',
+              component: cp.RubikBox
+            },
+            {
+              path: '/:id/chinese/logogriph',
+              component: cp.Logogriph
+            },
+            {
+              path: '/:id/chinese/spelling-poem',
+              component: cp.SpellingPoem
+            },
+            {
+              path: '/:id/chinese/punctuation',
+              component: cp.Punctuation
+            }
+          ]
         },
         {
-          path: '/math/interval',
-          component: Interval
-        }
-      ]
-    },
-    {
-      path: '/chinese',
-      component: Interaction,
-      children: [
-        {
-          path: '/chinese/rubik-box',
-          component: RubikBox
+          path: '/:id/english',
+          component: cp.Interaction,
+          children: [
+            {
+              path: '/:id/english/rubik-box',
+              component: cp.RubikBox
+            },
+            {
+              path: '/:id/english/logogriph',
+              component: cp.Logogriph
+            },
+            {
+              path: '/:id/english/en-pronounce',
+              component: cp.EnPronounce
+            }
+          ]
         },
         {
-          path: '/chinese/logogriph',
-          component: Logogriph
+          path: '/:id/interaction',
+          component: cp.Interaction,
+          children: [
+            {
+              path: '/:id/interaction/blank-cloze',
+              component: cp.BlankCloze
+            },
+            {
+              path: '/:id/interaction/textselect',
+              component: cp.TextSelect
+            },
+            {
+              path: '/:id/interaction/order',
+              component: cp.Order
+            },
+            {
+              path: '/:id/interaction/word-guess',
+              component: cp.WordGuess
+            },
+            {
+              path: '/:id/interaction/link-game',
+              component: cp.LinkGame
+            },
+            {
+              path: '/:id/interaction/memory-card',
+              component: cp.LinkGame
+            },
+            {
+              path: '/:id/interaction/classify',
+              component: cp.Classify
+            },
+            {
+              path: '/:id/interaction/classify-tab',
+              component: cp.ClassifyTab
+            }
+          ]
         },
         {
-          path: '/chinese/spelling-poem',
-          component: SpellingPoem
-        },
-        {
-          path: '/chinese/punctuation',
-          component: Punctuation
-        }
-      ]
-    },
-    {
-      path: '/english',
-      component: Interaction,
-      children: [
-        {
-          path: '/english/rubik-box',
-          component: RubikBox
-        },
-        {
-          path: '/english/logogriph',
-          component: Logogriph
-        },
-        {
-          path: '/english/en-pronounce',
-          component: EnPronounce
-        }
-      ]
-    },
-    {
-      path: '/interaction',
-      component: Interaction,
-      children: [
-        {
-          path: '/interaction/blank-cloze',
-          component: BlankCloze
-        },
-        {
-          path: '/interaction/textselect',
-          component: TextSelect
-        },
-        {
-          path: '/interaction/order',
-          component: Order
-        },
-        {
-          path: '/interaction/word-guess',
-          component: WordGuess
-        },
-        {
-          path: '/interaction/link-game',
-          component: LinkGame
-        },
-        {
-          path: '/interaction/memory-card',
-          component: LinkGame
-        },
-        {
-          path: '/interaction/classify',
-          component: Classify
-        },
-        {
-          path: '/interaction/classify-tab',
-          component: ClassifyTab
-        }
-      ]
-    },
-    {
-      path: '/other',
-      component: Empty,
-      children: [
-        {
-          path: '/other/mind-map',
-          component: MindMap
+          path: '/:id/other',
+          component: cp.Empty,
+          children: [
+            {
+              path: '/:id/other/mind-map',
+              component: cp.MindMap
+            }
+          ]
         }
       ]
     }

@@ -16,10 +16,10 @@
   import Explanation from 'components/general-part/explanation/explanation';
   import {OptionsData} from 'common/js/class';
   import {replaceSrc} from 'utils/utilities';
-  import {verifyMixin} from 'common/js/mixin';
+  import {verifyMixin, editMinxin} from 'common/js/mixin';
 
   export default {
-    mixins: [verifyMixin],
+    mixins: [verifyMixin, editMinxin],
     data() {
       return {
         options: new OptionsData().data,

@@ -2,7 +2,7 @@
   "radio": {
     "code": 0,
     "name": "单选题",
-    "edit": "/general/radio",
+    "edit": "/new/general/radio",
     "show": "/general",
     "icon": "radio-icon.jpg",
     "parent": {
@@ -20,7 +20,7 @@
   "checkbox": {
     "code": 1,
     "name": "多选题",
-    "edit": "/general/checkbox",
+    "edit": "/new/general/checkbox",
     "show": "/general",
     "icon": "checkbox-icon.jpg",
     "parent": {
@@ -38,7 +38,7 @@
   "fillblank": {
     "code": 2,
     "name": "填空题",
-    "edit": "/general/fillblank",
+    "edit": "/new/general/fillblank",
     "show": "/general",
     "icon": "fillblank-icon.jpg",
     "parent": {
@@ -56,7 +56,7 @@
   "judge": {
     "code": 3,
     "name": "判断题",
-    "edit": "/general/judge",
+    "edit": "/new/general/judge",
     "show": "/general",
     "icon": "judge-icon.jpg",
     "parent": {
@@ -74,7 +74,7 @@
   "vote": {
     "code": 4,
     "name": "投票题",
-    "edit": "/general/vote",
+    "edit": "/new/general/vote",
     "show": "/general",
     "icon": "vote-icon.jpg",
     "parent": {
@@ -92,7 +92,7 @@
   "sort": {
     "code": 5,
     "name": "排序题",
-    "edit": "/general/sort",
+    "edit": "/new/general/sort",
     "show": "/general",
     "icon": "sort-icon.jpg",
     "parent": {
@@ -110,7 +110,7 @@
   "jigsaw": {
     "code": 6,
     "name": "拼图题",
-    "edit": "/general/jigsaw",
+    "edit": "/new/general/jigsaw",
     "show": "/general",
     "icon": "jigsaw-icon.jpg",
     "parent": {
@@ -128,7 +128,7 @@
   "subjective": {
     "code": 7,
     "name": "问答题",
-    "edit": "/general/subjective",
+    "edit": "/new/general/subjective",
     "show": "/general",
     "icon": "subjective-icon.jpg",
     "parent": {
@@ -146,7 +146,7 @@
   "comprehensive": {
     "code": 8,
     "name": "复合题",
-    "edit": "/general/comprehensive",
+    "edit": "/new/general/comprehensive",
     "show": "/general",
     "icon": "comprehensive-icon.jpg",
     "parent": {
@@ -164,7 +164,7 @@
   "handwrite": {
     "code": 9,
     "name": "手写题",
-    "edit": "/general/handwrite",
+    "edit": "/new/general/handwrite",
     "show": "/interaction/handwrite",
     "icon": "handwrite-icon.jpg",
     "parent": {
@@ -182,7 +182,7 @@
   "memory-card": {
     "code": 12,
     "name": "记忆卡片",
-    "edit": "/interaction/memory-card",
+    "edit": "/new/interaction/memory-card",
     "show": "/interaction/memory-card",
     "icon": "memory-card-icon.jpg",
     "parent": {
@@ -218,7 +218,7 @@
   "classify-tab": {
     "code": 11,
     "name": "分类表格",
-    "edit": "/interaction/classify-tab",
+    "edit": "/new/interaction/classify-tab",
     "show": "/interaction/classify-tab",
     "icon": "classify-tab-icon.jpg",
     "parent": {
@@ -259,7 +259,7 @@
   "classify": {
     "code": 13,
     "name": "分类题",
-    "edit": "/interaction/classify",
+    "edit": "/new/interaction/classify",
     "show": "/interaction/classify",
     "icon": "classify-icon.jpg",
     "parent": {
@@ -299,7 +299,7 @@
   "blank-cloze": {
     "code": 15,
     "name": "选词填空",
-    "edit": "/interaction/blank-cloze",
+    "edit": "/new/interaction/blank-cloze",
     "show": "/interaction/blank-cloze",
     "icon": "blank-cloze-icon.jpg",
     "parent": {
@@ -339,7 +339,7 @@
   "textselect": {
     "code": 16,
     "name": "文本选择",
-    "edit": "/interaction/textselect",
+    "edit": "/new/interaction/textselect",
     "show": "/interaction/textselect",
     "icon": "textselect-icon.jpg",
     "parent": {
@@ -380,7 +380,7 @@
   "order": {
     "code": 17,
     "name": "排序题",
-    "edit": "/interaction/order",
+    "edit": "/new/interaction/order",
     "show": "/interaction/order",
     "icon": "order-icon.jpg",
     "parent": {
@@ -418,7 +418,7 @@
   "mind-map": {
     "code": 18,
     "name": "思维导图",
-    "edit": "/other/mind-map",
+    "edit": "/new/other/mind-map",
     "show": "/other/mind-map",
     "icon": "mind-map-icon.jpg",
     "parent": {
@@ -436,7 +436,7 @@
   "word-guess": {
     "code": 19,
     "name": "猜词游戏",
-    "edit": "/interaction/word-guess",
+    "edit": "/new/interaction/word-guess",
     "show": "/interaction/word-guess",
     "icon": "word-guess-icon.jpg",
     "parent": {
@@ -475,7 +475,7 @@
   "compare": {
     "code": 20,
     "name": "比较大小",
-    "edit": "/math/compare",
+    "edit": "/new/math/compare",
     "show": "/interaction/compare",
     "icon": "compare-icon.jpg",
     "parent": {
@@ -514,7 +514,7 @@
   "fractional-calc": {
     "code": 21,
     "name": "分式加减",
-    "edit": "/math/fractional-calc",
+    "edit": "/new/math/fractional-calc",
     "show": "/interaction/fractional-calc",
     "icon": "fractional-calc-icon.jpg",
     "parent": {
@@ -552,7 +552,7 @@
   "vertical-calc": {
     "code": 22,
     "name": "竖式计算",
-    "edit": "/math/vertical-calc",
+    "edit": "/new/math/vertical-calc",
     "show": "/interaction/vertical-calc",
     "icon": "vertical-calc-icon.jpg",
     "parent": {
@@ -589,7 +589,7 @@
   "interval": {
     "code": 23,
     "name": "区间题",
-    "edit": "/math/interval",
+    "edit": "/new/math/interval",
     "show": "/interaction/interval",
     "icon": "interval-icon.jpg",
     "parent": {
@@ -624,7 +624,7 @@
   "rubik-box": {
     "code": 29,
     "name": "魔方盒游戏",
-    "edit": "/english/rubik-box",
+    "edit": "/new/english/rubik-box",
     "show": "/interaction/rubik-box",
     "icon": "rubik-box-icon.jpg",
     "parent": {
@@ -664,7 +664,7 @@
   "logogriph": {
     "code": 30,
     "name": "字谜游戏",
-    "edit": "/english/logogriph",
+    "edit": "/new/english/logogriph",
     "show": "/interaction/logogriph",
     "icon": "logogriph-icon.jpg",
     "parent": {
@@ -705,7 +705,7 @@
   "spelling-poem": {
     "code": 26,
     "name": "连字成诗",
-    "edit": "/",
+    "edit": "/new/",
     "show": "/interaction/spelling-poem",
     "icon": "spelling-poem-icon.jpg",
     "parent": {
@@ -745,7 +745,7 @@
   "punctuation": {
     "code": 27,
     "name": "标点题",
-    "edit": "/chinese/punctuation",
+    "edit": "/new/chinese/punctuation",
     "show": "/interaction/punctuation",
     "icon": "punctuation-icon.jpg",
     "parent": {
@@ -785,7 +785,7 @@
   "composition": {
     "code": 28,
     "name": "作文题",
-    "edit": "/general/composition",
+    "edit": "/new/general/composition",
     "show": "/interaction/composition",
     "icon": "composition-icon.jpg",
     "parent": {
@@ -803,7 +803,7 @@
   "en-pronounce": {
     "code": 31,
     "name": "英语篇章发音评测",
-    "edit": "/english/en-pronounce",
+    "edit": "/new/english/en-pronounce",
     "show": "/interaction/en-pronounce",
     "icon": "en-pronounce-icon.jpg",
     "parent": {
@@ -837,7 +837,7 @@
   "link-game": {
     "code": 32,
     "name": "连连看",
-    "edit": "/interaction/link-game",
+    "edit": "/new/interaction/link-game",
     "show": "/interaction/link-game",
     "icon": "link-game-icon.jpg",
     "parent": {

@@ -10,6 +10,12 @@ import $ from 'jquery';
 
 import Mboard from 'components/template1-part/mboard/mboard';
 
+export const editMinxin = {
+  props: {
+    qusData: Object
+  }
+};
+
 export const submitMixin = {
   props: {
     questionData: {
