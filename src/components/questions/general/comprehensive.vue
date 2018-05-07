@@ -16,7 +16,7 @@
     </i-dropdown>
 
     <!-- <topic ref="topicDOM" @verify="verify"></topic> -->
-    <topic :topic="topic" @change="tpChange"></topic>    
+    <topic :topic="topic" @change="tpChange" ref="topic" @input="verify"></topic>    
 
     <div class="sub_content" v-if="questions.length>0">
       <i-tabs ref="tabs">
@@ -25,7 +25,7 @@
           <div class="question_wrap">
             <h3 class="title">{{ typeKeyVal[question.quesType] }}</h3>
             <div class="content" :style="`height:${subContentH}px`" @keyup="verify" @click="verify">
-              <div :is="question.quesType" ref="questionsDOM"></div>
+              <div :is="question.quesType" ref="questionsDOM" @verify="verify"></div>
             </div>
           </div>
         </i-tab-pane>
@@ -103,6 +103,7 @@ export default {
     removeQuestion: function(index) {
       this.questions.splice(index, 1);
       this.$refs.tabs.handleRemove(this.questions.length);
+      this.verify();
     },
     getQuestionData: function(urlSnippet) {
       let _topic = this.topic;
@@ -131,29 +132,18 @@ export default {
       };
     },
     complete() {
-      if (!this.topic) {
-        this.isPass = false;
-        return;
-      }
       let qusDOM = this.$refs.questionsDOM;
-
+      let res = true;
       if (!qusDOM || qusDOM.length < 1) {
-        this.isPass = false;
-        return;
-      }
-      for (let i = 0; i < qusDOM.length; i++) {
-        qusDOM[i].verify();
-        if (!qusDOM[i].isPass) {
-          this.isPass = false;
-          return;
+        res = false;
+      } else {
+        for (let i = 0; i < qusDOM.length; i++) {
+          if (!qusDOM[i].isPass) {
+            res = false;
+          }
         }
       }
-      this.isPass = true;
-    }
-  },
-  watch: {
-    topic() {
-      this.verify();
+      return [this.$refs.topic.isComplete, res];
     }
   },
   computed: {

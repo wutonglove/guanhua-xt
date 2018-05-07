@@ -11,6 +11,7 @@
             @input="input"
             @change="editText"
             v-if="tag==='div'"
+            ref="input"
           ></div-input>
 
           <!-- tag input -->
@@ -20,6 +21,7 @@
                  v-model="option.text"
                  @input='input'
                  @paste.stop.prevent="paste(index, $event)"
+                 ref="input"
           >
 
           <button type="button" class="icon" @click="removeOption(index)"
@@ -70,8 +72,28 @@ export default {
       default: 'div'
     }
   },
+  data() {
+    return {
+      isComplete: false
+    };
+  },
   methods: {
     input() {
+      let inputs = this.$refs.input;
+      this.isComplete = true;
+      for (let i = 0; i < inputs.length; i++) {
+        if (this.tag === 'div') {
+          if (inputs[i].isEmpty) {
+            this.isComplete = false;
+            break;
+          }
+        } else {
+          if (inputs[i].value.trim()) {
+            this.isComplete = false;
+            break;
+          }
+        }
+      }
       this.$emit('input');
     },
     editText() {

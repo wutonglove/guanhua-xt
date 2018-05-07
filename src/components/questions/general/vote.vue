@@ -1,6 +1,6 @@
 <template>
   <div>
-    <topic :topic="topic" @change="tpChange"></topic>
+    <topic :topic="topic" @change="tpChange" @input="verify" ref="topic"></topic>
     <div class="choiceType">
       <i-radio-group v-model="voteType">
         <i-radio label="radio">
@@ -11,7 +11,7 @@
         </i-radio>
       </i-radio-group>
     </div>
-    <options :options="options" name="投票项" @input="verify"></options>
+    <options :options="options" name="投票项" @input="verify" ref="options"></options>
   </div>
 </template>
 
@@ -79,17 +79,10 @@ export default {
       };
     },
     complete() {
-      if (!this.topic) {
-        this.isPass = false;
-        return;
-      }
-      for (let i = 0; i < this.options.length; i++) {
-        if (!this.options[i].text.trim()) {
-          this.isPass = false;
-          return;
-        }
-      }
-      this.isPass = true;
+      return [
+        this.$refs.topic.isComplete,
+        this.$refs.options.isComplete
+      ];
     }
   },
   watch: {

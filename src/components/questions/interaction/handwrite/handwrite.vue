@@ -1,6 +1,6 @@
 <template>
   <div id="handwrite">
-    <topic :topic="topic" @change="tpChange" @input="verify"></topic>
+    <topic :topic="topic" @change="tpChange" @input="verify" ref="topic"></topic>
     
     <div class="board_wrap">
       <div class="title">手写板</div>
@@ -192,11 +192,7 @@ export default {
       };
     },
     complete() {
-      if (!this.topic) {
-        this.isPass = false;
-        return;
-      }
-      this.isPass = true;
+      return [this.$refs.topic.isComplete];
     },
     ...mapMutations({
       showFileDia: 'SET_FILEDIALOGINFO',

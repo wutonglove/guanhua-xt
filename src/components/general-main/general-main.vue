@@ -73,8 +73,11 @@
         if (parents.hasClass('cl_rg_hook') || curr.hasClass('cl_rg_hook')) return;
         this.clearSelection();
       },
-      verify: function() {
-        this.verifyIsPass(this.$refs.questionDOM.isPass);
+      // verify: function() {
+      //   this.verifyIsPass(this.$refs.questionDOM.isPass);
+      // },
+      verify: function(res) {
+        this.verifyIsPass(res);
       },
       ...mapActions({
         clearSelection: 'clearSelection',

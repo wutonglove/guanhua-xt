@@ -24,6 +24,11 @@ export default {
       default: ''
     }
   },
+  data() {
+    return {
+      isEmpty: true
+    };
+  },
   computed: {
     ...mapGetters(['divChgAble'])
   },
@@ -33,11 +38,12 @@ export default {
       this.$emit('blur');
       this.$nextTick(() => {
         if (this.divChgAble) {
-          this.$emit('change', this.$refs.input.innerHTML);
+          this.$emit('change', this.$refs.input && this.$refs.input.innerHTML);
         }
       });
     },
     input() {
+      this.isEmpty = this.$refs.input.innerHTML.trim() === '';
       this.$emit('input');
     },
     ...mapActions({

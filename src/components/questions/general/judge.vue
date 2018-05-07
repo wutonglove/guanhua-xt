@@ -1,6 +1,6 @@
 <template>
   <div>
-    <topic :topic="topic" @change="tpChange"></topic>
+    <topic :topic="topic" @change="tpChange" @input="verify" ref="topic"></topic>
     <answer :options="options" :answer="answer" @change="anwChange"></answer>
     <hint :hint="hint" @change="hintChange"></hint>
     <explanation :explanation="explanation" @change="expChange"></explanation>
@@ -64,15 +64,7 @@ export default {
       };
     },
     complete() {
-      if (!this.topic) {
-        this.isPass = false;
-        return;
-      }
-      if (!this.answer || this.answer === '-1') {
-        this.isPass = false;
-        return;
-      }
-      this.isPass = true;
+      return [this.$refs.topic.isComplete, this.answer && this.answer !== '-1'];
     },
     initOriData(newVal) {
       this.answer = newVal.answer.toString();

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <topic :topic="topic" @change="tpChange"></topic>
+    <topic :topic="topic" @change="tpChange" @input="verify" ref="topic"></topic>
     <cnt-module name="答案" :isMandatory="true">
-      <div-input v-model="answer"></div-input>
+      <div-input v-model="answer" @input="verify" ref="answer"></div-input>
     </cnt-module>
     <hint :hint="hint" @change="hintChange"></hint>
     <explanation :explanation="explanation" @change="expChange"></explanation>
@@ -59,15 +59,10 @@ export default {
       };
     },
     complete() {
-      if (!this.topic) {
-        this.isPass = false;
-        return;
-      }
-      if (!this.answer) {
-        this.isPass = false;
-        return;
-      }
-      this.isPass = true;
+      return [
+        this.$refs.topic.isComplete,
+        !this.$refs.answer.isEmpty
+      ];
     }
   },
   watch: {

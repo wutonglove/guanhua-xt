@@ -1,6 +1,6 @@
 <template>
   <div class="jigsaw">
-    <topic :topic="topic" @change="tpChange" @input="verify"></topic>
+    <topic :topic="topic" @change="tpChange" @input="verify" ref="topic"></topic>
 
     <cnt-module name="拼图素材设置" :isMandatory="true">
       <div class="fodder_wrapper">
@@ -125,34 +125,15 @@ export default {
       };
     },
     complete() {
-      if (!this.topic) {
-        this.isPass = false;
-        return;
-      }
-      if ($('.insertImgBox').find('.insertFile_hook').length < 1) {
-        this.isPass = false;
-        return;
-      }
-      this.isPass = true;
+      return [
+        this.$refs.topic.isComplete,
+        $('.insertImgBox').find('.insertFile_hook').length > 0
+      ];
     },
     ...mapMutations({
       showFileDia: 'SET_FILEDIALOGINFO',
       setTargetDom: 'SET_TARGETDOM'
     })
-  },
-  watch: {
-    topic() {
-      this.verify();
-    },
-    answer() {
-      this.verify();
-    },
-    options: {
-      deep: true,
-      handler() {
-        this.verify();
-      }
-    }
   },
   components: {
     Topic,

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <topic :topic="topic" @change="tpChange" @input="verify"></topic>
-    <options :options="options" @input="verify"></options>
-    <answer :options="options" :answer="answer" @change="anwChange"></answer>
+    <topic :topic="topic" @change="tpChange" @input="verify" ref="topic"></topic>
+    <options :options="options" @input="verify" ref="options"></options>
+    <answer :options="options" :answer="answer" @change="anwChange" ref="answer"></answer>
     <hint :hint="hint" @change="hintChange"></hint>
     <explanation :explanation="explanation" @change="expChange"></explanation>
   </div>
@@ -83,21 +83,11 @@ export default {
       };
     },
     complete() {
-      if (!this.topic) {
-        this.isPass = false;
-        return;
-      }
-      if (!this.answer || this.answer === '-1') {
-        this.isPass = false;
-        return;
-      }
-      for (let i = 0; i < this.options.length; i++) {
-        if (!this.options[i].text.trim()) {
-          this.isPass = false;
-          return;
-        }
-      }
-      this.isPass = true;
+      return [
+        this.$refs.topic.isComplete,
+        this.answer && this.answer !== '-1',
+        this.$refs.options.isComplete
+      ];
     },
     initOriData(newVal) {
       this.options = newVal.options.map(item => {
@@ -107,20 +97,6 @@ export default {
       this.topic = newVal.topic;
       this.explanation = newVal.explanation;
       this.hint = newVal.hint;
-    }
-  },
-  watch: {
-    topic() {
-      this.verify();
-    },
-    answer() {
-      this.verify();
-    },
-    options: {
-      deep: true,
-      handler() {
-        this.verify();
-      }
     }
   },
   components: {

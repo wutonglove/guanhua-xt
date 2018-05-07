@@ -202,19 +202,23 @@ export const generalMixin = {
     },
     hintChange(value) {
       this.hint = value;
+      this.verify();
     },
     expChange(value) {
       this.explanation = value;
+      this.verify();
     },
     tpChange(value) {
       this.topic = value;
+      this.verify();
     },
     anwChange(value) {
       this.answer = value;
+      this.verify();
     },
     verify() {
-      this.complete();
-      this.$emit('verify');
+      this.isPass = Boolean(Math.min.apply(Math, this.complete()));
+      this.$emit('verify', this.isPass);
     },
     complete() {
       console.log('Error: complete is undefined');

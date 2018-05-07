@@ -277,19 +277,16 @@ export default {
     complete() {
       if (this.titleType === 'proposition') {
         if (this.$refs.comTitle.innerHTML.trim() === '') {
-          this.isPass = false;
-          return;
+          return [false];
         }
       }
       if (this.$refs.description.innerHTML.trim() === '') {
-        this.isPass = false;
-        return;
+        return [false];
       }
       if (this.pageType === '') {
-        this.isPass = false;
-        return;
+        return [false];
       }
-      this.isPass = true;
+      return [true];
     }
   },
   components: {

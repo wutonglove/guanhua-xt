@@ -1,7 +1,7 @@
 <template>
   <div>
-    <topic :topic="topic" @change="tpChange"></topic>
-    <options :options="options" name="排序项" desc="请按照正确的顺序依次输入排序项"></options>
+    <topic :topic="topic" @change="tpChange" @input="verify" ref="topic"></topic>
+    <options :options="options" name="排序项" desc="请按照正确的顺序依次输入排序项" @input="verify" ref="options"></options>
     <hint :hint="hint" @change="hintChange"></hint>
     <explanation :explanation="explanation" @change="expChange"></explanation>
   </div>
@@ -75,17 +75,10 @@ export default {
       };
     },
     complete() {
-      if (!this.topic) {
-        this.isPass = false;
-        return;
-      }
-      for (let i = 0; i < this.options.length; i++) {
-        if (!this.options[i].text.trim()) {
-          this.isPass = false;
-          return;
-        }
-      }
-      this.isPass = true;
+      return [
+        this.$refs.topic.isComplete,
+        this.$refs.options.isComplete
+      ];
     }
   },
   watch: {

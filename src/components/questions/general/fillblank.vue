@@ -20,6 +20,7 @@
       ></div>
     </cnt-module>
     <options
+      ref="options"
       :options="options"
       :hasAdd="false"
       name="答案"
@@ -249,21 +250,18 @@ export default {
       };
     },
     complete() {
-      if (!this.topic) {
-        this.isPass = false;
-        return;
+      if (!this.$refs.topicDom.innerHTML.trim()) {
+        return [false];
       }
       if (this.options.length < 1) {
-        this.isPass = false;
-        return;
+        return [false];
       }
       for (let i = 0; i < this.options.length; i++) {
         if (!this.options[i].text.trim()) {
-          this.isPass = false;
-          return;
+          return [false];
         }
       }
-      this.isPass = true;
+      return [true];
     },
     v_replaceBlank(str) {
       let reg = /<img class="blankDOM_hook".*?>/g;
@@ -274,14 +272,6 @@ export default {
     ...mapActions({
       saveCurrentRange: 'saveCurrentRange'
     })
-  },
-  watch: {
-    options: {
-      deep: true,
-      handler() {
-        this.verify();
-      }
-    }
   },
   components: {
     Topic,
