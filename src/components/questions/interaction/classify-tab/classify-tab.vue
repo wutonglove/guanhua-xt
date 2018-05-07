@@ -11,7 +11,7 @@
         ></side-bd>
         <div class="right_box">
           <ul class="tds_title">
-            <li class="td_title" v-for="(td,index) in tdsTitle">
+            <li class="td_title" v-for="(td,index) in tdsTitle" :key="index">
               <input type="text" maxlength="10" v-model="td.content">
               <i-icon class="del" type="trash-a" v-show="tdsTitle.length>minC" @click.native="delTd(index)"></i-icon>
             </li>
@@ -21,7 +21,7 @@
           </ul>
           <div class="content">
             <ul class="trs_title">
-              <li class="tr_title" v-for="(tr,index) in trsTitle">
+              <li class="tr_title" v-for="(tr,index) in trsTitle" :key="index">
                 <textarea maxlength="5" v-model="tr.content"></textarea>
                 <i-icon class="del" type="trash-a" v-show="trsTitle.length>minR"
                         @click.native="delTr(index)"></i-icon>
@@ -31,8 +31,8 @@
               </li>
             </ul>
             <ul class="table">
-              <li class="tr" v-for="tr in table">
-                <ul class="td" v-for="td in tr">
+              <li class="tr" v-for="(tr,index) in table" :key="index">
+                <ul class="td" v-for="(td,i) in tr" :key="i">
                   <draggable element="li" class="options" v-model="td.options" :options="dragOptions">
                     <transition-group tag="div" class="options_wrap">
                       <div class="option" v-for="(option,index) in td.options" :key="'1op'+index">
