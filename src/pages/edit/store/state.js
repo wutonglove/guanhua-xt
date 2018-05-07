@@ -29,7 +29,10 @@ const state = {
   progressDia: {
     isShow: false,
     progress: 0
-  }
+  },
+  editQusData: null,
+  divChgAble: true,
+  mboard: {}
 };
 
 export default state;

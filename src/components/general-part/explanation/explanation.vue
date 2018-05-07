@@ -1,40 +1,32 @@
 <template>
   <div class="explanation">
     <cnt-module name="解析">
-      <div class="div_input cl_rg_hook"
-           contenteditable="true"
-           ref="explanationDOM"
-           @blur="blur"
-           @input="setExplanation"
-      ></div>
+      <div-input v-model="_explanation"></div-input>
     </cnt-module>
   </div>
 </template>
 
 <script>
   import CntModule from 'components/general-part/cnt-module/cnt-module';
-  import {mapActions} from 'vuex';
+  import DivInput from 'components/general-part/div-input/div-input';
+
   export default {
-    data() {
-      return {
-        questionType: this.$store.state.questionType,
-        questionCode: this.$store.state.questionCode,
-        explanation: ''
-      };
+    props: {
+      explanation: String
     },
-    methods: {
-      blur() {
-        this.saveCurrentRange();
-      },
-      setExplanation() {
-        this.explanation = this.$refs.explanationDOM.innerHTML.trim();
-      },
-      ...mapActions({
-        saveCurrentRange: 'saveCurrentRange'
-      })
+    computed: {
+      _explanation: {
+        get() {
+          return this.explanation;
+        },
+        set(value) {
+          this.$emit('change', value);
+        }
+      }
     },
     components: {
-      CntModule
+      CntModule,
+      DivInput
     }
   };
 </script>

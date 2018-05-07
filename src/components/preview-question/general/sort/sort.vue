@@ -34,7 +34,6 @@
     },
     methods: {
       _initOptions: function () {
-        console.log(this.questionData);
         let l = this.questionData.options.length;
         let indexes = createRandomArr(l, 0, l - 1);
         for (let i = 0; i < indexes.length; i++) {

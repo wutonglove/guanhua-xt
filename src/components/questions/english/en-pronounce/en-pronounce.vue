@@ -1,6 +1,6 @@
 <template>
   <mboard :mboard="mboard">
-    <div id="en_pronounce">
+    <div id="en_pronounce" :mboard="mboard">
       <div contenteditable class="textarea" ref="textarea"></div>
       <div class="resource_wrap">
         <tem1-btn v-show="!resource" @click="showInsert">添加标准读音</tem1-btn>

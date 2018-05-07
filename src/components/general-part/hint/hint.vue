@@ -1,43 +1,37 @@
 <template>
   <div class="hint">
     <cnt-module name="提示">
-      <div class="div_input cl_rg_hook"
-           contenteditable="true"
-           ref="hintDOM"
-           @blur="blur"
-           @input="setHint"
-      ></div>
+      <div-input v-model="_hint"></div-input>
     </cnt-module>
   </div>
 </template>
 
 <script>
   import CntModule from 'components/general-part/cnt-module/cnt-module';
-  import {mapActions} from 'vuex';
+  import DivInput from 'components/general-part/div-input/div-input';
+
   export default {
-    data() {
-      return {
-        hint: ''
-      };
+    props: {
+      hint: String
     },
-    methods: {
-      blur() {
-        this.saveCurrentRange();
-      },
-      setHint() {
-        this.hint = this.$refs.hintDOM.innerHTML.trim();
-      },
-      ...mapActions({
-        saveCurrentRange: 'saveCurrentRange'
-      })
+    computed: {
+      _hint: {
+        get() {
+          return this.hint;
+        },
+        set(value) {
+          this.$emit('change', value);
+        }
+      }
     },
     components: {
-      CntModule
+      CntModule,
+      DivInput
     }
   };
 </script>
 
 <style scoped lang="stylus">
-.div_input
-  line-height: 25px
+  .div_input
+    line-height: 25px
 </style>

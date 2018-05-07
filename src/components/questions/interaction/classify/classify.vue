@@ -112,7 +112,7 @@
         let localData = {
           title: document.title,
           categories: this.categories,
-          questionType: this.$route.path.split('/')[2]
+          questionType: this.$route.path.split('/')[3]
         };
         let _categories = [];
         this.categories.forEach((category, index) => {

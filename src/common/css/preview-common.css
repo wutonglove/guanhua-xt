@@ -36,9 +36,8 @@ body {
   position: relative;
   display: inline-block;
   cursor: pointer;
-  max-width: 100%;
+  max-width: 400px;
   max-height: 400px;
-  overflow: auto;
 }
 
 .content_wrapper .img_wrap img {

@@ -87,7 +87,6 @@
 </template>
 
 <script>
-  import Mboard from 'components/template1-part/mboard/mboard';
   import IIcon from 'iview/src/components/icon';
   import IPoptip from 'iview/src/components/poptip';
   import Notice from 'iview/src/components/notice';
@@ -126,13 +125,10 @@
     {code: 'BracketLeft'},
     {code: 'BracketRight'}
   ];
+  import { tem1ComMixin } from 'common/js/mixin';
 
   export default {
-    props: {
-      mboard: {
-        type: Object
-      }
-    },
+    mixins: [tem1ComMixin],
     data() {
       return {
         article: '',
@@ -384,7 +380,6 @@
       }
     },
     components: {
-      Mboard,
       IIcon,
       IPoptip,
       Tem1Btn

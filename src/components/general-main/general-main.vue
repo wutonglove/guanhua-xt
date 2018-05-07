@@ -5,17 +5,14 @@
     <div class="content_wrapper" @click="clearRange">
       <form>
         <div class="content">
-          <router-view ref="questionDOM"></router-view>
+          <router-view ref="questionDOM" @verify="verify"></router-view>
         </div>
       </form>
     </div>
 
-    <p-footer @on-save="showDia" @on-preview="preview"></p-footer>
+    <p-footer @on-save="save" @on-preview="preview"></p-footer>
     <insert-file-dialog @on-insert="insert"></insert-file-dialog>
     <insert-formula-dialog></insert-formula-dialog>
-    <unfold></unfold>
-    <pre-dia :pageSrc="'./preview.html#/0'" ref="previewDOM"></pre-dia>
-    <up-progress></up-progress>
   </div>
 </template>
 
@@ -25,34 +22,24 @@
 
   import InsertFileDialog from 'base/insertFile/insertFile';
   import InsertFormulaDialog from 'components/general-part/insertFormula/insertFormula';
-  import Unfold from 'base/unfoldDialog/unfoldDialog';
-  import PreDia from 'base/pre-dialog/pre-dialog';
-  import UpProgress from 'base/progress/progress';
   import Modal from 'iview/src/components/modal';
 
   import {mapActions, mapMutations, mapGetters} from 'vuex';
-  import {actionMixin} from 'common/js/mixin';
   import $ from 'jquery';
 
   export default {
-    mixins: [actionMixin],
-    props: {
-      info: {
-        type: Object
-      }
-    },
     computed: {
-      preTitle() {
-        return this.info.preTitle;
-      },
-      type() {
-        return this.info.type;
-      },
       ...mapGetters([
         'targetDom'
       ])
     },
     methods: {
+      save() {
+        this.$emit('save');
+      },
+      preview() {
+        this.$emit('preview');
+      },
       insert(file) {
         let html;
         html = this.createImgHtml(file);
@@ -86,9 +73,13 @@
         if (parents.hasClass('cl_rg_hook') || curr.hasClass('cl_rg_hook')) return;
         this.clearSelection();
       },
+      verify: function() {
+        this.verifyIsPass(this.$refs.questionDOM.isPass);
+      },
       ...mapActions({
         clearSelection: 'clearSelection',
-        resetSelection: 'resetSelection'
+        resetSelection: 'resetSelection',
+        verifyIsPass: 'verifyIsPass'
       }),
       ...mapMutations({
         setTargetDom: 'SET_TARGETDOM'
@@ -99,9 +90,6 @@
       PFooter,
       InsertFileDialog,
       InsertFormulaDialog,
-      Unfold,
-      PreDia,
-      UpProgress,
       Modal
     }
   };

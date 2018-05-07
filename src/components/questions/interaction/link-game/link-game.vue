@@ -2,7 +2,7 @@
   <mboard :mboard="mboard">
     <div id="link-game">
       <ul class="nav" v-show="curIndex === 0">
-        <li class="nav_item" v-for="(btn,index) in choice" @click="changeType(index)">
+        <li class="nav_item" v-for="(btn,index) in choice" @click="changeType(index)" :key="index">
           <span class="icon_wrap">
             <img class="icon" :src="btn.icon" alt="">
           </span>
@@ -13,10 +13,10 @@
         <notepad class="left_box" :title="'0/3'" align="center"></notepad>
         <div class="right_box">
           <ul class="options_wrap">
-            <li class="option_wrap" v-for="(op,index) in empty" :class="{full:options[index]}">
+            <li class="option_wrap" v-for="(op,index) in empty" :class="{full:options[index]}" :key="index">
               <div class="inner_box" v-if="options[index] && options[index] !=='add'">
                 <a href="javascript:void(0)" class="icon_btn" v-for="(half,i) in options[index]"
-                   @click="clickHandler(index,i)">
+                   @click="clickHandler(index,i)" :key="i">
                   <div class="icon" :class="{img_icon:half.type==='image',text_icon:half.type==='text'}"
                        v-if="!half.active && !half.cnt"></div>
                   <div class="img_wrap" v-if="half.type==='image'">
@@ -189,7 +189,7 @@
         let localData = {
           title: document.title,
           pairs,
-          questionType: this.$route.path.split('/')[2]
+          questionType: this.$route.path.split('/')[3]
         };
         let _pairs = [];
         pairs.forEach((item, index) => {

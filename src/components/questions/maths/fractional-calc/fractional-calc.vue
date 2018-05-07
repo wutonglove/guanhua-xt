@@ -57,7 +57,6 @@
 </template>
 
 <script>
-  import Mboard from 'components/template1-part/mboard/mboard';
   import Tem1Btn from 'components/template1-part/template1-btn/template1-btn';
 
   import IIcon from 'iview/src/components/icon';
@@ -65,13 +64,10 @@
   import Notice from 'iview/src/components/notice';
   import {gcd} from 'utils/utilities';
   import $ from 'jquery';
+  import {tem1ComMixin} from 'common/js/mixin';
 
   export default {
-    props: {
-      mboard: {
-        type: Object
-      }
-    },
+    mixins: [tem1ComMixin],
     data() {
       return {
         curIndex: 0,
@@ -312,7 +308,6 @@
       }
     },
     components: {
-      Mboard,
       IIcon,
       ICheckbox,
       Tem1Btn

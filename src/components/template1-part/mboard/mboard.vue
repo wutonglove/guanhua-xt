@@ -1,5 +1,5 @@
 <template>
-  <div class="box-outer-bd" :style="{height}">
+  <div class="box-outer-bd" :style="{height}" v-if="mboard">
     <div class="mboard-box">
       <div class="box-header" v-if="hasHeader">
         <input v-model="title" type="text" class="title" :maxLength="mboard.titleLength" v-if="hasTitle">
@@ -20,97 +20,105 @@
 </template>
 
 <script>
-  export default {
-    mounted() {
-      this.title = this.mboard.title || '';
+import { mapMutations } from 'vuex';
+
+export default {
+  props: {
+    mboard: Object
+  },
+  data() {
+    return {
+      title: ''
+    };
+  },
+  mounted() {
+    this.title = this.mboard.title;
+  },
+  computed: {
+    hasHeader() {
+      if (typeof this.mboard.hasHeader === 'undefined') return true;
+      return this.mboard.hasHeader;
     },
-    props: {
-      mboard: {
-        type: Object
-      }
+    hasTitle() {
+      if (typeof this.mboard.hasTitle === 'undefined') return true;
+      return this.mboard.hasTitle;
     },
-    computed: {
-      hasHeader() {
-        if (typeof this.mboard.hasHeader === 'undefined') return true;
-        return this.mboard.hasHeader;
-      },
-      hasTitle() {
-        if (typeof this.mboard.hasTitle === 'undefined') return true;
-        return this.mboard.hasTitle;
-      },
-      height() {
-        return this.mboard.height || '480px';
-      }
-    },
-    data() {
-      return {
-        title: ''
-      };
-    },
-    methods: {
-      filterDoubleDigit(num) {
-        return num.toString().length < 2 ? '0' + num : num;
-      },
-      getQuestionData(url) {
-        return this.$refs.mainDOM.getQuestionData(url);
-      }
+    height() {
+      return this.mboard.height || '480px';
     }
-  };
+  },
+  methods: {
+    filterDoubleDigit(num) {
+      return num.toString().length < 2 ? '0' + num : num;
+    },
+    getQuestionData(url) {
+      return this.$refs.mainDOM.getQuestionData(url);
+    },
+    ...mapMutations({
+      setMBoard: 'SET_MBOARD'
+    })
+  },
+  watch: {
+    title(val) {
+      this.setMBoard({ title: val });
+    }
+  }
+};
 </script>
 
 <style scoped lang="stylus">
-  .box-outer-bd
-    border: 2px solid #E49941
-    box-shadow: 0 0 24px 4px #e49941 inset;
+.box-outer-bd
+  border: 2px solid #E49941
+  box-shadow: 0 0 24px 4px #e49941 inset
+  border-radius: 12px
+  box-sizing: border-box
+  padding: 6px
+  .mboard-box
+    width: 100%
+    height: 100%
+    border: 1px solid #D8AD6C
     border-radius: 12px
-    box-sizing: border-box
-    padding: 6px
-    .mboard-box
+    overflow: hidden
+    background-color: #AF7320
+    position: relative
+    .box-header
       width: 100%
-      height: 100%
-      border: 1px solid #D8AD6C
-      border-radius: 12px
-      overflow: hidden
-      background-color: #AF7320
-      position: relative
-      .box-header
-        width: 100%
-        height: 40px
-        background: url('/static/images/title_bg.jpg')
-        box-shadow: 0 0 100px 8px rgba(0, 0, 0, 0.5)
+      height: 40px
+      background: url('/static/images/title_bg.jpg')
+      box-shadow: 0 0 100px 8px rgba(0, 0, 0, 0.5)
+      position: absolute
+      z-index: 1
+      .title
+        display: block
+        width: 690px
+        height: 30px
+        line-height: 30px
+        margin: 0 auto
+        margin-top: 5px
+        border: 1px solid #BA8A51
+        border-radius: 4px
+        text-align: center
+        background: linear-gradient(to bottom, #E5A962, #B37F44)
+        font-size: 24px
+        &::-webkit-input-placeholder
+          color: #333
+      .desc
         position: absolute
-        z-index: 1
-        .title
-          display: block
-          width: 690px
-          height: 30px
-          line-height: 30px
-          margin: 0 auto
-          margin-top: 5px
-          border: 1px solid #BA8A51
-          border-radius: 4px
-          text-align: center
-          background: linear-gradient(to bottom, #E5A962, #B37F44)
-          font-size: 24px
-          &::-webkit-input-placeholder
-            color: #333
-        .desc
-          position: absolute
-          right: 8px
-          top: 20px
-          display: flex
-          width: 74px
-          .count
-            color: #646464
-      .box-content
-        height: 100%
+        right: 8px
+        top: 20px
         display: flex
-        .box-inner
-          position: relative
-          flex: 1
-          margin: 0 8px
-          background: url('/static/images/box_inner_bg.jpg')
-          border: 1px solid #B58748
-          border-radius: 12px
-          box-shadow: 0 0 350px 2px rgba(0, 0, 0, 0.3) inset
+        width: 74px
+        .count
+          color: #646464
+    .box-content
+      height: 100%
+      display: flex
+      .box-inner
+        position: relative
+        flex: 1
+        margin: 0 8px
+        background: url('/static/images/box_inner_bg.jpg')
+        border: 1px solid #B58748
+        border-radius: 12px
+        box-shadow: 0 0 350px 2px rgba(0, 0, 0, 0.3) inset
 </style>

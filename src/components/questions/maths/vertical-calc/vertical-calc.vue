@@ -178,13 +178,13 @@
 </template>
 
 <script>
-  import Mboard from 'components/template1-part/mboard/mboard';
   import Tem1Btn from 'components/template1-part/template1-btn/template1-btn';
 
   import Notice from 'iview/src/components/notice';
   import divisionSign from './division_sign.png';
   import NumBtn from 'components/template1-part/num-btn/num-btn';
   import $ from 'jquery';
+  import {tem1ComMixin} from 'common/js/mixin';
 
   class NumKey {
     constructor({key, hasDot, isVirtual, dotIsShow}) {
@@ -198,12 +198,9 @@
   }
   // _ ： 虚位 0
   // / ：划掉的小数点
+
   export default {
-    props: {
-      mboard: {
-        type: Object
-      }
-    },
+    mixins: [tem1ComMixin],
     data() {
       return {
         curIndex: 0,
@@ -483,9 +480,9 @@
           for (let i = 0; i < l; i++) {
             diff = ' ' + diff;
           }
-          console.log('步：' + r);
-          console.log('减数：' + subtrahend);
-          console.log('被减数：' + curMinuend);
+          // console.log('步：' + r);
+          // console.log('减数：' + subtrahend);
+          // console.log('被减数：' + curMinuend);
 
           arr.push([[]]);
           arr[r][0] = this.numToArr(subtrahend);
@@ -632,7 +629,6 @@
     },
     components: {
       NumBtn,
-      Mboard,
       Tem1Btn
     }
   }

@@ -292,7 +292,7 @@
           trsTitle: this.trsTitle,
           tdsTitle: this.tdsTitle,
           options: _options,
-          questionType: this.$route.path.split('/')[2]
+          questionType: this.$route.path.split('/')[3]
         };
         let localData = Object.assign({}, questionData, {
           options,

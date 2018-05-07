@@ -56,19 +56,15 @@
 </template>
 
 <script>
-  import Mboard from 'components/template1-part/mboard/mboard';
   import Line1 from 'components/template1-part/line1/line1';
   import IIcon from 'iview/src/components/icon';
   import IModal from 'iview/src/components/modal';
   import Notice from 'iview/src/components/notice';
   import Tem1Btn from 'components/template1-part/template1-btn/template1-btn';
+  import { tem1ComMixin } from 'common/js/mixin';
 
   export default {
-    props: {
-      mboard: {
-        type: Array
-      }
-    },
+    mixins: [tem1ComMixin],
     data() {
       return {
         poem: {
@@ -178,7 +174,6 @@
       }
     },
     components: {
-      Mboard,
       Line1,
       IIcon,
       Tem1Btn

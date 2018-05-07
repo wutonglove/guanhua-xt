@@ -22,3 +22,9 @@ export const formulaDialog = state => state.formulaDialog;
 export const preDialog = state => state.preDialog;
 
 export const progressDia = state => state.progressDia;
+
+export const editQusData = state => state.editQusData;
+
+export const divChgAble = state => state.divChgAble;
+
+export const mboard = state => state.mboard;

@@ -38,18 +38,14 @@
 </template>
 
 <script>
-  import Mboard from 'components/template1-part/mboard/mboard';
   import Notepad from 'components/template1-part/notepad/notepad';
 
   import Grid from 'components/template1-part/grid/grid';
   import Notice from 'iview/src/components/notice';
+  import { tem1ComMixin } from 'common/js/mixin';
 
   export default {
-    props: {
-      mboard: {
-        type: Object
-      }
-    },
+    mixins: [tem1ComMixin],
     data() {
       return {
         curIndex: 0,
@@ -132,7 +128,6 @@
     },
     components: {
       Grid,
-      Mboard,
       Notepad
     }
   };

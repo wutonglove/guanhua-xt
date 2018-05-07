@@ -1,6 +1,6 @@
 <template>
   <div>
-    <topic ref="topicDOM" @verify="verify"></topic>
+    <topic :topic="topic" @change="tpChange"></topic>
     <div class="choiceType">
       <i-radio-group v-model="voteType">
         <i-radio label="radio">
@@ -11,94 +11,110 @@
         </i-radio>
       </i-radio-group>
     </div>
-    <options :options="options" name="投票项" ref="optionsDOM" @verify="verify"></options>
+    <options :options="options" name="投票项" @input="verify"></options>
   </div>
 </template>
 
 <script>
-  import Topic from 'components/general-part/topic/topic';
-  import Options from 'components/general-part/options/options';
+import Topic from 'components/general-part/topic/topic';
+import Options from 'components/general-part/options/options';
 
-  import IRadioGroup from 'iview/src/components/radio/radio-group';
-  import IRadio from 'iview/src/components/radio';
+import IRadioGroup from 'iview/src/components/radio/radio-group';
+import IRadio from 'iview/src/components/radio';
 
-  import {replaceSrc} from 'utils/utilities';
-  import {verifyMixin} from 'common/js/mixin';
-  import {OptionsData} from 'common/js/class';
+import { replaceSrc } from 'utils/utilities';
+import { generalMixin } from 'common/js/mixin';
+import { OptionsData } from 'common/js/class';
 
-  export default {
-    mixins: [verifyMixin],
-    data() {
+export default {
+  mixins: [generalMixin],
+  data() {
+    return {
+      options: new OptionsData().data,
+      voteType: 'multiple'
+    };
+  },
+  methods: {
+    getQuestionData(urlSnippet) {
+      let _topic = this.topic;
+      let _options = this.options;
+
+      let questionData = {
+        title: document.title,
+        topic: replaceSrc(_topic, urlSnippet),
+        options: (function() {
+          let options = [];
+          _options.forEach((item, index) => {
+            let option = {
+              icon: item.icon,
+              text: replaceSrc(item.text, urlSnippet)
+            };
+            options.push(option);
+          });
+          return options;
+        })(),
+        voteType: this.voteType,
+        questionType: 'vote'
+      };
+      let localData = {
+        title: document.title,
+        topic: replaceSrc(_topic),
+        options: (function() {
+          let options = [];
+          _options.forEach((item, index) => {
+            let option = {
+              icon: item.icon,
+              text: replaceSrc(item.text)
+            };
+            options.push(option);
+          });
+          return options;
+        })(),
+        voteType: this.voteType,
+        questionType: 'vote'
+      };
       return {
-        options: new OptionsData().data,
-        voteType: 'multiple',
-        questionData: {},
-        localData: {}
+        questionData,
+        localData
       };
     },
-    methods: {
-      getQuestionData(urlSnippet) {
-        let _topic = this.$refs.topicDOM.topic;
-        let _options = this.$refs.optionsDOM.options;
-
-        let questionData = {
-          title: document.title,
-          topic: replaceSrc(_topic, urlSnippet),
-          options: (function () {
-            let options = [];
-            _options.forEach((item, index) => {
-              let option = {
-                icon: item.icon,
-                text: replaceSrc(item.text, urlSnippet)
-              };
-              options.push(option);
-            });
-            return options;
-          })(),
-          voteType: this.voteType,
-          questionType: 'vote'
-        };
-        let localData = {
-          title: document.title,
-          topic: replaceSrc(_topic),
-          options: (function () {
-            let options = [];
-            _options.forEach((item, index) => {
-              let option = {
-                icon: item.icon,
-                text: replaceSrc(item.text)
-              };
-              options.push(option);
-            });
-            return options;
-          })(),
-          voteType: this.voteType,
-          questionType: 'vote'
-        };
-        return {
-          questionData,
-          localData
-        };
-      },
-      getIsPass() {
-        return [
-          this.$refs.topicDOM.isPass,
-          this.$refs.optionsDOM.isPass
-        ];
+    complete() {
+      if (!this.topic) {
+        this.isPass = false;
+        return;
       }
-    },
-    components: {
-      Topic,
-      Options,
-      IRadio,
-      IRadioGroup
+      for (let i = 0; i < this.options.length; i++) {
+        if (!this.options[i].text.trim()) {
+          this.isPass = false;
+          return;
+        }
+      }
+      this.isPass = true;
     }
-  };
+  },
+  watch: {
+    topic() {
+      this.verify();
+    },
+    options: {
+      deep: true,
+      handler() {
+        this.verify();
+      }
+    }
+  },
+  components: {
+    Topic,
+    Options,
+    IRadio,
+    IRadioGroup
+  }
+};
 </script>
 
 <style scoped lang="stylus">
-  .choiceType
-    margin-top: 20px
-    .text
-      font-size: 16px
+.choiceType
+  margin-top: 20px
+  .text
+    font-size: 16px
 </style>
