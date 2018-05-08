@@ -34,6 +34,7 @@
             @on-save="save"
             @on-preview="preview"
             @set-times="setTimeHandle"
+            ref="footbtn"
           ></footer-btns>
         </div>
       </div>
@@ -94,7 +95,7 @@ export default {
         data[key] = Object.assign({}, data[key], {
           mboardTitle: this.mboard.title,
           hints: this.hints,
-          xtclass: this.xtclass
+          times: this.times
         });
       }
       console.log(data);

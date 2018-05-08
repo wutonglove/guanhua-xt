@@ -60,6 +60,7 @@ export default {
   mounted() {
     this.getQuestion().then(() => {
       this.init();
+      console.log(this.questionData);
     });
   },
   methods: {
@@ -93,20 +94,23 @@ export default {
       let content = `<img src='${src}' class='unfold_file'/>`;
       this.setUnfold({ isShow, content });
     },
-    submit() {
+    submitDia() {
       Modal.confirm({
         title: '',
         content: '<p class="text">确认提交答案么？</p>',
         onOk: () => {
-          clearInterval(this.timer);
-          this.isDisabled = true;
-          this.isSubmited = true;
-          // 为了保证上一个对话框完全消失（对话框和遮罩的延迟动画）
-          setTimeout(() => {
-            this.$refs.content.submit();
-          }, 500);
+          this.submit();
         }
       });
+    },
+    submit() {
+      if (this.timer) clearInterval(this.timer);
+      this.isDisabled = true;
+      this.isSubmited = true;
+      // 为了保证上一个对话框完全消失（对话框和遮罩的延迟动画）
+      setTimeout(() => {
+        this.$refs.content.submit();
+      }, 500);
     },
     refresh() {
       window.sessionStorage.setItem('__101questionID__', this.questionId);
@@ -129,7 +133,7 @@ export default {
         this.initRoute();
         this.initContentHeight();
         this.bindUnfoldEvent();
-        this.clock();
+        this.initClock(this.questionData.times);
         $('td').attr('contenteditable', 'false');
       });
     },

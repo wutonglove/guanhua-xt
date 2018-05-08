@@ -32,7 +32,7 @@
       </i-poptip>
     </li>
     <li class="btn_box" v-if="btnIsShow('timeset')">
-      <i-poptip trigger="click" placement="top">
+      <i-poptip trigger="click" placement="top" @on-popper-hide="hideTimePP" ref="timePP">
         <div class="btn_icon">
           <span class="icon">
             <img src="/static/images/icon_tool3.png" alt="">
@@ -61,7 +61,7 @@
           </div>
           <div class="pop_foot">
             <button class="ok_btn btn" @click="setTime">确定</button>
-            <button class="cl_btn btn">取消</button>
+            <button class="cl_btn btn" @click="hideTimePP">取消</button>
           </div>
         </div>
       </i-poptip>
@@ -86,199 +86,206 @@
 </template>
 
 <script>
-  import IPoptip from 'iview/src/components/poptip';
-  import ICarousel from 'iview/src/components/carousel';
-  import ICarouselItem from 'iview/src/components/carousel/carousel-item';
+import IPoptip from 'iview/src/components/poptip';
+import ICarousel from 'iview/src/components/carousel';
+import ICarouselItem from 'iview/src/components/carousel/carousel-item';
 
-  import IRadioGroup from 'iview/src/components/radio/radio-group';
-  import IRadio from 'iview/src/components/radio';
-  import IInput from 'iview/src/components/input';
+import IRadioGroup from 'iview/src/components/radio/radio-group';
+import IRadio from 'iview/src/components/radio';
+import IInput from 'iview/src/components/input';
 
-  import Tag from 'components/template1-part/tag/tag';
+import Tag from 'components/template1-part/tag/tag';
 
-  export default {
-    props: {
-      btns: {
-        type: Array
-      },
-      desc: {
-        type: Object
-      },
-      questionName: {
-        type: String
-      }
+export default {
+  props: {
+    btns: {
+      type: Array
     },
-    mounted() {
-      this.$refs.desc.handleClick();
+    desc: {
+      type: Object
     },
-    data() {
-      return {
-        picIndex: 1,
-        tags: [
-          {
-            color: 'blue',
-            text: '题型预览'
-          },
-          {
-            color: 'green',
-            text: '编辑导引'
-          }
-        ],
-        timing: 'clockwise',
-        minute: 0,
-        second: 0
-      };
-    },
-    methods: {
-      preview() {
-        this.$emit('on-preview');
-      },
-      save() {
-        this.$emit('on-save');
-      },
-      hideDesc() {
-        this.$refs.desc.handleClose();
-      },
-      clickAgent() {
-        this.timing = 'counterclockwise';
-      },
-      setTime() {
-        if (this.timing === 'counterclockwise') {
-          let minute = this.minute;
-          let second = this.second;
-          this.$emit('set-times', {minute, second});
-        } else {
-          this.$emit('set-times');
-        }
-      },
-      btnIsShow(type) {
-        let index = this.btns.findIndex((item) => {
-          return type === item;
-        });
-        return index !== -1;
-      }
-    },
-    components: {
-      IPoptip,
-      ICarousel,
-      ICarouselItem,
-      Tag,
-      IRadioGroup,
-      IRadio,
-      IInput
+    questionName: {
+      type: String
     }
-  };
+  },
+  mounted() {
+    this.$refs.desc.handleClick();
+  },
+  data() {
+    return {
+      picIndex: 1,
+      tags: [
+        {
+          color: 'blue',
+          text: '题型预览'
+        },
+        {
+          color: 'green',
+          text: '编辑导引'
+        }
+      ],
+      timing: 'clockwise',
+      minute: 0,
+      second: 0
+    };
+  },
+  methods: {
+    preview() {
+      this.$emit('on-preview');
+    },
+    save() {
+      this.$emit('on-save');
+    },
+    hideDesc() {
+      this.$refs.desc.handleClose();
+    },
+    clickAgent() {
+      this.timing = 'counterclockwise';
+    },
+    setTime() {
+      if (this.timing === 'counterclockwise') {
+        let minute = this.minute;
+        let second = this.second;
+        this.$emit('set-times', { minute, second });
+      } else {
+        this.$emit('set-times');
+      }
+      this.hideTimePP();
+    },
+    btnIsShow(type) {
+      let index = this.btns.findIndex(item => {
+        return type === item;
+      });
+      return index !== -1;
+    },
+    hideTimePP() {
+      this.$refs.timePP.handleClose();
+      if (this.minute * 1 + this.second * 1 < 1) {
+        this.timing = 'clockwise';
+      }
+    }
+  },
+  components: {
+    IPoptip,
+    ICarousel,
+    ICarouselItem,
+    Tag,
+    IRadioGroup,
+    IRadio,
+    IInput
+  }
+};
 </script>
 
 <style scoped lang="stylus">
-  .box_wrapper
-    width: 100%
-    display: flex
-    justify-content: center
-    padding-top: 10px
-    .btn_box
-      display: inline-block
-      flex: 0 0 70px
-      margin: 0 25px
-      &:hover
-        cursor: pointer
-        .icon
-          transform-origin: 50% 50%;
-          transform: scale(1.15);
-      .btn_icon
-        position: relative
+.box_wrapper
+  width: 100%
+  display: flex
+  justify-content: center
+  padding-top: 10px
+  .btn_box
+    display: inline-block
+    flex: 0 0 70px
+    margin: 0 25px
+    &:hover
+      cursor: pointer
+      .icon
+        transform-origin: 50% 50%
+        transform: scale(1.15)
+    .btn_icon
+      position: relative
+      text-align: center
+      .icon
+        position: absolute
+        img
+          width: 60px
+          height: 60px
+          transform: translate(18px, 0)
+      .text
+        display: inline-block
+        width: 100%
+        margin-top: 60px
+        padding: 2px 6px
+        color: #6b4421
+        font-size: 12px
+        border: 2px solid #D39D54
+        border-radius: 10px
+        background: #F7F1E5
+    .pop_box
+      border: 2px solid #fff
+      border-radius: 5px
+      padding: 0 10px
+      background-color: #EADFCF
+      color: #222
+      .pop_title
+        height: 46px
+        line-height: 46px
+        font-size: 15px
+        border-bottom: 1px dashed #888
         text-align: center
-        .icon
-          position: absolute
-          img
-            width: 60px
-            height: 60px
-            transform: translate(18px, 0);
-        .text
-          display: inline-block
-          width: 100%
-          margin-top: 60px
-          padding: 2px 6px
-          color: #6b4421
-          font-size: 12px
-          border: 2px solid #D39D54
-          border-radius: 10px
-          background: #F7F1E5
-      .pop_box
-        border: 2px solid #fff
-        border-radius: 5px
-        padding: 0 10px
-        background-color: #EADFCF
-        color: #222
-        .pop_title
-          height: 46px
-          line-height: 46px
+      .pop_foot
+        text-align: center
+        margin-top: 15px
+        .btn
+          height: 30px
+          color: #fff
           font-size: 15px
-          border-bottom: 1px dashed #888
-          text-align: center
+          border-radius: 6px
+          cursor: pointer
+      &.desc_box
+        width: 385px
+        .pop_content
+          .desc_pic
+            width: 100%
+            height: 260px
+            margin: 10px 0
+            .carousel_item
+              text-align: center
+              position: relative
+              .tag_wrapper
+                position: absolute
+                top: 0
+                left: 0
+                z-index: 10
+          .desc_text
+            height: 96px
+            line-height: 16px
+            font-size: 14px
+            white-space: normal
+            overflow-y: auto
+            > li
+              margin: 4px 0
         .pop_foot
-          text-align: center
-          margin-top: 15px
-          .btn
-            height: 30px
-            color: #fff
+          .close_btn
+            width: 100px
+            margin-bottom: 15px
+            background: linear-gradient(to top, #DCA55E, #F3CB97)
+      &.set_time_box
+        width: 335px
+        height: 225px
+        .pop_content
+          height: 115px
+          padding: 0 15px
+          .timing_item
+            margin: 10px 0
             font-size: 15px
-            border-radius: 6px
-            cursor: pointer
-        &.desc_box
-          width: 385px
-          .pop_content
-            .desc_pic
-              width: 100%
-              height: 260px
-              margin: 10px 0
-              .carousel_item
-                text-align: center
+            line-height: 34px
+            color: #777
+            .active
+              color: #342B2B
+            .set_time_wrap
+              .input
                 position: relative
-                .tag_wrapper
-                  position: absolute
-                  top: 0
-                  left: 0
-                  z-index: 10
-            .desc_text
-              height: 96px
-              line-height: 16px
-              font-size: 14px
-              white-space: normal
-              overflow-y: auto
-              > li
-                margin: 4px 0
-          .pop_foot
-            .close_btn
-              width: 100px
-              margin-bottom: 15px
+                top: -10px
+                width: 66px
+                height: 34px
+        .pop_foot
+          .btn
+            width: 80px
+            &.ok_btn
               background: linear-gradient(to top, #DCA55E, #F3CB97)
-        &.set_time_box
-          width: 335px
-          height: 225px
-          .pop_content
-            height: 115px
-            padding: 0 15px
-            .timing_item
-              margin: 10px 0
-              font-size: 15px
-              line-height: 34px
+              margin-right: 20px
+            &.cl_btn
               color: #777
-              .active
-                color: #342B2B
-              .set_time_wrap
-                .input
-                  position: relative
-                  top: -10px
-                  width: 66px
-                  height: 34px
-          .pop_foot
-            .btn
-              width: 80px
-              &.ok_btn
-                background: linear-gradient(to top, #DCA55E, #F3CB97)
-                margin-right: 20px
-              &.cl_btn
-                color: #777
-                background: linear-gradient(to top, #AFAFAF, #E9E9E8)
+              background: linear-gradient(to top, #AFAFAF, #E9E9E8)
 </style>
