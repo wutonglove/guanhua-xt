@@ -6,7 +6,7 @@
         <span class="text">{{list.title}}</span>
       </div>
       <div class="q_item_wrap">
-        <a class="q_item" v-for="item in list.content" :href="`${item.href}?${params}`">
+        <a class="q_item" v-for="item in list.content" :href="`${item.href}?${params}`"  v-if="!/^--/.test(item.name)">
           <div class="thumb" :style="`background-image:url(/static/images/${item.thumbUrl})`"></div>
           <div class="name">{{item.name}}</div>
         </a>

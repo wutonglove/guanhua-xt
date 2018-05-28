@@ -27,6 +27,7 @@
       tag="input"
       v-if="options.length>0"     
       @delete="removeOption"
+      @input="verify"
     ></options>
     <div class="init_answer" v-else>
       <div class="name">

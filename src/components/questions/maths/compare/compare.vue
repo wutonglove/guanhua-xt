@@ -33,7 +33,7 @@
                   v-if="index === options.length-1 && options.length<5">
           增加题目
         </tem1-btn>
-        <tem1-btn class="del_btn" icon="trash-a" @click="deleteItem"
+        <tem1-btn class="del_btn" icon="trash-a" @click="deleteItem(index)"
                   v-else>
           删除题目
         </tem1-btn>

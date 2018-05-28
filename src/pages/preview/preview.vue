@@ -60,12 +60,11 @@ export default {
   mounted() {
     this.getQuestion().then(() => {
       this.init();
-      console.log(this.questionData);
     });
   },
   methods: {
     getQuestion() {
-      const paramsId = this.$route.params.questionId || this.$route.params[0];
+      const paramsId = this.$route.params.questionId || this.$route.path.split('/')[1] || window.location.href.split('#')[1].split('/')[1];
       if (/^[0-9]{19}$/.test(paramsId)) {
         this.questionId = paramsId;
       } else {
@@ -113,7 +112,6 @@ export default {
       }, 500);
     },
     refresh() {
-      window.sessionStorage.setItem('__101questionID__', this.questionId);
       window.location.reload();
     },
     initContentHeight() {
@@ -135,6 +133,7 @@ export default {
         this.bindUnfoldEvent();
         this.initClock(this.questionData.times);
         $('td').attr('contenteditable', 'false');
+        this.$forceUpdate();
       });
     },
     ...mapMutations({
@@ -145,7 +144,6 @@ export default {
     '$route.params.questionId': {
       deep: true,
       handler(val, oldVal) {
-        //          console.log('id变化：' + val, oldVal);
         if (val && val !== oldVal) {
           this.getQuestion().then(() => {
             this.init();
@@ -153,20 +151,16 @@ export default {
         }
       }
     },
-    '$route.params.0': {
+    '$route': {
       deep: true,
       handler(val, oldVal) {
-        if (val && val !== oldVal) {
+        let oldPath = oldVal.path;
+        let path = val.path;
+        if (path && path !== oldPath) {
           this.getQuestion().then(() => {
             this.init();
           });
         }
-      }
-    },
-    questionData: {
-      deep: true,
-      handler(newVal, oldVal) {
-        this.init();
       }
     }
   },

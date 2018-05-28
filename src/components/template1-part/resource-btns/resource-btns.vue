@@ -25,6 +25,7 @@
                controls
                v-else-if="resource.type.split('/')[0] === 'video'"
                @click="selectRes"
+               ref="resourceVideo"
         >
           您的浏览器不支持video
         </video>
@@ -34,6 +35,7 @@
                  class="insertFile_hook"
                  :data-name="resource.name"
                  controls
+                 ref="resourceAudio"
           >
             您的浏览器不支持video
           </audio>
@@ -61,7 +63,7 @@
         </a>
       </div>
       <div class="res_ctrl" v-show="active" v-else-if="resource">
-        <a href="javascript:void(0)" @click="delImg">
+        <a href="javascript:void(0)" @click="delImg" >
           <i-icon type="ios-trash"></i-icon>
         </a>
       </div>
@@ -71,190 +73,200 @@
 </template>
 
 <script>
-  import {mapMutations} from 'vuex';
-  import LucencyBoard from 'components/template1-part/lucency-board/lucency-board';
-  import IIcon from 'iview/src/components/icon';
+import { mapMutations } from 'vuex';
+import LucencyBoard from 'components/template1-part/lucency-board/lucency-board';
+import IIcon from 'iview/src/components/icon';
 
-  import $ from 'jquery';
+import $ from 'jquery';
 
-  export default {
-    props: {
-      resource: {
-        type: Object,
-        default: null
-      }
-    },
-    data() {
-      return {
-        btns: [
-          {
-            role: 'image',
-            icon: 'images'
-          },
-          {
-            role: 'video',
-            icon: 'android-film'
-          },
-          {
-            role: 'audio',
-            icon: 'ios-mic'
-          }
-        ],
-        active: false
-      };
-    },
-    computed: {
-      isEmpty() {
-        return !this.resource;
-      }
-    },
-    methods: {
-      showInsert(role) {
-        let name;
-        switch (role) {
-          case 'image':
-            name = '插入图片';
-            break;
-          case 'video':
-            name = '插入视频';
-            break;
-          case 'audio':
-            name = '插入音频';
-            break;
+export default {
+  props: {
+    resource: {
+      type: Object,
+      default: null
+    }
+  },
+  data() {
+    return {
+      btns: [
+        {
+          role: 'image',
+          icon: 'images'
+        },
+        {
+          role: 'video',
+          icon: 'android-film'
+        },
+        {
+          role: 'audio',
+          icon: 'ios-mic'
         }
-        this.setFileDia({
-          name,
-          type: role,
-          status: true
+      ],
+      active: false
+    };
+  },
+  computed: {
+    isEmpty() {
+      return !this.resource;
+    }
+  },
+  methods: {
+    showInsert(role) {
+      let name;
+      switch (role) {
+        case 'image':
+          name = '插入图片';
+          break;
+        case 'video':
+          name = '插入视频';
+          break;
+        case 'audio':
+          name = '插入音频';
+          break;
+      }
+      this.setFileDia({
+        name,
+        type: role,
+        status: true
+      });
+    },
+    rotateImg() {
+      let $img = $(this.$refs.resTgt)
+        .find('img')
+        .eq(0);
+      let _style =
+        $img.css('transform') === 'none' ? '' : $img.css('transform');
+      $img.css({ transform: `${_style} rotate(90deg)` });
+      this.change();
+    },
+    refreshImg() {
+      let $img = $(this.$refs.resTgt)
+        .find('img')
+        .eq(0);
+      $img.css('transform', 'none');
+      this.change();
+    },
+    delImg() {
+      this.$emit('on-del');
+    },
+    selectRes() {
+      this.active = !this.active;
+    },
+    scaleImg(e) {
+      if (!this.active) return;
+      let $this = $(this.$refs.resourceImg);
+      if ($this.length < 1) return;
+      let _transform =
+        $this.css('transform') === 'none' ? '' : $this.css('transform');
+      if (e.wheelDelta > 0) {
+        $this.css({
+          transform: `${_transform} scale(1.1)`
         });
-      },
-      rotateImg() {
-        let $img = $(this.$refs.resTgt).find('img').eq(0);
-        let _style = $img.css('transform') === 'none' ? '' : $img.css('transform');
-        $img.css({transform: `${_style} rotate(90deg)`});
-        this.change();
-      },
-      refreshImg() {
-        let $img = $(this.$refs.resTgt).find('img').eq(0);
-        $img.css('transform', 'none');
-        this.change();
-      },
-      delImg() {
-        this.$emit('on-del');
-      },
-      selectRes() {
-        this.active = !this.active;
-      },
-      scaleImg(e) {
-        if (!this.active) return;
-        let $this = $(this.$refs.resourceImg);
-        if ($this.length < 1) return;
-        let _transform = $this.css('transform') === 'none' ? '' : $this.css('transform');
-        if (e.wheelDelta > 0) {
-          $this.css({
-            transform: `${_transform} scale(1.1)`
-          });
-        } else {
-          $this.css({
-            transform: `${_transform} scale(0.9)`
-          });
-        }
-        this.change();
-      },
-      change() {
-        let resource = null;
+      } else {
+        $this.css({
+          transform: `${_transform} scale(0.9)`
+        });
+      }
+      this.change();
+    },
+    change() {
+      let resource = null;
+      this.$nextTick(() => {
         if (this.resource) {
           resource = {
             type: this.resource.type.split('/')[0],
-            cssStyle: $(this.$refs.resourceImg).css('transform') || '',
+            cssStyle: document.defaultView.getComputedStyle(
+              this.$refs.resourceImg
+            ).transform,
             src: this.resource.resource,
             name: this.resource.name
           };
         }
         this.$emit('on-changecss', resource);
-      },
-      ...mapMutations({
-        setFileDia: 'SET_FILEDIALOGINFO'
-      })
+      });
     },
-    watch: {
-      resource: {
-        deep: true,
-        handler() {
-          this.change();
-        }
+    ...mapMutations({
+      setFileDia: 'SET_FILEDIALOGINFO'
+    })
+  },
+  watch: {
+    resource: {
+      deep: true,
+      handler() {
+        this.change();
       }
-    },
-    components: {
-      LucencyBoard,
-      IIcon
     }
-  };
+  },
+  components: {
+    LucencyBoard,
+    IIcon
+  }
+};
 </script>
 
 <style scoped lang="stylus">
-  .in_desc_resource
-    .btns_wrap
-      width: 100%
-      display: flex
-      text-align: center
-      justify-content: center
-      padding-top: 110px
-      .insert_btn
-        flex: 0 0 100px
-        font-size: 50px
-        color: #979799
-        &:hover
-          color: #898989
-    .resource_wrap
+.in_desc_resource
+  .btns_wrap
+    width: 100%
+    display: flex
+    text-align: center
+    justify-content: center
+    padding-top: 110px
+    .insert_btn
+      flex: 0 0 100px
+      font-size: 50px
+      color: #979799
+      &:hover
+        color: #898989
+  .resource_wrap
+    width: 100%
+    height: 100%
+    position: relative
+    .resource
       width: 100%
       height: 100%
+      text-align: center
+      vertical-align: middle
+      overflow: hidden
+      padding: 4px
       position: relative
-      .resource
+      img
+        max-width: 100%
+        max-height: 100%
+        border: 2px solid transparent
+        &.active
+          border-color: #FF6F3E
+      video
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+        max-width: 100%
+        max-height: 100%
+      .audio
         width: 100%
         height: 100%
-        text-align: center
-        vertical-align: middle
-        overflow: hidden
-        padding: 4px
         position: relative
-        img
-          max-width: 100%
-          max-height: 100%
-          border: 2px solid transparent
-          &.active
-            border-color: #FF6F3E
-        video
-          position: absolute
-          top: 50%
-          left: 50%
-          transform: translate(-50%, -50%)
-          max-width: 100%
-          max-height: 100%
-        .audio
+        audio
           width: 100%
-          height: 100%
-          position: relative
-          audio
-            width: 100%
-            position: absolute
-            bottom: 0
-            left: 50%
-            transform: translateX(-50%)
-      .res_ctrl
-        position: absolute
-        right: 10px
-        top: 10px
-        font-size: 25px
-        text-align: center
-        width: 35px
-        border-radius: 10px
-        background-color: #fff
-        padding: 2px 0
-        box-shadow: 0 0 5px 0 rgba(0, 0, 0, .3)
-        a
-          display: block
-          color: #979799
-          &:hover
-            color: #BCBCBC
+          position: absolute
+          bottom: 0
+          left: 50%
+          transform: translateX(-50%)
+    .res_ctrl
+      position: absolute
+      right: 10px
+      top: 10px
+      font-size: 25px
+      text-align: center
+      width: 35px
+      border-radius: 10px
+      background-color: #fff
+      padding: 2px 0
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3)
+      a
+        display: block
+        color: #979799
+        &:hover
+          color: #BCBCBC
 </style>

@@ -66,7 +66,7 @@ import IModal from 'iview/src/components/modal';
 import IInputNumber from 'iview/src/components/input-number';
 
 import { EDIT_TEXT_BTNS, IN_FILE_BTNS } from 'common/js/config';
-import { mapActions, mapMutations } from 'vuex';
+import { mapActions, mapMutations, mapGetters } from 'vuex';
 import $ from 'jquery';
 
 export default {
@@ -85,11 +85,14 @@ export default {
     };
   },
   created() {
-    $(document).on('mouseup', () => {
+    $(document).on('mouseup', '.cl_rg_hook', e => {
       setTimeout(() => {
         this.initTxtBtnState();
       }, 20);
     });
+  },
+  computed: {
+    ...mapGetters(['currentRange'])
   },
   methods: {
     hdClkHandler() {
@@ -114,9 +117,10 @@ export default {
       });
     },
     ecFsz: function() {
+      if (this.currentRange && !this.currentRange.toString()) return;
       this.resetSelection().then(() => {
         document.execCommand('FontSize', false, this.fontSize);
-        this.fontSize = 3;
+        // this.fontSize = 3;
       });
     },
     exInsertTb() {
@@ -173,6 +177,7 @@ export default {
           btn.state = 'off';
         }
       }
+      this.fontSize = document.queryCommandValue('FontSize') * 1;
     },
     ...mapActions({
       resetSelection: 'resetSelection'

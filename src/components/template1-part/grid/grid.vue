@@ -31,7 +31,7 @@
           :ori="tag.ori"
           :color="calcTagColor(tag.ori)"
         ></num-tag>
-        <input class="input"
+        <input class="input cl_rg_hook"
                v-if="isEdit"
                v-model="td.text"
                :id="`gridInput-${r}-${c}`"

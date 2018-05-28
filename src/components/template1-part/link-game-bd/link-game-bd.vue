@@ -47,6 +47,9 @@
         }
       };
     },
+    mounted() {
+      this.init();
+    },
     computed: {
       data() {
         let arr = [];
@@ -62,13 +65,11 @@
         return arr;
       }
     },
-    mounted() {
-      this.init();
-    },
     methods: {
       init() {
         console.time('initData');
         this.cellData = this.initData();
+        this.$forceUpdate();
         console.timeEnd('initData');
       },
       // 初始化数据

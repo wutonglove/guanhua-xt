@@ -56,8 +56,7 @@ export const timerMixin = {
   },
   methods: {
     initClock(times) {
-      console.log();
-      if (times) {
+      if (times && times.second * 1 + times.minute * 1 > 0) {
         this.setTimes(times);
         this.counterclockwise();
         return;

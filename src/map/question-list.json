@@ -704,7 +704,7 @@
   },
   "spelling-poem": {
     "code": 26,
-    "name": "连字成诗",
+    "name": "--连字成诗",
     "edit": "/new/",
     "show": "/interaction/spelling-poem",
     "icon": "spelling-poem-icon.jpg",

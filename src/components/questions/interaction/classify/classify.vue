@@ -285,7 +285,7 @@
     position: absolute
     top: -30px
     right: -3px
-    font-size: 30px
+    font-size: 16px
     z-index: 1000
     color: #8f541a
 </style>

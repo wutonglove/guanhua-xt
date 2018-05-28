@@ -114,6 +114,7 @@ export default {
       height: 100%
       display: flex
       .box-inner
+        width: 100%
         position: relative
         flex: 1
         margin: 0 8px

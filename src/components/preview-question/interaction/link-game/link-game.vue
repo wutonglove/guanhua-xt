@@ -21,114 +21,115 @@
 </template>
 
 <script>
-  import {submitMixin} from 'common/js/mixin';
-  import Notepad from 'components/template1-part/notepad/notepad';
-  import GmBd from 'components/template1-part/link-game-bd/link-game-bd';
-  import IIcon from 'iview/src/components/icon';
+import { submitMixin } from 'common/js/mixin';
+import Notepad from 'components/template1-part/notepad/notepad';
+import GmBd from 'components/template1-part/link-game-bd/link-game-bd';
+import IIcon from 'iview/src/components/icon';
 
-  export default {
-    mixins: [submitMixin],
-    props: {
-      questionData: {
-        type: Object
-      }
-    },
-    data() {
-      return {
-        anList: []
-      };
-    },
-    computed: {
-      pairs() {
-        let arr = [];
-        this.questionData.pairs.forEach((item, index) => {
-          arr.push([]);
-          for (let i = 0; i < item.length; i++) {
-            let cnt = '';
-            if (typeof item[i].cnt === 'string') {
-              cnt = item[i].cnt;
-            } else {
-              cnt = item[i].cnt.src;
-            }
-            arr[index].push({
-              type: item[i].type,
-              cnt
-            });
-          }
-        });
-        return arr;
-      }
-    },
-    methods: {
-      eliminate(index) {
-        this.anList.push(this.pairs[index]);
-      },
-      getResult() {
-        if (this.anList.length === 0) return -1;
-        if (this.anList.length !== this.pairs.length) return 0;
-        return 1;
-      }
-    },
-    components: {
-      Notepad,
-      GmBd,
-      IIcon
+export default {
+  mixins: [submitMixin],
+  props: {
+    questionData: {
+      type: Object
     }
-  };
+  },
+  data() {
+    return {
+      anList: []
+    };
+  },
+  computed: {
+    pairs() {
+      let arr = [];
+      this.questionData.pairs.forEach((item, index) => {
+        arr.push([]);
+        for (let i = 0; i < item.length; i++) {
+          let cnt = '';
+          if (typeof item[i].cnt === 'string') {
+            cnt = item[i].cnt;
+          } else {
+            cnt = item[i].cnt.src;
+          }
+          arr[index].push({
+            type: item[i].type,
+            cnt
+          });
+        }
+      });
+      if (arr[0][0]) return arr;
+      return null;
+    }
+  },
+  methods: {
+    eliminate(index) {
+      this.anList.push(this.pairs[index]);
+    },
+    getResult() {
+      if (this.anList.length === 0) return -1;
+      if (this.anList.length !== this.pairs.length) return 0;
+      return 1;
+    }
+  },
+  components: {
+    Notepad,
+    GmBd,
+    IIcon
+  }
+};
 </script>
 
 <style scoped lang="stylus">
-  #linkgame
-    width: 100%
-    height: 100%
-    display: flex
-    overflow: auto
-    .left_box
-      flex: 1
-      margin: 10px
-      z-index: 0
-      .result_list
-        width: 100%
-        height: 100%
-        overflow-y: auto
-        .result_item
-          margin: 10px 0
-          display: flex
-          .icon
-            display: inline-block
-            width: 24px
-            height: 24px
-            border-radius: 50%
-            border: 1px solid #6C9219
-            color: #6C9219
-            font-size: 16px
-            line-height: 24px
-            text-align: center
-            margin-top: 16px
-          .pair_wrap
-            flex: 1
-            margin-left: 5px
-            overflow: hidden
-            position: relative
-            padding-right: 3px
-            .half
-              float: left
-              width: 60px
-              height: 60px
-              &:nth-child(2)
-                float: right
-              img, .text
-                width: 100%
-                height: 100%
-                background-color: #ffffff
-                text-align: center
-                border: 1px solid #885E17
-                border-radius: 5px
-            .cable
-              position: absolute
-              top: 50%
-              left: 50%
-              transform: translate(-50%, -50%)
-    .right_box
-      flex: 3
+#linkgame
+  width: 100%
+  height: 100%
+  display: flex
+  overflow: auto
+  .left_box
+    flex: 1
+    margin: 10px
+    z-index: 0
+    .result_list
+      width: 100%
+      height: 100%
+      overflow-y: auto
+      .result_item
+        margin: 10px 0
+        display: flex
+        .icon
+          display: inline-block
+          width: 24px
+          height: 24px
+          border-radius: 50%
+          border: 1px solid #6C9219
+          color: #6C9219
+          font-size: 16px
+          line-height: 24px
+          text-align: center
+          margin-top: 16px
+        .pair_wrap
+          flex: 1
+          margin-left: 5px
+          overflow: hidden
+          position: relative
+          padding-right: 3px
+          .half
+            float: left
+            width: 60px
+            height: 60px
+            &:nth-child(2)
+              float: right
+            img, .text
+              width: 100%
+              height: 100%
+              background-color: #ffffff
+              text-align: center
+              border: 1px solid #885E17
+              border-radius: 5px
+          .cable
+            position: absolute
+            top: 50%
+            left: 50%
+            transform: translate(-50%, -50%)
+  .right_box
+    flex: 3
 </style>

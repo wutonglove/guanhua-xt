@@ -73,7 +73,7 @@
           <div class="symbol">{{symbol}}</div>
         </div>
         <span class="line"></span>
-        <div class="num_wrap" v-for="(numWrap,r) in mulCalcStep">
+        <div class="num_wrap" v-for="(numWrap,r) in mulCalcStep" :key="r">
           <num-btn
             v-for="(num,index) in numWrap"
             :key="index"
@@ -132,7 +132,7 @@
             </div>
           </div>
           <div class="division_clac_box" ref="divisionBox">
-            <div class="division_step_box" v-for="(numWrap,index) in divCalcStep">
+            <div class="division_step_box" v-for="(numWrap,index) in divCalcStep" :key="index">
               <div class="num_wrap">
                 <num-btn
                   v-for="(num,index) in numWrap[0]"
@@ -189,6 +189,7 @@
       };
     },
     mounted() {
+      console.log(this.questionData);
       this.$nextTick(() => {
         this.numArr1 = this.setDot(this.questionData.vertical.numArr1);
         this.numArr2 = this.setDot(this.questionData.vertical.numArr2);

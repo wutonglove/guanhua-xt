@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="right_box">
-      <div class="solve_wrap" v-for="(words,index) in wordslist" v-show="curIndex === index">
+      <div class="solve_wrap" v-for="(words,index) in wordslist" v-if="curIndex === index">
         <ul class="solve_box">
           <li class="solve_word"
               :class="{active:curSlecetI === i}"
@@ -46,7 +46,7 @@
           </li>
         </ul>
         <div class="solve_options">
-          <div class="btn_wrap" v-for="(word,i) in words" @click="fillIn(i)">
+          <div class="btn_wrap" v-for="(word,i) in words" @click="fillIn(i)" @touchend="fillIn(i)">
             <word-btn class="btn" :key="i">{{word}}</word-btn>
           </div>
         </div>
@@ -126,6 +126,7 @@
         this.curSlecetI = this.curSlecetI >= this.answers[this.curIndex].length - 1
           ? 0
           : this.curSlecetI + 1;
+        this.$forceUpdate();
       },
       changeSelectIndex(index) {
         this.curSlecetI = index;
