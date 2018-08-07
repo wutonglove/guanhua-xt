@@ -208,10 +208,11 @@ export default {
 .in_desc_resource
   .btns_wrap
     width: 100%
+    height 100%
     display: flex
     text-align: center
     justify-content: center
-    padding-top: 110px
+    align-items: center
     .insert_btn
       flex: 0 0 100px
       font-size: 50px

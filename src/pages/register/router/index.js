@@ -4,8 +4,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-const Login = resolve => {
-  import('components/login/login').then(module => {
+const Register = resolve => {
+  import('components/register/register').then(module => {
     resolve(module);
   });
 };
@@ -16,7 +16,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: Login
+      component: Register
     }
   ]
 });

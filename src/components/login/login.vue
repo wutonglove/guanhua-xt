@@ -1,223 +1,113 @@
 <template>
-  <div class="login_box">
-    <i-form ref="formValidate" v-if="show" :model="formValidate"
-            :rules="ruleValidate" :label-width="100">
-      <i-formItem ref="formItem" :label="`${item.name}：`" :prop="item.alias" v-for="(item,index) in formOptions"
-                  :key="'option'+index">
-        <i-input v-model="formValidate[item.alias]"
-                 :placeholder="`请输入${item.name}`"
-                 :type="item.inputType"
-                 size="large"
-                 :icon="getIcon(item.state)"
-                 :color="`#19be6b`"
-                 @on-change="change(index)"
-        ></i-input>
-      </i-formItem>
-      <i-formItem>
-        <i-button type="primary" @click="submit">注册</i-button>
-        <i-button type="ghost" @click="reset" style="margin-left: 8px">清空</i-button>
-      </i-formItem>
+<div class="login_box">
+  <i-form ref="formInline" :model="form" :rules="rule">
+        <i-form-item prop="user">
+            <i-input type="text" v-model="form.username" placeholder="请输入用户名">
+            </i-input>
+        </i-form-item>
+        <i-form-item prop="password">
+            <i-input type="password" v-model="form.password" placeholder="请输入密码">
+            </i-input>
+        </i-form-item>
+         <i-form-item prop="password">
+             <i-checkbox v-model="remember">记住密码</i-checkbox>
+        </i-form-item>
+        <i-form-item>
+            <i-button type="primary" @click="login('formInline')">登陆</i-button>
+        </i-form-item>
     </i-form>
-    <span class="agreen">注册视为同意 <a href="#">《法律条款和隐私声明》</a></span>
-  </div>
+</div>
 </template>
 
 <script>
-  import IForm from 'iview/src/components/form';
-  import IFormItem from 'iview/src/components/form/form-item';
-  import IInput from 'iview/src/components/input';
-  import IIcon from 'iview/src/components/icon';
-  import IButton from 'iview/src/components/button';
+import IForm from 'iview/src/components/form';
+import IFormItem from 'iview/src/components/form/form-item';
+import IInput from 'iview/src/components/input';
+import IIcon from 'iview/src/components/icon';
+import IButton from 'iview/src/components/button';
+import ICheckbox from 'iview/src/components/checkbox';
+import IModal from 'iview/src/components/modal';
 
-  import Message from 'iview/src/components/message';
+import login from 'api/login';
 
-  export default {
-    mounted() {
-      this.initFromData();
-    },
-    data() {
-      return {
-        formOptions: [
+export default {
+  data() {
+    return {
+      form: {
+        username: '',
+        password: ''
+      },
+      rule: {
+        username: [
           {
-            name: '昵称',
-            alias: 'nickname',
-            inputType: 'text',
-            state: -1,
-            rule: [
-              {required: true, message: '昵称不能为空', trigger: 'change blur'},
-              {type: 'string', max: 12, message: '最长12个字符', trigger: 'change blur'}
-            ]
-          },
-          {
-            name: '用户名',
-            alias: 'username',
-            inputType: 'text',
-            state: -1,
-            rule: [
-              {required: true, message: '用户名不能为空', trigger: 'change blur'},
-              {
-                type: 'string',
-                pattern: /^[a-zA-Z0-9_-]{6,20}$/,
-                message: '支持字母、数字、“-”“_”的组合，6-20个字符',
-                trigger: 'change blur'
-              }
-            ]
-          },
-          {
-            name: '密码',
-            alias: 'password',
-            inputType: 'password',
-            state: -1,
-            rule: [
-              {required: true, message: '密码不能为空', trigger: 'change blur'},
-              {
-                type: 'string',
-                pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/,
-                message: '建议使用6位以上的数字和字母的组合',
-                trigger: 'change blur'
-              },
-              {
-                type: 'string',
-                max: 20,
-                message: '密码最长20位',
-                trigger: 'change blur'
-              }
-            ]
-          },
-          {
-            name: '确认密码',
-            alias: 'repeatPD',
-            inputType: 'password',
-            state: -1,
-            rule: [
-              {required: true, message: '确认密码不能为空', trigger: 'change blur'},
-              {validator: this.valiPassword, trigger: 'blur'}
-            ]
-          },
-          {
-            name: '手机号码',
-            alias: 'phone',
-            inputType: 'text',
-            state: -1,
-            rule: [
-              {
-                type: 'string',
-                pattern: /^1[3|4|5|7|8][0-9]{9}$/,
-                message: '格式不正确',
-                trigger: 'change blur'
-              }
-            ]
-          },
-          {
-            name: '邮箱',
-            alias: 'email',
-            inputType: 'text',
-            state: -1,
-            rule: [
-              {
-                type: 'email',
-                message: '格式不正确',
-                trigger: 'change blur'
-              }
-            ]
-          },
-          {
-            name: '验证码',
-            alias: 'code',
-            inputType: 'text',
-            state: -1,
-            rule: [
-              {
-                required: true,
-                message: '验证码不能为空',
-                trigger: 'blur'
-              },
-              {validator: this.valiCode, trigger: 'blur'}
-            ]
+            required: true,
+            message: '用户名不能为空',
+            trigger: 'blur'
           }
         ],
-        formValidate: {},
-        ruleValidate: {},
-        code: 'abcd'
-      };
-    },
-    computed: {
-      show() {
-        return Object.keys(this.formValidate).length > 0 && Object.keys(this.ruleValidate).length > 0;
-      }
-    },
-    methods: {
-      submit() {
-        this.$refs.formValidate.validate((valid) => {
-          if (valid) {
-            Message.success('Success!');
-          } else {
-            Message.error('Fail!');
+        password: [
+          {
+            required: true,
+            message: '请输入密码',
+            trigger: 'blur'
           }
-        });
+        ]
       },
-      reset() {
-
-      },
-      valiPassword(rule, value, callback) {
-        if (value !== this.formValidate.password) {
-          callback(new Error('俩次输入密码输入不一致'));
+      remember: false
+    };
+  },
+  methods: {
+    login(name) {
+      this.$refs[name].validate(valid => {
+        if (valid) {
+          login({ uid: this.form.username, pwd: this.form.password })
+            .then(data => {
+              console.log(data);
+              let userinfo = data.data.split('|');
+              window.userinfo = {
+                uid: userinfo[0],
+                uname: userinfo[1],
+                role: userinfo[10],
+                remember: this.remember
+              };
+              IModal.success({
+                content: '登陆成功',
+                okText: '确定'
+              });
+            })
+            .catch(() => {
+              // console.log(err);
+            });
         } else {
-          callback();
+          this.$Message.error('用户名密码不正确');
         }
-      },
-      valiCode(rule, value, callback) {
-        if (value !== this.code) {
-          return callback(new Error('验证码不正确'));
-        } else {
-          return callback();
-        }
-      },
-      change(index) {
-//        console.log(this.$refs.formItem[index], this.$refs.formItem[index].validateState);
-        this.formOptions[index].state = this.$refs.formItem[index].validateState === 'success' ? 1 : 0;
-      },
-      getIcon(state) {
-        if (state === -1) return '';
-        else if (state === 0) return 'close-circled';
-        else if (state === 1) return 'checkmark-circled';
-      },
-      initFromData() {
-        let formValidate = {};
-        let ruleValidate = {};
-        this.formOptions.forEach((item) => {
-          formValidate[item.alias] = '';
-          ruleValidate[item.alias] = item.rule;
-        });
-        this.formValidate = formValidate;
-        this.ruleValidate = ruleValidate;
-      }
-    },
-    watch: {
-      formValidate: {
-        deep: true,
-        handler(newVal) {
-//          console.log(newVal);
-        }
-      }
-    },
-    components: {
-      IInput,
-      IIcon,
-      IForm,
-      IFormItem,
-      IButton
+      });
     }
-  };
+  },
+  components: {
+    IForm,
+    IFormItem,
+    IInput,
+    IIcon,
+    IButton,
+    ICheckbox,
+    IModal
+  }
+};
 </script>
 
-<style scoped lang="stylus">
-  .login_box
-    max-width: 800px
-    margin: 0 auto
-    padding: 15px
-    overflow: hidden
-    .agreen
-      float: right
-      margin:0 0 20px
+<style lang="stylus">
+.login_box
+  max-width: 800px
+  min-width: 400px
+  margin: 0 auto
+  padding: 15px
+  overflow: hidden
+  .ivu-form-item-success
+    .ivu-input-icon
+      color: #00CD9D
+  .agreen
+    float: right
+    margin: 0 0 20px
 </style>
+

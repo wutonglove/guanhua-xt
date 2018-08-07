@@ -94,7 +94,7 @@
         this.article = this.$refs.textarea.innerText.trim();
         if (this.article.trim().length < 1) return -1;
         if (/[\u4E00-\u9FA5]/g.test(this.article)) return -4;
-        if (this.article.split(' ').length < 15) return -2;
+        if (this.article.replace(/[^0-9a-zA-Z]/g, ' ').split(' ').length < 15) return -2;
         if (/[^!?.]$/.test(this.article)) return -3;
         return 1;
       },
