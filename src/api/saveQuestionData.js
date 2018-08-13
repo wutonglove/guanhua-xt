@@ -3,7 +3,7 @@
  */
 'use strict';
 import axios from 'axios';
-
+import { RES_SUCCESS } from './config';
 import {urlSearch} from 'utils/utilities';
 
 class Save {
@@ -68,7 +68,7 @@ class Save {
         }
       })
         .then((res) => {
-          if (res.data.code === '0') {
+          if (+res.data.code === RES_SUCCESS) {
             urlSnippet = '/' + res.data.data;
             resolve(urlSnippet);
           } else {
@@ -106,7 +106,7 @@ class Save {
         data: JSON.stringify(_data)
       })
         .then((res) => {
-          if (res.data.code === '0') {
+          if (+res.data.code === RES_SUCCESS) {
             resolve();
           } else {
             reject(res.data.code);

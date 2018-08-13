@@ -1,5 +1,6 @@
 <template>
 <div class="login_box">
+  <h1 class="title">欢迎登陆</h1>
   <i-form ref="formInline" :model="form" :rules="rule">
         <i-form-item prop="user">
             <i-input type="text" v-model="form.username" placeholder="请输入用户名">
@@ -63,7 +64,7 @@ export default {
           login({ uid: this.form.username, pwd: this.form.password })
             .then(data => {
               console.log(data);
-              let userinfo = data.data.split('|');
+              let userinfo = data.split('|');
               window.userinfo = {
                 uid: userinfo[0],
                 uname: userinfo[1],
@@ -103,6 +104,12 @@ export default {
   margin: 0 auto
   padding: 15px
   overflow: hidden
+  .title
+    font-size: 20px
+    margin-bottom: 35px
+    padding-left: 15px
+    line-height: 50px
+    border-bottom: 2px solid #ccc
   .ivu-form-item-success
     .ivu-input-icon
       color: #00CD9D

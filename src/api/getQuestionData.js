@@ -3,6 +3,7 @@
  */
 import axios from 'axios';
 import {LOCALSTORAGEKEY} from 'common/js/config';
+import { RES_SUCCESS } from './config';
 
 export function getQuestionData(questionId) {
   return new Promise((resolve, reject) => {
@@ -18,7 +19,7 @@ export function getQuestionData(questionId) {
         })
       })
         .then((res) => {
-          if (res.data.code === '0') {
+          if (+res.data.code === RES_SUCCESS) {
             resolve(JSON.parse(res.data.data.maincontent));
           } else {
             reject(res.data.code);

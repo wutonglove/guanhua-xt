@@ -124,6 +124,8 @@ export default {
       if (type !== _type) {
         this.$router.push(`/${this.questionId + item.show}`);
       }
+      this.isSubmited = false;
+      this.isDisabled = false;
       this.nosubmit = item.config.show.nosubmit;
     },
     init() {

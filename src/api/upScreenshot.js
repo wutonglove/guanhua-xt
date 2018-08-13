@@ -3,8 +3,9 @@
  */
 'use strict';
 import axios from 'axios';
+import { RES_SUCCESS } from './config';
 
-export default function (questionId, base64) {
+export default function(questionId, base64) {
   let formData = new FormData();
   formData.append('questionid', questionId);
   formData.append('sltdata', base64);
@@ -17,14 +18,14 @@ export default function (questionId, base64) {
         'Content-Type': 'multipart/form-data'
       }
     })
-      .then((res) => {
-        if (res.data.code === '0') {
+      .then(res => {
+        if (+res.data.code === RES_SUCCESS) {
           resolve();
         } else {
           reject(res.data.code);
         }
       })
-      .catch((res) => {
+      .catch(res => {
         reject(res.data.code);
       });
   });

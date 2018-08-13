@@ -1,7 +1,23 @@
 <template>
   <div class="register_box">
+    <h1 class="title">欢迎注册</h1>
     <i-form ref="formValidate" v-if="show" :model="formValidate"
             :rules="ruleValidate" :label-width="82">
+      <i-form-item label="学校：" prop="schoolid">
+        <i-select v-model="formValidate.schoolid" filterable @on-change="test">
+            <i-option v-for="item in schools" :value="item.id.toString()" :key="item.id">{{ item.name }}</i-option>
+        </i-select>
+      </i-form-item>      
+      <i-formItem label="性别：" prop="gender" required>
+        <i-radioGroup v-model="formValidate.gender">
+          <i-radio label="1">
+              <span>男</span>
+          </i-radio>
+          <i-radio label="2">
+              <span>女</span>
+          </i-radio>
+        </i-radioGroup>
+      </i-formItem>
       <i-formItem ref="formItem" :class="item.state===1?'ivu-form-item-success':''" :label="`${item.name}：`" :prop="item.alias" v-for="(item,index) in formOptions"
                   :key="'option'+index">
         <i-input v-model="formValidate[item.alias]"
@@ -12,16 +28,6 @@
                  :color="`#19be6b`"
                  @on-change="change(index)"
         ></i-input>
-      </i-formItem>
-      <i-formItem label="性别：" prop="gender">
-        <i-radioGroup v-model="gender">
-          <i-radio label="1">
-              <span>男</span>
-          </i-radio>
-          <i-radio label="2">
-              <span>女</span>
-          </i-radio>
-        </i-radioGroup>
       </i-formItem>
       <i-formItem>
         <i-button type="primary" @click="submit">注册</i-button>
@@ -41,19 +47,24 @@ import IButton from 'iview/src/components/button';
 import IRadioGroup from 'iview/src/components/radio-group';
 import IRadio from 'iview/src/components/radio';
 import IModal from 'iview/src/components/modal';
+import ISelect from 'iview/src/components/select';
+import IOption from 'iview/src/components/select/option';
 
 import register from 'api/register';
+import getSchools from 'api/getSchools';
 
 export default {
   mounted() {
+    this.show = false;
     this.initFromData();
+    this.getSchoolInfo();
   },
   data() {
     return {
       formOptions: [
         {
           name: '姓名',
-          alias: 'nickname',
+          alias: 'name',
           inputType: 'text',
           state: -1,
           rule: [
@@ -68,7 +79,7 @@ export default {
         },
         {
           name: '用户名',
-          alias: 'uid',
+          alias: 'userid',
           inputType: 'text',
           state: -1,
           rule: [
@@ -146,35 +157,35 @@ export default {
               trigger: 'change blur'
             }
           ]
+          // },
+          // {
+          //   name: '验证码',
+          //   alias: 'code',
+          //   inputType: 'text',
+          //   state: -1,
+          //   rule: [
+          //     {
+          //       required: true,
+          //       message: '验证码不能为空',
+          //       trigger: 'change blur'
+          //     },
+          //     { validator: this.valiCode, trigger: 'change blur' }
+          //   ]
         }
-        // {
-        //   name: '验证码',
-        //   alias: 'code',
-        //   inputType: 'text',
-        //   state: -1,
-        //   rule: [
-        //     {
-        //       required: true,
-        //       message: '验证码不能为空',
-        //       trigger: 'change blur'
-        //     },
-        //     { validator: this.valiCode, trigger: 'change blur' }
-        //   ]
-        // }
       ],
-      formValidate: {},
-      ruleValidate: {},
-      gender: '1',
-      code: 'abcd'
+      formValidate: {
+        schoolid: '',
+        gender: '1'
+      },
+      ruleValidate: {
+        schoolid: [
+          { required: true, message: '请选择学校', trigger: 'change' }
+        ],
+        gender: [{ required: true, message: '请选择性别', trigger: 'change' }]
+      },
+      schools: [],
+      show: false
     };
-  },
-  computed: {
-    show() {
-      return (
-        Object.keys(this.formValidate).length > 0 &&
-        Object.keys(this.ruleValidate).length > 0
-      );
-    }
   },
   methods: {
     submit() {
@@ -185,16 +196,31 @@ export default {
           delete data.repeatPD;
           data.kemu = '||';
           data.callerid = '';
-          data.gender = this.gender;
           register(data)
             .then(data => {
-              IModal.success('注册成功!');
+              // 注册成功自动登陆
+              IModal.success({
+                content: '注册成功!',
+                onOk: () => {
+                  window.userinfo = {
+                    uid: this.formValidate.userid,
+                    uname: this.formValidate.name,
+                    role: 'Student',
+                    remember: false
+                  };
+                }
+              });
             })
             .catch(err => {
-              IModal.error(err);
+              IModal.error({
+                content: err.toString(),
+                onOk: () => {
+                  this.formValidate.pwd = '';
+                  this.formValidate.repeatPD = '';
+                  this.$forceUpdate();
+                }
+              });
             });
-        } else {
-          IModal.error('信息不完整');
         }
       });
     },
@@ -241,8 +267,21 @@ export default {
         formValidate[item.alias] = '';
         ruleValidate[item.alias] = item.rule;
       });
-      this.formValidate = formValidate;
-      this.ruleValidate = ruleValidate;
+      Object.assign(this.ruleValidate, ruleValidate);
+      Object.assign(this.formValidate, formValidate);
+      this.show = true;
+    },
+    getSchoolInfo() {
+      getSchools()
+        .then(data => {
+          this.schools = data;
+        })
+        .catch(res => {
+          console.log(res);
+        });
+    },
+    test() {
+      console.log(this.formValidate.schoolid);
     }
   },
   components: {
@@ -252,7 +291,9 @@ export default {
     IFormItem,
     IButton,
     IRadioGroup,
-    IRadio
+    IRadio,
+    ISelect,
+    IOption
   }
 };
 </script>
@@ -264,6 +305,12 @@ export default {
   margin: 0 auto
   padding: 15px
   overflow: hidden
+  .title
+    font-size: 20px
+    margin-bottom: 35px
+    padding-left: 15px
+    line-height: 50px
+    border-bottom: 2px solid #ccc
   .ivu-form-item-success
     .ivu-input-icon
       color: #00CD9D
