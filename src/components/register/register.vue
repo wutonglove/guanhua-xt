@@ -1,6 +1,9 @@
 <template>
   <div class="register_box">
-    <h1 class="title">欢迎注册</h1>
+    <h1 class="title">
+      <span>欢迎注册</span>
+      <span class="link">已有账号？<router-link to="/login">请登陆</router-link></span>
+    </h1>
     <i-form ref="formValidate" v-if="show" :model="formValidate"
             :rules="ruleValidate" :label-width="82">
       <i-form-item label="学校：" prop="schoolid">
@@ -197,20 +200,22 @@ export default {
           data.kemu = '||';
           data.callerid = '';
           register(data)
-            .then(data => {
+            .then(() => {
               // 注册成功自动登陆
               IModal.success({
                 content: '注册成功!',
                 onOk: () => {
                   (data => {
-                    let userinfo = data.split('|');
                     window.getUserInfo = function() {
-                      return {
-                        uid: userinfo[0],
-                        uname: userinfo[1],
-                        role: userinfo[10],
-                        remember: false
-                      };
+                      // return {
+                      //   uid: data.userid,
+                      //   uname: data.name,
+                      //   role: 'Student',
+                      //   remember: false
+                      // };
+                      return `${data.userid} ${
+                        data.name
+                      } ${'Student'} ${false}`;
                     };
                   })(data);
                 }
@@ -308,7 +313,7 @@ export default {
   max-width: 800px
   min-width: 400px
   margin: 0 auto
-  padding: 15px
+  padding: 30px 15px 15px
   overflow: hidden
   .title
     font-size: 20px
@@ -316,6 +321,9 @@ export default {
     padding-left: 15px
     line-height: 50px
     border-bottom: 2px solid #ccc
+    .link
+      font-size: 14px
+      float: right
   .ivu-form-item-success
     .ivu-input-icon
       color: #00CD9D

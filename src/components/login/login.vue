@@ -1,8 +1,11 @@
 <template>
 <div class="login_box">
-  <h1 class="title">欢迎登陆</h1>
+  <h1 class="title">
+    <span>欢迎登陆</span>
+    <span class="link">还没有账号？<router-link to="/register">立即注册</router-link></span>
+  </h1>
   <i-form ref="formInline" :model="form" :rules="rule">
-        <i-form-item prop="user">
+        <i-form-item prop="username">
             <i-input type="text" v-model="form.username" placeholder="请输入用户名">
             </i-input>
         </i-form-item>
@@ -10,13 +13,14 @@
             <i-input type="password" v-model="form.password" placeholder="请输入密码">
             </i-input>
         </i-form-item>
-         <i-form-item prop="password">
+         <i-form-item>
              <i-checkbox v-model="remember">记住密码</i-checkbox>
         </i-form-item>
         <i-form-item>
             <i-button type="primary" @click="login('formInline')">登陆</i-button>
         </i-form-item>
     </i-form>
+    <a href="/"></a>
 </div>
 </template>
 
@@ -63,24 +67,36 @@ export default {
         if (valid) {
           login({ uid: this.form.username, pwd: this.form.password })
             .then(data => {
-              (data => {
-                let userinfo = data.split('|');
-                window.getUserInfo = () => {
-                  return {
-                    uid: userinfo[0],
-                    uname: userinfo[1],
-                    role: userinfo[10],
-                    remember: this.remember
-                  };
-                };
-              })(data);
               IModal.success({
                 content: '登陆成功',
-                okText: '确定'
+                okText: '确定',
+                onOk: () => {
+                  (data => {
+                    let userinfo = data.split('|');
+                    window.getUserInfo = () => {
+                      // return {
+                      //   uid: userinfo[0],
+                      //   uname: userinfo[1],
+                      //   role: userinfo[10],
+                      //   remember: this.remember
+                      // };
+                      return `${userinfo[0]} ${userinfo[1]} ${userinfo[10]} ${
+                        this.remember
+                      }`;
+                    };
+                  })(data);
+                }
               });
             })
-            .catch(() => {
+            .catch((err) => {
               // console.log(err);
+              IModal.error({
+                content: err.toString(),
+                onOk: () => {
+                  this.form.password = '';
+                  this.$forceUpdate();
+                }
+              });
             });
         } else {
           this.$Message.error('用户名密码不正确');
@@ -105,7 +121,7 @@ export default {
   max-width: 800px
   min-width: 400px
   margin: 0 auto
-  padding: 15px
+  padding: 30px 15px 15px
   overflow: hidden
   .title
     font-size: 20px
@@ -113,6 +129,9 @@ export default {
     padding-left: 15px
     line-height: 50px
     border-bottom: 2px solid #ccc
+    .link
+      font-size: 14px
+      float: right
   .ivu-form-item-success
     .ivu-input-icon
       color: #00CD9D
