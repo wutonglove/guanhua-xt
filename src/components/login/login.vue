@@ -63,14 +63,17 @@ export default {
         if (valid) {
           login({ uid: this.form.username, pwd: this.form.password })
             .then(data => {
-              console.log(data);
-              let userinfo = data.split('|');
-              window.userinfo = {
-                uid: userinfo[0],
-                uname: userinfo[1],
-                role: userinfo[10],
-                remember: this.remember
-              };
+              (data => {
+                let userinfo = data.split('|');
+                window.getUserInfo = () => {
+                  return {
+                    uid: userinfo[0],
+                    uname: userinfo[1],
+                    role: userinfo[10],
+                    remember: this.remember
+                  };
+                };
+              })(data);
               IModal.success({
                 content: '登陆成功',
                 okText: '确定'

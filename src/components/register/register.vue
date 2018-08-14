@@ -202,12 +202,17 @@ export default {
               IModal.success({
                 content: '注册成功!',
                 onOk: () => {
-                  window.userinfo = {
-                    uid: this.formValidate.userid,
-                    uname: this.formValidate.name,
-                    role: 'Student',
-                    remember: false
-                  };
+                  (data => {
+                    let userinfo = data.split('|');
+                    window.getUserInfo = function() {
+                      return {
+                        uid: userinfo[0],
+                        uname: userinfo[1],
+                        role: userinfo[10],
+                        remember: false
+                      };
+                    };
+                  })(data);
                 }
               });
             })
