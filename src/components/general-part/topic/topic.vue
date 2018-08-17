@@ -1,50 +1,42 @@
 <template>
   <div class="topic">
-    <cnt-module name="题干" :isMandatory="true">
-      <div-input class="topic_input" v-model="_topic" @input="input" ref="input"></div-input>
+    <cnt-module name="题干" :required="true" :mheight="90">
+      <ue class="topic_input" :config="{initialFrameHeight: 60}" v-model="temp" ref="ue" @change="change"></ue>
     </cnt-module>
   </div>
 </template>
 
 <script>
 import CntModule from 'components/general-part/cnt-module/cnt-module';
-import DivInput from 'components/general-part/div-input/div-input';
+import Ue from 'base/ueditor/ueditor';
 
 export default {
   props: {
     topic: String
   },
+  model: {
+    prop: 'topic',
+    event: 'change'
+  },
   data() {
     return {
-      isComplete: false
+      temp: ''
     };
   },
-  computed: {
-    _topic: {
-      get() {
-        return this.topic;
-      },
-      set(value) {
-        this.$emit('change', value);
-      }
-    }
-  },
   methods: {
-    input() {
-      this.isComplete = !this.$refs.input.isEmpty;
-      this.$emit('input');
+    getEditor() {
+      return this.$refs.ue.getEditor();
+    },
+    change() {
+      this.$emit('change', this.temp);
     }
   },
   components: {
     CntModule,
-    DivInput
+    Ue
   }
 };
 </script>
 
 <style scoped lang="stylus">
-.topic
-  .topic_input
-    min-height: 60px
-    line-height: 25px
 </style>

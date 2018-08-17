@@ -1,42 +1,40 @@
 <template>
   <div>
-    <topic :topic="topic" @change="tpChange" @input="verify" ref="topic"></topic>
-    <options :options="options" @input="verify" ref="options"></options>
-    <answer :options="options" :answer="answer" @change="anwChange" ref="answer"></answer>
-    <hint :hint="hint" @change="hintChange"></hint>
-    <explanation :explanation="explanation" @change="expChange"></explanation>
+    <e-box v-model="qsData.topic" name="题干" :config="{initialFrameHeight: 60}" :mheight="90" :required="true"></e-box>
+    <options ref="options" v-model="qsData.options"></options>
+    <answer v-model="qsData.answer" :options="qsData.options"></answer>
+    <e-box v-model="qsData.hint" name="提示"></e-box>
+    <e-box v-model="qsData.explanation" name="解析"></e-box>
   </div>
 </template>
 
 <script>
-import Topic from 'components/general-part/topic/topic';
+import EBox from 'components/general-part/edit-box/edit-box';
+
 import Options from 'components/general-part/options/options';
 import Answer from 'components/general-part/answer/answer';
-import Hint from 'components/general-part/hint/hint';
-import Explanation from 'components/general-part/explanation/explanation';
 import { OptionsData } from 'common/js/class';
 import { replaceSrc } from 'utils/utilities';
 import { generalMixin } from 'common/js/mixin';
 
 export default {
   mixins: [generalMixin],
-  data() {
-    return {
-      options: new OptionsData().data,
-      answer: '-1'
-    };
-  },
   methods: {
+    initQsData() {
+      return (this.qsData = {
+        topic: '',
+        hint: '',
+        explanation: '',
+        options: new OptionsData().data,
+        answer: '-1'
+      });
+    },
     getQuestionData(urlSnippet) {
-      let _topic = this.topic;
-      let _options = this.options;
-      let _answer = this.answer.charCodeAt(0);
-      if (_answer > 64 && _answer < 91) {
-        _answer = _answer - 65;
-      }
-      let _hint = this.hint;
-      let _explanation = this.explanation;
-
+      let _topic = this.qsData.topic;
+      let _options = this.qsData.options;
+      let _answer = this.qsData.answer.charCodeAt(0) - 65;
+      let _hint = this.qsData.hint;
+      let _explanation = this.qsData.explanation;
       let questionData = {
         title: document.title,
         topic: replaceSrc(_topic, urlSnippet),
@@ -82,29 +80,19 @@ export default {
         localData
       };
     },
-    complete() {
+    validate() {
+      if (!this.qsData) return [false];
       return [
-        this.$refs.topic.isComplete,
-        this.answer && this.answer !== '-1',
-        this.$refs.options.isComplete
+        this.qsData.topic !== '',
+        this.qsData.answer !== '-1',
+        this.$refs.options.valid
       ];
-    },
-    initOriData(newVal) {
-      this.options = newVal.options.map(item => {
-        return Object.assign({}, item);
-      });
-      this.answer = newVal.options[newVal.answer].icon;
-      this.topic = newVal.topic;
-      this.explanation = newVal.explanation;
-      this.hint = newVal.hint;
     }
   },
   components: {
-    Topic,
     Options,
     Answer,
-    Hint,
-    Explanation
+    EBox
   }
 };
 </script>

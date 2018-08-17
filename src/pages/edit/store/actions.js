@@ -37,8 +37,8 @@ export const clearSelection = function({ state, commit }) {
   commit('SET_CURRENTRANGE', null);
 };
 // 验证
-export const verifyIsPass = function({ commit }, isPass) {
-  commit(types.SET_ISPASS, isPass);
+export const validate = function({ commit }, value) {
+  commit(types.SET_VALID, value);
 };
 
 let save;

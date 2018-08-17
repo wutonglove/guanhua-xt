@@ -1,16 +1,16 @@
 <template>
   <div class="answer">
-    <cnt-module name="答案" :isMandatory="true">
+    <cnt-module name="答案" :required="true">
       <div class="answer_wrapper">
-        <i-radio-group v-model="_answer" v-if="inputType === 'radio'">
+        <i-radio-group v-model="temp" v-if="type === 'radio'" @on-change="change">
           <i-radio
-            :label="answer.icon"
-            v-for="(answer,index) in options"
+            v-for="(item,index) in options"
+            :label="item.icon"
             :key="index"
           ></i-radio>
         </i-radio-group>
-        <i-checkbox-group v-model="_answer" v-else>
-          <i-checkbox :label="answer.icon" v-for="(answer,index) in options" :key="index"></i-checkbox>
+        <i-checkbox-group v-model="temp" v-else @on-change="change">
+          <i-checkbox :label="item.icon" v-for="(item,index) in options" :key="index"></i-checkbox>
         </i-checkbox-group>
       </div>
     </cnt-module>
@@ -27,24 +27,26 @@ import ICheckboxGroup from 'iview/src/components/checkbox/checkbox-group';
 
 export default {
   props: {
-    options: {
-      type: Array
+    type: {
+      type: String,
+      default: 'radio'
     },
-    answer: {
-      type: [String, Array]
-    }
+    answer: String | Array,
+    options: Array
   },
-  computed: {
-    _answer: {
-      get() {
-        return this.answer;
-      },
-      set(value) {
-        this.$emit('change', value);
-      }
-    },
-    inputType() {
-      return typeof this.answer === 'string' ? 'radio' : 'checkbox';
+  model: {
+    prop: 'answer',
+    event: 'change'
+  },
+  data() {
+    let temp = this.type === 'radio' ? '-1' : [];
+    return {
+      temp: temp
+    };
+  },
+  methods: {
+    change() {
+      this.$emit('change', this.temp);
     }
   },
   components: {
@@ -59,6 +61,7 @@ export default {
 
 <style scoped lang="stylus">
 .answer_wrapper
+  padding: 10px 10px
   font-size: 0
   line-height: 20px
   label

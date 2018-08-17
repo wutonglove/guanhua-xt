@@ -1,37 +1,42 @@
 <template>
   <div class="hint">
     <cnt-module name="提示">
-      <div-input v-model="_hint"></div-input>
+      <ue class="hint_input" v-model="temp" @change="change"></ue>
     </cnt-module>
   </div>
 </template>
 
 <script>
-  import CntModule from 'components/general-part/cnt-module/cnt-module';
-  import DivInput from 'components/general-part/div-input/div-input';
+import CntModule from 'components/general-part/cnt-module/cnt-module';
+import Ue from 'base/ueditor/ueditor';
 
-  export default {
-    props: {
-      hint: String
+export default {
+  props: {
+    hint: String
+  },
+  model: {
+    prop: 'hint',
+    event: 'change'
+  },
+  data() {
+    return {
+      temp: ''
+    };
+  },
+  methods: {
+    getEditor() {
+      return this.$refs.ue.getEditor();
     },
-    computed: {
-      _hint: {
-        get() {
-          return this.hint;
-        },
-        set(value) {
-          this.$emit('change', value);
-        }
-      }
-    },
-    components: {
-      CntModule,
-      DivInput
+    change() {
+      this.$emit('change', this.temp);
     }
-  };
+  },
+  components: {
+    CntModule,
+    Ue
+  }
+};
 </script>
 
 <style scoped lang="stylus">
-  .div_input
-    line-height: 25px
 </style>

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <topic :topic="topic" @change="tpChange" @input="verify" ref="topic"></topic>
-    <options :options="options" name="排序项" desc="请按照正确的顺序依次输入排序项" @input="verify" ref="options"></options>
-    <hint :hint="hint" @change="hintChange"></hint>
-    <explanation :explanation="explanation" @change="expChange"></explanation>
+    <topic v-model="qsData.topic"></topic>
+    <options ref="options" v-model="qsData.options" desc="请按照正确的顺序依次输入排序项" name="排序项"></options>
+    <hint v-model="qsData.hint"></hint>
+    <explanation v-model="qsData.explanation"></explanation>
   </div>
 </template>
 
@@ -25,11 +25,19 @@ export default {
     };
   },
   methods: {
+    initQsData() {
+      return (this.qsData = {
+        topic: '',
+        hint: '',
+        explanation: '',
+        options: new OptionsData().data
+      });
+    },
     getQuestionData: function(urlSnippet) {
-      let _topic = this.topic;
-      let _options = this.options;
-      let _hint = this.hint;
-      let _explanation = this.explanation;
+      let _topic = this.qsData.topic;
+      let _options = this.qsData.options;
+      let _hint = this.qsData.hint;
+      let _explanation = this.qsData.explanation;
 
       let questionData = {
         title: document.title,
@@ -74,22 +82,12 @@ export default {
         localData
       };
     },
-    complete() {
+    validate() {
+      if (!this.qsData) return [false];
       return [
-        this.$refs.topic.isComplete,
-        this.$refs.options.isComplete
+        this.qsData.topic !== '',
+        this.$refs.options.valid
       ];
-    }
-  },
-  watch: {
-    topic() {
-      this.verify();
-    },
-    options: {
-      deep: true,
-      handler() {
-        this.verify();
-      }
     }
   },
   components: {

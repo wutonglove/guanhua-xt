@@ -15,8 +15,7 @@
       </i-dropdown-menu>
     </i-dropdown>
 
-    <!-- <topic ref="topicDOM" @verify="verify"></topic> -->
-    <topic :topic="topic" @change="tpChange" ref="topic" @input="verify"></topic>    
+    <topic @change="validate" v-model="qsData.topic"></topic>  
 
     <div class="sub_content" v-if="questions.length>0">
       <i-tabs ref="tabs">
@@ -24,8 +23,8 @@
           <i-button type="primary" size="small" style="float:right;" @click="removeQuestion(index)">删除本题</i-button>
           <div class="question_wrap">
             <h3 class="title">{{ typeKeyVal[question.quesType] }}</h3>
-            <div class="content" :style="`height:${subContentH}px`" @keyup="verify" @click="verify">
-              <div :is="question.quesType" ref="questionsDOM" @verify="verify"></div>
+            <div class="content" :style="`height:${subContentH}px`">
+              <div :is="question.quesType" ref="questionsDOM" v-model="question.desc" @change="validate"></div>
             </div>
           </div>
         </i-tab-pane>
@@ -62,6 +61,7 @@ export default {
   mixins: [generalMixin],
   data() {
     return {
+      topoic: '',
       questions: [],
       subContentH: 0,
       questionMap: questionMap
@@ -85,6 +85,12 @@ export default {
     }, 20);
   },
   methods: {
+    initQsData() {
+      this.qsData = {
+        topic: '',
+        questions: this.questions
+      };
+    },
     addQuestion: function(name) {
       if (this.questions.length > 14) {
         Message.warning('最多添加15道题');
@@ -93,20 +99,20 @@ export default {
       this.questions.push({
         id: this.questions.length,
         quesType: name,
-        desc: {}
+        desc: {
+          type: 'compre'
+        }
       });
       this.$nextTick(() => {
         this.$refs.tabs.handleChange(this.questions.length - 1);
-        this.verify();
       });
     },
     removeQuestion: function(index) {
       this.questions.splice(index, 1);
       this.$refs.tabs.handleRemove(this.questions.length);
-      this.verify();
     },
     getQuestionData: function(urlSnippet) {
-      let _topic = this.topic;
+      let _topic = this.qsData.topic;
 
       let questionData = {
         title: document.title,
@@ -131,19 +137,20 @@ export default {
         localData
       };
     },
-    complete() {
+    validate() {
+      if (!this.qsData) return [false];
       let qusDOM = this.$refs.questionsDOM;
       let res = true;
       if (!qusDOM || qusDOM.length < 1) {
         res = false;
       } else {
         for (let i = 0; i < qusDOM.length; i++) {
-          if (!qusDOM[i].isPass) {
+          if (!Math.min.apply(Math, qusDOM[i].validate())) {
             res = false;
           }
         }
       }
-      return [this.$refs.topic.isComplete, res];
+      return [this.qsData.topic !== '', res];
     }
   },
   computed: {
@@ -181,6 +188,8 @@ export default {
 .comprehensive_wrap
   .btn_add_question
     float: right
+    position: relative
+    z-index: 1
   .question_num
     margin-top: 10px
     .num

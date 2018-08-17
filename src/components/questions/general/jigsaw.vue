@@ -1,6 +1,6 @@
 <template>
   <div class="jigsaw">
-    <topic :topic="topic" @change="tpChange" @input="verify" ref="topic"></topic>
+    <topic v-model="qsData.topic" ref="topic"></topic>
 
     <cnt-module name="拼图素材设置" :isMandatory="true">
       <div class="fodder_wrapper">
@@ -30,8 +30,8 @@
       </div>
     </cnt-module>
 
-    <hint :hint="hint" @change="hintChange"></hint>
-    <explanation :explanation="explanation" @change="expChange"></explanation>
+    <hint v-model="qsData.hint"></hint>
+    <explanation v-model="qsData.explanation"></explanation>
   </div>
 </template>
 
@@ -61,17 +61,16 @@ export default {
     };
   },
   mounted() {
-    this.$nextTick(() => {
-      this.initTab();
-      document.addEventListener('mouseup', e => {
-        setTimeout(() => {
-          this.init();
-          this.verify();
-        }, 100);
-      });
-    });
+    this.initTab();
   },
   methods: {
+    initQsData() {
+      return (this.qsData = {
+        topic: '',
+        hint: '',
+        explanation: ''
+      });
+    },
     initTab: function() {
       this.itable = [];
       for (let r = 0; r < this.tr; r++) {
@@ -94,9 +93,9 @@ export default {
         $(this.$refs.insertImgBOX).children().length > 0 ? 'auto' : '300px';
     },
     getQuestionData: function(urlSnippet) {
-      let _topic = this.topic;
-      let _hint = this.hint;
-      let _explanation = this.explanation;
+      let _topic = this.qsData.topic;
+      let _hint = this.qsData.hint;
+      let _explanation = this.qsData.explanation;
       let imgDom = $('.insert_hook')
         .html()
         .trim();
@@ -124,9 +123,10 @@ export default {
         localData
       };
     },
-    complete() {
+    validate() {
+      if (!this.qsData) return [false];
       return [
-        this.$refs.topic.isComplete,
+        this.qsData.topic !== '',
         $('.insertImgBox').find('.insertFile_hook').length > 0
       ];
     },

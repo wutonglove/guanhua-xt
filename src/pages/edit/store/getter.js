@@ -23,8 +23,10 @@ export const preDialog = state => state.preDialog;
 
 export const progressDia = state => state.progressDia;
 
-export const editQusData = state => state.editQusData;
+export const qsData = state => state.qsData;
 
 export const divChgAble = state => state.divChgAble;
 
 export const mboard = state => state.mboard;
+
+export const qstype = state => state.qstype;

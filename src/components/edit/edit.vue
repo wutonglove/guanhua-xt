@@ -95,7 +95,7 @@ export default {
     },
     ...mapMutations({
       setUnfold: 'SET_UNFOLD',
-      setQusData: 'SET_EDITQUSDATA'
+      setQusData: 'SET_QSDATA'
     }),
     ...mapActions({
       saveRange: 'saveCurrentRange',

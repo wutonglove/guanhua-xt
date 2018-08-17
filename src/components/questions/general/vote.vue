@@ -1,6 +1,6 @@
 <template>
   <div>
-    <topic :topic="topic" @change="tpChange" @input="verify" ref="topic"></topic>
+    <topic v-model="qsData.topic"></topic>
     <div class="choiceType">
       <i-radio-group v-model="voteType">
         <i-radio label="radio">
@@ -11,7 +11,7 @@
         </i-radio>
       </i-radio-group>
     </div>
-    <options :options="options" name="投票项" @input="verify" ref="options"></options>
+    <options ref="options" name="投票项" v-model="qsData.options"></options>
   </div>
 </template>
 
@@ -30,14 +30,19 @@ export default {
   mixins: [generalMixin],
   data() {
     return {
-      options: new OptionsData().data,
       voteType: 'multiple'
     };
   },
   methods: {
+    initQsData() {
+      return (this.qsData = {
+        topic: '',
+        options: new OptionsData().data
+      });
+    },
     getQuestionData(urlSnippet) {
-      let _topic = this.topic;
-      let _options = this.options;
+      let _topic = this.qsData.topic;
+      let _options = this.qsData.options;
 
       let questionData = {
         title: document.title,
@@ -78,22 +83,9 @@ export default {
         localData
       };
     },
-    complete() {
-      return [
-        this.$refs.topic.isComplete,
-        this.$refs.options.isComplete
-      ];
-    }
-  },
-  watch: {
-    topic() {
-      this.verify();
-    },
-    options: {
-      deep: true,
-      handler() {
-        this.verify();
-      }
+    validate() {
+      if (!this.qsData) return [false];
+      return [this.qsData.topic !== '', this.$refs.options.valid];
     }
   },
   components: {

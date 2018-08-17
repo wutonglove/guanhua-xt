@@ -217,17 +217,27 @@ export const tem1ComMixin = {
 };
 
 export const generalMixin = {
+  props: {
+    otQsData: Object | Array,
+    default: null
+  },
+  model: {
+    prop: 'otQsData',
+    event: 'change'
+  },
   data() {
     return {
-      explanation: '',
-      hint: '',
-      topic: '',
-      answer: '',
-      isPass: false
+      qsData: null
     };
   },
-  computed: {
-    ...mapGetters(['editQusData'])
+  created() {
+    if (!this.otQsData) {
+      this.initQsData();
+    } else if (this.otQsData.type === 'compre') {
+      this.$emit('change', this.initQsData());
+    } else {
+      this.qsData = this.otQsData;
+    }
   },
   methods: {
     initImgDOM() {
@@ -235,39 +245,25 @@ export const generalMixin = {
         return $(this).children('.insertFile');
       });
     },
-    hintChange(value) {
-      this.hint = value;
-      this.verify();
+    validate() {
+      console.log('Error: validate is undefined');
     },
-    expChange(value) {
-      this.explanation = value;
-      this.verify();
+    initQsData() {
+      console.log('Error: initQsData is undefined');
     },
-    tpChange(value) {
-      this.topic = value;
-      this.verify();
-    },
-    anwChange(value) {
-      this.answer = value;
-      this.verify();
-    },
-    verify() {
-      this.isPass = Boolean(Math.min.apply(Math, this.complete()));
-      this.$emit('verify', this.isPass);
-    },
-    complete() {
-      console.log('Error: complete is undefined');
-    },
-    initOriData() {
-      console.log('Error: initOriData is undefined');
-    }
+    ...mapMutations({
+      setData: 'SET_QSDATA'
+    })
   },
   watch: {
-    editQusData(newVal) {
-      this.initOriData(newVal);
-      this.$nextTick(() => {
-        this.initImgDOM();
-      });
+    qsData: {
+      deep: true,
+      handler(newVal) {
+        // console.log(newVal);
+        // console.log(this.validate());
+        this.$emit('validate', Boolean(Math.min.apply(Math, this.validate())));
+        this.$emit('change', this.qsData);
+      }
     }
   }
 };

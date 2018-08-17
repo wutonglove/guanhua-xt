@@ -1,44 +1,42 @@
 <template>
   <div>
-    <topic :topic="topic" @change="tpChange" @input="verify" ref="topic"></topic>
-    <options :options="options" @input="verify" ref="options"></options>
-    <answer :options="options" :answer="answer" @change="anwChange"></answer>
-    <hint :hint="hint" @change="hintChange"></hint>
-    <explanation :explanation="explanation" @change="expChange"></explanation>
+    <e-box v-model="qsData.topic" name="题干" :config="{initialFrameHeight: 60}" :mheight="90" :required="true"></e-box>
+    <options ref="options" v-model="qsData.options"></options>
+    <answer type="checkbox" v-model="qsData.answer" :options="qsData.options"></answer>
+    <e-box v-model="qsData.hint" name="提示"></e-box>
+    <e-box v-model="qsData.explanation" name="解析"></e-box>
   </div>
 </template>
 
 <script>
-import Topic from 'components/general-part/topic/topic';
 import Options from 'components/general-part/options/options';
 import Answer from 'components/general-part/answer/answer';
-import Hint from 'components/general-part/hint/hint';
-import Explanation from 'components/general-part/explanation/explanation';
+import EBox from 'components/general-part/edit-box/edit-box';
+
 import { OptionsData } from 'common/js/class';
 import { replaceSrc } from 'utils/utilities';
 import { generalMixin } from 'common/js/mixin';
 
 export default {
   mixins: [generalMixin],
-  data() {
-    return {
-      options: new OptionsData().data,
-      answer: []
-    };
-  },
   methods: {
-    getQuestionData: function(urlSnippet) {
-      let _topic = this.topic;
-      let _options = this.options;
-      console.log(this.answer);
-      let _answer = this.answer.map((item, index) => {
-        let code = item.charCodeAt(0);
-        if (code > 64 && code < 91) {
-          return code - 65;
-        }
+    initQsData() {
+      return (this.qsData = {
+        topic: '',
+        hint: '',
+        explanation: '',
+        options: new OptionsData().data,
+        answer: []
       });
-      let _hint = this.hint;
-      let _explanation = this.explanation;
+    },
+    getQuestionData: function(urlSnippet) {
+      let _topic = this.qsData.topic;
+      let _options = this.qsData.options;
+      let _answer = this.qsData.answer.map((item, index) => {
+        return item.charCodeAt(0) - 65;
+      });
+      let _hint = this.qsData.hint;
+      let _explanation = this.qsData.explanation;
 
       let questionData = {
         title: document.title,
@@ -85,31 +83,18 @@ export default {
         localData
       };
     },
-    complete() {
+    validate() {
       return [
-        this.$refs.topic.isComplete,
-        this.answer && this.answer.length > 0,
-        this.$refs.options.isComplete
+        this.qsData.topic !== '',
+        this.qsData.answer.length > 0,
+        this.$refs.options.valid
       ];
-    },
-    initOriData(newVal) {
-      this.options = newVal.options.map(item => {
-        return Object.assign({}, item);
-      });
-      this.answer = newVal.answer.map(item => {
-        return newVal.options[item].icon;
-      });
-      this.topic = newVal.topic;
-      this.explanation = newVal.explanation;
-      this.hint = newVal.hint;
     }
   },
   components: {
-    Topic,
     Options,
     Answer,
-    Hint,
-    Explanation
+    EBox
   }
 };
 </script>

@@ -30,9 +30,10 @@ const state = {
     isShow: false,
     progress: 0
   },
-  editQusData: null,
+  qsData: null,
   divChgAble: true,
-  mboard: {}
+  mboard: {},
+  qstype: null
 };
 
 export default state;

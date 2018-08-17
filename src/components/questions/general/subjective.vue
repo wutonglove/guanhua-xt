@@ -1,11 +1,11 @@
 <template>
   <div>
-    <topic :topic="topic" @change="tpChange" @input="verify" ref="topic"></topic>
-    <cnt-module name="答案" :isMandatory="true">
-      <div-input v-model="answer" @input="verify" ref="answer"></div-input>
+    <topic v-model="qsData.topic"></topic>
+    <cnt-module name="答案" :required="true">
+      <div-input v-model="qsData.answer"></div-input>
     </cnt-module>
-    <hint :hint="hint" @change="hintChange"></hint>
-    <explanation :explanation="explanation" @change="expChange"></explanation>
+    <hint v-model="qsData.hint"></hint>
+    <explanation v-model="qsData.explanation"></explanation>
   </div>
 </template>
 
@@ -21,25 +21,18 @@ import { generalMixin } from 'common/js/mixin';
 
 export default {
   mixins: [generalMixin],
-  data() {
-    return {
-      answer: ''
-    };
-  },
-  computed: {
-    _answer: {
-      set(value) {
-        this.answer = value;
-      },
-      get() {
-        return this.answer;
-      }
-    }
-  },
   methods: {
+    initQsData() {
+      return (this.qsData = {
+        topic: '',
+        hint: '',
+        explanation: '',
+        answer: ''
+      });
+    },
     getQuestionData: function(urlSnippet) {
-      let _topic = this.topic;
-      let _answer = this.answer.trim();
+      let _topic = this.qsData.topic;
+      let _answer = this.qsData.answer;
 
       let questionData = {
         title: document.title,
@@ -58,11 +51,9 @@ export default {
         localData
       };
     },
-    complete() {
-      return [
-        this.$refs.topic.isComplete,
-        !this.$refs.answer.isEmpty
-      ];
+    validate() {
+      if (!this.qsData) return [false];
+      return [this.qsData.topic !== '', this.qsData.answer !== ''];
     }
   },
   watch: {

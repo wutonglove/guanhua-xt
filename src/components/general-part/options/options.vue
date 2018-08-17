@@ -1,31 +1,22 @@
 <template>
   <div class="options_wrapper">
-    <cnt-module :name="name" :desc="desc" :isMandatory="true">
+    <cnt-module :name="name" :desc="desc" :required="true">
       <div class="options" ref="optionsDOM">
-        <div class="option" v-for="(option,index) in options" :key="index">
+        <div class="option" v-for="(option,index) in temp" :key="index">
           <span class="code">{{option.icon}}</span>
           <!-- tag div -->
-          <div-input
-            class="text"
-            v-model="option.text"
-            @input="input"
-            @change="editText"
-            v-if="tag==='div'"
-            ref="input"
-          ></div-input>
+          <ue ref="ue" class="text" v-model="option.text" v-if="tag!=='input'" @change="change"></ue>
 
           <!-- tag input -->
           <input type="text" class="text div_input cl_rg_hook"
-                 v-else-if="tag==='input'"
-                 :data-icode="option.icode"
+                 v-else
                  v-model="option.text"
-                 @input='input'
-                 @paste.stop.prevent="paste(index, $event)"
                  ref="input"
+                  @change="change"
           >
 
-          <button type="button" class="icon" @click="removeOption(index)"
-                  :disabled="hasAdd && options.length<3">
+          <button type="button" class="icon" @click="removeOption(index)" v-if="tag!=='input'"
+                  :disabled="hasAdd && temp.length<3">
             <i-icon type="trash-a"></i-icon>
           </button>
         </div>
@@ -39,18 +30,14 @@
 </template>
 
 <script>
+import Ue from 'base/ueditor/ueditor';
 import CntModule from 'components/general-part/cnt-module/cnt-module';
-import DivInput from 'components/general-part/div-input/div-input';
 
 import IButton from 'iview/src/components/button';
 import IIcon from 'iview/src/components/icon';
 import $ from 'jquery';
 
 export default {
-  model: {
-    prop: 'options',
-    event: 'change'
-  },
   props: {
     hasAdd: {
       type: Boolean,
@@ -64,103 +51,105 @@ export default {
       type: String,
       default: ''
     },
-    options: {
-      type: Array
-    },
     tag: {
       type: String,
       default: 'div'
-    }
+    },
+    options: Array
+  },
+  model: {
+    prop: 'options',
+    event: 'change'
   },
   data() {
     return {
-      isComplete: false
+      temp: []
     };
   },
-  methods: {
-    input() {
-      let inputs = this.$refs.input;
-      this.isComplete = true;
-      for (let i = 0; i < inputs.length; i++) {
-        if (this.tag === 'div') {
-          if (inputs[i].isEmpty) {
-            this.isComplete = false;
-            break;
-          }
-        } else {
-          if (inputs[i].value.trim()) {
-            this.isComplete = false;
-            break;
-          }
-        }
+  mounted() {
+    this.temp = $.extend(true, [], this.options);
+  },
+  computed: {
+    valid() {
+      let _arr = [];
+      for (let i = 0; i < this.temp.length; i++) {
+        let text = this.temp[i].text.trim();
+        if (text === '') return false;
+        if (_arr.indexOf(text) !== -1) return false;
+        _arr.push(text);
       }
-      this.$emit('input');
-    },
-    editText() {
-      this.$emit('chang', this.options);
-    },
+      return true;
+    }
+  },
+  methods: {
     updateOptionIcon() {
-      if (this.options.length < 1) return;
-      let iconType = this.options[0].icon;
-      this.options.forEach((item, index) => {
+      if (this.temp.length < 1) return;
+      let iconType = this.temp[0].icon;
+      this.temp.forEach((item, index) => {
         if (!isNaN(iconType * 1)) {
           item.icon = index + 1;
-          item.id = index;
         } else {
           let code = 'A';
           code = index + code.charCodeAt(0);
           item.icon = String.fromCharCode(code);
-          item.id = index;
         }
       });
     },
-    addOption() {
-      this.options.push({
-        icon: '',
-        text: '',
-        id: 0
-      });
-      this.refresh();
-    },
-    removeOption(index) {
-      this.options.splice(index, 1);
-      this.refresh();
-      this.$emit('delete', index);
-    },
-    paste(index, e) {
-      document.execCommand(
-        'insertText',
-        false,
-        e.clipboardData.getData('text/plain')
-      );
-      let $input = $(e.srcElement);
-      let optionHtml = this.tag === 'div' ? $input.html() : $input.val();
-      this.setOption(index, optionHtml);
-    },
-    setOption(index, val) {
-      this.options[index].text = val;
-      this.$emit('chang', this.options);
-    },
-    refresh() {
-      this.updateOptionIcon();
-      this.$emit('chang', this.options);
-    }
-  },
-  watch: {
-    'options.length': {
-      deep: true,
-      handler(newVal, oldVal) {
-        this.$nextTick(() => {
-          this.refresh();
+    addOption(index) {
+      if (typeof index === 'number') {
+        this.temp.splice(index, 0, {
+          icon: '',
+          text: ''
+        });
+      } else {
+        this.temp.push({
+          icon: '',
+          text: ''
         });
       }
+      this.$nextTick(() => {
+        this.refresh();
+      });
+    },
+    removeOption(index) {
+      if ({}.toString.call(index) === '[object Array]') {
+        let i = 0;
+        index.forEach(item => {
+          this.temp.splice(item - i, 1);
+          i++;
+        });
+      } else if (typeof index === 'number') {
+        this.temp.splice(index, 1);
+      }
+      this.$nextTick(() => {
+        this.refresh();
+      });
+    },
+    refresh() {
+      // 手动更新icon
+      this.updateOptionIcon();
+      // 手动更新text;
+      if (this.tag !== 'input') {
+        this.temp.forEach((item, index) => {
+          // 需要等待ue加载
+          this.$refs.ue[index].setContent(item.text);
+        });
+      } else {
+        this.temp.forEach((item, index) => {
+          this.$refs.input.value = item.text;
+        });
+      }
+      this.change();
+    },
+    change() {
+      this.$emit('change', this.temp);
     }
   },
   components: {
     CntModule,
     IButton,
     IIcon,
-    DivInput
+    Ue
   }
 };
 </script>
@@ -170,6 +159,7 @@ export default {
 
 .options_wrapper
   .options
+    padding: 10px
     .option
       display: flex
       margin-bottom: 15px
@@ -195,6 +185,7 @@ export default {
         flex: 1
         border: 1px solid #ccc
         padding: 0 10px
+        width: 752px
       .icon
         flex: 0 0 40px
         width: 40px

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <topic :topic="topic" @change="tpChange" @input="verify" ref="topic"></topic>
-    <answer :options="options" :answer="answer" @change="anwChange"></answer>
-    <hint :hint="hint" @change="hintChange"></hint>
-    <explanation :explanation="explanation" @change="expChange"></explanation>
+    <topic v-model="qsData.topic"></topic>
+    <answer v-model="qsData.answer" :options="qsData.options"></answer>
+    <hint v-model="qsData.hint"></hint>
+    <explanation v-model="qsData.explanation"></explanation>
   </div>
 </template>
 
@@ -18,29 +18,32 @@ import { generalMixin } from 'common/js/mixin';
 
 export default {
   mixins: [generalMixin],
-  data() {
-    return {
-      options: [
-        {
-          icon: '是',
-          text: '',
-          id: 0
-        },
-        {
-          icon: '否',
-          text: '',
-          id: 1
-        }
-      ],
-      answer: '-1'
-    };
-  },
   methods: {
+    initQsData() {
+      return (this.qsData = {
+        topic: '',
+        hint: '',
+        explanation: '',
+        options: [
+          {
+            icon: '是',
+            text: '',
+            id: 0
+          },
+          {
+            icon: '否',
+            text: '',
+            id: 1
+          }
+        ],
+        answer: '-1'
+      });
+    },
     getQuestionData(urlSnippet) {
-      let _topic = this.topic;
-      let _answer = this.answer;
-      let _hint = this.hint;
-      let _explanation = this.explanation;
+      let _topic = this.qsData.topic;
+      let _answer = this.qsData.answer;
+      let _hint = this.qsData.hint;
+      let _explanation = this.qsData.explanation;
 
       let questionData = {
         title: document.title,
@@ -63,22 +66,9 @@ export default {
         localData
       };
     },
-    complete() {
-      return [this.$refs.topic.isComplete, this.answer && this.answer !== '-1'];
-    },
-    initOriData(newVal) {
-      this.answer = newVal.answer.toString();
-      this.topic = newVal.topic;
-      this.explanation = newVal.explanation;
-      this.hint = newVal.hint;
-    }
-  },
-  watch: {
-    topic() {
-      this.verify();
-    },
-    answer() {
-      this.verify();
+    validate() {
+      if (!this.qsData) return [false];
+      return [this.qsData.topic !== '', this.qsData.answer !== '-1'];
     }
   },
   components: {

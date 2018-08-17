@@ -7,7 +7,7 @@ const mutations = {
   [types.SET_CURRENTRANGE](state, range) {
     state.currentRange = range;
   },
-  [types.SET_ISPASS](state, is) {
+  [types.SET_VALID](state, is) {
     state.isPass = is;
   },
   [types.SET_TIMES](state, { minute, second }) {
@@ -43,14 +43,20 @@ const mutations = {
     if (typeof isShow === 'boolean') state.progressDia.isShow = isShow;
     if (typeof progress === 'number') state.progressDia.progress = progress;
   },
-  [types.SET_EDITQUSDATA](state, value) {
-    state.editQusData = value;
+  [types.SET_QSDATA](state, data) {
+    if (!state.qsData) state.qsData = {};
+    // 传data.type，判断和当前的习题类型 是否相等
+    // 如果是 相等
+    state.qsData = Object.assign({}, state.qsData, data);
   },
   [types.SET_DIVCHGABLE](state, value) {
     state.divChgAble = value;
   },
   [types.SET_MBOARD](state, value) {
     Object.assign(state.mboard, value);
+  },
+  [types.SET_QSTYPE](state, value) {
+    state.qstype = value;
   }
 };
 

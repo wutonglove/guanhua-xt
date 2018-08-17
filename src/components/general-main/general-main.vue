@@ -5,7 +5,7 @@
     <div class="content_wrapper" @click="clearRange">
       <form>
         <div class="content">
-          <router-view ref="questionDOM" @verify="verify"></router-view>
+          <router-view ref="questionDOM" @validate="validate"></router-view>
         </div>
       </form>
     </div>
@@ -73,13 +73,10 @@
         if (parents.hasClass('cl_rg_hook') || curr.hasClass('cl_rg_hook')) return;
         this.clearSelection();
       },
-      verify: function(res) {
-        this.verifyIsPass(res);
-      },
       ...mapActions({
         clearSelection: 'clearSelection',
         resetSelection: 'resetSelection',
-        verifyIsPass: 'verifyIsPass'
+        validate: 'validate'
       }),
       ...mapMutations({
         setTargetDom: 'SET_TARGETDOM'
