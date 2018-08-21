@@ -31,9 +31,9 @@ const state = {
     progress: 0
   },
   qsData: null,
-  divChgAble: true,
   mboard: {},
-  qstype: null
+  qstype: null,
+  editorId: null
 };
 
 export default state;

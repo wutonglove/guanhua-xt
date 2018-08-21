@@ -1,20 +1,15 @@
 <template>
   <div>
     <topic v-model="qsData.topic"></topic>
-    <cnt-module name="答案" :required="true">
-      <div-input v-model="qsData.answer"></div-input>
-    </cnt-module>
-    <hint v-model="qsData.hint"></hint>
-    <explanation v-model="qsData.explanation"></explanation>
+    <e-box v-model="qsData.answer" name="答案"  :required="true"></e-box>    
+    <e-box v-model="qsData.hint" name="提示"></e-box>
+    <e-box v-model="qsData.explanation" name="解析"></e-box>
   </div>
 </template>
 
 <script>
+import EBox from 'components/general-part/edit-box/edit-box';
 import Topic from 'components/general-part/topic/topic';
-import Hint from 'components/general-part/hint/hint';
-import Explanation from 'components/general-part/explanation/explanation';
-import CntModule from 'components/general-part/cnt-module/cnt-module';
-import DivInput from 'components/general-part/div-input/div-input';
 
 import { replaceSrc } from 'utils/utilities';
 import { generalMixin } from 'common/js/mixin';
@@ -65,11 +60,8 @@ export default {
     }
   },
   components: {
-    Topic,
-    Hint,
-    Explanation,
-    CntModule,
-    DivInput
+    EBox,
+    Topic
   }
 };
 </script>

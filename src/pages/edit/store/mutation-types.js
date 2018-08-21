@@ -26,8 +26,8 @@ export const SET_PROGRESSDIA = 'SET_PROGRESSDIA';
 
 export const SET_QSDATA = 'SET_QSDATA';
 
-export const SET_DIVCHGABLE = 'SET_DIVCHGABLE';
-
 export const SET_MBOARD = 'SET_MBOARD';
 
 export const SET_QSTYPE = 'SET_QSTYPE';
+
+export const SET_EDITORID = 'SET_EDITORID';

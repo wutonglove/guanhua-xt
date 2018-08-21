@@ -1,7 +1,7 @@
 <template>
   <div class="topic">
     <cnt-module name="题干" :required="true" :mheight="90">
-      <ue class="topic_input" :config="{initialFrameHeight: 60}" v-model="temp" ref="ue" @change="change"></ue>
+      <ue class="topic_input" :config="{initialFrameHeight: 90}" v-model="temp" ref="ue" @change="change"></ue>
     </cnt-module>
   </div>
 </template>

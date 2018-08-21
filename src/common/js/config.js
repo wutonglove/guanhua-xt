@@ -80,21 +80,21 @@ export const EDIT_TEXT_BTNS = [
       {
         name: '前景色',
         icon: 'icon-pencil',
-        role: 'fontColor',
-        type: 'advanced'
+        role: 'forecolor',
+        type: 'second'
       },
       {
         name: '背景色',
         icon: 'icon-pencil-square',
-        role: 'bgkColor',
-        type: 'advanced'
+        role: 'backcolor',
+        type: 'second'
       },
       {
         name: '字号',
         icon: 'font',
-        role: 'FontSize',
-        type: 'advanced',
-        content: [12, 13, 16, 18, 24, 32, 48]
+        role: 'fontsize',
+        type: 'second',
+        content: ['12px', '13px', '16px', '18px', '24px', '32px', '48px']
       }
     ]
   },
@@ -104,17 +104,20 @@ export const EDIT_TEXT_BTNS = [
       {
         name: '左对齐',
         icon: 'icon-align-left',
-        role: 'JustifyLeft'
+        role: 'JustifyLeft',
+        state: 'off'
       },
       {
         name: '居中',
         icon: 'icon-align-center',
-        role: 'JustifyCenter'
+        role: 'JustifyCenter',
+        state: 'off'
       },
       {
         name: '右对齐',
         icon: 'icon-align-right',
-        role: 'JustifyRight'
+        role: 'JustifyRight',
+        state: 'off'
       }
     ]
   },
@@ -130,22 +133,22 @@ export const EDIT_TEXT_BTNS = [
       {
         name: '插入横线',
         icon: 'icon-minus',
-        role: 'InsertHorizontalRule'
+        role: 'horizontal'
       }
     ]
   },
   {
-    type: 'others',
+    type: '',
     list: [
       {
-        name: '增加缩进',
-        icon: 'icon-indent',
-        role: 'Indent'
+        name: '撤销',
+        icon: 'icon-undo',
+        role: 'undo'
       },
       {
-        name: '减少缩进',
-        icon: 'icon-dedent',
-        role: 'Outdent'
+        name: '重做',
+        icon: 'icon-redo',
+        role: 'redo'
       }
     ]
   }

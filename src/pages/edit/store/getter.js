@@ -25,8 +25,8 @@ export const progressDia = state => state.progressDia;
 
 export const qsData = state => state.qsData;
 
-export const divChgAble = state => state.divChgAble;
-
 export const mboard = state => state.mboard;
 
 export const qstype = state => state.qstype;
+
+export const editorId = state => state.editorId;

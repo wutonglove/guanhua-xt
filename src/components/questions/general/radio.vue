@@ -1,6 +1,6 @@
 <template>
   <div>
-    <e-box v-model="qsData.topic" name="题干" :config="{initialFrameHeight: 60}" :mheight="90" :required="true"></e-box>
+    <topic v-model="qsData.topic"></topic>
     <options ref="options" v-model="qsData.options"></options>
     <answer v-model="qsData.answer" :options="qsData.options"></answer>
     <e-box v-model="qsData.hint" name="提示"></e-box>
@@ -10,6 +10,7 @@
 
 <script>
 import EBox from 'components/general-part/edit-box/edit-box';
+import Topic from 'components/general-part/topic/topic';
 
 import Options from 'components/general-part/options/options';
 import Answer from 'components/general-part/answer/answer';
@@ -92,7 +93,8 @@ export default {
   components: {
     Options,
     Answer,
-    EBox
+    EBox,
+    Topic
   }
 };
 </script>

@@ -1,30 +1,31 @@
 <template>
   <div class="header">
-    <div class="header_wrapper" @mousedown.stop="hdClkHandler">
+    <div class="header_wrapper">
       <div class="text_wrapper clear">
         <ul class="tool_wrapper clear" v-for="(btns,index) in txtBtns" :key="index">
           <li class="tool_btn" v-for="(btn,i) in btns.list"  :key="i">
             <i-tooltip :content="btn.name">
               <!-- 前景色 颜色选择 start-->
               <color-picker
-                v-model="fontColor"
-                v-if="btn.role === 'fontColor'"
+                v-model="forecolor"
+                v-if="btn.role === 'forecolor'"
                 @change="ecFontColor"
               >
-                <span :class="btn.icon"></span>
+                <span class="on" :class="btn.icon"></span>
               </color-picker> <!-- end -->
               <!-- 背景色 颜色选择  start-->
               <color-picker
-                v-model="bgColor"
-                v-else-if="btn.role === 'bgkColor'"
+                v-model="backcolor"
+                v-else-if="btn.role === 'backcolor'"
                 @change="ecBgColor"
               >
                 <span :class="btn.icon"></span>
               </color-picker> <!-- end -->
               <!-- 字号 -->
-              <i-select v-model="fontSize" v-else-if="btn.role === 'FontSize'" size="small" @on-change="ecFsz">
-                <i-option :value="index+1" v-for="(size, index) in btn.content" :key="index">{{ size }}</i-option>
+              <i-select v-model="fontsize" v-else-if="btn.role === 'fontsize'" size="small" @on-change="ecFsz">
+                <i-option :value="size" v-for="(size, index) in btn.content" :key="index">{{ size }}</i-option>
               </i-select>
+              <!-- 表格 -->
               <span :class="btnSpanCls(btn)" v-else-if="btn.role === 'insertTable'"
                     @click.stop.prevent="exInsertTb"></span>
               <span :class="btnSpanCls(btn)" v-else @click.stop.prevent="execute(btn.role,btn.type)"></span>
@@ -66,17 +67,17 @@ import IModal from 'iview/src/components/modal';
 import IInputNumber from 'iview/src/components/input-number';
 
 import { EDIT_TEXT_BTNS, IN_FILE_BTNS } from 'common/js/config';
-import { mapActions, mapMutations, mapGetters } from 'vuex';
-import $ from 'jquery';
+import { mapMutations, mapGetters } from 'vuex';
 
 export default {
   data() {
     return {
       txtBtns: EDIT_TEXT_BTNS,
       fileBtns: IN_FILE_BTNS,
-      fontSize: 3,
-      bgColor: 'white',
-      fontColor: 'black',
+      fontsize: '16px',
+      forecolor: '#000',
+      backcolor: '#fff',
+      isDisable: false,
       tableInserting: false,
       table: {
         r: 3,
@@ -84,49 +85,54 @@ export default {
       }
     };
   },
-  created() {
-    $(document).on('mouseup', '.cl_rg_hook', e => {
-      setTimeout(() => {
-        this.initTxtBtnState();
-      }, 20);
-    });
-  },
   computed: {
-    ...mapGetters(['currentRange'])
+    editor() {
+      /* eslint-disable no-undef */
+      return UM.getEditor(this.editorId);
+    },
+    ...mapGetters(['currentRange', 'editorId'])
   },
   methods: {
-    hdClkHandler() {
-      this.setDivChgAble(false);
+    initBtnState() {
+      for (var i = 0; i < 2; i++) {
+        this.txtBtns[i].list.forEach((item, index) => {
+          if (!item.type) {
+            item.state =
+              this.editor.queryCommandState(item.role) === 1 ? 'on' : 'off';
+          }
+        });
+      }
+      this.txtBtns[0].list.forEach((item, index) => {
+        if (!item.type) {
+          item.state =
+            this.editor.queryCommandState(item.role) === 1 ? 'on' : 'off';
+        }
+      });
+      this.forecolor = this.editor.queryCommandValue('forecolor') || '#000';
+      this.backcolor = this.editor.queryCommandValue('backcolor') || '#fff';
+      this.fontsize = this.editor.queryCommandValue('fontsize') || '16px';
     },
     execute: function(role, type) {
-      if (type) return;
-      this.resetSelection().then(() => {
-        document.execCommand(role, false, null);
-      });
+      if (!this.editor || type) return;
+      this.editor.execCommand(role);
     },
     ecFontColor: function(color) {
-      this.resetSelection().then(() => {
-        document.execCommand('ForeColor', false, this.fontColor);
-        this.fontColor = 'black';
-      });
+      if (!this.editor) return;
+      this.editor.execCommand('forecolor', color);
     },
     ecBgColor: function(color) {
-      this.resetSelection().then(() => {
-        document.execCommand('BackColor', false, this.bgColor);
-        this.bgColor = 'white';
-      });
+      if (!this.editor) return;
+      this.editor.execCommand('BackColor', color);
     },
-    ecFsz: function() {
-      if (this.currentRange && !this.currentRange.toString()) return;
-      this.resetSelection().then(() => {
-        document.execCommand('FontSize', false, this.fontSize);
-        // this.fontSize = 3;
-      });
+    ecFsz: function(size) {
+      if (!this.editor) return;
+      this.editor.execCommand('FontSize', size);
     },
     exInsertTb() {
       this.tableInserting = true;
     },
     insertTable() {
+      if (!this.editor) return;
       let html = '<table contenteditable="false">';
 
       for (let i = 0; i < this.table.r; i++) {
@@ -139,7 +145,7 @@ export default {
       }
       html += '</table>';
 
-      document.execCommand('InsertHTML', false, html);
+      this.editor.execCommand('inserthtml', html);
     },
     showInDialog: function(btn) {
       let name;
@@ -166,27 +172,22 @@ export default {
       });
     },
     btnSpanCls(btn) {
-      return `${btn.icon} ${btn.state === 'on' ? 'active' : ''}`;
+      return `${btn.icon} ${btn.state}`;
     },
-    initTxtBtnState() {
-      for (let j = 0; j < this.txtBtns[0].list.length; j++) {
-        let btn = this.txtBtns[0].list[j];
-        if (document.queryCommandState(btn.role)) {
-          btn.state = 'on';
-        } else {
-          btn.state = 'off';
-        }
-      }
-      this.fontSize = document.queryCommandValue('FontSize') * 1;
-    },
-    ...mapActions({
-      resetSelection: 'resetSelection'
-    }),
     ...mapMutations({
       setFileDia: 'SET_FILEDIALOGINFO',
-      setFormula: 'SET_FORMULADIALOG',
-      setDivChgAble: 'SET_DIVCHGABLE'
+      setFormula: 'SET_FORMULADIALOG'
     })
+  },
+  watch: {
+    editorId(now, old) {
+      if (now === old) return;
+      this.$nextTick(() => {
+        this.editor.addListener('afterSelectionChange', () => {
+          this.initBtnState();
+        });
+      });
+    }
   },
   components: {
     ColorPicker,
@@ -247,7 +248,7 @@ export default {
             width: 23px
             height: 23px
             border-radius: 5px
-            &.active
+            &.on
               background-color: #97d5ea
           &:hover
             background-color: #C1DEE8

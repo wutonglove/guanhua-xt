@@ -49,14 +49,15 @@ const mutations = {
     // 如果是 相等
     state.qsData = Object.assign({}, state.qsData, data);
   },
-  [types.SET_DIVCHGABLE](state, value) {
-    state.divChgAble = value;
-  },
   [types.SET_MBOARD](state, value) {
     Object.assign(state.mboard, value);
   },
   [types.SET_QSTYPE](state, value) {
     state.qstype = value;
+  },
+  [types.SET_EDITORID](state, value) {
+    console.log(value);
+    state.editorId = value;
   }
 };
 

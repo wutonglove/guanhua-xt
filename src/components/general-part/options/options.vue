@@ -5,7 +5,7 @@
         <div class="option" v-for="(option,index) in temp" :key="index">
           <span class="code">{{option.icon}}</span>
           <!-- tag div -->
-          <ue ref="ue" class="text" v-model="option.text" v-if="tag!=='input'" @change="change"></ue>
+          <ue ref="ue" class="text" v-model="option.text" v-if="tag!=='input'" :config="{initialFrameWidth: 802}" @change="change"></ue>
 
           <!-- tag input -->
           <input type="text" class="text div_input cl_rg_hook"
@@ -184,7 +184,6 @@ export default {
       .text
         flex: 1
         border: 1px solid #ccc
-        padding: 0 10px
         width: 752px
       .icon
         flex: 0 0 40px
