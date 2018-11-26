@@ -54,6 +54,7 @@ import ISelect from 'iview/src/components/select';
 import IOption from 'iview/src/components/select/option';
 
 import register from 'api/register';
+import login from 'api/login';
 import getSchools from 'api/getSchools';
 
 export default {
@@ -205,19 +206,44 @@ export default {
               IModal.success({
                 content: '注册成功!',
                 onOk: () => {
-                  (data => {
-                    window.getUserInfo = function() {
-                      // return {
-                      //   uid: data.userid,
-                      //   uname: data.name,
-                      //   role: 'Student',
-                      //   remember: false
-                      // };
-                      return `${data.userid} ${
-                        data.name
-                      } ${'Student'} ${false}`;
-                    };
-                  })(data);
+                  login({
+                    uid: this.formValidate.userid,
+                    pwd: this.formValidate.pwd
+                  })
+                    .then(data => {
+                      // 清空input
+                      this.reset();
+                      (data => {
+                        let userinfo = data.split('|');
+                        // c# 传参
+                        window.getUserInfo = () => {
+                          return `${userinfo[0]} ${userinfo[1]} ${
+                            userinfo[10]
+                          } ${this.remember}`;
+                        };
+                        // 父iframe 传参
+                        window.parent.postMessage(
+                          JSON.stringify({
+                            userid: userinfo[0],
+                            username: userinfo[1],
+                            phone: userinfo[3],
+                            email: userinfo[4],
+                            gender: userinfo[5],
+                            school: userinfo[19]
+                          }),
+                          '*'
+                        );
+                      })(data);
+                    })
+                    .catch(err => {
+                      IModal.error({
+                        content: err.toString(),
+                        onOk: () => {
+                          this.form.password = '';
+                          this.$forceUpdate();
+                        }
+                      });
+                    });
                 }
               });
             })

@@ -71,24 +71,35 @@ export default {
                 content: '登陆成功',
                 okText: '确定',
                 onOk: () => {
+                  // 清空input
+                  this.$refs.formInline.resetFields();
                   (data => {
                     let userinfo = data.split('|');
+                    // c# 传参
                     window.getUserInfo = () => {
-                      // return {
-                      //   uid: userinfo[0],
-                      //   uname: userinfo[1],
-                      //   role: userinfo[10],
-                      //   remember: this.remember
-                      // };
                       return `${userinfo[0]} ${userinfo[1]} ${userinfo[10]} ${
                         this.remember
                       }`;
                     };
+                    // 父iframe 传参
+                    // "asdd111|1q| |||1||Student|||Student|1|invalid|invalid|invalid|0|0|0|0|1"
+                    // ["asdd111", "1q", " ", "", "", "1", "", "Student", "", "", "Student", "1", "invalid", "invalid", "invalid", "0", "0", "0", "0", "1"]
+                    window.parent.postMessage(
+                      JSON.stringify({
+                        userid: userinfo[0],
+                        username: userinfo[1],
+                        phone: userinfo[3],
+                        email: userinfo[4],
+                        gender: userinfo[5],
+                        school: userinfo[19]
+                      }),
+                      '*'
+                    );
                   })(data);
                 }
               });
             })
-            .catch((err) => {
+            .catch(err => {
               // console.log(err);
               IModal.error({
                 content: err.toString(),
