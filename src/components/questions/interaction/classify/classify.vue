@@ -9,8 +9,8 @@
         </div>
         <div class="content">
           <ul class="content_wrap" :style="{'justify-content': category.cnt.length<1?'center':'flex-start'}">
-            <li class="option_wrap" v-for="(item,subi) in category.cnt">
-              <img class="insertFile_hook" :data-name="item.desc.name" v-if="item.type==='image'" :src="item.desc&&item.desc.src" alt=""
+            <li class="option_wrap" v-for="(item,subi) in category.cnt" :key="subi">
+              <img class="insertFile_hook" :data-name="item.desc.name" v-if="item.desc && item.type==='image'" :src="item.desc&&item.desc.src" alt=""
                    @click="showInDlog(index, subi)">
               <textarea v-else-if="item.type==='text'" maxlength="15" v-model="item.desc"></textarea>
               <a href="javascript:void(0)" class="del_btn" @click="delOption(index, subi)">
