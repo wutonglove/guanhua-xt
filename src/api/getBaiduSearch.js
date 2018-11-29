@@ -14,7 +14,6 @@ export default function (keyword, pn, rn) {
           data = JSON.stringify(data);
           data = JSON.parse(data);
         }
-        console.log(data);
         resolve(data);
       })
       .catch(function (err) {

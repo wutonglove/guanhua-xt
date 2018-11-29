@@ -73,12 +73,10 @@ export default {
             audio: true
           },
           strem => {
-            console.log('strem', strem);
             _src = vendorUrl.createObjectURL(strem);
           },
           function(error) {
             // error.code
-            console.log('err', error);
           }
         );
       } else {

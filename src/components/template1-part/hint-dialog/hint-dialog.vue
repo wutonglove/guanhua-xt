@@ -135,7 +135,6 @@
         if (this.verify()) {
           let ret = [];
           this.hintsTem.forEach((item, index) => {
-            console.log(item.text);
             ret.push(item.text.trim());
           });
           this.$emit('setHint', ret);

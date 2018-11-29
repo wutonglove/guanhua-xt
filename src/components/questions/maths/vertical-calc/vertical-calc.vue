@@ -699,7 +699,6 @@ export default {
         questionType: 'vertical-calc'
       };
       let localData = questionData;
-      console.log(questionData);
       return {
         questionData,
         localData

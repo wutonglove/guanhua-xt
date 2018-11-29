@@ -107,7 +107,6 @@ export const actionMixin = {
             xttype: this.xttype,
             xtclass: this.xtclass
           });
-          console.log('save:', data);
           return this.saveToRemote({ data, questionId: this.questionId });
         })
         .then(() => {

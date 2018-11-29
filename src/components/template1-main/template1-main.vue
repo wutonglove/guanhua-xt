@@ -98,7 +98,6 @@ export default {
           times: this.times
         });
       }
-      console.log(data);
       return data;
     },
     setTimeHandle(times) {

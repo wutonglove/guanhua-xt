@@ -238,7 +238,6 @@ export default {
       codeList = codeList.sort((a, b) => {
         return a - b;
       });
-      console.log(codeList);
       for (let [key, value] of codeList.entries()) {
         if (key + 1 < value) {
           return key + 1;

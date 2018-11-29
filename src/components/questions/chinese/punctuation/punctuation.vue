@@ -336,7 +336,6 @@ const PUNLIST_NAME = [
           let str = RegExp.$1;
           return str;
         });
-        console.log(this.answers, this.article);
       },
       createPunHtml(key) {
         return `&zwj;<span class="symbol" contenteditable="false">${key}</span>&zwj;`;

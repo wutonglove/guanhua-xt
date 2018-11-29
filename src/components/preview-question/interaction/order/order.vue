@@ -69,7 +69,6 @@
         }
       },
       draggableEnd() {
-        console.log(this.options);
       },
       getResult() {
         for (let i = 0; i < this.options.length; i++) {

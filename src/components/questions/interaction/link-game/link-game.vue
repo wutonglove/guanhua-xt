@@ -209,7 +209,6 @@ export default {
         }
       });
       let questionData = Object.assign({}, localData, { pairs: _pairs });
-      console.log(localData, questionData);
       return {
         questionData,
         localData

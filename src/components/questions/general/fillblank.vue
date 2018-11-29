@@ -87,7 +87,6 @@ export default {
       if (duty === 'topic') {
         this.addBlankSt = true;
         let index = this.getInsertIndexStart(this.currentRange);
-        console.log(index);
         if (index >= 0) {
           this.options.splice(index, 0, {
             icon: 1,

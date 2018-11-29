@@ -30,7 +30,6 @@ export default {
     getQuestionData: function(urlSnippet) {
       let _topic = this.topic;
       let _options = this.options;
-      console.log(this.answer);
       let _answer = this.answer.map((item, index) => {
         let code = item.charCodeAt(0);
         if (code > 64 && code < 91) {

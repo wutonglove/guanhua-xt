@@ -189,7 +189,6 @@
       };
     },
     mounted() {
-      console.log(this.questionData);
       this.$nextTick(() => {
         this.numArr1 = this.setDot(this.questionData.vertical.numArr1);
         this.numArr2 = this.setDot(this.questionData.vertical.numArr2);

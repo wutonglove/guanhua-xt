@@ -7,7 +7,7 @@
     <i-form ref="formValidate" v-if="show" :model="formValidate"
             :rules="ruleValidate" :label-width="82">
       <i-form-item label="学校：" prop="schoolid">
-        <i-select v-model="formValidate.schoolid" filterable @on-change="test">
+        <i-select v-model="formValidate.schoolid" filterable>
             <i-option v-for="item in schools" :value="item.id.toString()" :key="item.id">{{ item.name }}</i-option>
         </i-select>
       </i-form-item>      
@@ -315,9 +315,6 @@ export default {
         .catch(res => {
           console.log(res);
         });
-    },
-    test() {
-      console.log(this.formValidate.schoolid);
     }
   },
   components: {

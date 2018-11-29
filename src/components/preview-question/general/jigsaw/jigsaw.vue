@@ -68,7 +68,6 @@ window.jQuery = $;
       this.$nextTick(() => {
         let l = this.questionData.itable.r * this.questionData.itable.d;
         this.indexes = createRandomArr(l, 0, l - 1);
-        console.log(this.indexes);
       });
     },
     data() {

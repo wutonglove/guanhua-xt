@@ -317,7 +317,6 @@
         height = gWidth * 5;
         this.$refs.title.style.width = `${totalW}px`;
         this.$nextTick(() => {
-          console.log(this.canvases);
           this.$refs.canvas[index].width = width - 1;
           this.$refs.canvas[index].height = height;
           Object.assign(this.$refs.canvas[index].style, {

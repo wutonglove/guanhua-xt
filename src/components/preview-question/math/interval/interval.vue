@@ -408,7 +408,6 @@ export default {
       };
       let arr1 = this.answer.sort(sortRule);
       let arr2 = this.arrInterval.sort(sortRule);
-      console.log(arr1, arr2);
       for (let m = 0; m < arr1.length; m++) {
         for (let n = 0; n < arr1[m].length; n++) {
           if (

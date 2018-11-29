@@ -323,9 +323,7 @@
             }
           }
         }
-        //        console.log('r', curR, 'c', curC);
         while (arr[curR][curC] !== oriArr[oriArr.length - 1]) {
-          console.log('rc', arr[curR][curC]);
           if (arr[curR][curC - 1] === oriArr[index + 1]) {
             index++;
             curC--;

@@ -128,7 +128,6 @@ window.$ = $;
           opacity: 0.7,
           start: (e) => {
             this.$refs.articleWrap.style['overflow-y'] = 'visible';
-            console.log(e);
           },
           stop: () => {
             this.$refs.articleWrap.style['overflow-y'] = 'auto';
@@ -164,7 +163,6 @@ window.$ = $;
           str += (text === '?' ? '' : text);
           if (text !== this.questionData.answers[i]) return 0;
         }
-        console.log('jieguo', str);
         if (str === '') return -1;
         return 1;
       }

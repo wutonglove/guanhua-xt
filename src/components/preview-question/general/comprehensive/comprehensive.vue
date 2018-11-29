@@ -47,7 +47,6 @@
         this.curr = current;
       },
       getResult() {
-        console.log(this.$refs.contentDOM);
         for (let i = 0; i < this.$refs.contentDOM.length; i++) {
           let res = this.$refs.contentDOM[i].getResult();
           if (res === -1) {
