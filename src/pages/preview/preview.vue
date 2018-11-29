@@ -40,14 +40,12 @@ import Modal from 'iview/src/components/modal';
 
 import qulist from 'map/question-list.json';
 
-import { mapMutations } from 'vuex';
+import { mapMutations, mapGetters } from 'vuex';
 import { getQuestionData } from 'api/getQuestionData';
-import { timerMixin } from 'common/js/mixin';
 
 import $ from 'jquery';
 
 export default {
-  mixins: [timerMixin],
   data() {
     return {
       isSubmited: false,
@@ -57,12 +55,27 @@ export default {
       questionId: ''
     };
   },
+  computed: {
+    ...mapGetters(['times'])
+  },
   mounted() {
     this.getQuestion().then(() => {
       this.init();
     });
   },
   methods: {
+    clockRun() {
+      this.initClock(this.questionData && this.questionData.times)
+      this.removeClockRunEvent();
+    },
+    removeClockRunEvent() {
+      let box = document.getElementById('preview_box');
+      box.onclick = box.onkeydown = box.ontouchstart = null;
+    },
+    bindClockRunEvent() {
+      let box = document.getElementById('preview_box');
+      box.onclick = box.onkeydown = box.ontouchstart = this.clockRun;
+    },
     getQuestion() {
       const paramsId =
         this.$route.params.questionId ||
@@ -106,7 +119,7 @@ export default {
       });
     },
     submit() {
-      if (this.timer) clearInterval(this.timer);
+      if (this.jsTimer) clearInterval(this.jsTimer);
       this.isDisabled = true;
       this.isSubmited = true;
       // 为了保证上一个对话框完全消失（对话框和遮罩的延迟动画时间）
@@ -137,13 +150,68 @@ export default {
         this.initRoute();
         this.initContentHeight();
         this.bindUnfoldEvent();
-        this.initClock(this.questionData.times);
+        this.bindClockRunEvent();
         $('td').attr('contenteditable', 'false');
         this.$forceUpdate();
       });
     },
+    // 时间
+    initClock(times) {
+      if (this.jsTimer) clearInterval(this.jsTimer);
+      if (times && times.second * 1 + times.minute * 1 > 0) {
+        this.setTimes(times);
+        this.counterclockwise();
+        return;
+      }
+      this.clockwise();
+    },
+    filterDoubleDigit(num) {
+      return num.toString().length < 2 ? '0' + num : num;
+    },
+    clockwise() {
+      if (this.jsTimer) {
+        clearInterval(this.jsTimer);
+      }
+      this.jsTimer = setInterval(() => {
+        let second = this.times.second + 1;
+        let minute = this.times.minute;
+        if (this.times.second > 58) {
+          minute++;
+          second = 0;
+        }
+        this.setTimes({ second, minute });
+      }, 1000);
+    },
+    counterclockwise() {
+      if (this.jsTimer) {
+        clearInterval(this.jsTimer);
+      }
+      this.jsTimer = setInterval(() => {
+        let second = this.times.second - 1;
+        let minute = this.times.minute;
+        if (this.times.second < 1) {
+          minute--;
+          second = 59;
+        }
+        if (second * 1 + minute * 1 < 1) {
+          if (this.jsTimer) clearInterval(this.jsTimer);
+          Modal.warning({
+            title: '',
+            content: '答题时间结束，点击【确定】查看结果',
+            onOk: () => {
+              this.submit();
+            }
+          });
+        }
+        this.setTimes({ second, minute });
+      }, 1000);
+    },
+    clockEnd() {
+      this.submit();
+    },
     ...mapMutations({
-      setUnfold: 'SET_UNFOLD'
+      setUnfold: 'SET_UNFOLD',
+      setTimes: 'SET_TIMES'
     })
   },
   watch: {

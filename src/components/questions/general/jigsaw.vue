@@ -64,6 +64,7 @@ export default {
     this.$nextTick(() => {
       this.initTab();
       document.addEventListener('mouseup', e => {
+        if (this.$route.path.split('/').indexOf === -1) return;
         setTimeout(() => {
           this.init();
           this.verify();

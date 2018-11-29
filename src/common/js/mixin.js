@@ -50,69 +50,6 @@ export const submitMixin = {
   }
 };
 
-export const timerMixin = {
-  computed: {
-    ...mapGetters(['times'])
-  },
-  methods: {
-    initClock(times) {
-      if (times && times.second * 1 + times.minute * 1 > 0) {
-        this.setTimes(times);
-        this.counterclockwise();
-        return;
-      }
-      this.clockwise();
-    },
-    filterDoubleDigit(num) {
-      return num.toString().length < 2 ? '0' + num : num;
-    },
-    clockwise() {
-      if (this.timer) {
-        clearInterval(this.timer);
-      }
-      this.timer = setInterval(() => {
-        let second = this.times.second + 1;
-        let minute = this.times.minute;
-        if (this.times.second > 58) {
-          minute++;
-          second = 0;
-        }
-        this.setTimes({ second, minute });
-      }, 1000);
-    },
-    counterclockwise() {
-      if (this.timer) {
-        clearInterval(this.timer);
-      }
-      this.timer = setInterval(() => {
-        let second = this.times.second - 1;
-        let minute = this.times.minute;
-        if (this.times.second < 1) {
-          minute--;
-          second = 59;
-        }
-        if (second * 1 + minute * 1 < 1) {
-          if (this.timer) clearInterval(this.timer);
-          Modal.warning({
-            title: '',
-            content: '答题时间结束，点击【确定】查看结果',
-            onOk: () => {
-              this.submit();
-            }
-          });
-        }
-        this.setTimes({ second, minute });
-      }, 1000);
-    },
-    clockEnd() {
-      this.submit();
-    },
-    ...mapMutations({
-      setTimes: 'SET_TIMES'
-    })
-  }
-};
-
 export const actionMixin = {
   computed: {},
   methods: {
