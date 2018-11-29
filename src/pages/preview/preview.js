@@ -9,6 +9,9 @@ import 'iview/dist/styles/iview.css';
 import 'common/stylus/base.styl';
 import 'common/css/preview-common.css';
 import domtoimage from 'dom-to-image';
+// 复合题 内容部分
+import CompContent from 'components/preview-part/general-content/general-content';
+Vue.component('CompContent', CompContent);
 
 /* eslint-disable no-new */
 new Vue({
@@ -17,16 +20,14 @@ new Vue({
   render: h => h(App)
 }).$mount('#app');
 
-window.screenshot = function () {
+window.screenshot = function() {
   return new Promise((resolve, reject) => {
     let dom = window.document.body;
     let timer = setTimeout(() => {
-      domtoimage
-        .toJpeg(dom)
-        .then((dataUrl) => {
-          clearTimeout(timer);
-          resolve(dataUrl);
-        });
+      domtoimage.toJpeg(dom).then(dataUrl => {
+        clearTimeout(timer);
+        resolve(dataUrl);
+      });
     }, 3000);
   });
 };
