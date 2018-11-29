@@ -64,7 +64,10 @@ export default {
   },
   methods: {
     getQuestion() {
-      const paramsId = this.$route.params.questionId || this.$route.path.split('/')[1] || window.location.href.split('#')[1].split('/')[1];
+      const paramsId =
+        this.$route.params.questionId ||
+        this.$route.path.split('/')[1] ||
+        window.location.href.split('#')[1].split('/')[1];
       if (/^[0-9]{19}$/.test(paramsId)) {
         this.questionId = paramsId;
       } else {
@@ -106,7 +109,7 @@ export default {
       if (this.timer) clearInterval(this.timer);
       this.isDisabled = true;
       this.isSubmited = true;
-      // 为了保证上一个对话框完全消失（对话框和遮罩的延迟动画）
+      // 为了保证上一个对话框完全消失（对话框和遮罩的延迟动画时间）
       setTimeout(() => {
         this.$refs.content.submit();
       }, 500);
@@ -115,7 +118,8 @@ export default {
       window.location.reload();
     },
     initContentHeight() {
-      this.$refs.contentWrap.style = `height:${window.innerHeight - 130}px`;
+      if (this.$refs.contentWrap)
+        this.$refs.contentWrap.style = `height:${window.innerHeight - 130}px`;
     },
     initRoute() {
       let type = this.questionData.questionType;
@@ -153,7 +157,7 @@ export default {
         }
       }
     },
-    '$route': {
+    $route: {
       deep: true,
       handler(val, oldVal) {
         let oldPath = oldVal.path;

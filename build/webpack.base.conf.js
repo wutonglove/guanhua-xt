@@ -46,7 +46,8 @@ module.exports = {
       map: resolve('src/map'),
       lib: resolve('src/lib'),
       utils: resolve('src/utils'),
-      api: resolve('src/api')
+      api: resolve('src/api'),
+      jquery: path.resolve(__dirname, '../node_modules/jquery/src/jquery')
     }
   },
   module: {
