@@ -88,44 +88,44 @@
 
 <script>
   import IIcon from 'iview/src/components/icon';
-  import IPoptip from 'iview/src/components/poptip';
-  import Notice from 'iview/src/components/notice';
-  import Tem1Btn from 'components/template1-part/template1-btn/template1-btn';
+import IPoptip from 'iview/src/components/poptip';
+import Notice from 'iview/src/components/notice';
+import Tem1Btn from 'components/template1-part/template1-btn/template1-btn';
 
-  import textBG from './iocn_pun_bg.png';
-  import $ from 'jquery';
+import textBG from './iocn_pun_bg.png';
+import $ from 'jquery';
+import { tem1ComMixin } from 'common/js/mixin';
 
-  const PUNLIST_CN = ['，', '。', '、', '？', '！', '：', '；', '…', '……', '·', '-', '——', '“', '”', '‘', '’', '《', '》', '<', '>', '（', '）', '【', '】', '[', ']'];
-  const PUNLIST_EN = [',', '.', '、', '?', '!', ':', ';', '…', '……', '`', '-', '_', '"', '"', '\'', '\'', '《', '》', '<', '>', '(', ')', '【', '】', '[', ']'];
-  const PUNLIST_NAME = [
-    {code: 'Comma'},
-    {code: 'Period'},
-    {code: 'Backslash'},
-    {code: 'Slash', shiftKey: true},
-    {code: 'Digit1', shiftKey: true},
-    {code: 'Semicolon', shiftKey: true},
-    {code: 'Semicolon'},
-    {code: 'Digit6', shiftKey: true},
-    {code: 'Digit6', shiftKey: true},
-    {code: 'Backquote'},
-    {code: 'Minus'},
-    {code: 'Minus', shiftKey: true},
-    {code: 'Quote', shiftKey: true},
-    {code: 'Quote', shiftKey: true},
-    {code: 'Quote'},
-    {code: 'Quote'},
-    {code: 'Comma', shiftKey: true},
-    {code: 'Period', shiftKey: true},
-    {code: 'Comma', shiftKey: true},
-    {code: 'Period', shiftKey: true},
-    {code: 'Digit9', shiftKey: true},
-    {code: 'Digit0', shiftKey: true},
-    {code: 'BracketLeft'},
-    {code: 'BracketRight'},
-    {code: 'BracketLeft'},
-    {code: 'BracketRight'}
-  ];
-  import { tem1ComMixin } from 'common/js/mixin';
+const PUNLIST_CN = ['，', '。', '、', '？', '！', '：', '；', '…', '……', '·', '-', '——', '“', '”', '‘', '’', '《', '》', '<', '>', '（', '）', '【', '】', '[', ']'];
+const PUNLIST_EN = [',', '.', '、', '?', '!', ':', ';', '…', '……', '`', '-', '_', '"', '"', '\'', '\'', '《', '》', '<', '>', '(', ')', '【', '】', '[', ']'];
+const PUNLIST_NAME = [
+  {code: 'Comma'},
+  {code: 'Period'},
+  {code: 'Backslash'},
+  {code: 'Slash', shiftKey: true},
+  {code: 'Digit1', shiftKey: true},
+  {code: 'Semicolon', shiftKey: true},
+  {code: 'Semicolon'},
+  {code: 'Digit6', shiftKey: true},
+  {code: 'Digit6', shiftKey: true},
+  {code: 'Backquote'},
+  {code: 'Minus'},
+  {code: 'Minus', shiftKey: true},
+  {code: 'Quote', shiftKey: true},
+  {code: 'Quote', shiftKey: true},
+  {code: 'Quote'},
+  {code: 'Quote'},
+  {code: 'Comma', shiftKey: true},
+  {code: 'Period', shiftKey: true},
+  {code: 'Comma', shiftKey: true},
+  {code: 'Period', shiftKey: true},
+  {code: 'Digit9', shiftKey: true},
+  {code: 'Digit0', shiftKey: true},
+  {code: 'BracketLeft'},
+  {code: 'BracketRight'},
+  {code: 'BracketLeft'},
+  {code: 'BracketRight'}
+];
 
   export default {
     mixins: [tem1ComMixin],
@@ -198,7 +198,7 @@
           if (_index !== -1) {
             e.preventDefault();
             key = PUNLIST_CN[_index];
-//            console.log('中文：', key);
+            //            console.log('中文：', key);
             let str = this.createPunHtml(key);
             document.execCommand('insertHTML', false, str);
             setTimeout(() => {
@@ -208,7 +208,7 @@
         } else {
           // 英文
           key = PUNLIST_CN[index];
-//          console.log('英文：', key);
+          //          console.log('英文：', key);
           let str = this.createPunHtml(key);
           document.execCommand('insertHTML', false, str);
           e.preventDefault();
@@ -224,7 +224,7 @@
         let diffY = $('.box-inner').offset().top + 35;
         $(document)
           .on('mouseover', '.textarea .symbol', (e) => {
-//            console.log('over', e);
+          //            console.log('over', e);
             let $this = $(e.target);
             if ($this.hasClass('active')) {
               this.delBtn.show = true;
@@ -239,7 +239,7 @@
             }
           })
           .on('mouseout', '.textarea .symbol', (e) => {
-//            console.log('out', e);
+          //            console.log('out', e);
             this.btnOut();
           });
       },
@@ -315,11 +315,11 @@
       },
       createReg() {
         let regStr = this.punList.join('');
-//        console.log(regStr);
+        //        console.log(regStr);
         regStr = regStr.replace(/[()[\]]/g, (str) => {
           return '\\' + str;
         });
-//        console.log(regStr);
+        //        console.log(regStr);
         this.regexp = new RegExp('[' + regStr + ']', 'g');
       },
       changeArticle() {

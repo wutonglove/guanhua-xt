@@ -255,7 +255,7 @@
 
           let widthX = 2 * calcWidth;
           let heightY = 2 * calcHeight;
-//          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          //          ctx.setTransform(1, 0, 0, 1, 0, 0);
           ctx.clearRect(posX, posY, widthX, heightY);
           stepClear += 1;
         }
@@ -280,7 +280,7 @@
       },
       initWrite() {
         // 设置 canvas 宽高
-//        console.log(this.pageTotal, this.canvases);
+      //        console.log(this.pageTotal, this.canvases);
         this.initCanvas(this.currPage - 1);
         // 计算 canvas 对于body的偏移量
         this.$nextTick(() => {

@@ -59,7 +59,7 @@
         this.curIndex = 1;
       },
       setOptions(optionsObj) {
-//        let oriList = this.guidList;
+      //        let oriList = this.guidList;
         let oriDescList = [];
         this.guidList.forEach((item) => {
           oriDescList.push(item);

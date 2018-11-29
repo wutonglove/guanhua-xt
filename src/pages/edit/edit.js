@@ -15,8 +15,3 @@ new Vue({
   router,
   store
 }).$mount('#app');
-
-router.beforeEach((to, from, next) => {
-  console.log(to, from);
-  next();
-});

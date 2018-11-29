@@ -54,11 +54,11 @@
     mounted() {
       this.initOriPoem();
       this.initRC();
-//      console.log(this.poemR, this.poemC);
+      //      console.log(this.poemR, this.poemC);
       this.regroupPoem();
       this.$nextTick(() => {
         this.$refs.poemTitle.style.backgroundImage = `url(${titleBG})`;
-//        this.initPoemWrap();
+      //        this.initPoemWrap();
       });
       /*
        *  测试
@@ -98,78 +98,78 @@
         let l = maxR * maxC;
         for (let num = 0; num < l; num++) {
           matrix[curR][curC] = num;
-//          let nextR;
-//          let nextC;
+          //          let nextR;
+          //          let nextC;
           let obj;
 
-//          // 上
-//          nextR = curR - 1;
-//          nextC = curC;
-//          if (matrix[nextR] && matrix[nextR][nextC] === -1) {
-//            if (matrix[nextR - 1] && matrix[nextR - 1][nextC] === -1) {
-//              curR = nextR;
-//              curC = nextC;
-//              continue;
-//            } else {
-//              // || (!matrix[nextR - 1] || (matrix[nextR - 1][nextC + 1] < 0 || matrix[nextR - 1][nextC - 1] < 0))
-//              if (((matrix[nextR][nextC - 1] !== -1) || (matrix[nextR][nextC + 1] !== -1))) {
-//                curR = nextR;
-//                curC = nextC;
-//                continue;
-//              }
-//            }
-//          }
-//
-//          // you
-//          nextR = curR;
-//          nextC = curC + 1;
-//          if (matrix[nextR] && matrix[nextR][nextC] === -1) {
-//            if (matrix[nextR][nextC + 1] === -1) {
-//              curR = nextR;
-//              curC = nextC;
-//              continue;
-//            } else {
-//              if ((!matrix[nextR - 1] || matrix[nextR - 1][nextC] !== -1) || (!matrix[nextR + 1] || matrix[nextR + 1][nextC] !== -1)) {
-//                curR = nextR;
-//                curC = nextC;
-//                continue;
-//              }
-//            }
-//          }
-//
-//          // zuo
-//          nextR = curR;
-//          nextC = curC - 1;
-//          if (matrix[nextR][nextC] === -1) {
-//            if (matrix[nextR][nextC - 1] === -1) {
-//              curR = nextR;
-//              curC = nextC;
-//              continue;
-//            } else {
-//              if ((!matrix[nextR - 1] || matrix[nextR - 1][nextC] !== -1) || (!matrix[nextR + 1] || matrix[nextR + 1][nextC] !== -1)) {
-//                curR = nextR;
-//                curC = nextC;
-//                continue;
-//              }
-//            }
-//          }
-//
-//          // xia
-//          nextR = curR + 1;
-//          nextC = curC;
-//          if (matrix[nextR] && matrix[nextR][nextC] === -1) {
-//            if (matrix[nextR + 1] && matrix[nextR + 1][nextC] === -1) {
-//              curR = nextR;
-//              curC = nextC;
-//              continue;
-//            } else {
-//              if ((!matrix[nextR][nextC - 1] !== -1) || (matrix[nextR][nextC + 1] !== -1)) {
-//                curR = nextR;
-//                curC = nextC;
-//                continue;
-//              }
-//            }
-//          }
+          //          // 上
+          //          nextR = curR - 1;
+          //          nextC = curC;
+          //          if (matrix[nextR] && matrix[nextR][nextC] === -1) {
+          //            if (matrix[nextR - 1] && matrix[nextR - 1][nextC] === -1) {
+          //              curR = nextR;
+          //              curC = nextC;
+          //              continue;
+          //            } else {
+          //              // || (!matrix[nextR - 1] || (matrix[nextR - 1][nextC + 1] < 0 || matrix[nextR - 1][nextC - 1] < 0))
+          //              if (((matrix[nextR][nextC - 1] !== -1) || (matrix[nextR][nextC + 1] !== -1))) {
+          //                curR = nextR;
+          //                curC = nextC;
+          //                continue;
+          //              }
+          //            }
+          //          }
+          //
+          //          // you
+          //          nextR = curR;
+          //          nextC = curC + 1;
+          //          if (matrix[nextR] && matrix[nextR][nextC] === -1) {
+          //            if (matrix[nextR][nextC + 1] === -1) {
+          //              curR = nextR;
+          //              curC = nextC;
+          //              continue;
+          //            } else {
+          //              if ((!matrix[nextR - 1] || matrix[nextR - 1][nextC] !== -1) || (!matrix[nextR + 1] || matrix[nextR + 1][nextC] !== -1)) {
+          //                curR = nextR;
+          //                curC = nextC;
+          //                continue;
+          //              }
+          //            }
+          //          }
+          //
+          //          // zuo
+          //          nextR = curR;
+          //          nextC = curC - 1;
+          //          if (matrix[nextR][nextC] === -1) {
+          //            if (matrix[nextR][nextC - 1] === -1) {
+          //              curR = nextR;
+          //              curC = nextC;
+          //              continue;
+          //            } else {
+          //              if ((!matrix[nextR - 1] || matrix[nextR - 1][nextC] !== -1) || (!matrix[nextR + 1] || matrix[nextR + 1][nextC] !== -1)) {
+          //                curR = nextR;
+          //                curC = nextC;
+          //                continue;
+          //              }
+          //            }
+          //          }
+          //
+          //          // xia
+          //          nextR = curR + 1;
+          //          nextC = curC;
+          //          if (matrix[nextR] && matrix[nextR][nextC] === -1) {
+          //            if (matrix[nextR + 1] && matrix[nextR + 1][nextC] === -1) {
+          //              curR = nextR;
+          //              curC = nextC;
+          //              continue;
+          //            } else {
+          //              if ((!matrix[nextR][nextC - 1] !== -1) || (matrix[nextR][nextC + 1] !== -1)) {
+          //                curR = nextR;
+          //                curC = nextC;
+          //                continue;
+          //              }
+          //            }
+          //          }
           // 随机
           let rn = parseInt(Math.random() * 4, 10);
           switch (rn) {
@@ -215,7 +215,7 @@
             }
           }
         }
-//        console.log(matrix);
+      //        console.log(matrix);
       },
       toTop(matrix, curR, curC) {
         let nextR = curR - 1;
@@ -311,8 +311,8 @@
         for (let i = 0; i < 20; i++) {
           oriArr.push(i);
         }
-//        console.log(arr);
-//        console.log(oriArr);
+        //        console.log(arr);
+        //        console.log(oriArr);
         let curR, curC;
         let index = 0;
         for (let r = 0; r < arr.length; r++) {
@@ -323,7 +323,7 @@
             }
           }
         }
-//        console.log('r', curR, 'c', curC);
+        //        console.log('r', curR, 'c', curC);
         while (arr[curR][curC] !== oriArr[oriArr.length - 1]) {
           console.log('rc', arr[curR][curC]);
           if (arr[curR][curC - 1] === oriArr[index + 1]) {
@@ -382,7 +382,6 @@
       }
     }
   };
-
 </script>
 
 <style scoped lang="stylus">

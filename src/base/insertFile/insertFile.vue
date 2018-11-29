@@ -67,7 +67,7 @@
       unfold(file) {
         let isShow = true;
         let content = '';
-//        console.log(file.type);
+        //        console.log(file.type);
         switch (file.type.split('/')[0]) {
           case 'image':
             content = `<img src="${file.objURL}" class="unfold_file"/>`;

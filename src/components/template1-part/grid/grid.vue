@@ -308,11 +308,11 @@
           for (let i = 0; i < _c; i++) {
             let grid = this.table[this.pos.curR][i + this.pos.curC];
             if (grid.getText() === '') return;
-//            grid.setCode(this.optionsObj.length);
+            //            grid.setCode(this.optionsObj.length);
             grid.setCode(this.gridCodeNum);
             grid.setDisable('x', true);
             if (i === 0) {
-//              grid.setTagOri('down');
+            //              grid.setTagOri('down');
               grid.setTags({ori: 'right', code: 0});
             }
           }
@@ -334,7 +334,7 @@
             grid.setCode(this.gridCodeNum);
             grid.setDisable('y', true);
             if (i === 0) {
-//              grid.setTagOri('down');
+            //              grid.setTagOri('down');
               grid.setTags({ori: 'down', code: 0});
             }
           }
@@ -348,16 +348,16 @@
         this.addOption();
         this.initSelecting();
         this.refreshOptions();
-//        console.log(this.optionsObj);
+      //        console.log(this.optionsObj);
       },
       touchStart({r, c}, e) {
-//        console.log('touch start');
+      //        console.log('touch start');
         this.selectStart({r, c});
         this.pos.curX = Math.abs(e.touches[0].pageX - this.tdWidth / 2);
         this.pos.curY = Math.abs(e.touches[0].pageY - this.tdWidth / 2);
       },
       touchMove(e) {
-//        console.log('touch move');
+      //        console.log('touch move');
         let rn = Math.trunc((e.touches[0].pageY - this.pos.curY) / this.tdWidth);
         let cn = Math.trunc((e.touches[0].pageX - this.pos.curX) / this.tdWidth);
         let r = this.pos.curR + rn;
@@ -365,7 +365,7 @@
         this.selectMove({r, c});
       },
       touchEnd(e) {
-//        console.log('touch end');
+      //        console.log('touch end');
         let rn = Math.trunc((e.changedTouches[0].pageY - this.pos.curY) / this.tdWidth);
         let cn = Math.trunc((e.changedTouches[0].pageX - this.pos.curX) / this.tdWidth);
         let r = this.pos.curR + rn;
@@ -407,7 +407,7 @@
           let i = item.code.indexOf(delCode);
           item.code.splice(i, 1);
           item.setDisable(false);
-//          console.log(this.table);
+        //          console.log(this.table);
         });
         this.optionsObj.splice(code, 1);
         this.refreshOptions();
@@ -456,7 +456,7 @@
             }
           });
         });
-//        console.log(this.table);
+      //        console.log(this.table);
       },
       getOri(arr) {
         let table = this.table;

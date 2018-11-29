@@ -44,7 +44,7 @@
         let body = this.$refs.formulaDialog.contentWindow;
         let editor = body.KFEditor;
         editor.execCommand('get.image.data', function (data) {
-//          console.log(data);
+        //          console.log(data);
           let html = `<img class="formula" src="${data.img}"/>`;
           document.execCommand('insertHTML', false, html);
         });

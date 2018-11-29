@@ -30,15 +30,15 @@
 
 <script>
   import $ from 'jquery';
-  window.jQuery = $;
-  import 'jquery-ui/ui/core.js';
-  import 'jquery-ui/ui/widgets/draggable';
-  import 'jquery-ui/ui/widgets/droppable';
-  import 'jquery-ui/ui/widgets/sortable';
-  import 'jquery-ui-touch-punch';
+import 'jquery-ui/ui/core.js';
+import 'jquery-ui/ui/widgets/draggable';
+import 'jquery-ui/ui/widgets/droppable';
+import 'jquery-ui/ui/widgets/sortable';
+import 'jquery-ui-touch-punch';
 
-  import {createRandomArr} from 'utils/utilities';
-  import {submitMixin} from 'common/js/mixin';
+import {createRandomArr} from 'utils/utilities';
+import {submitMixin} from 'common/js/mixin';
+window.jQuery = $;
 
   export default {
     mixins: [submitMixin],

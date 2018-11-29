@@ -5,15 +5,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Preview from '../preview';
+import Preview from '../preview.vue';
 import General from 'components/preview-part/general-pre-main/general-pre-main';
 import Template1 from 'components/preview-part/template1-pre-main/template1-pre-main';
-
-const Empty = (resolve) => {
-  import('components/preview-part/empty-pre-main/empty-pre-main').then((module) => {
-    resolve(module);
-  });
-};
 
 import Compare from 'components/preview-question/math/compare/compare';
 import FractionalCalc from 'components/preview-question/math/fractional-calc/fractional-calc';
@@ -23,6 +17,12 @@ import Logogriph from 'components/preview-question/chinese/logogriph/logogriph';
 import SpellingPoem from 'components/preview-question/chinese/spelling-poem/spelling-poem';
 import Punctuation from 'components/preview-question/chinese/punctuation/punctuation';
 import BlankCloze from 'components/preview-question/interaction/blank-cloze/blank-cloze';
+
+const Empty = (resolve) => {
+  import('components/preview-part/empty-pre-main/empty-pre-main').then((module) => {
+    resolve(module);
+  });
+};
 
 const Textselect = (resolve) => {
   import('components/preview-question/interaction/textselect/textselect').then((module) => {

@@ -18,16 +18,16 @@
 
 <script>
   import {submitMixin} from 'common/js/mixin';
-  import Notepad from 'components/template1-part/notepad/notepad';
-  import $ from 'jquery';
-  window.jQuery = $;
-  window.$ = $;
-  import 'jquery-ui/ui/core.js';
-  import 'jquery-ui/ui/disable-selection';
-  import 'jquery-ui/ui/widgets/draggable';
-  import 'jquery-ui/ui/widgets/droppable';
-  import 'jquery-ui/ui/widgets/sortable';
-  import 'jquery-ui-touch-punch';
+import Notepad from 'components/template1-part/notepad/notepad';
+import $ from 'jquery';
+import 'jquery-ui/ui/core.js';
+import 'jquery-ui/ui/disable-selection';
+import 'jquery-ui/ui/widgets/draggable';
+import 'jquery-ui/ui/widgets/droppable';
+import 'jquery-ui/ui/widgets/sortable';
+import 'jquery-ui-touch-punch';
+window.jQuery = $;
+window.$ = $;
 
   export default {
     mixins: [submitMixin],
@@ -110,7 +110,7 @@
               $(this).html(_self.options[index]);
               _self.options[index] = value;
               _self.options = _self.options.slice();
-//              _self.$set(this.options, index, value);
+            //              _self.$set(this.options, index, value);
             }
             $('#bc_options .option_box').css({
               left: 0,
